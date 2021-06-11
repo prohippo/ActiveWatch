@@ -29,7 +29,7 @@ highly significant (p < .0000001).
 When running on actual text data, AW can usually operate effectively with
 minimum similarity thresholds of 6 standard deviations. Some tuning is
 helpful for better performance, but this will mainly involve adjustments of
-index kwya. Everything is statistically transparent.
+index keys. Everything is statistically transparent.
 
 Code for AW was first written in C around 1982. The Java version was done
 around 1999. This is the core of the source code released in this repository.
