@@ -56,5 +56,5 @@ All AW software is free and is released under BSD licensing.
 
 Release History:
 
-v0.1    16jun2021  Initial upload of original Java source code.
+v0.1    16jun2021  Initial upload of original AW Java source code.
 
