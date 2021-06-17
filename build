@@ -1,0 +1,10 @@
+javac aw/segment/SegmenterMain.java
+javac aw/index/IndexerMain.java
+javac aw/update/UpdaterMain.java
+javac aw/sequence/SequencerMain.java
+javac aw/squeeze/SqueezerMain.java
+javac aw/multiply/MultiplierMain.java
+javac aw/cluster/ClustererMain.java
+javac aw/summarize/SummarizerMain.java
+javac aw/classify/ClassifierMain.java
+javac aw/keyword/KeyworderMain.java
