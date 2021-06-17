@@ -52,7 +52,7 @@ know which classes with main() modules have to be compiled. Java should then
 be able to trace the dependencies in the source code and find the necessary
 files in the AW repository file hierarchy. 
 
-All AW software is free and is released under BSD licensing.
+AW software is free for all uses and is released under BSD licensing.
 
 Release History:
 
