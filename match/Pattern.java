@@ -22,13 +22,15 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Pattern.java : 30Jul01 CPM
-// string pattern matching class
+// AW File Pattern.java : 07Jul2021 CPM
+// string pattern matching class for message formats
+// ignoring distinctions between upper and lower case
+
 
 package match;
 
 import aw.*;
-import aw.phrase.CharArray;
+import java.util.*;
 
 public class Pattern {
 
@@ -43,16 +45,17 @@ public class Pattern {
 		static final byte LIT= 0; // literal string     type
 		static final byte CLS= 1; // character class    type
 		static final byte NOT= 2; // character complement
-		static final byte REP= 3; // span of characters
-		static final byte NON= 4; // span of complement
+		static final byte REP= 3; // span of char class
+		static final byte NON= 4; // span of class complement
 		static final byte SKN= 5; // skip characters    type
 		static final byte SKP= 6; // match anything     type
 		static final byte ABC= 7; // match alphabetic   type
 		static final byte DIG= 8; // match digit        type
 		static final byte SPC= 9; // match space        type
-		static final byte TBP=10; // tab position
-		static final byte NLN=11; // new line
-		static final byte MRK=12; // mark position of match
+		static final byte NLN=10; // new line
+		static final byte ASP=11; // span of alphabetic
+		static final byte NSP=12; // span of numeric
+		static final byte SSP=13; // span of spaces
 
 		// pattern characters
 		
@@ -64,9 +67,7 @@ public class Pattern {
 		static final char NUMR= '#';  //         for numeric    char
 		static final char WILD= '?';  //         for any char except \n
 		static final char SPCS= '_';  //         for space or tab char
-		static final char CARE= '^';  //         for tab position
 		static final char NLIN= '/';  //         for end of line
-		static final char BKQU= '`';  //         to mark match position
 		static final char AMPR= '&';  // will match 1 or more of the next class
 		static final char ESCP= '\\'; // will escape any character after it
 
@@ -77,207 +78,229 @@ public class Pattern {
 		public static final String ALPHA   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		public static final String DIGIT   = "0123456789";
 		
+		public String toString ( ) {
+			return String.format("type %2d: %d chars [%s]",type,length,string);
+		}
 	}
 
-	private static final int M = 24; // default component limit
+	private boolean anchored; // save for quick reference
 	
-	private boolean anchored;   // save for quick reference
-	
-	private Component[] p; // built pattern
+	private Component[] pat;  // actual built pattern
+
+	private static final int closeLIT (
+		ArrayList<Component> p,
+		StringBuffer b,
+		int n,
+		Boolean yes
+	) {
+		if (b.length() > 0) {
+			Component cp = p.get(n);
+			cp.length = (byte) b.length();
+			cp.string = b.toString().toUpperCase();
+			b.setLength(0);
+			if (yes) {
+				p.add(new Component());
+				n++;
+			}
+		}
+		return n;
+	}
+
+	public void dump ( ) {
+		System.out.println("pattern with " + pat.length + " components");
+		for ( Component cp : pat )
+			System.out.println(cp);
+	}
 	
 	public Pattern (
 		String s  // pattern string
 	) throws AWException {
-		this(s,M);
-	}
-		
-	public Pattern (
-		String s, // pattern string
-		int    m  // component limit
-	) throws AWException {
-	
+
 		int n;        // component count
 		boolean span; // flag for repetition of class wildcard
 		boolean negn; //      for negation
+
 		StringBuffer b = new StringBuffer(); // for saving pattern literals
 
-		Component[] pat = new Component[m];  // temporary array
-		for (int i = 0; i < m; i++)
-			pat[i] = new Component();
-
-		s = s.trim();
-
-		// default pattern to start with
-		
-		pat[0].type = Component.LIT;
-		if (s.length() == 0) {
-			pat[0].string = "";
-			p = new Component[1];
-			p[0] = pat[0];
-			return;
-		}
+		ArrayList<Component> p = new ArrayList<Component>(); // for accumulating pattern components
 
 		span = negn = false;
+		s = s.trim();
 
-		// convert string to pattern structure
+		// set up default literal check as first component
 		
-		for (int j = n = 0; j < s.length(); j++) {
+		Component cp = new Component();
+		cp.type = Component.LIT;
+		cp.length = 0;
+		cp.string = "";
+		p.add(cp);
+
+		if (s.length() > 0) {
+
+			// convert string to pattern structure
 		
-			char ch = s.charAt(j);
-			byte t  = -1;
+			for (int j = n = 0; j < s.length(); j++) {
+		
+				char ch = s.charAt(j);
+				byte t  = -1;
 
-			if (ch == Component.NLIN)
-				t = Component.NLN;
-			else if (ch == Component.CARE)
-				t = Component.TBP;
-			else if (ch == Component.RSTR)
-				t = Component.SKP;
-
-			if (t >= 0) {
-
-				// match arbitrary substring
-				
-				if (b.length() > 0) {
-					pat[n  ].length = (byte) b.length();
-					pat[n++].string = b.toString().toUpperCase();
-					b.setLength(0);
-				}
-				pat[n  ].type   = t;
-				pat[n++].length = (byte) ((t != Component.SKP) ? 1 : 0);
-				pat[n  ].type = Component.LIT;
-				
-			}
-
-			else if (ch == Component.TILD)
-				negn = true;
-				
-			else if (ch == Component.LBKT) {
-
-				// handle a class wildcard
-				
-				if (b.length() > 0) {
-					pat[n  ].length = (byte) b.length();
-					pat[n++].string = b.toString().toUpperCase();
-					b.setLength(0);
-				}
-				pat[n].type = span ? (negn ? Component.NON : Component.REP) :
-									 (negn ? Component.NOT : Component.CLS);
-				j++;
-				while (j < s.length() && s.charAt(j) != Component.RBKT)
-					b.append(s.charAt(j++));
-
-				if (b.length() == 0)
-					throw new AWException("empty pattern subset");
-
-				if (negn)
-					b.append('\n');
-
-				pat[n  ].length = (byte)(negn ? 0 : 1);
-				pat[n++].string = b.toString().toUpperCase();
-				b.setLength(0);
-
-				pat[n].type = Component.LIT;
-				span = negn = false;
-				
-			}
-			else {
-			
-				if (ch == Component.ALPH)
-					t = Component.ABC;
-				else if (ch == Component.NUMR)
-					t = Component.DIG;
-				else if (ch == Component.SPCS)
-					t = Component.SPC;
-				else if (ch == Component.WILD)
-					t = Component.SKN;
-				else if (ch == Component.BKQU)
-					t = Component.MRK;
+				if (ch == Component.NLIN)
+					t = Component.NLN;
+				else if (ch == Component.RSTR)
+					t = Component.SKP;
 
 				if (t >= 0) {
 
-					// aggregate single wildcards if they are the same
-					
-					if (b.length() == 0 && n > 0 && pat[n-1].type == t)
-						pat[n-1].length++;
-					else {
-						if (b.length() > 0) {
-							pat[n  ].length = (byte)b.length();
-							pat[n++].string = b.toString().toUpperCase();
-							b.setLength(0);
-						}
-						pat[n  ].type   = t;
-						pat[n++].length = (byte)((t == Component.MRK) ? 0 : 1);
-						pat[n].type = Component.LIT;
-					}
-					
+					n = closeLIT(p,b,n,true);
+
+					cp = p.get(n++);
+					cp.type   = t;
+					cp.length = (byte) ((t != Component.SKP) ? 1 : 0);
+					cp = new Component();
+					cp.type = Component.LIT;
+					p.add(cp);
+
+				}
+
+				else if (ch == Component.TILD)
+					negn = true;
+				
+				else if (ch == Component.LBKT) {
+
+					// handle a class wildcard
+				
+					n = closeLIT(p,b,n,true);
+
+					cp = p.get(n++);
+					cp.type = span ? (negn ? Component.NON : Component.REP) :
+							 (negn ? Component.NOT : Component.CLS);
+					j++;
+					while (j < s.length() && s.charAt(j) != Component.RBKT)
+						b.append(s.charAt(j++));
+
+					if (b.length() == 0)
+						throw new AWException("empty char subset");
+
+					if (negn)
+						b.append('\n');
+
+					cp.length = (byte)(negn ? 0 : 1);
+					cp.string = b.toString().toUpperCase();
+					p.add(new Component());
+					b.setLength(0);
+
+					cp = p.get(n);
+					cp.type = Component.LIT;
+
+					span = negn = false;
+
 				}
 				else {
-				
-					if (ch == Component.AMPR) {
-					
-						// check for possible class repetition
-						
-						if (s.charAt(j+1) == Component.LBKT ||
-							s.charAt(j+1) == Component.TILD && s.charAt(j+2) == Component.LBKT)
-							span = true;
-						else
-							b.append(ch);
-							
-					}
-					else if (ch == Component.ESCP) {
 
-						// handle escaped characters
-						
-						j++;
-						if (j >= s.length())
-							throw new AWException("bad pattern");
+					if (ch == Component.ALPH)
+						t = (span) ? Component.ASP : Component.ABC;
+					else if (ch == Component.NUMR)
+						t = (span) ? Component.NSP : Component.DIG;
+					else if (ch == Component.SPCS)
+						t = (span) ? Component.SSP : Component.SPC;
+					else if (ch == Component.WILD)
+						t = Component.SKN;
 
-						if (s.charAt(j) != '0')
-							b.append(s.charAt(j));
+					span = negn = false;
+
+					if (t >= 0) {
+
+						// aggregate single wildcards if they are the same
+
+						if (b.length() == 0 && n > 0 && cp.type == t)
+							p.get(n-1).length++;
 						else {
-							j++;
-							int k = 0;
-							for (int i = 0; i < 3; i++) {
-								if (s.charAt(j) < '0' || s.charAt(j) > '7') break;
-								k <<= 3;
-								k += s.charAt(j++) - '0';
-							}
-							b.append(k);
+							n = closeLIT(p,b,n,true);
+
+							cp = p.get(n++);
+							cp.type   = t;
+							cp.length = (byte)(1);
+							cp = new Component();
+							cp.type = Component.LIT;
+							p.add(cp);
 						}
-						
+
 					}
-					else
-						b.append(s.charAt(j));
-						
+					else {
+				
+						if (ch == Component.AMPR) {
+
+							n = closeLIT(p,b,n,true);
+
+							// check for possible class repetition
+
+							int slm = s.length();
+							char chx = (j < --slm) ? s.charAt(j+1) : '\0';
+							char chy = (j < --slm) ? s.charAt(j+2) : '\0';
+							if (chx == Component.LBKT ||
+							    chx == Component.TILD && chy == Component.LBKT ||
+							    chx == Component.ALPH ||
+							    chx == Component.NUMR ||
+							    chx == Component.SPCS)
+								span = true;
+							else
+								b.append(ch);  // treat as ordinary char
+
+						}
+						else if (ch == Component.ESCP) {
+
+							// handle escaped characters
+
+							j++;
+							if (j >= s.length())
+								throw new AWException("bad pattern");
+
+							if (s.charAt(j) != '0')
+								b.append(s.charAt(j));
+							else {
+								j++;
+								int k = 0;
+								for (int i = 0; i < 3; i++) {
+									if (s.charAt(j) < '0' || s.charAt(j) > '7') break;
+									k <<= 3;
+									k += s.charAt(j++) - '0';
+								}
+								b.append(k);
+							}
+
+						}
+						else
+							b.append(s.charAt(j));
+
+					}
+
 				}
-				
+
 			}
-			if (n == m)
-				throw new AWException("pattern overflow");
-				
+
+			// take care of any final literal
+
+			n = closeLIT(p,b,n,false);
+
+			if (n == 0)
+				throw new AWException("empty pattern");
+
+			anchored = (p.get(0).type != Component.SKP);
+
+			// make component array of proper size
+
+			if (p.size() > n)
+				p.remove(n);
+
+			pat = p.toArray(new Component[0]);
+
 		}
 
-		// take care of any final literal
-		
-		if (b.length() > 0) {
-			pat[n  ].length = (byte) b.length();
-			pat[n++].string = b.toString().toUpperCase();
-		}
-
-		if (n == 0)
-			throw new AWException("empty pattern");
-
-		// make component array of proper size
-		
-		p = new Component[n];
-		System.arraycopy(pat,0,p,0,n);
-		
-		anchored = (p[0].type != Component.SKP);
-			
 	}
-	
-	//////// (do these allocations once only for any real-time application!) ////////
-	
+
+
+	//////// for keeping backup information for match length of pattern components ////////
+
 	private static CharArray st = new CharArray(); // current string position
 	private static CharArray ss = new CharArray(); // saved   string position for wildcard *
 	private static CharArray sw = new CharArray(); // start of match after initial skip
@@ -293,7 +316,7 @@ public class Pattern {
 		
 		int  mk=0;  // remember match position
 
-		int np = p.length;
+		int np = pat.length;
 		st.assign(s);
 		sw.assign(s);
 		ss.assignNull();
@@ -304,14 +327,14 @@ public class Pattern {
 
 			// enough characters left to match pattern?
 			
-			Component pk = p[k];
+			Component pk = pat[k];
 			int length = pk.length;
 			if (st.length() < length) {
 				r = false;
 				break;
 			}
 			
-			char cs = Character.toUpperCase(st.charAt(0));
+			char cs = st.charAt(0);
 
 			// try to match next component of pattern against string
 			
@@ -340,9 +363,7 @@ case Component.SPC:
 				break;
 
 case Component.NLN:
-				for (n = 0; Component.MSPACES.indexOf(st.charAt(n)) >= 0; n++);
-				if (r = (st.charAt(n) == '\n'))
-					length = n + 1;
+				r = (cs == '\n');
 				break;
 
 case Component.REP:
@@ -357,10 +378,6 @@ case Component.NON:
 				length = n;
 				break;
 
-case Component.MRK:
-				mk = st.position();
-				break;
-				
 case Component.SKN:
 case Component.SKP:
 				int ln = st.length();
@@ -381,7 +398,7 @@ case Component.SKP:
 				
 				int nr = 0;
 				for (int i = k + 1; i < np; i++)
-					nr += p[i].length;
+					nr += pat[i].length;
 
 				// get starting char to find after skip
 				
@@ -393,8 +410,8 @@ case Component.SKP:
 						r = false;
 						break;
 					}
-					if (k < np - 1 && p[k+1].type == Component.LIT)
-						sc = p[k+1].string.charAt(0);
+					if (k < np - 1 && pat[k+1].type == Component.LIT)
+						sc = pat[k+1].string.charAt(0);
 				}
 				
 				// if match still possible, back up to skip and continue from there
@@ -409,15 +426,14 @@ case Component.SKP:
 				r = true;
 				break;
 
-case Component.TBP:
-				for (n = 0; Component.SPACE.indexOf(st.charAt(n)) >= 0; n++);
-				if (n == 0)
-					r = false;
-				else if (n > 1 || cs == '\t') {
-					r = true; length = n;
-				}
-				else
-					r = false;
+case Component.ASP:
+case Component.NSP:
+case Component.SSP:
+				String sp = (pk.type == Component.ASP) ? Component.ALPHA :
+					    (pk.type == Component.NSP) ? Component.DIGIT : Component.SPACE;
+				for (n = 0; sp.indexOf(st.charAt(n)) >= 0; n++);
+				if (r = (n > 0))
+					length = n;
 				break;
 
 default:
@@ -445,7 +461,7 @@ default:
 				st.assign(ss);
 				st.skip(1);
 				if (sc != '\0') {
-					n = st.indexOfIgnoringCase(sc);
+					n = st.indexOf(sc);
 					if (n < 0)
 						break;
 					st.skip(n);
@@ -473,5 +489,37 @@ default:
 		else
 			return (mk > 0) ? mk : (np > 1) ? (s.length() - sw.length()) : 0;
 	}
-	
+
+	// unit test
+
+	private static final String[] tpl = { "/"  , "&@"     , "abc/"   , "*c*"  , "*&[xyz]*" };
+	private static final String[] tsl = { "\n" , "ABCDEF" , "aBc\n"  , "abcd" , "abzzyd"   };
+
+	private static void test (
+		Pattern tp,
+		String  ts
+	 ) throws AWException {
+		CharArray ca = new CharArray(ts);
+		ca.remap();
+		System.out.println("ts= [" + ts + "]");
+		System.out.println(tp.match(ca));
+	}
+
+	public static void main ( String[] as ) {
+		try {
+			for (int i = 0; i < tpl.length; i++) {
+				Pattern tp = new Pattern(tpl[i]);
+				System.out.println("tp= " + tpl[i]);
+				test(tp,tsl[i]);
+			}
+			if (as.length > 1) {
+				Pattern tp = new Pattern(as[0]);
+				System.out.println("tp= " + as[0]);
+				for (int j = 1; j < as.length; j++)
+					test(tp,as[j]);
+			}
+                } catch (AWException e) {
+                        System.err.println(e);
+                }
+	}
 }

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Segmenter.java : 26Jul00 CPM
+// AW file Segmenter.java : 10jul2021 CPM
 // top-level class for text segmentation
 
 package aw.segment;
@@ -45,7 +45,7 @@ public class Segmenter {
 	private int lower = 1000;    //
 	
 	private InputStream text;    // source text file
-	private Automaton automaton; // to guide segmentation
+	public  Automaton automaton; // to guide segmentation
 	private Inputs stream;       // source text with special buffering
 	private Lines  lining;       // source text line index
 
@@ -165,6 +165,7 @@ public class Segmenter {
 		} catch (IOException e) {
 			throw new AWException("I/O error",e);			
 		} finally {
+			System.out.println("closing data files");
 			try {
 				Subsegment.close();
 				Index.close();
@@ -173,6 +174,19 @@ public class Segmenter {
 			}
 		}
 		
+		// save updated control
+
+		System.out.println("updating batch " + control.cubn);
+
+		try {
+			control.noms[control.cubn] = k;
+			control.dump();
+			control.save();
+		} catch (IOException e) {
+			System.err.println(e);
+			System.exit(0);
+		}
+
 		// item count returned
 		
 		return k - m;

@@ -22,12 +22,11 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CharArray.java : 21Jul00 CPM
-// a less restrictive, memory-efficient string class
+// CharArray.java : 09Jul2921 CPM
+// a less restrictive, memory-efficient equivalent to String class
 
-package aw.phrase;
+package aw;
 
-import aw.Letter;
 import aw.SortableObject;
 import stem.Token;
 
@@ -36,8 +35,6 @@ public class CharArray implements SortableObject {
 	protected char[] array; // string buffer
 	protected int offset;   // offset for start of string
 	protected int limit;    // end of string
-	
-	protected String text;  // original source
 	
 	private static final char[] empty = { 0 }; // null-terminated
 
@@ -49,7 +46,6 @@ public class CharArray implements SortableObject {
 		this(text.length());
 		text.getChars(0,limit,array,0);
 		array[limit] = 0;
-		this.text = text;
 	}
 	
 	// for array of specified length
@@ -68,7 +64,6 @@ public class CharArray implements SortableObject {
 	
 	) {
 		array = empty;
-		text = "";
 	}
 	
 	// analog to substring()
@@ -90,7 +85,6 @@ public class CharArray implements SortableObject {
 		array  = ca.array;
 		offset = ca.offset;
 		limit  = ca.limit;
-		text   = ca.text;
 	}
 	
 	// assign from Token
@@ -100,8 +94,7 @@ public class CharArray implements SortableObject {
 	) {
 		offset = 0;
 		limit = to.length();
-		for (int i = 0; i < limit; i++)
-			array[i] = Letter.toChar(to.array[i]);
+		System.arraycopy(to.array,0,array,0,limit);
 		array[limit] = 0;
 	}
 	
@@ -132,18 +125,16 @@ public class CharArray implements SortableObject {
 		ca.array = array;
 		ca.offset = (this.limit < offset) ? this.limit : offset;
 		ca.limit = (this.limit < limit) ? this.limit : limit;
-		ca.text = text;
 	}
 	
-	// fill array from bytes
+	// fill array from char array
 	
-	public final CharArray fillBytes (
-		byte[] b,
+	public final CharArray fillChars (
+		char[] b,
 		int    o,
 		int    n
 	) {
-		for (int i = 0; i < n; i++)
-			array[i] = (char) b[o++];
+		System.arraycopy(b,o,array,0,n);
 		array[n] = 0;
 		offset = 0;
 		limit = n;
@@ -161,14 +152,13 @@ public class CharArray implements SortableObject {
 		return -1;
 	}
 	
-	// analogous to String method
+	// analogous to String method, but with CharArray
 	
 	public final int indexOfIgnoringCase (
 		char x
 	) {
-		char xu = Character.toUpperCase(x);
 		for (int o = offset; o < limit; o++)
-			if (Character.toUpperCase(array[o]) == xu)
+			if (array[o] == x)
 				return o - offset;
 		return -1;
 	}
@@ -195,7 +185,12 @@ public class CharArray implements SortableObject {
 	
 	// like for String, but with no explicit check
 	
-	public final char charAt ( int  n ) { return array[offset + n]; }
+	public final char charAt ( int  n ) {
+		if (offset + n < limit)
+			return array[offset + n];
+		else
+			return '\0';
+	}
 	
 	// like for StringBuffer, but with no explicit check
 	
@@ -223,33 +218,20 @@ public class CharArray implements SortableObject {
 		int os,
 		int ln
 	) {
-		return text.substring(offset + os,offset + ln);
+		if (ln <= 0)
+			return "";
+		int m = offset + os;
+		int k = m + ln;
+		if (m > limit) m = limit;
+		if (k > limit) k = limit;
+		if (m >= k)
+			return "";
+		else {
+			int n = k - m;
+			return new String(array,m,n);
+		}
 	}
-	
-	// copy segment into another array without changes
-	
-	public final void copyChars (
-		char[] a,
-		int    n
-	) {
-		int o = offset - n;
-		for (int i = 0; i < n; i++)
-			a[i] = text.charAt(o++);
-		a[n] = 0;
-	}
-	
-	// skip non-alphanumeric at start of segment
-	
-	public final int align (
-		int n
-	) {
-		int o = offset - n;
-		for (; o < offset; o++)
-			if (Character.isLetterOrDigit(text.charAt(o)))
-				break;
-		return offset - o;
-	}
-	
+
 	// identify text to match
 	
 	public final void set (
@@ -274,19 +256,26 @@ public class CharArray implements SortableObject {
 		}
 		return (n == a.limit - a.offset) ? 0 : -1;
 	}
+
+	// convert to ASCII only
+
+	public final void remap (
+	) {
+		Transform.map(array);
+	}
 	
 	////////
 	//////// implement strspn()
 	////////
 	
-	// check for sequence of specified chars
+	// check for sequence of specified chars, but for CharArray
 	
 	public final boolean span (
 		int    n, // characters to check
 		String p  // characters to match
 	) {
 		for (int i = 0; i < n; i++)
-			if (p.indexOf(Character.toUpperCase(array[offset+i])) < 0)
+			if (p.indexOf(array[offset+i]) < 0)
 				return false;
 		return true;
 	}
@@ -310,8 +299,7 @@ public class CharArray implements SortableObject {
 			n = k;
 		if (n > N)
 			n = N;
-		for (int i = 0; i < n; i++)
-			ss[i] = Character.toUpperCase(s[o++]);
+		System.arraycopy(s,o,ss,0,n);
 		ss[n] = 0;
 	}
 

@@ -22,12 +22,12 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Lines.java : 03Aug00 CPM
+// AW File Lines.java : 03Jul2021 CPM
 // line indexing class for text
 
 package aw.segment;
 
-import aw.phrase.CharArray;
+import aw.CharArray;
 
 public class Lines {
 

@@ -22,13 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Inputs.java : 13Aug01 CPM
+// AW file Inputs.java : 03Jul2021 CPM
 // special line buffering for reading ASCII text files
 // in DOS, Unix, or Macintosh formats on Internet
 
 package aw.segment;
 
-import aw.phrase.CharArray;
+import aw.CharArray;
 import web.*;
 import java.io.*;
 
@@ -47,9 +47,9 @@ public class Inputs implements Runnable {
 	private static final int LL= 2048;   // maximum line length
 	private static final int BL= 3*LL;   // maximum amount in buffer
 
-	private InputStream data; // the text source
+	private InputStreamReader data; // the text source
 
-	protected byte[] buffer = new byte[BL + LL + 2];
+	protected char[] buffer = new char[BL + LL + 2];
 	protected int bl; // where to stop in buffer
 	protected int bb; // saved beginning of line
 
@@ -60,19 +60,24 @@ public class Inputs implements Runnable {
 	private int thisposition; // current character offset in text file
 	private int thislength;   // line length
 	
-	protected int ll=LL;  // maximum line length to get
+	protected int ll=LL;      // maximum line length to get
 	
-	private CharArray line;
+	private CharArray line;   // input line as object to return
 
 	// constructor
 	
 	public Inputs (
 		InputStream in // text file for line buffering
 	) {
-		data = in;
+		try {
+			data = new InputStreamReader(in,"UTF8");
+		} catch (UnsupportedEncodingException e) {
+			System.err.println(e);
+			data = null;
+		}
 
 		thisposition = 0;
-		thislength = 0;
+		thislength   = 0;
 		backup = false;
 		line = new CharArray(buffer.length);
 
@@ -227,7 +232,8 @@ public class Inputs implements Runnable {
 		// return a line of text as a String
 
 		int n = markLine(bs);
-		return line.fillBytes(buffer,bs,n);
+		line.fillChars(buffer,bs,n);
+		return line;
 	}
 
 	// get line offset in text file
@@ -294,3 +300,4 @@ public class Inputs implements Runnable {
 	}
 	
 }
+

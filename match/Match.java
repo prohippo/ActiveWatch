@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Match.java : 09Jun00 CPM
+// Match.java : 03Jul2021 CPM
 // string pattern matching class
 
 // a disjunctive pattern is stored internally as a list
@@ -32,7 +32,7 @@
 package match;
 
 import aw.*;
-import aw.phrase.CharArray;
+import aw.CharArray;
 
 public class Match {
 	private static final int nn=8; // maximum disjunction

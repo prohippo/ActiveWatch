@@ -58,3 +58,6 @@ Release History:
 
 v0.1    16jun2021  Initial upload of original AW Java source code.
 
+v0.2    10ju12021  Clean up and reorganize code for first AW module
+                   Add code to dump AW output files
+                   Collect news data set for demonstration

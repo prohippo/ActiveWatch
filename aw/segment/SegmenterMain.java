@@ -22,15 +22,15 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File SegmenterMain.java : 22Feb00 CPM
+// AW File SegmenterMain.java : 30Jun2021 CPM
 // class for text segmenting application
 
 package aw.segment;
 
 import aw.*;
-import object.ItemDelimiters;
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 
 public class SegmenterMain {
 	
@@ -39,7 +39,14 @@ public class SegmenterMain {
 	public static void main (
 		String[] a
 	) {
-		String[] files = (a.length > 0) ? a : new String[] { "text" };
+
+		String delims = "delims";
+		if (a.length > 1 && a[0].equals("-d")) {
+			delims = a[1];
+			a = Arrays.copyOfRange(a,2,a.length);
+		}
+			
+		String[] items = (a.length > 0) ? a : new String[] { "text" };
 		
 		Banner banner = new Banner("Segmenter");
 		banner.show();
@@ -47,29 +54,28 @@ public class SegmenterMain {
 		try {
 		
 			Segmenter x;
-			try {
-				BufferedReader r = new BufferedReader(new FileReader(ItemDelimiters.longFile));
-				x = new Segmenter(r);
-				r.close();
-				System.out.println("using DELIMIT");
-			} catch (IOException e) {
-				ItemDelimiters id = new ItemDelimiters();
-				x = new Segmenter(id.byteStream());
-				System.out.println("using DELIMITERS");
-			}
-			
 			int n = 0;
-			for (int i = 0; i < files.length; i++) {
-				String file = files[i];
-				String u = null;
-				try {
-					URL url = new URL(file);
-					u = file;
-				} catch (MalformedURLException me) {
-					File f = new File(file);
-					u = "file:" + f.getAbsolutePath();
+			try {
+				BufferedReader r = new BufferedReader(new FileReader(delims));
+				x = new Segmenter(r);
+				x.automaton.setTrack(true);
+				r.close();
+			
+				for (int i = 0; i < items.length; i++) {
+					String file = items[i];
+					String u = null;
+					try {
+						URL url = new URL(file);
+						u = file;
+					} catch (MalformedURLException me) {
+						File f = new File(file);
+						u = "file:" + f.getAbsolutePath();
+					}
+					n += x.run(u);
 				}
-				n += x.run(u);
+			} catch (IOException e) {
+				System.err.println("bad item DELIMITERS");
+ 				System.exit(1);
 			}
 
 			System.out.println(n + " items processed");

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Control.java : 05Mar00 CPM
+// AW file Control.java : 10jul2021 CPM
 // data base control class
 
 package aw;
@@ -35,10 +35,10 @@ public class Control {
 	public static final int NTB     = 32;        // maximum batch count
 	public static final int BADBatch= -1;        // special marker
 	
-	public short nobs; // number of batches
-	public short cubn; // current batch
-	public short totb; // total batches ever
-	public int   ndel; // total items dropped
+	public int nobs; // number of batches
+	public int cubn; // current batch
+	public int totb; // total batches ever
+	public int ndel; // total items dropped
 	
 	public int[] noms = new int[NTB]; // number of items in each batch
 
@@ -100,7 +100,7 @@ public class Control {
 	public void clear (
 	) {
 		totb -= nobs;
-		cubn = (short) first();
+		cubn = first();
 		nobs = 0;
 		for (int i = 0; i < NTB; i++)
 			noms[i] = 0;
@@ -121,9 +121,9 @@ public class Control {
 		String fn = FileAccess.to(file);
 		DataInputStream in = new DataInputStream(new FileInputStream(fn));
 		
-		nobs = in.readShort();
-		cubn = in.readShort();
-		totb = in.readShort();
+		nobs = in.readInt();
+		cubn = in.readInt();
+		totb = in.readInt();
 		ndel = in.readInt();
 		for (int i = 0; i < NTB; i++)
 			noms[i] = in.readInt();
@@ -137,9 +137,9 @@ public class Control {
 		String fn = FileAccess.to(file);
 		DataOutputStream out = new DataOutputStream(new FileOutputStream(fn));
 		
-		out.writeShort(nobs);
-		out.writeShort(cubn);
-		out.writeShort(totb);
+		out.writeInt(nobs);
+		out.writeInt(cubn);
+		out.writeInt(totb);
 		out.writeInt(ndel);
 		for (int i = 0; i < NTB; i++)
 			out.writeInt(noms[i]);
@@ -214,4 +214,38 @@ public class Control {
 		}
 		return nm;
 	}	
+
+	// show current data status
+
+	private static final int W = 8;
+
+	public void dump ( ) {
+		System.out.println(String.format("nobs= %2d, cubn= %2d",nobs,cubn));
+		System.out.println(totb + " total batches processed");
+		System.out.print(ndel + " deleted");
+		for (int i = 0; i < NTB; i++) {
+			if (i%W == 0) System.out.println();
+			System.out.print(String.format("%6d",noms[i]));
+		}
+		System.out.println();
+	}
+
+	// unit test
+
+	public static void main ( String[] as ) {
+		int nob = (as.length > 0) ? Integer.parseInt(as[0]) : -1;
+		int bno = (as.length > 1) ? Integer.parseInt(as[1]) : -1;
+		Control ctl = new Control();
+		if (ctl.noms[ctl.cubn] > 0)
+			ctl.dump();
+		if (nob >= 0 && bno >= 0) {
+			ctl.nobs = nob;
+			ctl.cubn = bno;
+		}
+		try {
+			ctl.save();
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	}
 }
