@@ -1,0 +1,28 @@
+; the finite automaton will be defined in terms
+; of its transitions (arcs), to be specified in
+; standard input according the format:
+;                      x y t a pat
+; where
+;  x   is the beginning state
+;  y   is the ending state
+;  t   is an event type on a delimiter match
+;  a   is an action (. + ?)
+;  pat is a string delimiter pattern
+;
+; (1) states are integer values from 0 to (NOS-1)
+;     determining what sets of delimiters should
+;     be matched
+; (2) event types are NIL, SOH, SBJ, SOT, EOT, EOM
+; (3) possible actions are
+;      +  go to the next line
+;      .  stay at current line
+;      ?  force a fatal error
+;
+0 0 NIL + / 
+0 1 SOH . #*
+0 1 SOH . @*
+1 2 SBJ . @*
+1 2 SBJ ? #*
+2 3 SOT + ?*
+3 4 EOT . /
+4 0 EOM + /
