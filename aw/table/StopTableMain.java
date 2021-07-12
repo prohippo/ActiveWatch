@@ -22,77 +22,48 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// StemStart.java : 12jul2021 CPM
-// standard initializations
+// AW file StopTableMain.java : 26Mar99 CPM
+// build stop table
 
-package stem;
+package aw.table;
 
-import aw.ResourceInput;
 import aw.AWException;
+import aw.TextAnalysisFile;
 import java.io.*;
 
-public class StemStart {
+public class StopTableMain {
 
-	static public Stem   tree;
-	static public Stop  table;
-	static public Stopat list;
+	public static final String stopword = "stopword";
 
-	public static void load (
-		
-		String sufs,   // suffix file name
-		String stps,   // stop   file name
-		String stpats  // stop patterns file name
-		
-	) throws AWException {
+	public static void main ( String[] a ) {
 	
-		if (tree != null)
-			return;
+		StopTable tb = new StopTable();
+	
+		BufferedReader    in = null;
+		FileOutputStream out = null;
 		
 		try {
 		
-			DataInputStream iu = ResourceInput.openStream(sufs);
-			tree = new Stem(iu);
-			iu.close();
-
-			reload(stps,stpats);
-
-		} catch (IOException x) {
-			System.err.println(x);
-			throw new AWException("stem initialization fails");
-		}
-		
-	}
-	
-	public static void reload (
-	
-		String stps,   // stop   file name
-		String stpats  // stop patterns file name
-		
-	) throws AWException {
-	
-		try {
-		
-			DataInputStream it = ResourceInput.openStream(stps);
-			table = new Stop(it);
-			it.close();
-
-			BufferedReader rd = ResourceInput.openReader(stpats);
-			list = new Stopat(rd);
-			rd.close();
-		
+			in  = new BufferedReader(new FileReader(stopword));
+			out = new FileOutputStream(TextAnalysisFile.stopFile);
+			
+			tb.build(in);
+			tb.save(new DataOutputStream(new BufferedOutputStream(out)));
+			
 		} catch (IOException e) {
-			throw new AWException(e);
+			System.err.println("I/O error: " + e);
+		} catch (AWException e) {
+			e.printStackTrace();
 		}
-
-	}
-	
-	public static void reset (
-	
-	) {
-	
-		tree  = null;
-		table = null;
-		list  = null;
+		finally {
+			try {
+				if (in != null)
+					in.close();
+				if (out != null)
+					out.close();
+			} catch (IOException e) {
+			}
+		}
 		
 	}
 	

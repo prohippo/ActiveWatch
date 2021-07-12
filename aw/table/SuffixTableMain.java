@@ -22,77 +22,53 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// StemStart.java : 12jul2021 CPM
-// standard initializations
+// AW file SuffixTableMain.java : 26Mar99 CPM
+// build suffix table
 
-package stem;
+package aw.table;
 
-import aw.ResourceInput;
 import aw.AWException;
+import aw.TextAnalysisFile;
 import java.io.*;
 
-public class StemStart {
+public class SuffixTableMain {
 
-	static public Stem   tree;
-	static public Stop  table;
-	static public Stopat list;
+	public static final String suffix = "suffix";
+	public static final String action = "action";
 
-	public static void load (
-		
-		String sufs,   // suffix file name
-		String stps,   // stop   file name
-		String stpats  // stop patterns file name
-		
-	) throws AWException {
+	public static void main ( String[] av ) {
 	
-		if (tree != null)
-			return;
+		SuffixTable tb = new SuffixTable();
+	
+		BufferedReader   ins = null;
+		BufferedReader   ina = null;
+		FileOutputStream out = null;
 		
 		try {
 		
-			DataInputStream iu = ResourceInput.openStream(sufs);
-			tree = new Stem(iu);
-			iu.close();
-
-			reload(stps,stpats);
-
-		} catch (IOException x) {
-			System.err.println(x);
-			throw new AWException("stem initialization fails");
-		}
-		
-	}
-	
-	public static void reload (
-	
-		String stps,   // stop   file name
-		String stpats  // stop patterns file name
-		
-	) throws AWException {
-	
-		try {
-		
-			DataInputStream it = ResourceInput.openStream(stps);
-			table = new Stop(it);
-			it.close();
-
-			BufferedReader rd = ResourceInput.openReader(stpats);
-			list = new Stopat(rd);
-			rd.close();
+			ins = new BufferedReader(new FileReader(suffix));
+			ina = new BufferedReader(new FileReader(action));
+			out = new FileOutputStream(TextAnalysisFile.suffixFile);
+			
+			tb.build(ina,ins);
+			tb.save(new DataOutputStream(new BufferedOutputStream(out)));
 		
 		} catch (IOException e) {
-			throw new AWException(e);
+			System.err.println("I/O error: " + e);
+		} catch (AWException e) {
+			e.printStackTrace();
 		}
-
-	}
-	
-	public static void reset (
-	
-	) {
-	
-		tree  = null;
-		table = null;
-		list  = null;
+		finally {
+			try {
+				if (ins != null)
+					ins.close();
+				if (ina != null)
+					ina.close();
+				if (out != null)
+					out.close();
+			} catch (IOException e) {
+			}
+		}
 		
 	}
 	

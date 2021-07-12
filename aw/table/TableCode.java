@@ -22,78 +22,85 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// StemStart.java : 12jul2021 CPM
-// standard initializations
+// AW file TableCode.java : 29Mar99 CPM
+// for building external AW language tables
 
-package stem;
+package aw.table;
 
-import aw.ResourceInput;
+import aw.Letter;
 import aw.AWException;
-import java.io.*;
 
-public class StemStart {
+public class TableCode {
 
-	static public Stem   tree;
-	static public Stop  table;
-	static public Stopat list;
-
-	public static void load (
-		
-		String sufs,   // suffix file name
-		String stps,   // stop   file name
-		String stpats  // stop patterns file name
-		
-	) throws AWException {
+	// to be consistent with token sorting, digits are mapped to lower case letters
+	// and letters are mapped to upper case
 	
-		if (tree != null)
-			return;
-		
-		try {
-		
-			DataInputStream iu = ResourceInput.openStream(sufs);
-			tree = new Stem(iu);
-			iu.close();
-
-			reload(stps,stpats);
-
-		} catch (IOException x) {
-			System.err.println(x);
-			throw new AWException("stem initialization fails");
-		}
-		
-	}
+	// (invisible) character encoding for sorting of table entries
 	
-	public static void reload (
+	public static String forSorting (
 	
-		String stps,   // stop   file name
-		String stpats  // stop patterns file name
+		String r
 		
-	) throws AWException {
-	
-		try {
-		
-			DataInputStream it = ResourceInput.openStream(stps);
-			table = new Stop(it);
-			it.close();
-
-			BufferedReader rd = ResourceInput.openReader(stpats);
-			list = new Stopat(rd);
-			rd.close();
-		
-		} catch (IOException e) {
-			throw new AWException(e);
-		}
-
-	}
-	
-	public static void reset (
-	
 	) {
-	
-		tree  = null;
-		table = null;
-		list  = null;
+		char x;
 		
+		StringBuffer s = new StringBuffer(r.length());
+
+		for (int i = 0; i < r.length(); i++) {
+			char c = r.charAt(i);
+			
+			if (Character.isDigit(c))
+				x = (char)(c - '0' + 'a');
+			else if (Character.isLetter(c))
+				x = Character.toUpperCase(c);
+			else if (c == Letter.APO)
+				x = '{';
+			else if (c == Letter.DOT)
+				x = '}';
+			else
+				continue;
+				
+			s.append(x);
+		}
+			
+		return s.toString();
 	}
+
+	// actual encoding to store in table
+		
+	public static int forStoring (
 	
+		String r,
+		byte[] b,
+		int   nb
+		
+	) throws AWException {
+		for (int i = 0; i < r.length(); i++)
+			b[nb++] = recode(r.charAt(i));
+		
+		return nb;
+	}
+
+	// get one encoded character
+		
+	public static byte recode (
+	
+		char c
+		
+	) throws AWException {
+		if (Character.isLowerCase(c))
+			c -= 'a' - '0';
+		else if (Character.isUpperCase(c))
+			c = Character.toLowerCase(c);
+		else if (c == '{')
+			c = Letter.APO;
+		else if (c == '}')
+			c = Letter.DOT;
+			
+		byte z = Letter.toByte(c);
+		if (z < 0)
+				throw new AWException("bad character in entry <" + c + ">");
+		return z;
+	}
+
 }
