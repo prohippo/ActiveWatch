@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file IndexVector.class : 08Jul02 CPM
+// AW file IndexVector.java : 13jul2021 CPM
 // n-gram index vector for text item
 
 package object;
