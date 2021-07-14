@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Characterizer.java : 28Aug01 CPM
+// AW file Characterizer.java : 14jul2021 CPM
 // encapsulated n-gram extraction
 
 package gram;
@@ -36,7 +36,7 @@ public class Characterizer {
     
 	private TokenBuffer tb = new TokenBuffer(); // work area
 	
-	private Transform   phonetic; // how letter combinations sound
+	private Respelling  phonetic; // how letter combinations sound
 	private Literal     table;    // user-defined indices
 	
 	private int index = 0; // to get successive indices for token
@@ -47,7 +47,7 @@ public class Characterizer {
 	// (the output list is passed as argument to avoid reallocation)
 	
 	public Characterizer (
-		Transform trs,  // for phonetic coding
+		Respelling trs,  // for phonetic coding
 		Literal   lit,  // literal index table
 		SimpleList ls   // where to store encoded indices
 	) {

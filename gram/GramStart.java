@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// GramStart.java : 23May00 CPM
+// GramStart.java : 14jul2021 CPM
 // standard initializations
 
 package gram;
@@ -33,8 +33,8 @@ import java.io.*;
 
 public class GramStart {
 
-	public static Literal   set;
-	public static Transform map;
+	public static Literal    set;
+	public static Respelling map;
 
 	// get external definition tables for n-grams
 	
@@ -53,7 +53,7 @@ public class GramStart {
 			reload(lits);
 			
 			BufferedReader rd = ResourceInput.openReader(phonetic);
-			map = new Transform(rd);
+			map = new Respelling(rd);
 			rd.close();
 
 		} catch (IOException x) {

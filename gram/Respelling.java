@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Transform.java : 01Aug02 CPM
+// AW file Respelling.java : 14jul2021 CPM
 // to convert token into normalized phonetic spelling
 
 package gram;
@@ -35,7 +35,7 @@ import java.io.*;
  * token respelling for more accurate phonetic indexing
  */
 
-public class Transform implements Serializable {
+public class Respelling implements Serializable {
 
 	private static final byte X =  -1; // special marker
 	private static final byte DL=  99; // delimiter
@@ -55,12 +55,12 @@ public class Transform implements Serializable {
 	private short ntotal; // count of all transforms
         
        /**
-        * initialize transforms from text definitions
+        * initialize respellings from text definitions
         * @param in where to get text from
         * @exception AWException on read failure
         */
 
-	public Transform (
+	public Respelling (
 	
 		BufferedReader in
 		
