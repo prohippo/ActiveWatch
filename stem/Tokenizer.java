@@ -22,12 +22,15 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Tokenizer.class : 29Apr99 CPM
+// AW File Tokenizer.java : 13jul2021 CPM
 // extract tokens from a segment of English text
 
 package stem;
 
 import aw.FileAccess;
+import aw.AWException;
+import java.io.*;
+
 
 public class Tokenizer {
 
@@ -141,5 +144,38 @@ public class Tokenizer {
 		
 		return token;
 	}
-	
+
+
+	// unit test
+
+	public static final void main ( String[] as ) {
+
+		String src = (as.length > 0) ? as[0] : "input";
+		try {
+			Stem   mor = new Stem(new DataInputStream(new FileInputStream("sufs")));
+			Stop   stp = new Stop(new DataInputStream(new FileInputStream("stps")));
+			Stopat pat = new Stopat(new BufferedReader(new FileReader("stpats")));
+			Tokenizer tkzr = new Tokenizer(mor,stp,pat);
+
+			BufferedReader in = new BufferedReader(new FileReader(src));
+			String line;
+			Token t;
+			while ((line = in.readLine()) != null) {
+				tkzr.set(line);
+				System.out.println(line);
+
+				while ((t = tkzr.get()) != null) {
+					System.out.println(t);
+				}
+			}
+		} catch (IOException e) {
+			System.err.println(e);
+			System.exit(1);
+		} catch (AWException e) {
+			System.err.println(e);
+                        System.exit(2);
+		}
+
+	}
+
 }
