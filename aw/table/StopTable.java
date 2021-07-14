@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// StopTable.java : 08Jan04 CPM
+// StopTable.java : 12jul2021 CPM
 // compile stop table from listing of patterns
 
 package aw.table;
@@ -154,7 +154,7 @@ public class StopTable extends StopBase implements TableBuilder {
 				// position together
 
 				r = r.substring(1);
-                ln = r.length();
+				ln = r.length();
 				for (int j = 0, k = 0; j < ln; j++) {
 					table[nn+k] = TableCode.recode(r.charAt(j));
 					k += number[ln];

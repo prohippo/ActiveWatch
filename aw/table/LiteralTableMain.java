@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LiteralTableMain.java : 26Mar99 CPM
+// AW file LiteralTableMain.java : 13jul2013 CPM
 // build literal table
 
 package aw.table;
@@ -48,10 +48,10 @@ public class LiteralTableMain {
 			out = new FileOutputStream(TextAnalysisFile.literalFile);
 			
 			tb.build(in);
-			tb.save(new DataOutputStream(new BufferedOutputStream(out)));
+			tb.save(new DataOutputStream(out));
 			
 		} catch (IOException e) {
-			System.err.println("I/O error: " + e);
+			System.err.println(e);
 		} catch (AWException e) {
 			e.printStackTrace();
 		}

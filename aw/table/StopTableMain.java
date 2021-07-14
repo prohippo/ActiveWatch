@@ -48,7 +48,7 @@ public class StopTableMain {
 			out = new FileOutputStream(TextAnalysisFile.stopFile);
 			
 			tb.build(in);
-			tb.save(new DataOutputStream(new BufferedOutputStream(out)));
+			tb.save(new DataOutputStream(out));
 			
 		} catch (IOException e) {
 			System.err.println("I/O error: " + e);

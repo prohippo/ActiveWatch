@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file StopBase.java : 12Aug99 CPM
+// AW file StopBase.java : 13jul2021 CPM
 // stopword support
 
 package stem;
@@ -46,6 +46,7 @@ public class StopBase {
 	
 		index = new short[MXSW+2];
 		count = new short[MXSW+2];
+		table = new byte[0];
 
 	}
 	
@@ -85,6 +86,7 @@ public class StopBase {
 	
 		try {
 			
+			System.out.println("saving stops");
 			for (int i = 0; i < MXSW+2; i++)
 				 out.writeShort(index[i]);
 			for (int i = 0; i < MXSW+2; i++)
@@ -99,4 +101,21 @@ public class StopBase {
 	
 	}
 
+	// unit test
+
+	public static void main ( String[] as ) {
+		String dst = (as.length > 0) ? as[0] : "stps";
+		StopBase sb = new StopBase();
+		sb.table = new byte[100];
+		System.out.println(sb.table.length);
+		try {
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(dst));
+			sb.save(out,10);
+		} catch (IOException x) {
+			System.err.println(x);
+		} catch (AWException e) {
+			System.err.println(e);
+		}
+	}
 }
+

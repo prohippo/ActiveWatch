@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SuffixTableMain.java : 26Mar99 CPM
+// AW file SuffixTableMain.java : 13jul2021 CPM
 // build suffix table
 
 package aw.table;
@@ -51,7 +51,7 @@ public class SuffixTableMain {
 			out = new FileOutputStream(TextAnalysisFile.suffixFile);
 			
 			tb.build(ina,ins);
-			tb.save(new DataOutputStream(new BufferedOutputStream(out)));
+			tb.save(new DataOutputStream(out));
 		
 		} catch (IOException e) {
 			System.err.println("I/O error: " + e);
