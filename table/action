@@ -1,244 +1,135 @@
-// Copyright (c) 2021, C. P. Mah
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-//   Redistributions of source code must retain the above copyright notice, this
-//   list of conditions and the following disclaimer.
-//
-//   Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// -----------------------------------------------------------------------------
+; Copyright (c) 2021, C. P. Mah
+; All rights reserved.
+;
+; Redistribution and use in source and binary forms, with or without
+; modification, are permitted provided that the following conditions are met:
+;
+;   Redistributions of source code must retain the above copyright notice, this
+;   list of conditions and the following disclaimer.
+;
+;   Redistributions in binary form must reproduce the above copyright notice,
+;   this list of conditions and the following disclaimer in the documentation
+;   and/or other materials provided with the distribution.
+;
+; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+; DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+; FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+; DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+; SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+; CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+; -----------------------------------------------------------------------------
+; action : 12jul2021 CPM
 0.      = 0  (maximum of 127!)
-
 1.      = 1
-
 2.      = 2
-
 3.      = 3
-
 4.      = 4
-
 5.      = 5
-
 6.      = 6
-
 0!      = 7
-
 1!      = 8
-
 2!      = 9
-
 3!      =10
-
 4!      =11
-
 5!      =12
-
 6!      =13
-
 1de.    =14
-
 2de.    =15
-
 3de.    =16
-
 4de.    =17
-
 0el.    =18
-
 1le.    =19
-
 2le.    =20
-
 3le.    =21
-
 2re.    =22
-
 3re.    =23
-
 2d.     =24
-
 3d.     =25
-
 4d.     =26
-
 5d.     =27
-
 1t.     =28
-
 2t.     =29
-
 3t.     =30
-
 4t.     =31
-
 0y.     =32
-
 1y.     =33
-
 2y.     =34
-
 3y.     =35
-
 4y.     =36
-
 1ke.    =37
-
 2ke.    =38
-
 1a.     =39
-
 2a.     =40
-
 3a.     =41
-
 3ed.    =42
-
 4ed.    =43
-
 3r.     =44
-
 4r.     =45
-
 5r.     =46
-
 6r.     =47
-
 7r.     =48
-
 3n.     =49
-
 4n.     =50
-
 5n.     =51
-
 2te.    =52
-
 3te.    =53
-
 4te.    =54
-
 1ain.   =55
-
 2ain.   =56
-
 3im.    =57
-
 1be.    =58
-
 5l.     =59
-
 3ve.    =60
-
 2s.     =61
-
 1us.    =62
-
 2us.    =63
-
 2e.     =64
-
 3e.     =65
-
 1b.     =66
-
 1ce.    =67
-
 2ic.    =68
-
 2f.     =69
-
 3f.     =70
-
 4f.     =71
-
 1ct.    =72
-
 2ct.    =73
-
 3x.     =74
-
 4x.     =75
-
 3ex.    =76
-
 4ex.    =77
-
 0ounce. =78
-
 4sy.    =79
-
 3al.    =80
-
 1ble.   =81
-
 3o.     =82
-
 2at.    =83
-
 3at.    =84
-
 4ery.   =85
-
 2h.     =86
-
 2pt.    =87
-
 4e.     =88
-
 5e.     =89
-
 3sh.    =90
-
 2ear.   =91
-
 2ze.    =92
-
 3ze.    =93
-
 4ze.    =94
-
 2ius.   =95
-
 0fate.   =96
-
 0fite.   =97
-
 1fide.   =98
-
 0fur.    =99
-
 0furic.  =100
-
 1fonate. =101
-
 4id.     =102
-
 1ect.    =103
-
 2ect.    =104
-
 3que.    =105
-
 2al.     =106
-
 3k.      =107
-
 1eeze.   =108
-
 4st.     =109
-
