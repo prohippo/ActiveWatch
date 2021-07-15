@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file FullTextAnalysis.java : 06Aug99 CPM
+// AW file FullTextAnalysis.java : 14jul2021 CPM
 // analyze an entire text segment
 
 package object;
@@ -41,7 +41,7 @@ public class FullTextAnalysis extends TextAnalysis {
 	
 	) throws AWException {
 	
-		super(new SimpleList());
+		super();
 		
 	}
 	
@@ -53,16 +53,14 @@ public class FullTextAnalysis extends TextAnalysis {
 	
 		Token tok;
 		int     n; // list length
-		short[] g; // actual list
+		Short[] g; // actual list
 		
 		vb = new byte[Parameter.MXI+2];
-		SimpleList ls = characterizer.list();
 		
 		while ((tok = tokenizer.get()) != null) {
-			ls.clear();
 			characterizer.set(tok);
-			n = ls.length();
-			g = ls.array();
+			g = characterizer.list();
+			n = g.length;
 
 			for (int j = 0; j < n; j++)
 				vb[g[j]]++;
