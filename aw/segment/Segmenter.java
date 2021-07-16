@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Segmenter.java : 10jul2021 CPM
+// AW file Segmenter.java : 15jul2021 CPM
 // top-level class for text segmentation
 
 package aw.segment;
@@ -179,7 +179,6 @@ public class Segmenter {
 		System.out.println("updating batch " + control.cubn);
 
 		try {
-			control.noms[control.cubn] = k;
 			control.dump();
 			control.save();
 		} catch (IOException e) {
