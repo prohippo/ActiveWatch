@@ -58,9 +58,13 @@ Release History:
 
 v0.1    16jun2021  Initial upload of original AW Java source code.
 
-v0.2    10ju12021  Clean up and reorganize code for first AW module
+v0.2    10ju12021  Clean up and reorganize code for SEGMTR module
                    Add code to dump AW output files
                    Collect news data set for demonstration
 
-v0.3    13jul2021  clean up and debug code AW table building modules
-                   add unit testing
+v0.3    13jul2021  Clean up and debug code AW table building modules
+                   Add unit testing
+
+v0.4    16jul2021  Clean up and reorganize code for INDEXR module
+                   Add code to dump AW output files
+                   Update to expect UTF-8 text input, not ASCII
