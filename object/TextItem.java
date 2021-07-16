@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File TextItem.java : 03May00 CPM
+// AW File TextItem.java : 15jul2021 CPM
 // access to text files on a network
 
 package object;
@@ -31,22 +31,25 @@ import aw.*;
 import web.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 // low-level access to text file via URL
 		
 class Text implements Runnable {
 
-	public String it; // buffer for item text
+	public String hd; // for item header
+	public String it; // for item text
 	
+	public byte[] b;  // input buffer
+
 	private InputStream in; // for URL
-	private byte[] b; // input buffer
 	private int k;    // current number of bytes to read
 	private int l;    // current buffer offset for reading
 	private int n;    // current count of byte reads
 	
 	private static final int urlTimeLimit  = 60; // seconds
 	private static final int readTimeLimit = 90; // seconds
-	
+
 	// create empty text on error
 	
 	Text (
@@ -66,23 +69,27 @@ class Text implements Runnable {
 		// load entire item within specified time limits
 		
 		try {
+			System.out.println("os= " + ix.os);
 			TimedURL u = new TimedURL(su,urlTimeLimit);
 			in = u.openStream();
 			in.skip(ix.os);
-			ThreadTimer read = new ThreadTimer(this,readTimeLimit);
+			ThreadTimer reading = new ThreadTimer(this,readTimeLimit);
 			l = 0;
 			int m = ix.hs + ix.tl;
+			System.out.println("header + text= " + m + " bytes");
 			b = new byte[m];
 			for (k = m; k > 0; ) {
-				if (!read.run()) // sets n (see below)
+				if (!reading.run())
 					break;
 				k -= n;
 				l += n;
 			}
 			in.close();
-			if (l < m)
-				System.err.println(su + ": lost " + (m - l) + " bytes");
-			it = new String(b);
+
+			// bytes will be UTF-8 and must be converted 16-bit Unicode
+			hd = (ix.hs > 0) ? new String(Arrays.copyOfRange(b,0,ix.hs)) : "";
+			it = new String(Arrays.copyOfRange(b,ix.hs,m));
+			System.out.println("it= [" + it + "]");
 			in = null;
 			b  = null;
 		} catch (IOException e) {
@@ -161,10 +168,7 @@ public class TextItem {
 	public final String getFullText (
 	
 	) {
-		if (tx.it != null)
-			return tx.it;
-		else
-			return msg;
+		return tx.hd + tx.it;
 	}
 
 	// get header of text item
@@ -172,10 +176,7 @@ public class TextItem {
 	public final String getHeader (
 	
 	) {
-		if (tx.it != null)
-			return tx.it.substring(0,ix.hs);
-		else
-			return msg;
+		return tx.hd;
 	}
 	
 	// get body of text item
@@ -183,20 +184,7 @@ public class TextItem {
 	public final String getBody (
 	
 	) {
-		if (tx.it != null)
-			return tx.it.substring(ix.hs,ix.hs + ix.tl);
-		else {
-			byte[] b = new byte[ix.tl];
-			return new String(b);
-		}
-	}
-	
-	// get offset of body in item
-	
-	public int getBodyOffset (
-	
-	) {
-		return ix.hs;
+		return (tx.it != null) ? tx.it : "";
 	}
 	
 	// extract line
@@ -221,10 +209,15 @@ public class TextItem {
 	public final String getSubject (
 	
 	) {
-		if (tx.it == null)
+		int ns = ix.sj - ix.os;
+		int i = ns;
+		for (; i < tx.b.length; i++)
+			if (tx.b[i] == 10)
+				break;
+		if (i == tx.b.length)
 			return msg;
 		else
-			return getLine(tx.it.substring(ix.sj));
+			return new String(Arrays.copyOfRange(tx.b,ns,i));
 	}
 	
 	// get source file
