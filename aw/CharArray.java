@@ -257,7 +257,7 @@ public class CharArray implements SortableObject {
 		return (n == a.limit - a.offset) ? 0 : -1;
 	}
 
-	// convert to ASCII only
+	// convert to ASCII upper case only
 
 	public final void remap (
 	) {
