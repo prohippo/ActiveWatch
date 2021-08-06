@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File TextItem.java : 15jul2021 CPM
+// AW File TextItem.java : 23jul2021 CPM
 // access to text files on a network
 
 package object;
@@ -40,15 +40,15 @@ class Text implements Runnable {
 	public String hd; // for item header
 	public String it; // for item text
 	
-	public byte[] b;  // input buffer
+	public byte[] b;  // input buffer of UTF-8 bytes
 
 	private InputStream in; // for URL
 	private int k;    // current number of bytes to read
 	private int l;    // current buffer offset for reading
 	private int n;    // current count of byte reads
 	
-	private static final int urlTimeLimit  = 60; // seconds
-	private static final int readTimeLimit = 90; // seconds
+	private static final int urlTimeLimit  = 10; // seconds
+	private static final int readTimeLimit = 20; // seconds
 
 	// create empty text on error
 	
@@ -69,14 +69,17 @@ class Text implements Runnable {
 		// load entire item within specified time limits
 		
 		try {
-			System.out.println("os= " + ix.os);
+			//// System.out.println("os= " + ix.os);
+
 			TimedURL u = new TimedURL(su,urlTimeLimit);
 			in = u.openStream();
 			in.skip(ix.os);
 			ThreadTimer reading = new ThreadTimer(this,readTimeLimit);
 			l = 0;
 			int m = ix.hs + ix.tl;
-			System.out.println("header + text= " + m + " bytes");
+
+			//// System.out.println("header + text= " + m + " bytes");
+
 			b = new byte[m];
 			for (k = m; k > 0; ) {
 				if (!reading.run())
@@ -87,9 +90,12 @@ class Text implements Runnable {
 			in.close();
 
 			// bytes will be UTF-8 and must be converted 16-bit Unicode
+
 			hd = (ix.hs > 0) ? new String(Arrays.copyOfRange(b,0,ix.hs)) : "";
 			it = new String(Arrays.copyOfRange(b,ix.hs,m));
-			System.out.println("it= [" + it + "]");
+
+			//// System.out.println("it= [" + it + "]");
+
 			in = null;
 			b  = null;
 		} catch (IOException e) {
@@ -136,7 +142,9 @@ public class TextItem {
 	private static int ids = -1; // saved source index number
 	
 	private static final String msg = "** NO ITEM **";
-
+	private static final byte NL = 10; // UTF-8 new line
+	private static final byte CR = 13; // UTF-8 carriage return
+ 
 	// get specified item
 		
 	public TextItem (
@@ -212,7 +220,7 @@ public class TextItem {
 		int ns = ix.sj - ix.os;
 		int i = ns;
 		for (; i < tx.b.length; i++)
-			if (tx.b[i] == 10)
+			if (tx.b[i] == NL || tx.b[i] == CR)
 				break;
 		if (i == tx.b.length)
 			return msg;

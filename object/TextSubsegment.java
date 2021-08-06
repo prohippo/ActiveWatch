@@ -22,25 +22,25 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File TextSubsegment.java : 16Apr99 CPM
-// access to text files
+// AW File TextSubsegment.java : 04aug2021 CPM
+// access subsegments in text files
 
 package object;
 
 import aw.*;
 import java.io.*;
 
-// user-level access to source text subsegments by number
+// get source text subsegments by number
 
 public class TextSubsegment {
 
-	private static Subsegment ss; // for access to subsegment text
-	private static TextItem   it; // text of item containing subsegment
-	private static String     tx; // text of item containing subsegment
+	public  static Subsegment ss; // for access to subsegment text
+	private static TextItem   it; // item containing subsegment
+	private static String     tx; // text of subsegment
 	 
-	private static int bns = -1;  // saved batch number
-	private static int sns = -1;  // saved source index number
-	private static int ins = -1;  // saved source index number
+	private static int bns = -1;  // saved batch   number
+	private static int ins = -1;  // saved item    number
+	private static int sns = -1;  // saved segment number
 
 	// get specified subsegment record
 		
@@ -55,8 +55,8 @@ public class TextSubsegment {
 
 			if (bns != bn || sns != sn) {
 				ss = new Subsegment(bn,sn);
-				if (bns != bn || ins != ss.it) {
-					it = new TextItem(bn,ss.it);
+				if (bns != bn || ins != ss.it) {     // in case this segment is NOT
+					it = new TextItem(bn,ss.it); // in same item as last segment
 					tx = it.getBody();
 				}
 				bns = bn;
@@ -76,7 +76,7 @@ public class TextSubsegment {
 	public String getText (
 	
 	) throws AWException {
-		int tln = tx.length() - ss.so; // available text
+		int tln = tx.length() - ss.so; // available text in chars
 		
 		if (ss.ln > tln) {
 			System.err.print("@" + bns + "::" + sns + ". ");
