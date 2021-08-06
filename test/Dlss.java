@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dlss.java : 12Aug98 CPM
-// dump lists
+// Dlss.java : 17jul2021 CPM
+// dump AW profile match lists with selection of information
 
 package test;
 
@@ -32,18 +32,26 @@ import object.*;
 import java.io.*;
 
 public class Dlss {
+
+	static private int N = 10;
 	
 	static public void main ( String[] a ) {
-		Map m = new Map();
-		ProfileList ls;
-		Attribute   at;
+		Map m = new Map();  // map of current profiles
+		ProfileList ls;     // profile records
+		Attribute   at;     // associated profile attributes
 		
-		double  th = (a.length > 0) ? Float.valueOf(a[0]).floatValue() : 0;
-		boolean sh = (a.length > 1);
-		
+		char   mod = (a.length > 0) ? Character.toUpperCase(a[0].charAt(0)) : 'N';
+		double thr = (a.length > 1) ? Float.valueOf(a[1]).floatValue() : 3.0;
+
+		// A = full dump
+		// K = keys only
+		// N = no full text
+		// S = short listing of items
+
 		ItemTally tally = new ItemTally();
 		int total = 0;
-		System.out.println("dumping cluster lists");
+
+		System.out.println("dumping profile match lists");
 		for (int i = 1; i <= Map.MXSP; i++) {
 			if (!m.defined(i))
 				continue;
@@ -51,16 +59,18 @@ public class Dlss {
 				ls = new ProfileList(i);
 				at = new Attribute(i);
 				int n = ls.getCount();
-				System.out.println("** cluster " + i + ": " + n + " items");
-				if (!sh)
-					System.out.println(new LinedString(new String(at.kys,0),64));
+				System.out.println("** profile " + i + ": " + n + " items");
+				System.out.println(new LinedString(new String(at.kys),64));
+
+				if (mod == 'K') continue;
+
 				Item[] it = ls.getList();
+				if (mod == 'S' && n > N)
+					n = N;
 				for (int j = 0; j < n; j++) {
 					double ss = it[j].score();
-					if (ss < th)
-						continue;
-					if (!sh)
-						print(j+1,it[j].bn,it[j].xn,ss);
+					if (ss < thr) continue;
+					print(j+1,it[j].bn,it[j].xn,ss,(mod == 'A'));
 					tally.mark(it[j]);
 					total++;
 				}
@@ -75,7 +85,7 @@ public class Dlss {
 		double r = (100.*total)/un;
 		System.out.println(un + " unique items listed");
 		System.out.println("redundancy = " + Format.it(r-100,5,1) + " percent");
-		if (sh || th > 0)
+		if (mod != 'A' || thr > 0)
 			return;
 		
 		System.out.println();
@@ -101,7 +111,7 @@ public class Dlss {
 					return;
 				}
 				if (ss.sn == 1)
-					print(k++,bn,sn+n,0);
+					print(k++,bn,sn+n,0,(mod == 'A'));
 			}
 		}
 	}
@@ -110,22 +120,27 @@ public class Dlss {
 		int  k,
 		int bn,
 		int xn,
-		double score
+		double score,
+		boolean showText
 	) {
 		System.out.print(Format.it(k,3) + ") ");
 		Subsegment ss;
 		try {
 			ss = new Subsegment(bn,xn);
 		} catch (IOException e) {
-			System.err.println("cannot get subsegment: " + e);
-				return;
+			System.err.println("cannot get subsegments: " + e);
+			return;
 		}
-		TextItem ti = new TextItem(bn,ss.it);
-		String hdr = ti.getFullText();
-		System.out.print(Format.it(TextItem.getLine(hdr),40));
 		System.out.print("| " + bn + ":" + ss.it);
 		System.out.print(" = " + Format.it(score,6,2));
 		System.out.println("  (::" + xn + " =" + ss.sn + ")");
+		if (showText) {
+			TextItem ti = new TextItem(bn,ss.it);
+			String t = ti.getFullText();
+			System.out.println("---- ---- ---- ----");
+			System.out.println(Format.it(TextItem.getLine(t),40));
+			System.out.println("==== ==== ==== ====");
+		}
 	}
 	
 }
