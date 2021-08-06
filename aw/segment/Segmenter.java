@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Segmenter.java : 15jul2021 CPM
+// AW file Segmenter.java : 19jul2021 CPM
 // top-level class for text segmentation
 
 package aw.segment;
@@ -43,7 +43,7 @@ public class Segmenter {
 	
 	private int upper = 2500;    // subsegmentation limits
 	private int lower = 1000;    //
-	
+
 	private InputStream text;    // source text file
 	public  Automaton automaton; // to guide segmentation
 	private Inputs stream;       // source text with special buffering
@@ -55,11 +55,19 @@ public class Segmenter {
 	private Control control; // for current batch and counts
 
 	// initialize input and finite-state automaton for it
+
+	 public Segmenter (
+                BufferedReader delimiter   // pattern file
+        ) throws AWException {
+		this(delimiter,0);
+	}
 		
 	public Segmenter (
-		BufferedReader delimiter  // pattern file
+		BufferedReader delimiter,  // pattern file
+		int level                  // for diagmostic output
 	) throws AWException {
 		automaton = new Automaton(delimiter);
+		automaton.setLevel(level);
 		control = new Control();
 	}
 	

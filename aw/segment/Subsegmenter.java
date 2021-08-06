@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Subsegmenter.java : 05Mar99 CPM
-// for subsegmentation of text items for analysis
+// AW File Subsegmenter.java : 04aug2021 CPM
+// for subsegmentation of long text items for analysis
 
 package aw.segment;
 
@@ -35,11 +35,11 @@ public class Subsegmenter {
 	static final int M  =  80; // nominal line length
 	static final int Nsx= 255; // maximum division count for entire item
 	
-	Subsegment[] sx;  // array of divisions
-	int      sxp,sxl; // indices into array
+	Subsegment[] sx;   // array of divisions
+	int      sxp,sxl;  // indices into array
 
 	public Subsegmenter (
-		Lines  lx, // line index
+		Lines  lx, // line index for text to divide up
 		int upper, // upper limit on subsegment length
 		int lower  // lower limit
 	) throws AWException {
@@ -48,21 +48,21 @@ public class Subsegmenter {
 		int mxn;
 		int mln,mpl; // shortest line
 
-		int nl = lx.countAll();
+		int nl = lx.countAll();        // total line count in subsegment
 		if (nl == 0)
 			return;
+		int[] larry = lx.getCharX(0);  // full line index for subsegment
 
 		start();
 		sxp = sxl = 0;
-		int bs = lx.lnx[lx.bln];
 		
 		int n = 0;
-		for (bl = lx.bln; bl < nl; n++) {
+		for (bl = 0; bl < nl; n++) {
 
-			// get next chunk of text to limit
+			// get next chunk of text up to limit
 
 			for (ll = bl + 1; ll <= nl; ll++)
-				if (lx.lnx[ll] - lx.lnx[bl] > upper)
+				if (larry[ll] - larry[bl] > upper)
 					break;
 
 			if (ll > nl)
@@ -74,12 +74,13 @@ public class Subsegmenter {
 			else {
 
 				// otherwise, break at shortest line preceding
+				// without taking too little text 
 				
 				mln = M; mpl = -1;
 				for (pl = ll; --pl > bl;) {
-					if (lx.lnx[pl] - lx.lnx[bl] < lower)
+					if (larry[pl] - larry[bl] < lower)
 						break;
-					int ln = lx.lnx[pl] - lx.lnx[pl-1];
+					int ln = larry[pl] - larry[pl-1];
 					if (mln > ln) {
 						mln = ln; mpl = pl;
 					}
@@ -93,9 +94,12 @@ public class Subsegmenter {
 				throw new aw.AWException("subsegment overflow");
 
 			// fill next subsegment record
-			
-			sx[n].so = (short)(lx.lnx[bl] - bs);
-			sx[n].ln = (short)(lx.lnx[ll] - lx.lnx[bl]);
+
+			sx[n].so = larry[bl];  // offset in chars, not bytes!!
+
+			int k = larry[ll] - larry[bl];
+			sx[n].ln = (short) k;  // length in chars!!
+
 			bl = ll;
 			
 		}

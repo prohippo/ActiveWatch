@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File SegmenterMain.java : 30Jun2021 CPM
+// AW File SegmenterMain.java : 27jul2021 CPM
 // class for text segmenting application
 
 package aw.segment;
@@ -57,8 +57,7 @@ public class SegmenterMain {
 			int n = 0;
 			try {
 				BufferedReader r = new BufferedReader(new FileReader(delims));
-				x = new Segmenter(r);
-				x.automaton.setTrack(true);
+				x = new Segmenter(r,0);
 				r.close();
 			
 				for (int i = 0; i < items.length; i++) {
