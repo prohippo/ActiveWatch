@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Subsegment.java : 17Apr99 CPM
+// AW file Subsegment.java : 06aug2021 CPM
 // subsegment record of text item
 
 package aw;
@@ -31,8 +31,8 @@ import java.io.*;
 
 public class Subsegment extends BatchFile {
 
-	public  static final String root = "segmn"; // for file names
-	public  static final int    size = 10;      // of source record
+	public  static final String root = "segmn"; // for file names of AW records
+	public  static final int    size = 12;      // record size in bytes
 	
 	private static RandomAccessFile ios = null;
 	
@@ -48,8 +48,8 @@ public class Subsegment extends BatchFile {
 	
 	public int   it; // item number
 	public short sn; // subsegment number in item
-	public short so; // subsegment offset in item
-	public short ln; // subsegment length
+	public int   so; // char offset for subsegment in item
+	public short ln; // char length
 
 	// read record from file
 	
@@ -72,7 +72,7 @@ public class Subsegment extends BatchFile {
 		if (si >= 0) {
 			sis = si;
 			load(ios);
-			save = this;
+			save = this;  // remember last subsegment
 		}
 	}
 	
@@ -88,10 +88,10 @@ public class Subsegment extends BatchFile {
 	public void load (
 		DataInput in
 	) throws IOException {
-		it = in.readInt();
-		sn = in.readShort();
-		so = in.readShort();
-		ln = in.readShort();
+		it = in.readInt();   // 12 bytes in record
+		sn = in.readShort(); //
+		so = in.readInt();   //
+		ln = in.readShort(); //
 	}
 	
 	// save record to file
@@ -111,7 +111,7 @@ public class Subsegment extends BatchFile {
 	) throws IOException {
 		out.writeInt(it);
 		out.writeShort(sn);
-		out.writeShort(so);
+		out.writeInt(so);
 		out.writeShort(ln);
 	}
 	
