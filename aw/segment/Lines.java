@@ -22,125 +22,128 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Lines.java : 03Jul2021 CPM
-// line indexing class for text
+// AW File Lines.java : 04aug2021 CPM
+// line indexing for text segmentation and display
 
 package aw.segment;
 
 import aw.CharArray;
+import java.io.*;
 
 public class Lines {
 
-	static final char LF = '\n';
-	static final int  M  = 4000; // maximum line count
+	private static final char LF = '\n';
+	private static final int  M  = 4000; // maximum line count
 
-	int   bas; // last text position
-	int   bln; // beginning of lines
-	int   nln; // current line count
-	int[] lnx; // relative line offsets
-	
-	Inputs in; // specially buffered text source for reference only
+	private static final String PUNCb = ".,;:!?-";
+
+	private String ss;  // text being lined
+
+	private int   ncs;  // current char count
+	private int   nln;  // current line count
+	private int[] lnx;  // relative char offsets to lines 
+
+	private Inputs in;  // buffered text stream source
 
 	// constructor with default line count
-	
+
 	public Lines (
 		Inputs stream // text source
 	) {
 		this(stream,M);
 	}
-	
-	// constructor
-	
+
+	// constructor for line indexing
+
 	public Lines (
 		Inputs stream, // text source
 		int    n       // maximum line count
 	) {
 		lnx = new int[n+1];
-		in = stream;
+		nln = 1;
+		ncs = 0;
+		in  = stream;
 	}
 
 	// add a chunk of buffered text for line indexing
-	
-	private static CharArray ss = new CharArray();
-		
+
 	public int record (
-		CharArray s, // text to add for indexing
-		int      lm  // line length for wrapping
+		CharArray s,  // text to add for indexing
+		int      lm   // line length for wrapping
 	) {
 		if (s == null)
 			return 0;
-		ss.assign(s);
-
-		// get current position in input with no side effects
-		
-		if (nln == 0)
-			bas = in.position(-1);
-			
-		// trim any trailing linefeed
-		
+		ss = s.toString();
 		int ll = ss.length();
-		if (ll > 0 && ss.charAt(ll-1) == LF)
-			--ll;
+		ncs += ll;
+//		System.out.println("nln= " + nln);
+//		System.out.println(ll + " [" + ss + "]");
 
-		// how many characters actually covered by line
-		
-		int no = in.nextPosition() - bas;
+		int bs = 0;   // at start of text to line
+
+		lnx[0] = 0;
 
 		int k,n;
 		for (k = 0; ll > 0; k++) {
 
-			// avoid index array overflow
-			
+			// check for index array overflow
+
 			if (nln == lnx.length - 1)
 				return k;
-	
-			// text too long for one line?
 
-			if (ll <= lm)
+			// text too long for one display line?
 
-				// if not, take rest of text as one line
-				
-				break;
+//			System.out.println("k= " + k + ", ll= " + ll + ", lm= " + lm);
 
+			if (ll <= lm) {
+//				System.out.println("take rest of text");
+				n = ll;
+			}
 			else {
 
 				// otherwise, break off a line at a reasonable place
-				
-				for (n = lm; n > 0; --n)
-					if (Character.isWhitespace(ss.charAt(n)))
-						break;
 
-				if (n > 0)
-					n++;
-				else
-					for (n = lm; n > 0; --n)
-						if (!Character.isLetterOrDigit(ss.charAt(n)))
-							break;
-				
+				int nbs;
+
+				for (nbs = bs + lm; nbs > bs; --nbs) {
+					if (Character.isWhitespace(ss.charAt(nbs))) {
+						nbs++;
+						break;
+					}
+					else if (!Character.isLetterOrDigit(ss.charAt(nbs))) {
+						if (PUNCb.indexOf(ss.charAt(nbs)) >= 0) nbs++;
+						break;
+					}
+				}
+
 				// if no reasonable place, break arbitrarily
-				
-				if (n == 0)
-					n = lm;
+
+				n = (nbs == bs) ? lm : nbs - bs;
 			}
+
+			// any room left in index?
+
+			if (nln == lnx.length)
+				break;
 
 			// record relative offset for the next line
 
-			int o = lnx[nln] + n;
-			lnx[++nln] = o;
+//			System.out.println("nln= " + nln + ", bs= " + bs + ", ll= " + ll + ", n= " + n);
+
+			bs += n;
 			ll -= n;
-			ss.skip(n);
+			if (nln < lnx.length) {
+				lnx[nln] = lnx[nln-1] + n;
+				nln++;
+			}
+//			System.out.println("ll= " + ll + ", bs= " + bs);
 		}
-		
-		if (nln < lnx.length - 1) {
-			lnx[++nln] = no; // offset to end of current line
-			k++;
-		}
-		
+
 		return k; // number of lines added to index
 	}
-	
+
 	// reset a line index to reflect a text segment
-	
+
 	public boolean register (
 		int start, // where to set new segment
 		int ln     // segment length
@@ -149,10 +152,7 @@ public class Lines {
 
 		// check for valid segment within line index
 
-		if (start < bas)
-			return false;
-			
-		int o = start - bas;
+		int o = start;
 
 		// mark start of text segment in line index
 
@@ -162,7 +162,6 @@ public class Lines {
 		if (--i < 0)
 			return false;
 		lnx[i] = o;
-		bln = i;
 
 		// mark end of text segment in line index
 
@@ -178,45 +177,65 @@ public class Lines {
 	}
 
 	// zero out line index
-	
+
 	public final void reset (
 	) {
-		bln = nln = lnx[0] = 0;
+		lnx[0] = 0;
+		nln = 1;
+		ncs = 0;
 	}
 
-	// get a copy of line index for text body only
-	
-	public final int[] get (
-	
+	// get a copy of the filled out part of line index array in chars
+
+	public final int[] getCharX (
+		int nsk
 	) {
-		int m = nln - bln + 1;
-		int[] nlnx = new int[m];
-		System.arraycopy(lnx,bln,nlnx,0,m);
+		if (nsk >= nln)
+			return new int[0];
+		int[] nlnx = new int[nln-nsk+1];
+		System.arraycopy(lnx,nsk,nlnx,0,nlnx.length);
 		return nlnx;
 	}
 
 	// total number of lines
-	
-	public final int countAll ( ) { return nln; }
 
-	// number of text lines
-	
-	public final int countText ( ) { return nln - bln; }
+	public final int countAll ( ) { return nln - 1; }
 
-	// shift line index forward to define a new starting line
-	
-	public final int advance (
-		int no // where to put the new starting line
-	) {
-		int k;
+	// total number of chars
 
-		for (k = 0; bln < nln && lnx[bln] < no; k++)
-			bln++;
+	public final int textLength ( ) { return ncs; }
 
-		for (int i = bln, n = lnx[bln]; i <= nln; i++)
-			lnx[i] -= n;
+	// actual text being lined
 
-		return k;
-	}
+	public final String textString ( ) { return ss; }
+
+	public static void main ( String[] as ) {
+		String file = (as.length > 0)? as[0] : "text";
+		CharArray data;
+		try {
+			FileInputStream in = new FileInputStream(file);
+			Inputs stream = new Inputs(in);
+			Lines lx = new Lines(stream);
+			int nra = 0;
+
+			while ((data = stream.input()) != null) {
+				int nr = lx.record(data,100);
+				System.out.println(nr + " line(s) added, with " + nra + " already");
+				int[] ax = lx.getCharX(nra);
+				System.out.println("index length= " + ax.length + ", skip " + nr);
+				System.out.println("@" + lx.countAll() + ", " + lx.textLength() + " chars");
+				for (int i = 0; i < ax.length; i++)
+					System.out.println("  " + (nra+i) + ": " + ax[i]);
+				System.out.println("= [" + data.toString() + "]");
+				nra += nr;
+			}
+			System.out.println("----");
+			int[] x = lx.getCharX(0);
+			for (int i = 0; i < x.length; i++)
+				System.out.println(x[i]);
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	} 
 
 }
