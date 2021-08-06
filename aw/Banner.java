@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Banner.java : 30Jun2021 CPM
+// AW File Banner.java : 29jul2021 CPM
 // main module banner class
 
 package aw;
@@ -30,7 +30,7 @@ package aw;
 import java.io.*;
 
 public final class Banner {
-	static final String version = "5.1 Java";
+	static final String version = "v0.5 (2021) Java";
 	static final String year = "1997-2002, 2021";
 	
 	String id;
@@ -43,8 +43,10 @@ public final class Banner {
 	
 	public final void show (
 	) {
+		System.out.println();
 		System.out.println("Active Watch release " + version + " - " + id);
 		System.out.println("Copyright " + year + ", CPM");
 		System.out.println();
 	}
+
 }
