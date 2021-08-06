@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Automaton.java : 04Jul2021 CPM
+// AW File Automaton.java : 29Jul2021 CPM
 // a finite-state automaton for text segmentation
 
 package aw.segment;
@@ -180,14 +180,14 @@ public class Automaton {
 	public int[] arcs = new int[Arc.NOS+1]; // arc index for states
 	public Arc[] arc  = new Arc[NOA];       // arc listing
 	
-	public int  narcs;  // current arc count
-	public int  where;  // save offset for backup
-	public byte state;  // automaton state
-	public short skip;  // offset of actual match in text data input
+	public int  narcs;   // current arc count
+	public int  where;   // save offset for backup
+	public byte state;   // automaton state
+	public short skip;   // offset of actual match in text data input
 	
-	private boolean track=false; // for tracing execution
+	private int level=0; // for tracking execution
 	
-	public final void setTrack ( boolean sense ) { track = sense; }
+	public final void setLevel ( int lvl ) { level = lvl; }
 	
 	public Automaton (
 		BufferedReader in
@@ -214,7 +214,7 @@ public class Automaton {
 
 				// parse arc specification
 				
-				if (track)
+				if (level > 1)
 					System.out.println("arc= " + buffer);
 				Arc a = new Arc(buffer);
 
@@ -281,7 +281,7 @@ public class Automaton {
 	// get next delimited item from input stream
 		
 	public int apply (
-		int    in,     // item ID number
+		int    idn,    // item ID number
 		Inputs stream, // buffered text stream
 		Lines  starts, // line index for item
 		Index  ix      // index record to fill for item
@@ -298,8 +298,7 @@ public class Automaton {
 		starts.reset();
 		event = Event.NIL;
 
-		if (track)
-			System.out.println("tracking automaton @" + in);
+		System.out.println("automaton: item " + idn);
 
 	 	for (;;) {
 
@@ -308,7 +307,7 @@ public class Automaton {
 			if (textline == null) {
 				textline = stream.input();
 				if (textline == null) {
-					if (track)
+					if (level > 0)
 						System.out.println("end of text input");
 					break;
 				}
@@ -318,8 +317,8 @@ public class Automaton {
 
 			// find next delimiter line
 
-			if (track)
-				System.out.println("line: [" + textline.getSubstring(0,15) + "]");
+			if (level > 2)
+				System.out.println("line: [" + textline.getSubstring(0,24) + "]");
 			
 			skip = 0;
 
@@ -328,13 +327,13 @@ public class Automaton {
 			if (m < 0) {
 				if (event == Event.SOT)
 					starts.record(textline,L);
-				if (track)
+				if (level > 2)
 					System.out.println("    skipped it");
 				textline = null;
 				continue;
 			}
 
-			if (track)
+			if (level > 2)
 				System.out.println("matched arc= " + m);
 
 			arcm = arc[m];
@@ -342,13 +341,13 @@ public class Automaton {
 			if (actn < 0)
 				throw new AWException("forced fatal error");
 
-			if (track)
+			if (level > 2)
 				System.out.println("event " + arcm.type);
 
 			switch (arcm.type) {
 
 case Event.NIL:			// no event
-				if (track)
+				if (level > 2)
 					System.out.println("NIL event");
 				break;
 
@@ -357,8 +356,8 @@ case Event.SOH:			// start of header
 
 				ix.os = stream.position(1) + skip;
 				ix.hs = ix.sj = ix.tl = 0;
-				if (track)
-					System.out.println(in + " @" + ix.os);
+				if (level > 2)
+					System.out.println(idn + " @" + ix.os);
 				break;
 
 case Event.SBJ:			// subject line
@@ -379,11 +378,10 @@ case Event.SOT:			// start of text to index
 				if (sl <= H)
 					ix.hs = (short)sl;
 				else {
-					System.err.println("header overflow for segment " + in + " (" + sl + " chars)");
+					System.err.println("header overflow for segment " + idn + " (" + sl + " chars)");
 					ix.hs = (short)H;
 				}
-				if (track)
-					System.out.println("      header size= " + ix.hs);
+				System.out.println("      header size= " + ix.hs);
 
 				starts.record(textline,L);
 				break;
@@ -395,11 +393,10 @@ case Event.EOT:			// end   of text to index
 				if (sl <= H)
 					ix.tl = (short)sl;
 				else {
-					System.err.println("text overflow for segment " + in + " (" + sl + " chars)");
+					System.err.println("text overflow for segment " + idn + " (" + sl + " chars)");
 					ix.tl = (short)H;
 				}
-				if (track)
-					System.out.println("      text length= " + ix.tl);
+				System.out.println("      text length= " + ix.tl);
 				ix.se++;
 				break;
 
@@ -407,7 +404,7 @@ case Event.EOM:			// end of item
 				event = Event.EOM;
 
 				ix.se = 0;
-				if (track)
+				if (level > 1)
 					System.out.println("      end of item");
 
 			}
@@ -421,7 +418,7 @@ case Event.EOM:			// end of item
 		}
 
 		int counting = starts.countAll();
-		if (track)
+		if (level > 0)
 			System.out.println(counting + " lines");
 		if (counting > 0 && !starts.register(ix.os + ix.hs,ix.tl))
 			throw new AWException("inconsistent line boundaries");
