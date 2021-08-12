@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SequencerMain.java : 09Oct97 CPM
-// create run sequence file
+// AW file SequencerMain.java : 10aug2021 CPM
+// create run sequence file for clustering
 
 package aw.sequence;
 
@@ -43,13 +43,13 @@ public class SequencerMain extends Sequencer {
 		
 		Banner banner = new Banner("Sequencer");
 		banner.show();
-			
+
 		try {
 			x = new SequencerMain();
 			if (av.length == 0)
 				x.run();
 			else
-				x.run(av[0]);
+				x.run(Integer.parseInt(av[0]),0);
 			System.out.print(x.sq.nmssg + " subsegments in ");
 			System.out.print(x.sq.nmrun + " run");
 			if (x.sq.nmrun != 1)

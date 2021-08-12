@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Run.java : 21Oct97 CPM
+// AW file Run.java : 11aug2021 CPM
 // create run sequence file
 
 package aw;
@@ -39,13 +39,13 @@ public class Run {
 	public int   rln; // number of vector bytes
 
 	// create an empty run
-	
+
 	public Run (
 	) {
 	}
-	
+
 	// create run record from subsegment sequence
-	
+
 	public Run (
 		int bns,
 		int sss,
@@ -54,19 +54,21 @@ public class Run {
 		try {
 			Offset oo = new Offset(bns,sss);
 			Offset on = new Offset(bns,ess);
-		
+
 			bbn = (short) bns;
 			ssn = (short) sss;
 			nss = (short) (ess - sss);
 			rfo = oo.offset;
 			rln = on.offset - oo.offset;
 		} catch (IOException e) {
-			throw new AWException("no offsets");
+			System.err.println(e);
+			String x = "bns=" + bns + ", sss=" + sss + ", ess=" + ess;
+			throw new AWException("no offsets - " + x);
 		}
 	}
 
 	// load run record sequentially from a file
-		
+
 	public Run (
 		RandomAccessFile io
 	) throws IOException {
@@ -74,7 +76,7 @@ public class Run {
 	}
 
 	// run record input
-		
+
 	public void load (
 		RandomAccessFile in
 	) throws IOException {
@@ -86,7 +88,7 @@ public class Run {
 	}
 
 	// run record output
-		
+
 	public void save (
 		RandomAccessFile out
 	) throws IOException {
@@ -96,6 +98,5 @@ public class Run {
 		out.writeInt(rfo);
 		out.writeInt(rln);
 	}
-	
-}
 
+}

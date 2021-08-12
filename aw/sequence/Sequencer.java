@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Sequencer.java : 16May00 CPM
-// create run sequence file
+// AW file Sequencer.java : 10aug2021 CPM
+// create run sequence file for clustering
 
 package aw.sequence;
 
@@ -33,104 +33,102 @@ import java.io.*;
 public class Sequencer {
 
 	private static final int M = 8192; // default maximum to cluster in a batch
-	
+
 	public Sequence sq = new Sequence(1);
-	
+
 	Control co = new Control();
 
 	// initialization
-		
+
 	public Sequencer (
-	
+
 	) throws AWException {
-	
+
 		if (co.nobs == 0)
 			throw new AWException("no batches found");
-			
+
 	}
 
-	// set up a sequence file with a specified maximum item count
-		
+	// set up a sequence file for a range of subsegment numbers
+
 	public void run (
-		int maximum
+		int count,  // how many subsegments in batch to include
+		int skip    // which subseqments to skip
 	) throws AWException {
-	
-		System.out.println("encoding up to " + maximum + " in last batch processed");
 
-		// get number of the batch to put into a sequence
-		
+		int limit = count + skip;
+
+		System.out.println("take up to " + limit + " subsegments in last batch processed");
+
+		// get number of the batch for subsegments
+
 		int bn = co.last();
-		
+
 		// get limit on subsegment numbers in batch
-		
+
 		int no = co.getBatchCount(bn);
-		int in = no - 1;
 
-		Index ix = access(bn,in);
-		int end = ix.sx + ix.ns;
+		Index ix = access(bn,no-1); // last item in batch
+		int last = ix.sx + ix.ns;   // last subsegment number in batch
 
-		// enforce maximum for clustering
-		
-		int start = 0;
-		
-		if (no > maximum) {
-			ix = access(bn,no - maximum);
-			start = ix.sx;
-		}
+		// get range of subsegments for sequence
+
+		int start = skip;
+		int end   = (no > limit) ? limit : last;
 
 		ix.close();
-		
+
 		// get range of subsegments to include
-				
+
 		sq.addRun(bn,start,end);
 
 		// write out sequence
-				
+
 		sq.save("sequence");
-		
+
 	}
-	
+
 	// set a sequence to an entire batch up to the default maximum
-	
+
 	public void run (
-	
+
 	) throws AWException {
-		run(M);
+		run(M,0);
 	} 
 
 	// set a specified sequence
-	
+
 	public void run (
 		String r
 	) throws AWException {
-	
+
 		int n = r.indexOf('-');
-		
+
 		if (n < 0) {
-		
+
 			// single-vector run
-			
+
 			Item ita = Reference.to(r);
 			int  nsg = Reference.count();
 			sq.addRun(ita.bn,ita.xn,ita.xn + nsg);
-			
+
 		}
 		else {
-		
+
 			// run included between two references
-			
+
 			Item ita = Reference.to(r.substring(0,n));
 			Item itb = Reference.to(r.substring(n+1));
 			if (ita.bn != itb.bn)
 				throw new AWException("run must be in one batch");
-				
+
 			Subsegment  ss;
 			Index       ix;
 			int start,stop;
 			try {
-			
+
 				// get full run with all associated subsegments
-				
+
 				ss = new Subsegment(ita.bn,ita.xn);
 				ix = new Index(ita.bn,ss.it);
 				start = ix.sx;
@@ -142,19 +140,19 @@ public class Sequencer {
 			} catch (IOException e) {
 				throw new AWException("I/O error: ",e);
 			}
-			
+
 			sq.addRun(ita.bn,start,stop);
-			
+
 		}
-		
+
 		// write out sequence
-				
+
 		sq.save("sequence");
-		
+
 	}
-	
+
 	// get index record for specified item
-	
+
 	private Index access (
 		int bn,
 		int in
@@ -166,5 +164,5 @@ public class Sequencer {
 			throw new AWException("cannot read index");
 		}
 	}
-	
+
 }
