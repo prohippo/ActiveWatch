@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// OffsetBase.java : 17Apr99 CPM
+// OffsetBase.java : 11aug2021 CPM
 // generic offset to variable-length batch object
 
 package aw;
@@ -32,11 +32,11 @@ import java.io.*;
 public abstract class OffsetBase extends BatchFile {
 
 	public static final int size = 4; // of offset record
-	
+
 	public int offset; // current file offset value
 
 	// new offset record
-	
+
 	public OffsetBase (
 		int o  // offset in file
 	) {
@@ -44,7 +44,7 @@ public abstract class OffsetBase extends BatchFile {
 	}
 
 	// read offset from file
-		
+
 	public OffsetBase (
 		int bn, // batch number
 		int in  // item  number
@@ -63,25 +63,25 @@ public abstract class OffsetBase extends BatchFile {
 			load();
 		}
 	}
-	
+
 	// write field of record
-	
+
 	public void save (
 		DataOutput out
 	) throws IOException {
 		out.write(offset);
 	}
-	
+
 	// accessors
-	
+
 	protected final int sizeF ( ) { return size; }
-	
+
 	// still need to define these methods
-	
+
 	protected abstract int  insF ( );
 	protected abstract void insF ( int n );
 	protected abstract void bnsF ( int b );
 	protected abstract int offsetsF ( );
 	public abstract int load ( ) throws IOException;
-	
+
 }

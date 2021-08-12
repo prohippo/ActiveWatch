@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Offset.java : 17Apr99 CPM
+// AW file Offset.java : 12aug2021 CPM
 // vector file offset record class
 
 package aw;
@@ -32,47 +32,47 @@ import java.io.*;
 public class Offset extends OffsetBase {
 
 	public  static final String root = "offset"; // for file name
-	
+
 	private static RandomAccessFile ios = null;
-	
+
 	private static int bns = unDEFINED; // saved batch number
 	private static int ins = unDEFINED; // saved item index in batch
-	
+
 	private static       int offsets;   // saved offset
 	private static final int zero = 0;  // for first offset
-	
+
 	// create new record
-	
+
 	public Offset ( int o ) {
 		super(o);
 	}
-	
+
 	// load record from file
-	
+
 	public Offset ( int b, int n ) throws IOException {
 		super(b,n);
 	}
-		
+
 	// close file
-	
+
 	public static void close ( ) {
 		closeIt(ios);
 		ios = null;
 	}
 
 	// get next offset from file
-	
+
 	public int load (
-	
+
 	) throws IOException {
 		offset = ios.readInt();
 		offsets = offset;
 		ins++;
 		return offset;
 	}
-	
+
 	// write out offset record
-		
+
 	public void save (
 		int bn  // batch number
 	) throws IOException {
@@ -82,9 +82,9 @@ public class Offset extends OffsetBase {
 			ios.writeInt(zero);
 		ios.writeInt(offset);
 	}
-	
+
 	// get record count
-	
+
 	public static int count (
 		int bn  // batch number
 	) {
@@ -92,16 +92,16 @@ public class Offset extends OffsetBase {
 	}
 
 	// accessors
-	
+
 	protected final String rootF ( ) { return root; }
 	protected final int  insF ( ) { return ins; }
 	protected final void insF ( int n ) { ins = n; }
 	protected final int  bnsF ( ) { return bns; }
 	protected final void bnsF ( int b ) { bns = b; ios = null; }
-	
+
 	protected final int offsetsF ( ) { return offsets; }
-	
+
 	protected final RandomAccessFile iosF ( ) { return ios; }
 	protected final void iosF ( RandomAccessFile io ) { ios = io; }
-	
+
 }
