@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Squeezer.java : 09Mar00 CPM
+// AW file Squeezer.java : 11aug2021 CPM
 // create run squeezed vector file
 
 package aw.squeeze;
@@ -31,11 +31,11 @@ import aw.*;
 import object.*;
 import java.io.*;
 
-class SqueezeIndexVectors extends IndexVectors {
+class IndexVectorsToSqueeze extends IndexVectors {
 
 	// load vectors from run information
 	
-	public SqueezeIndexVectors (
+	public IndexVectorsToSqueeze (
 	
 		int bn,
 		int os,
@@ -107,7 +107,7 @@ public class Squeezer {
 	) throws AWException {
 	
 		VectorsForInnerProducts vip; // to compute inner products from
-		SqueezeIndexVectors siv;     // input vectors to be squeezed
+		IndexVectorsToSqueeze siv;   // input vectors to be squeezed
 		IndexVectors ivs;            // output squeezed vectors
 		
 		int ivn  = 0; // allocation index for squeezed vector buffer
@@ -139,7 +139,7 @@ public class Squeezer {
 				System.out.print("at " + seq.r[i].bbn + "::" + seq.r[i].ssn);
 				System.out.print(", " + seq.r[i].nss + " subsegments in run (");
 				System.out.println(seq.r[i].rfo + ", " + seq.r[i].rln + ")");
-				siv = new SqueezeIndexVectors(seq.r[i].bbn,seq.r[i].rfo,seq.r[i].rln);
+				siv = new IndexVectorsToSqueeze(seq.r[i].bbn,seq.r[i].rfo,seq.r[i].rln);
 				
 				for (int j = 0; j < seq.r[i].nss; j++) {
 				
@@ -147,8 +147,10 @@ public class Squeezer {
 					
 					ssn = siv.subsegmentIndex();
 					System.out.print("@" + ssn);
-					if (ssn != 1)
+					if (ssn != 1) {
 						System.out.println(" disregarded");
+						System.out.println("i=" + i + ", j=" + j);
+					}
 					else {
 						nitm++;
 						ivn = siv.squeeze(ivs,ivn,keep,mvsum);
