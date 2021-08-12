@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Summarizer.java : 29Jan00 CPM
+// AW file Summarizer.java : 11aug2021 CPM
 // derive n-gram profiles from cluster seeds
 
 package aw.summarize;
@@ -137,7 +137,7 @@ public class Summarizer {
 					
 				// make profile from accumulated vectors
 
-				System.out.println("make profile");
+				System.out.println("make profile from " + nitm + " items");
 				cp = new ClusterProfile(nitm,its,vw,mlp,lpm);
 				lp = cp.length;
 				
@@ -148,13 +148,13 @@ public class Summarizer {
 					continue;
 				}
 				
-				// allocate new slot for cluster cluster
+				// allocate new slot for cluster
 
 				pn = map.allocate(TYPE);
 				if (pn < 0)
 					continue;
 
-				at.stm.genum = ctl.totb;
+				at.stm.genum = (short) ctl.totb;
 				System.out.println("allocate as number " + pn);
 				no++;
 				

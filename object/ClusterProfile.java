@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ClusterProfile.java : 19Sep02 CPM
+// AW file ClusterProfile.java : 22jul2021 CPM
 // cluster profile generation
 
 package object;
@@ -52,7 +52,7 @@ public class ClusterProfile extends ClusterProfileBase {
 	// build profile from list of items
 	
 	public ClusterProfile (
-	
+
 		int      count, // how many items
 		Item[]    item, // item list
 		int[]   weight, // item weights
@@ -60,8 +60,8 @@ public class ClusterProfile extends ClusterProfileBase {
 		int     minlng  // minimum profile length
 
 	) throws AWException {
-        super();
-        
+        	super();
+
 		if (count == 0)
 			return;
 
@@ -69,23 +69,23 @@ public class ClusterProfile extends ClusterProfileBase {
 
 		// get indices from selected items
 		
-		count = select(count,weight,ord);
+		int nselect = select(count,weight,ord);
+
+		ClusterIndexVector[] vs = new ClusterIndexVector[nselect];
+		int[] ws = new int[nselect];
         
-        ClusterIndexVector[] vs = new ClusterIndexVector[count];
-        int[] ws = new int[count];
-        
-        for (int j = 0; j < count; j++) {
-            int i = ord[j];
-            iv = new IndexVector(item[i].bn,item[i].xn);
-            vs[i] = new ClusterIndexVector(iv);
-            ws[i] = weight[i];
-        }
+		for (int j = 0; j < nselect; j++) {
+			int i = ord[j];
+			iv = new IndexVector(item[i].bn,item[i].xn);
+			vs[j] = new ClusterIndexVector(iv);
+			ws[j] = weight[i];
+		}
 
 		combine(vs,ws,multpl,minlng);
 
 	}
-    
-    private IndexVector iv;
+
+	private IndexVector iv;
 	
 	// close out objects no longer needed
 	
@@ -106,27 +106,26 @@ public class ClusterProfile extends ClusterProfileBase {
 		int[] order   // ranking of items
 		
 	) {
-		int mx = 0;
-
 		// normalize weights
-		
-		for (int i = 0; i < count; i++)
+
+		int mx = 0;
+		for (int i = 0; i < count; i++) {
+			order[i] = i;
 			if (mx < weight[i])
 				mx = weight[i];
+		}
 
 		if (mx == 0)
 			return 0;
-			
-		for (int i = 0; i < count; i++) {
-			order[i] = i;
+
+		for (int i = 0; i < count; i++)
 			weight[i] = (weight[i]<<3)/mx;
-		}
-		
+
 		if (count <= MXM)
 			return count;
 
 		// select top MXM items by weight
-		
+
 		for (int i = 1; i < count; i++) {
 			int oi = order[i];
 			int wt = weight[oi];
