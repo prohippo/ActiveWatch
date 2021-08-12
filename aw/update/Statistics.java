@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Statistics.java : 22Oct97 CPM
+// AW file Statistics.java : 11aug2021 CPM
 // for computing n-gram statistics
 
 package aw.update;
@@ -34,6 +34,8 @@ public class Statistics {
 	public Counts        cts;
 	public Probabilities pbs;
 	public Range         rng;
+
+	public double Hbits;  // entropy in bits
 
 	public Statistics (
 	
@@ -74,7 +76,7 @@ public class Statistics {
 		rng.low  = (float) (1.0);
 		rng.high = (float) (0.0);
 
-		float sump = 0;
+		double sumplogp = 0;
 		int k = 0;
 		
 		for (int i = 1; i <= Parameter.MXI; i++) {
@@ -89,14 +91,16 @@ public class Statistics {
 			if (rng.high < pb)
 				rng.high = pb;
 
-			sump += pb*Math.log(pb);
+			sumplogp += pb*Math.log(pb);
 			k++;
 		}
 		
 		if (k > 0)
-			rng.entropy = (float) (100.*(-sump/Math.log(k)));
+			rng.entropy = (float) (100.*(-sumplogp/Math.log(k)));
 		else
 			rng.entropy = 0;
+
+		Hbits = -sumplogp/Math.log(2);
 	}
 	
 	public void save (

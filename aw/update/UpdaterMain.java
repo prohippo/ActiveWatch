@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file UpdaterMain.java : 17Apr99 CPM
+// AW file UpdaterMain.java : 11aug2021 CPM
 // top-level class for computing n-gram statistics
 
 package aw.update;
@@ -75,9 +75,10 @@ public class UpdaterMain extends Updater {
 		else
 			System.out.print("\ndrop " + no + " items of batch " + bno + " from ");
 
-		System.out.println(nm + " already in collection");
+		System.out.println(nm + " items already in collection");
 
-		System.out.println("\nrelative entropy= " + x.sso.rng.entropy + " percent");
+		System.out.print  ("\n" + String.format("entropy= %5.2f bits",x.sso.Hbits));
+		System.out.println("\n(" + x.sso.rng.entropy + " percent)");
 	}
 
 }
