@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Automaton.java : 29Jul2021 CPM
+// AW File Automaton.java : 07aug2021 CPM
 // a finite-state automaton for text segmentation
 
 package aw.segment;
@@ -307,8 +307,11 @@ public class Automaton {
 			if (textline == null) {
 				textline = stream.input();
 				if (textline == null) {
-					if (level > 0)
+					if (level > 0) {
 						System.out.println("end of text input");
+						if (event == Event.SOT)
+							System.out.println("*** possible incomplete final item!");
+					}
 					break;
 				}
 				textline.remap();
@@ -386,7 +389,7 @@ case Event.SOT:			// start of text to index
 				starts.record(textline,L);
 				break;
 
-case Event.EOT:			// end   of text to index
+case Event.EOT:			// end of text to index
                                 event = Event.EOT;
 
 				sl = stream.position(0) - tos + skip;
