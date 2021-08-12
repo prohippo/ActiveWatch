@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file AnalyzedToken.java : 09Oct02 CPM
+// AW file AnalyzedToken.java : 17jul2021 CPM
 // a token with an n-gram score
 
 package object;
@@ -33,54 +33,49 @@ import gram.*;
 
 public class AnalyzedToken extends Token {
 
-	private SimpleList listing;
-	
+	private Short[] gm;  // indices for token
+
 	public AnalyzedToken (
-	
+
 		Token token,
-		Characterizer indices
-		
+		Characterizer indexing
+
 	) {
 		length = (short) token.length();
 		array  = token.array;
-		
-		// get list of n-grams for token
-		
-		indices.set(token);
 
-		// add end marker to list
-		
-		listing = indices.list();
-		listing.terminate();
+		// get list of n-grams for token
+
+		indexing.set(token);
+		gm = indexing.list();
 	}
-	
+
 	// compute basic score from token n-grams
-	
+
 	public int score (
-	
+
 		int   thr, // for hit count
 		byte[] pw  // profile weights
 
 	) {
-		if (listing.length() == 0) {
+		if (gm.length == 0) {
 			length = 0;
 			return 0;
 		}
-		short[] g = listing.array();
-		
+
 		int sum =0; // accumulated weight
 		int hitn=0; // n-gram hits in stem
 		int lexm=0; // lexical misses
 		int phnm=0; // phonetic misses
-		
+
 		short gram = -1;
 
-		for (int i = 0; gram != 0; i++) {
-			if (g[i] == gram)
+		for (int i = 0; i < gm.length; i++) {
+			if (gm[i] == gram)
 				continue;
 
 			if (gram < 0)
-				;				
+				;
 			else if (pw[gram] != 0) {
 				hitn++;
 				sum += pw[gram];
@@ -89,8 +84,8 @@ public class AnalyzedToken extends Token {
 				lexm++;
 			else
 				phnm++;
-				
-			gram = g[i];
+
+			gram = gm[i];
 		}
 
 		// extra conditions for accepting weight
@@ -100,14 +95,14 @@ public class AnalyzedToken extends Token {
 			(hitn >= thr))
  
 			return sum;
-			
+
 		else
-		
+
 			return 0;
 	}
-	
+
 	// get the n-gram analysis for this token
-	
-	public final short[] indices ( ) { return listing.array(); }
-	
+
+	public final Short[] indices ( ) { return gm; }
+
 }

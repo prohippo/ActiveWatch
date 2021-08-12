@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file KeyTextAnalysis.java : 09Aug99 CPM
+// AW file KeyTextAnalysis.java : 17jul2021 CPM
 // analyze each key individually in text segment
 
 package object;
@@ -39,7 +39,7 @@ public class KeyTextAnalysis extends TextAnalysis {
 	
 	) throws AWException {
 	
-		super(new SortedList(Token.MXW));
+		super();
 		
 	}
 	
