@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dprb.java : 14Jul98 CPM
+// AW file Dprb.java : 09aug2021 CPM
 // dump probabilities
 
 package test;
@@ -63,7 +63,7 @@ public class Dprb {
 		System.out.println("with sum of probabilities=" + Format.it(pb.sump,8,6));
 
 		int mnp = (int)(1/pb.array[0]);		
-		System.out.println("based on " + mnp + " occurrences");
+		System.out.println("based on " + mnp + " total occurrences of indices");
 
 		if (pb.np > 0) {
 			System.out.print("computed entropy = " + Format.it(pb.entropy(),4,1) + " bits, ");
@@ -81,7 +81,8 @@ public class Dprb {
 			System.out.println(" (" + Format.it(i,5) + "):  percent=" + fx);
 			sum += pb.array[i];
 		}
-		System.out.println("\ntotal percentage of all occurrences=" + (100.*sum));
+		System.out.print("\ntotal percentage of top " + pb.ns + " occurrences= ");
+		System.out.println(Format.it(100.*sum,5,2));
 		
 	}
 	

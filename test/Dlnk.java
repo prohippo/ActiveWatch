@@ -23,6 +23,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
 // Dlnk.java : 03Mar99 CPM
+// dump saved links from similarity measures computed for pairs of squeezed vectors
 
 package test;
 

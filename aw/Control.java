@@ -236,8 +236,7 @@ public class Control {
 		int nob = (as.length > 0) ? Integer.parseInt(as[0]) : -1;
 		int bno = (as.length > 1) ? Integer.parseInt(as[1]) : -1;
 		Control ctl = new Control();
-		if (ctl.noms[ctl.cubn] > 0)
-			ctl.dump();
+		ctl.dump();
 		if (nob >= 0 && bno >= 0) {
 			ctl.nobs = nob;
 			ctl.cubn = bno;
