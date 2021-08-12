@@ -25,7 +25,7 @@ product similarity scores to make them easier to interpret.
 AW scores similarity by the the number of standard deviations that a raw
 inner product falls above or below the mean of a noise distribution.
 This noise will be roughly Gaussian; an AW scaled similarity of 3 standard
-deviations would roughly be significant at p = .003. With actual text data,
+deviations would be significant at about p = .003. With actual text data,
 we usually will see scaled similarity above 5 standard deviations.
 
 Some index tuning is needed to achieve this kind of performance. This will
@@ -43,12 +43,12 @@ along with the 2- and 3-letter fragments employed employed previously.
 The modules included in the AW GitHub repository mainly provide support for
 simple clustering of text items by content. These are organized functionally
 by their Java package identifications. The Java code was originally written on
-Apple home computers running versions 7.* of the Macintosh operating system.
+Apple home computers running versions 7.*, 8.*, or 9.* of the Macintosh OS.
 This was when Java was still a somewhat new programming language.
 
 Java AW eventually evolved to support all kinds of statistical natural
 processing, but this GitHub repository includes only a small subset of modules
-supporting automatic clustering of text items by content. This should give
+for supporting automatic clustering of text items by content. This should give
 you a good overall idea of what you can accomplish with AW finite indexing and
 statistically scaled similarity between pairs of text items.
 
@@ -79,3 +79,9 @@ v0.5    06aug2021  Clean up code for SEGMTR module
                    Fix problems in UTF-8 handling
                    Add diagnostic tools
                    Build initial versions of AW clustering modules to test
+
+v0.6    12aug2021  Clean up SEGMTR, UPDATR, SEQNCR, SQUEZR, SUMRZR, KEYWDR modules
+                   Fix problems in UTF-8 handling, subsegmenting long text items
+                   Add and extend diagnostic tools
+                   Clean up text data sample for clustering demonstration
+                   Edit and update documentation
