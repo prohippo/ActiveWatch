@@ -68,7 +68,7 @@ v0.2    10ju12021  Clean up and reorganize code for SEGMTR module
                    Add code to dump AW output files
                    Collect news data set for demonstration
 
-v0.3    13jul2021  Clean up and debug code AW table building modules
+v0.3    13jul2021  Clean up and debug code in AW table building modules
                    Add unit testing
 
 v0.4    16jul2021  Clean up and reorganize code for INDEXR module
@@ -85,3 +85,6 @@ v0.6    12aug2021  Clean up SEGMTR, UPDATR, SEQNCR, SQUEZR, SUMRZR, KEYWDR modul
                    Add and extend diagnostic tools
                    Clean up text data sample for clustering demonstration
                    Edit and update documentation
+
+v0.6.1  14aug2021  Fix mishandling of multi-segment items in AW clustering
+

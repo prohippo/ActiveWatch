@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Multiplier.java : 17Jul00 CPM
+// AW file Multiplier.java : 14aug2021 CPM
 // create run sequence file
 
 package aw.multiply;
@@ -115,7 +115,7 @@ class MultiplyIndexVectors extends IndexVectors {
 	
 	public double computeAB (
 
-	) throws AWException {
+	) {
 
 		fne = storedSum();
 
@@ -130,7 +130,7 @@ class MultiplyIndexVectors extends IndexVectors {
 		double sS = 0;
 
 		if (vS == 0)
-			throw new AWException("zero variance");
+			return -100;
 			
 		// compute inner product
 			
