@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Keyworder.java : 27Oct99 CPM
+// AW file Keyworder.java : 21aug2021 CPM
 // derive descriptive keys for clusters
 
 package aw.keyword;
@@ -186,7 +186,7 @@ public class Keyworder {
 		
 		// check for valid attribute keys
 		
-		String p = new String(at.kys,0);
+		String p = new String(at.kys);
 		
 		int sp = p.indexOf('|');
 		if (sp < 0)
@@ -238,7 +238,8 @@ public class Keyworder {
 		// store in attribute record
 					
 		String s = pb.toString();
-		s.getBytes(0,Attribute.PKWL,at.kys,0);
+		byte[] b = s.getBytes();
+		System.arraycopy(b,0,at.kys,0,Attribute.PKWL);
 
 		// clear out rankings
 					
