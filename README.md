@@ -88,3 +88,8 @@ v0.6    12aug2021  Clean up SEGMTR, UPDATR, SEQNCR, SQUEZR, SUMRZR, KEYWDR modul
 
 v0.6.1  14aug2021  Fix mishandling of multi-segment items in AW clustering
 
+v0.7    21aug2021  add and extend diagnostic tools
+                   remove phonetic indexing
+                   add 4- and 5-gram indices
+                   reorganize startup of n-gram analysis
+                   clean up problems with deprecation and type casting
