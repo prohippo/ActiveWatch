@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SuffixTable.java : 30Jul02 CPM
+// AW file SuffixTable.java : 21aug2021 CPM
 // compile suffix table from listing of patterns
 
 package aw.table;
@@ -96,7 +96,7 @@ public class SuffixTable extends StemExtension {
 				x = r.charAt(n);
 				if (!Character.isLetter(x))
 					break;
-				acts[k++] = TableCode.recode(Character.toUpperCase(x));
+				acts[k++] = (byte) TableCode.recode(Character.toUpperCase(x));
 			}
 			actn[i++] = (short)(ns + n);
 			acts[k++] = (x == '!') ? StemBase.ENDR : StemBase.ENDS;

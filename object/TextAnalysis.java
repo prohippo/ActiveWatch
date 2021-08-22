@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file TextAnalysis.java : 14jul2021 CPM
+// AW file TextAnalysis.java : 21jul2021 CPM
 // class to combine stemming and n-gram extraction
 
 package object;
@@ -41,8 +41,8 @@ public class TextAnalysis extends TextAnalysisBase {
 	) throws AWException{
 	
 		super();
-		GramStart.load(literalFile,phoneticFile);
-		characterizer = new Characterizer(GramStart.map,GramStart.set);			
+		GramStart gs = new GramStart();
+		characterizer = new Characterizer(gs.table,gs.map);			
 				
 	}
 		

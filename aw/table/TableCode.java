@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file TableCode.java : 29Mar99 CPM
-// for building external AW language tables
+// AW file TableCode.java : 20aug2021 CPM
+// for building external AW literal index tables
 
 package aw.table;
 
@@ -32,61 +32,63 @@ import aw.AWException;
 
 public class TableCode {
 
-	// to be consistent with token sorting, digits are mapped to lower case letters
-	// and letters are mapped to upper case
-	
-	// (invisible) character encoding for sorting of table entries
-	
+	// for consistency with token sorting, digits are mapped to lower case letters,
+	// letters are mapped to upper case, apostrophe and period are mapped high, and
+	// everything else is dropped
+
+	// convert string for proper sorting
+
 	public static String forSorting (
-	
+
 		String r
-		
+
 	) {
-		char x;
-		
 		StringBuffer s = new StringBuffer(r.length());
 
 		for (int i = 0; i < r.length(); i++) {
-			char c = r.charAt(i);
-			
-			if (Character.isDigit(c))
-				x = (char)(c - '0' + 'a');
-			else if (Character.isLetter(c))
-				x = Character.toUpperCase(c);
-			else if (c == Letter.APO)
-				x = '{';
-			else if (c == Letter.DOT)
-				x = '}';
-			else
-				continue;
-				
-			s.append(x);
+			char x = encode(r.charAt(i));
+			if (x > 0)
+				s.append(x);
 		}
-			
 		return s.toString();
 	}
 
-	// actual encoding to store in table
-		
+	// encode characters for proper sorting
+
+        public static char encode (
+                char c
+        ) {
+		if (Character.isDigit(c))
+			c = (char)(c - '0' + 'a');
+		else if (Character.isLetter(c))
+			c = Character.toUpperCase(c);
+		else if (c == Letter.APO)
+			c = '{';
+		else if (c == Letter.DOT)
+			c = '}';
+		else
+			c = '\u0000';
+		return c;
+	}
+
+	// map back encoding to store in table
+
 	public static int forStoring (
-	
+
 		String r,
-		byte[] b,
+		char[] b,
 		int   nb
-		
+
 	) throws AWException {
 		for (int i = 0; i < r.length(); i++)
 			b[nb++] = recode(r.charAt(i));
-		
 		return nb;
 	}
 
-	// get one encoded character
-		
-	public static byte recode (
-	
+	// map characters back after sorting
+
+	public static char recode (
 		char c
-		
 	) throws AWException {
 		if (Character.isLowerCase(c))
 			c -= 'a' - '0';
@@ -96,11 +98,9 @@ public class TableCode {
 			c = Letter.APO;
 		else if (c == '}')
 			c = Letter.DOT;
-			
-		byte z = Letter.toByte(c);
-		if (z < 0)
-				throw new AWException("bad character in entry <" + c + ">");
-		return z;
+		return c;
 	}
+
+	// recode() is NOT inverse of encode()!!
 
 }

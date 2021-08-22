@@ -22,60 +22,59 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Gapping.java : 13Jun00 CPM
+// AW file Gapping.java : 20aug2021 CPM
 // Tukey gap selection algorithm
 
 package object;
 
-import java.util.Vector;
+import java.util.*;
 
 public class Gapping {
 
 	private static final double X = 2.3;  // minimum significant gap
 
-	private Vector v = new Vector(); // save gaps
+	private ArrayList<Double> v = new ArrayList<Double>(); // save gaps
 	private double sm  = 0; // sum of gaps
 	private double sms = 0; // sum of gaps squared
-	
+
 	private double last;
-	
+
 	// initialize for computing gaps
-		
+
 	public Gapping (
-		float w  // first weight
+		double w  // first weight
 	) {
 		last = w;
 	}
-	
+
 	// compile gaps
-	
+
 	public void add (
-		float w  // second and subsequent weights
+		double w  // second and subsequent weights
 	) {
 		double x = last - w;
 		last = w;
-		v.addElement(new Float(x));
+		v.add(x);
 		sm  += x;
 		sms += x*x;
 	}
-	
+
 	// select first significant gap
-	
+
 	public int gap (
-	
+
 	) {
 		int ndeg = v.size();
 		if (ndeg == 0)
 			return 0;
-			
+
 		double es = sm /ndeg;
 		double vr = sms/ndeg - es*es;
 		double th = es + X*Math.sqrt(vr);
 
-		int n = 0;		
+		int n = 0;
 		for (; n < ndeg; n++) {
-			double gp = ((Float) v.elementAt(n)).doubleValue();
-			if (gp > th)
+			if (v.get(n) > th)
 				break;
 		}
 		return n + 1;

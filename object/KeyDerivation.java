@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file KeyDerivation.java : 15Nov99 CPM
+// AW file KeyDerivation.java : 21aug2021 CPM
 // get descriptive keys from items with respect to a profile
 
 package object;
@@ -30,7 +30,7 @@ package object;
 import aw.AWException;
 import aw.Item;
 import java.io.*;
-import java.util.Vector;
+import java.util.*;
 
 public class KeyDerivation {
 
@@ -94,21 +94,21 @@ public class KeyDerivation {
 
 	// get rest of derived keys up to specified maximum
 	
-	private Vector ws = new Vector();
+	private ArrayList<String> ws = new ArrayList<String>();
 		
 	public String[] rest (
 	
 	) {
 	
-		ws.setSize(0);
+		ws.clear();
 		for (int i = 0; i < mxns; i++) {
 			String w = rkg.out();
 			if (w == null)
 				break;
-			ws.addElement(w);
+			ws.add(w);
 		}
 		String[] a = new String[ws.size()];
-		ws.copyInto(a);
+		ws.toArray(a);
 		return a;
 		
 	}
