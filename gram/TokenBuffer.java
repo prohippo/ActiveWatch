@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TokenBuffer.java : 01Aug02 CPM
-// auxiliary data structure to facilitate n-gram indexing
+// TokenBuffer.java : 19aug2021 CPM
+// auxiliary data structure for n-gram index extraction
 
 package gram;
 
@@ -31,104 +31,152 @@ import aw.Letter;
 import stem.TokenForm;
 
 /**
- * for copying a token to permit manipulation of characters without affecting original token
+ * char array for sequential n-gram extraction
  */
 
 public class TokenBuffer {
 
-	private static final byte NX = -128; // sentinel for buffer
-        private static final int  LN =  256; // basic allocation for buffer (must be BIG)
-	
+	public static final char NX =  0x0; // sentinel for buffer
+	public static final int  LN =  256; // basic allocation for buffer
+
 	// for direct use by n-gram indexing classes only!
-	
-	byte[] buffer = new byte[2*LN]; // actual buffer
+
+	char[] buffer = new char[LN];       // actual buffer
 	int start,end; // where token lies in buffer
-	int fwrd,rvrs; // current extraction limits
-	int nor;       // minimum size n-gram to look for
+	int fwrd,rvrs; // current extraction extents
+	int next;      // where to begin scanning for next n-gram
 
        /**
-        * create empty buffer to hold token for indexing by n-grams
-        */
+	* create empty buffer for n-gram analysis
+	*/
 
 	public TokenBuffer (
 	) {
+
 	}
-			
+
        /**
-        * create buffer from token to index by n-grams
-        * @param token to index
-        */
+	* create buffer from token to index by n-grams
+	* @param token to index
+	*/
 
 	public TokenBuffer (
 		TokenForm token
 	) {
 		set(token);
 	}
-	
+
        /**
-        * fill buffer from token for indexing by n-grams
-        * @param token to index
-        */
+	* fill buffer from token for indexing by n-grams
+	* @param token to index
+	*/
 
 	public void set (
 		TokenForm token
 	) {
 		int  k = 0;
+		buffer[k++] = NX;
 
-		// copy token to buffer, less punctuation
-				
-		start = LN;
-                byte[] ta = token.toArray();
+		// copy token as chars to buffer, less punctuation
+
+		start = next = k;
+		byte[] ta = token.toArray();
 		for (int i = 0; i < token.length(); i++) {
 			byte x = ta[i];
-			if (x < Letter.NAN)
-				buffer[start+(k++)] = x;
+			if (Letter.alphanumeric(x))
+				buffer[k++] = Letter.from[x];
 		}
 
 		// set limits
-				
-		end = start + k;
+
+		end = k;
 		fwrd = start;
 		rvrs = end;
-		nor = 2;
-		
-		// put in sentinels
-		
-		buffer[start-1] = buffer[end] = NX;
+
+		// put in sentinel
+
+		buffer[end] = NX;
 	}
-        
-       /**
-        * how many chars left in buffer
-        * @return character count
-        */
-        
-        public final int  left ( ) { return rvrs - fwrd; }
 
        /**
-        * take next character from buffer and advance pointer
-        * @return encoded character
-        */
-        
-        public final byte next ( ) { return buffer[fwrd++]; }
-        
+	* how many chars left in buffer
+	* @return character count
+	*/
+
+	public final int  left ( ) { return rvrs - fwrd; }
+
        /**
-        * just look at next character in buffer without advancing pointer
-        * @return encoded character
-        */
-        
-        public final byte peek ( ) { return buffer[fwrd]; }
-        
-        /**
-         * just look at character after next in buffer without advancing pointer
-         * @return encoded character
-         */
-        
-        public final byte peekAfter ( ) { return buffer[fwrd+1]; }
-        
+	* is buffer exhausted from forward extraction?
+	* @return boolean
+	*/
+
+	public final boolean exhausted ( ) { return (fwrd == end); } 
+
        /**
-        * restart buffer
-        */
-        
-        public final void restart ( ) { fwrd = start; rvrs = end; }
-        
+	* take next char from buffer and advance pointer
+	* @return char
+	*/
+
+	public final char next ( ) { return buffer[fwrd++]; }
+
+       /**
+	* just look at next char in buffer without advancing pointer
+	* @return char
+	*/
+
+	public final char peek ( ) { return buffer[fwrd]; }
+
+       /**
+	* just look at char after next in buffer without advancing pointer
+	* @return char
+	*/
+
+	public final char peekAfter ( ) { return buffer[fwrd+1]; }
+
+       /**
+	* begin next pass of n-gram extraction
+	* @return next starting position in buffer
+	*/
+
+	public final int goNext () { return next++; }
+
+       /**
+	* restart buffer
+	*/
+
+	public final void restart ( ) { next = fwrd = start; rvrs = end; }
+
+       /**
+	* get string from range of chars in buffer
+	* @param ib starting index
+	* @paran le length
+	* @return String
+	*/
+
+	public final String toString (
+		int ib,
+		int le 
+	) {
+		if (le <= 0 || ib + le > end)
+			return "";
+		else
+			return new String(buffer,ib,le);
+	}
+
+
+
+       /**
+	* get print representation of current buffer
+	* @return String
+	*/
+
+	public final String toString (
+
+	) {
+		String lss = toString(start,fwrd-start);
+		String mss = toString(fwrd,rvrs-fwrd);
+		String rss = toString(rvrs,end-rvrs);
+		return start + " f=" + fwrd + ", r=" + rvrs + " " + lss + "|" + mss + "|" + rss;
+	}
+
 }

@@ -2,7 +2,7 @@
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
+// modification, are permitted provided that the followig conditions are met:
 //
 //   Redistributions of source code must retain the above copyright notice, this
 //   list of conditions and the following disclaimer.
@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// GramStart.java : 14jul2021 CPM
+// GramStart.java : 20aug2021 CPM
 // standard initializations
 
 package gram;
@@ -33,64 +33,34 @@ import java.io.*;
 
 public class GramStart {
 
-	public static Literal    set;
-	public static Respelling map;
+	public Literal table;
+	public GramMap map;
 
-	// get external definition tables for n-grams
-	
-	public static void load (
-	
-		String lits,
-		String phonetic
-		
+	// constructor
+
+	public GramStart (
+
 	) throws AWException {
-	
-		if (set != null)
-			return;
-		
-		try {
-		
-			reload(lits);
-			
-			BufferedReader rd = ResourceInput.openReader(phonetic);
-			map = new Respelling(rd);
-			rd.close();
 
-		} catch (IOException x) {
-			throw new AWException(x);
-		}
-		
+		map = new GramMap();
+		reload("lits");
+
 	}
-	
+
 	// update changed tables
-	
-	public static void reload (
-	
-		String lits
-	
-	) throws AWException {
-	
-		try {
-		
-			DataInputStream in = ResourceInput.openStream(lits);
-			set = new Literal(in);
-			in.close();
 
+	public void reload (
+		String lits
+	) throws AWException {
+
+		try {
+			DataInputStream in = ResourceInput.openStream(lits);
+			table = new Literal(in);
+			in.close();
 		} catch (IOException x) {
 			throw new AWException(x);
 		}
-		
+
 	}
 
-	// clear tables
-		
-	public static void reset (
-	
-	) {
-	
-		set = null;
-		map = null;
-		
-	}
-	
 }

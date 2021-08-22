@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Letter.java : 2May00 CPM
+// AW File Letter.java : 16aug2021 CPM
 // letter definitions for AW analyses
 
 package aw;
@@ -34,14 +34,14 @@ public class Letter {
 
 	public final static int  NA   =  26; // size of alphabet
 	public final static int  NAN  =  NA + 10;
-	
+
 	public final static int  NONE = 127; // high code > NAN
-	
+
 	public final static char APO  =  39; // ASCII apostrophe
 	public final static char DOT  =  46; // ASCII period
-	
+
 	private final static boolean t = true, f = false;
-	
+
 	public final static boolean[] cns = { // consonants
 		f,t,t,t,f,t,t,t,f,t,t,t,t,
 		t,f,t,t,t,t,t,f,t,t,t,t,t,
@@ -59,13 +59,13 @@ public class Letter {
 		f,t,f,f,f,f,f,t,f,f,f,f,f,
 		f,f,f,f,f,f,f,f,f,f,f,f
 	};
-	
+
 	public final static boolean[] vwx = { // vowels - U
 		t,f,f,f,t,f,f,f,t,f,f,f,f,
 		f,t,f,f,f,f,f,f,f,f,f,f,f,
 		f,f,f,f,f,f,f,f,f,f,f,f
 	};
-	
+
 	public final static boolean[] spc = { // consonants + U - W - H
 		f,t,t,t,f,t,t,f,f,t,t,t,t,
 		t,f,t,t,t,t,t,t,t,f,t,t,t,
@@ -77,9 +77,13 @@ public class Letter {
 		'n','o','p','q','r','s','t','u','v','w','x','y','z',
 		'0','1','2','3','4','5','6','7','8','9',APO,DOT
 	};
-	
+
+	public final static boolean alphanumeric ( int x ) {
+		return (0 <= x && x < NAN);
+	}
+
 	// convert character to internal code
-	
+
 	public final static byte toByte ( char x ) {
 		if (x > 127)
 			return (byte) -1;
@@ -94,27 +98,27 @@ public class Letter {
 		else
 			return (byte) -1;
 	}
-	
+
 	// convert inner code to character
-	
+
 	public final static char toChar ( int b ) {
 		return (b >= 0 && b < from.length) ? from[b] : DOT;
 	}
-	
+
 	// check if alphabetic
-	
+
 	public final static boolean alphabetic ( int b ) {
 		return (b < NA);
 	}
 
 	// check if numeric
-	
+
 	public final static boolean numeric ( int b ) {
 		return (b >= NA && b < NAN);
 	}
 
 	// check if punctuation
-	
+
 	public final static boolean punctuating ( int b ) {
 		return (b >= NAN);
 	}

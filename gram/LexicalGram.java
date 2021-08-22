@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 09Dec97 CPM
+// AW file LexicalGram.java : 20aug2021 CPM
 // basic n-gram extraction
 
 package gram;
@@ -31,55 +31,102 @@ import aw.Letter;
 
 public class LexicalGram {
 
+	public static final int MXn = 5; // max n for lexical n-grams
+
+//	get next n-gram index from token buffer
+
 	public static short get (
-	
-		TokenBuffer tb
-		
+
+		TokenBuffer tb,
+		GramMap     gm
+
 	) {
-		byte a,c;     // encoded first chars
-		int  jab;     // seed index of letter pair
+		char c,d;     // first chars
 		int   to;     // token index
+		int    n;     // the n in the next n-gram to look for
 		short  g = 0; // next n-gram index to return
 
-		to = tb.fwrd;
-		for (int lm = tb.end - tb.fwrd; lm > 1; --lm) {
-			if (to >= tb.rvrs)
-				break;
- 
-			// check that (coded) leading
-			// character is alphabetic
+		to = tb.goNext();
+		if (to < tb.start) to = tb.start;
+//		System.out.println("initial to= " + to);
+//		System.out.println(tb);
 
-			a = tb.buffer[to++];
-			if (a < Letter.NA && a >= 0) {
+		while (tb.rvrs >= tb.fwrd && to <= tb.fwrd) {
+
+			// check that leading char is alphabetic
+
+			c = tb.buffer[to++];
+//			System.out.println("lexical to=" + to + ", c=" + c);
+//			System.out.println(tb);
+			if (Character.isLetter(c)) {
+
+				// look for alphabetic 5-gram at current buffer position
+
+				if  (tb.end - to >= 4 && tb.fwrd - to < 4) {
+					String gs = new String(tb.buffer,to-1,5);
+					g = (short)(gm.encode5g(gs));
+					if (g > 0) {
+						tb.fwrd = to + 4;
+						g += Gram.IB5;
+						break;
+					}
+				}
+
+				// look for alphabetic 4-gram
+
+//				System.out.println("4-grams");
+//				System.out.println(tb);
+				if  (tb.end - to >= 3 && tb.fwrd - to < 3) {
+					String gs = new String(tb.buffer,to-1,4);
+					g = (short)(gm.encode4g(gs));
+//					System.out.println(gs + "=" + g);
+					if (g > 0) {
+						tb.fwrd = to + 3;
+						g += Gram.IB4;
+						break;
+					}
+				}
+
+				// look for alphabetic 3-gram
+
+//				System.out.println(tb);
  
-				if (lm >= 3 && tb.nor <= 3) {
+				if  (tb.end - to >= 2 && tb.fwrd - to < 2) {
+//					System.out.println("3-grams");
  
 					// seed for alphabetic 3-gram?
-					jab = find(a,tb.buffer[to]);
-					if (jab >= 0) {
-						c = tb.buffer[to+1];
-						if (c < Letter.NA) {
-							g = (short) (Gram.IB3 + jab*Letter.NA + c);
-							tb.fwrd = to;
-							tb.nor = 3;
+					int jcb = find(c,tb.buffer[to]);
+					if (jcb >= 0) {
+						d = tb.buffer[to+1];
+						if (Character.isLetter(d)) {
+							int k = Letter.toByte(d);
+							g = (short)(Gram.IB3 + jcb*Letter.NA + k);
+							tb.fwrd = to + 2;
 							break;
 						}
 					}
 				}
 			}
 
-			if (tb.nor != 2)
-				--tb.nor;
-				
-			else {
- 
-				// alphanumeric 2-gram as last resort
-				g = (short) (Gram.IB2 + a*Letter.NAN + tb.buffer[to]);
+			// try for alphanumeric 2-gram
+
+//			System.out.println("to=" + to + ", fwrd=" + tb.fwrd);
+//			System.out.println(tb);
+
+			if (to < tb.end && to >= tb.fwrd) {
+//				System.out.println("2-grams");
+
+				int kc = Letter.toByte(c);
+				int kd = Letter.toByte(tb.buffer[to++]);
+				g = (short)(Gram.IB2 + kc*Letter.NAN + kd);
 				tb.fwrd = to;
 				break;
 			}
 		}
+
+//		System.out.println("return " + g);
 		return g;
+
 	}
 
 	// search for an alphabetic 2-gram in an external
@@ -111,14 +158,17 @@ public class LexicalGram {
 	};
 
 	public static int find (
-	
-		byte a, // encoded letters
-		byte b
-		
+
+		char ax, // letters as Unicode chars
+		char bx
+
 	) {
  
 		int m,n;
 		int seed;
+
+		byte a = Letter.toByte(ax);
+		byte b = Letter.toByte(bx);
 
 		if (b >= Letter.NA || b < 0)
 			return -1; 
