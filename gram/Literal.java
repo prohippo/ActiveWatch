@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Literal.java : 22May02 CPM
+// AW file Literal.java : 21aug2021 CPM
 // literal n-gram extraction
 
 package gram;
@@ -32,15 +32,12 @@ import java.io.*;
 
 public class Literal extends LiteralBase {
 
-	protected Literal (
-	
-	) {
-	}
-	
+	// load literal table from definition file
+
 	public Literal (
-	
+
 		DataInputStream in
-		
+
 	) throws AWException {
 		load(in);
 	}
@@ -49,63 +46,60 @@ public class Literal extends LiteralBase {
 	// pattern; return the match index or -1
 
 	public short forward (
-	
+
 		TokenBuffer tb
-		
+
 	) {
 		short answer = -1;
 		int ts; // start of comparison in token
 		int to; // comparison index for token
 		int lo; // literal index
 		int i,k;
-		byte x;
+		char x;
 
 		// check for uncovered span
-		
+
 		ts = tb.fwrd;
 		if (ts >= tb.rvrs)
 			return -1;
-			
+
 		// end of buffer check
-		
-		if ((k = tb.buffer[ts++]) >= Letter.NAN)
+
+		x = tb.buffer[ts++];
+		if (!Character.isLetter(x))
 			return -1;
+		k = Letter.toByte(x);
 
 		// scan leading literals
-		
+
 		for (i = ldsx[k]; i < ldsx[k+1]; i++) {
 
 			for (to = ts, lo = litx[i];; to++, lo++) {
 				x = lita[lo];
 
 				// compare current literal to token
-				
+
 				if (tb.buffer[to] > x)
 					break;
-					
+
 				else if (tb.buffer[to] < x) {
-				
-					if (x < Letter.NAN)
+
+					if (Character.isLetter(x) || Character.isDigit(x))
 						break;
 
-					// check condition to match full word
-					
-					if (x == EXACT && to < tb.end)
-						break;
+					// on match, record extent of literal
 
-					// match: record end of literal
-					
-					int n = to - 2;
+					int n = to;
 					if (n < ts)
 						n = ts;
 					tb.fwrd = n;
-					tb.nor = to - n + 1;
-					answer = (short) (Gram.IBL + i);
+					tb.goNext();
+					answer = (short)(Gram.IBL + i);
 					break;
 				}
 			}
 		}
-		
+
 		return answer;
 	}
 
@@ -113,53 +107,59 @@ public class Literal extends LiteralBase {
 	// pattern; return the match index or -1
 
 	public short reverse (
-	
+
 		TokenBuffer tb
-		
+
 	) {
 		short answer=-1;
 		int ts; // start of comparison in token
 		int to; // comparison index for token
 		int lo; // literal index
 		int i,k;
-		byte x;
+		char x;
+
+//		System.out.println(tb + " ****");
 
 		// check for uncovered span
-		
+
 		ts = tb.rvrs;
-		if (ts <= tb.start)
+		if (ts <= tb.fwrd)
 			return -1;
-			
-		// end of buffer check
-		
-		if ((k = tb.buffer[--ts]) >= Letter.NAN)
+
+		// check for end of buffer
+
+		x = tb.buffer[--ts];
+		if (x == TokenBuffer.NX)
 			return -1;
 
 		// scan trailing literals
-		
+
+		k = Letter.toByte(x);
 		for (i = trsx[k], --ts; i < trsx[k+1]; i++) {
 
 			for (to = ts, lo = litx[i];; --to, lo++) {
 				x = lita[lo];
-			
+
 				// compare current literal to token
-				
+
 				if (tb.buffer[to] > x)
 					break;
-					
+ 
 				else if (tb.buffer[to] < x) {
 					if (x < Letter.NAN)
 						break;
-						
-					// match: record start of literal
-					
+
+					// on match, record start of literal
+
 					tb.rvrs = to + 1;
-					answer = (short) (Gram.IBL + i);
+					answer = (short)(Gram.IBL + i);
+//					System.out.println("answer=" + answer);
+//					System.out.println(tb);
 					break;
 				}
 			}
 		}
 		return answer;
 	}
-	
+
 }

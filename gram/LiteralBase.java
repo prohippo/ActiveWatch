@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LiteralBase.java : 11Nov97 CPM
-// literal n-gram extraction
+// AW file LiteralBase.java : 18aug2021 CPM
+// literal n-gram tables for lookup
 
 package gram;
 
@@ -34,29 +34,27 @@ public class LiteralBase {
 
 	public static final String file = TextAnalysisFile.literalFile;
 
-	public static final byte TM = (byte) Letter.NONE;  // special terminator
-		
-	public static final int MXL = 8;   // nominal literal pattern size
-	
-	protected static final byte EXACT = (byte) 0x70;   // match whole token
+	public static final char TM     = '\u009c'; // special terminator
+
+	public static final int  MXL    = 8;        // nominal literal pattern size
 
 	protected short[] ldsx = new short[Letter.NAN+1];  // start of leading  literals
 	protected short[] trsx = new short[Letter.NAN+1];  // start of training literals
 
 	protected short[] litx = new short[Gram.NLIT+1];   // offsets to literals
-	protected byte [] lita = new byte [Gram.NLIT*MXL]; // literals array
-	
+	protected char [] lita = new char [Gram.NLIT*MXL]; // literals array
+
 	public void load (
-	
+
 		DataInputStream in
-		
+
 	) throws AWException {
 		int i;
 
 		try {
 			for (i = 0; i < Letter.NAN+1; i++)
 				trsx[i] = in.readShort();
-			
+
 			for (i = 0; i < Letter.NAN+1; i++)
 				ldsx[i] = in.readShort();
 
@@ -64,24 +62,25 @@ public class LiteralBase {
 				litx[i] = in.readShort();
 			litx[i] = 0;
 
-			in.readFully(lita);
-						
+			for (i = 0; i < lita.length; i++)
+				lita[i] = in.readChar();
+
 		} catch (IOException e) {
 			throw new AWException("cannot load literals");
 		}
 	}
 
 	public void save (
-					
+
 		DataOutputStream out
-		
+
 	) throws AWException {
 		int i;
 
 		try {
 			for (i = 0; i < Letter.NAN+1; i++)
 				out.writeShort(trsx[i]);
-			
+
 			for (i = 0; i < Letter.NAN+1; i++)
 			out.writeShort(ldsx[i]);
 
@@ -89,11 +88,12 @@ public class LiteralBase {
 				out.writeShort(litx[i]);
 			litx[i] = 0;
 
-			out.write(lita);
-			
+			for (i = 0; i < lita.length; i++)
+				out.writeChar(lita[i]);
+
 		} catch (IOException e) {
 			throw new AWException("cannot save literals");
 		}
 	}
-				
+
 }
