@@ -1,0 +1,45 @@
+#!/bin/zsh
+#
+# remove any existing demo files
+rm -f attributes
+rm -f clusters
+rm -f control
+rm -f counts
+rm -f heads
+rm -f index0*
+rm -f links
+rm -f lists
+rm -f maps
+rm -f offset0*
+rm -f probs
+rm -f profiles
+rm -f range
+rm -f residual
+rm -f segmn0*
+rm -f sequence
+rm -f source0*
+rm -f svectors
+rm -f vector0*
+#
+# create stopword, suffix, and literal n-gram definitions
+# from the (possibly edited) stopword, suffix, and literal
+# text text input files from the AW distribution (see the
+# table subdirectory)
+java -jar ${AWD}/STPBLD
+java -jar ${AWD}/SUFBLD
+java -jar ${AWD}/LITBLD
+#
+# (the AWD environmental variable whould be set
+# to the directory containing the AW jar files)
+#
+# run the actual AW clustering demonstration
+java -jar ${AWD}/SEGMTR ${1}
+java -jar ${AWD}/INDEXR
+java -jar ${AWD}/UPDATR
+java -jar ${AWD}/SEQNCR
+java -jar ${AWD}/SQUEZR
+java -jar ${AWD}/MLTPLR ${2}
+java -jar ${AWD}/CLUSTR
+java -jar ${AWD}/SUMRZR
+java -jar ${AWD}/CLSFYR
+java -jar ${AWD}/KEYWDR
