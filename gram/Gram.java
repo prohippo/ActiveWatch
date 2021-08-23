@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Gram.java : 17Sep98 CPM
-// basic n-gram definitions
+// AW file Gram.java : 23aug2021 CPM
+// basic lexical n-gram definitions
 
 package gram;
 
@@ -31,11 +31,13 @@ public class Gram {
 
 	// for lexical indices, including literals
 
-	public static final short NLIT= 1024; // upper limit on literals
+	public static final short NLIT= 2048; // upper limit on literals
 		
-	public static final short IB1 = 7937; // base for 1-grams
-	public static final short IB2 = 6641; // base for 2-grams
-	public static final short IB3 = 1025; // base for 3-grams
+	public static final short IB1 = 8961; // base for 1-grams
+	public static final short IB2 = 7665; // base for 2-grams
+	public static final short IB3 = 2049; // base for 3-grams
+	public static final short IB4 = 9000; // base for 4-grams
+	public static final short IB5 = 9750; // base for 5-grams
 	public static final short IBL =    1; // literal indices
 
 	// bit table defining 2-letter seeds for 3-grams
@@ -65,27 +67,4 @@ public class Gram {
 		216,216,216,216,216	
 	};
 	
-	// for phonetic indices
-
-	static final short PHL = 4; // maximum of of phonetic n-grams
-	
-	static final short B0s = 7976; // base for 0-grams
-	static final short B1s = 7977; // base for 1-grams
-	static final short B2s = 7991; // base for 2-grams
-	static final short B3s = 8089; // base for 3-grams
-	static final short B4s = 8775; // base for 4-grams
-	static final short BNs =13577;
-	
-	static final short[] Bxs = { B0s, B1s, B2s, B3s, B4s, BNs };
-
-	// consonant class definitions for all alphanumeric
-
-	static final int nC = 7; // number of classes
-			
-	static final short[] Ceq = {
-		0,1,6,3,0,1,6,0,0,2,6,4,5,
-		5,0,1,6,7,2,3,0,1,0,2,2,2,
-		0,0,0,0,0,0,0,0,0,0
-	};
-
 }
