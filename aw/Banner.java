@@ -30,7 +30,7 @@ package aw;
 import java.io.*;
 
 public final class Banner {
-	static final String version = "v0.7 (2021) Java";
+	static final String version = "v0.7.1 (2021) Java";
 	static final String year = "1997-2002, 2021";
 	
 	String id;
