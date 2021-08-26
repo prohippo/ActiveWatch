@@ -93,3 +93,9 @@ v0.7    21aug2021  add and extend diagnostic tools
                    add 4- and 5-gram indices
                    reorganize startup of n-gram analysis
                    clean up problems with deprecation and type casting
+
+v0.7.1  25aug2021  fix bug in LexicalGram, improper breaking out of extraction loop
+                   replace incorrect 5-gram in GramMap
+                   clean up literal file to align with current 4- and 5-grams
+                   fix inconsistent stemming rules in suffix file
+                   update documentation
