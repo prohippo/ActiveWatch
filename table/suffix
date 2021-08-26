@@ -32,6 +32,7 @@
 dse        3  1 =sud
 burete     2  5
 onch       2 88
+njury      1 11 =injure
 nulus      2 10 =annule
 ocuss      2  4
 ;;;;;
@@ -383,7 +384,6 @@ ensome     2  2 =burden
 alline     2  2 =crystal
 bre        1  2 =calibr
 tre        1  2 =metr
-jure       2 35
 ilure      1  2 =fail
 rasure     1 10
 osure      2  9
