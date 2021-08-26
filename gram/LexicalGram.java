@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 20aug2021 CPM
+// AW file LexicalGram.java : 25aug2021 CPM
 // basic n-gram extraction
 
 package gram;
@@ -51,7 +51,7 @@ public class LexicalGram {
 //		System.out.println("initial to= " + to);
 //		System.out.println(tb);
 
-		while (tb.rvrs >= tb.fwrd && to <= tb.fwrd) {
+		while (tb.rvrs > tb.fwrd && to <= tb.fwrd) {
 
 			// check that leading char is alphabetic
 
