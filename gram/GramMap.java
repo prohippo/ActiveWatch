@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 23aug2021 CPM
+// AW file GramMap.java : 24aug2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -119,11 +119,11 @@ public class GramMap {
 		"drive", "ealth", "earin", "earth", "eason", "easur", "educa", "egion", "egree", "elect",
 		"ember", "emplo", "enter", "eport", "equen", "ermin", "escri", "estab", "event", "expec",
 		"exten", "famil", "fathe", "featu", "fight", "finan", "front", "futur", "gener", "gover",
-		"grand", "graph", "green", "gress", "groun", "happe", "heser", "house", "human", "icipa",
-		"iddle", "ident", "impor", "indus", "infor", "insta", "instr", "inter", "inves", "islan",
-		"level", "light", "limit", "llion", "locat", "manag", "march", "marke", "matio", "media",
-		"membe", "milit", "milli", "minut", "mmuni", "model", "money", "mount", "natio", "natur",
-		"ngine", "night", "offic", "ology", "ommun", "ontra", "order", "organ", "ouble", "ounce",
+		"grand", "graph", "green", "gress", "groun", "happe", "house", "human", "icipa", "iddle",
+		"ident", "impor", "indus", "infor", "insta", "instr", "inter", "inves", "islan", "level",
+		"light", "limit", "llion", "locat", "manag", "march", "marke", "matio", "media", "membe",
+		"milit", "milli", "minut", "mmuni", "model", "money", "mount", "natio", "natur", "ngine",
+		"night", "offic", "ology", "ommun", "ontra", "order", "organ", "other", "ouble", "ounce",
 		"paper", "paren", "peopl", "phone", "pital", "place", "plain", "plete", "polic", "polit",
 		"posit", "ppear", "pport", "pract", "press", "price", "princ", "proba", "proce", "produ",
 		"progr", "proje", "prope", "prote", "prove", "publi", "quart", "quest", "quick", "raise",
