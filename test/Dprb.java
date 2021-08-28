@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dprb.java : 09aug2021 CPM
+// AW file Dprb.java : 26aug2021 CPM
 // dump probabilities
 
 package test;
@@ -37,10 +37,12 @@ public class Dprb {
 	static GramDecode gd;
 	
 	public Dprb (
-		int n
+		int n,
+		LiteralDecoding ld,
+		GramMap gm
 	) throws AWException {
 		pb = new SelectProbabilities(n);
-		gd = new GramDecode();
+		gd = new GramDecode(gm,ld);
 	}
 	
 	public static void main ( String[] a ) {
@@ -50,7 +52,9 @@ public class Dprb {
 		String fx;	
 		int n = (a.length > 0) ? Integer.parseInt(a[0]) : 16;
 		try {
-			Dprb x = new Dprb(n);
+			GramStart gs = new GramStart();
+			LiteralDecoding ld = new LiteralDecoding(gs.table);
+			Dprb x = new Dprb(n,ld,gs.map);
 		} catch (AWException e) {
 			e.show();
 			return;
