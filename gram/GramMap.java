@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 24aug2021 CPM
+// AW file GramMap.java : 27aug2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -59,23 +59,23 @@ public class GramMap {
 		"gene", "gent", "germ", "gest", "give", "gold", "good", "grad", "gram", "gree",
 		"grou", "grow", "guar", "hair", "half", "hall", "hamp", "hanc", "hand", "happ",
 		"hard", "hast", "have", "head", "heal", "hear", "heat", "heel", "heir", "help",
-		"hema", "hemi", "herd", "hero", "herr", "high", "hine", "hing", "hist", "hold",
-		"hole", "home", "hone", "hool", "host", "hous", "ican", "icat", "icip", "idea",
-		"idge", "ield", "ient", "ieve", "igat", "ight", "igni", "impl", "impo", "impr",
-		"inco", "inde", "indu", "infl", "info", "inge", "inse", "insp", "inst", "inte",
-		"inti", "inve", "invo", "iron", "isla", "ispo", "issu", "iste", "istr", "itch",
-		"itio", "itis", "iver", "ject", "just", "keep", "kill", "kind", "king", "know",
-		"labo", "lace", "lack", "laim", "land", "lane", "lang", "lant", "larg", "last",
-		"late", "lati", "lead", "lean", "lear", "leas", "lect", "lega", "lete", "lice",
-		"life", "line", "ling", "lion", "list", "live", "llow", "loca", "lock", "logi",
-		"long", "look", "loss", "love", "lter", "lude", "mage", "main", "majo", "make",
-		"mall", "mand", "mani", "mark", "mart", "mate", "mber", "mean", "meas", "meda",
-		"medi", "meet", "memo", "ment", "mess", "meth", "mili", "mill", "mind", "mine",
-		"mini", "miss", "mmer", "mmit", "mode", "mont", "more", "moun", "move", "movi",
-		"mper", "mple", "muni", "musi", "nage", "name", "nati", "natu", "nder", "ndle",
-		"need", "nger", "ngin", "ngle", "ngth", "note", "nsti", "nstr", "nten", "nter",
-		"ntin", "ntry", "oach", "oard", "octo", "offe", "offi", "ogra", "oice", "ollo",
-		"olve", "omen", "omet", "omma", "ompa", "ompl", "onar", "onde", "oney", "onom",
+		"hema", "hemi", "herd", "hero", "high", "hine", "hing", "hist", "hold", "hole",
+		"home", "hone", "hool", "host", "hous", "ican", "icat", "icip", "idea", "idge",
+		"ield", "ient", "ieve", "igat", "ight", "igni", "impl", "impo", "impr", "inco",
+		"inde", "indu", "infl", "info", "inge", "inse", "insp", "inst", "inte", "inti",
+		"inve", "invo", "iron", "isla", "ispo", "issu", "iste", "istr", "itch", "itio",
+		"itis", "iver", "ject", "just", "keep", "kill", "kind", "king", "know", "labo",
+		"lace", "lack", "laim", "land", "lane", "lang", "lant", "larg", "last", "late",
+		"lati", "lead", "lean", "lear", "leas", "lect", "lega", "lete", "lice", "life",
+		"line", "ling", "lion", "list", "live", "llow", "loca", "lock", "logi", "long",
+		"look", "loss", "love", "lter", "lude", "mage", "main", "majo", "make", "mall",
+		"mand", "mani", "mark", "mart", "mate", "mber", "mean", "meas", "meda", "medi",
+		"meet", "memo", "ment", "mess", "meth", "mili", "mill", "mind", "mine", "mini",
+		"miss", "mmer", "mmit", "mode", "mont", "more", "moun", "move", "movi", "mper",
+		"mple", "muni", "musi", "nage", "name", "nati", "natu", "nder", "ndle", "need",
+		"nger", "ngin", "ngle", "ngth", "note", "nsti", "nstr", "nten", "nter", "ntin",
+		"ntry", "oach", "oard", "octo", "offe", "offi", "ogra", "oice", "ollo", "olve",
+		"omen", "omet", "omma", "ompa", "ompe", "ompl", "onar", "onde", "oney", "onom",
 		"onst", "ontr", "open", "oper", "opin", "ople", "opti", "orge", "orig", "orit",
 		"orth", "osit", "ossi", "othe", "oubl", "ouch", "ough", "ounc", "ound", "oung",
 		"ount", "ourn", "ouse", "outh", "over", "ower", "pace", "pain", "pani", "para",
