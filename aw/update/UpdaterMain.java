@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file UpdaterMain.java : 11aug2021 CPM
+// AW file UpdaterMain.java : 26aug2021 CPM
 // top-level class for computing n-gram statistics
 
 package aw.update;
@@ -39,36 +39,39 @@ public class UpdaterMain extends Updater {
 	) {
 		int   n = 0;
 		int  nm = 0;
-		boolean add;
-		boolean old = true;
+		boolean add;        // add items of newest batch to statistics
+		boolean keep=true;  // keep oldest batch in statistics
 		UpdaterMain x;
-		
+
 		Banner banner = new Banner("Updater");
 		banner.show();
 
-		// drop batch if argument is '-', otherwise add
+		// optional argument determines handling of batches
 
-		if (av.length > 0 && av[0].charAt(0) == '-') {
-			add = false;
-			if (av[0].length() == 1)
-				old = true;
-			else
-				old = (av[0].charAt(1) != 'n' && av[0].charAt(1) != 'N');
+		if (av.length == 0)
+			add = true;
+		else if (av[0].equals("+-") || av[0].equals("-+")) {
+			add  = true;
+			keep = false;
+		}
+		else if (av[0].equals("-")) {
+			add  = false;
+			keep = false;
 		}
 		else
 			add = true;
-			
+
 		try {
-		
+
 			x = new UpdaterMain();
 			nm = x.co.totalCount();
-			n = x.run(add,old);
+			n = x.run(add,keep);
 
 		} catch (AWException e) {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		int no = x.co.noms[bno];
 		if (add)
 			System.out.print("\nadd "  + no + " items of batch " + bno + " to ");
