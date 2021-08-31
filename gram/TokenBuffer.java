@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TokenBuffer.java : 19aug2021 CPM
-// auxiliary data structure for n-gram index extraction
+// TokenBuffer.java : 30aug2021 CPM
+// auxiliary buffer for n-gram index extraction
 
 package gram;
 
@@ -36,34 +36,26 @@ import stem.TokenForm;
 
 public class TokenBuffer {
 
-	public static final char NX =  0x0; // sentinel for buffer
-	public static final int  LN =  256; // basic allocation for buffer
+	public static final char NX =  0x0;   // sentinel for buffer
+	public static final int  LN =  256;   // basic allocation for buffer
 
 	// for direct use by n-gram indexing classes only!
 
-	char[] buffer = new char[LN];       // actual buffer
-	int start,end; // where token lies in buffer
-	int fwrd,rvrs; // current extraction extents
-	int next;      // where to begin scanning for next n-gram
+	public  char[] buffer = new char[LN]; // actual buffer
+	public  int start,end; // where token lies in buffer
+	public  int fwrd,rvrs; // current extraction extents
+	private int posn = 0;  // remember where last n-gram index started
+	private int maxn = 0;  // maximum n-gram length
 
        /**
 	* create empty buffer for n-gram analysis
+	* @param mxn maximaum lexical n-gram length
 	*/
 
 	public TokenBuffer (
+		int mxn
 	) {
-
-	}
-
-       /**
-	* create buffer from token to index by n-grams
-	* @param token to index
-	*/
-
-	public TokenBuffer (
-		TokenForm token
-	) {
-		set(token);
+		maxn = mxn;
 	}
 
        /**
@@ -79,7 +71,7 @@ public class TokenBuffer {
 
 		// copy token as chars to buffer, less punctuation
 
-		start = next = k;
+		start = k;
 		byte[] ta = token.toArray();
 		for (int i = 0; i < token.length(); i++) {
 			byte x = ta[i];
@@ -92,6 +84,7 @@ public class TokenBuffer {
 		end = k;
 		fwrd = start;
 		rvrs = end;
+		posn = 0;
 
 		// put in sentinel
 
@@ -113,38 +106,32 @@ public class TokenBuffer {
 	public final boolean exhausted ( ) { return (fwrd == end); } 
 
        /**
-	* take next char from buffer and advance pointer
-	* @return char
+	* reposition in buffer after successful n-gram extraction
+	* n = last lexical n-gram length
+	* @return new starting position in buffer
 	*/
 
-	public final char next ( ) { return buffer[fwrd++]; }
+	public final int reposition ( int n ) {
+		if (n == 0) {
+			n = fwrd - posn;
+			if (n > maxn) n = maxn;
+		}
+		posn = fwrd - n + 1;
+		return posn;
+	}
 
        /**
-	* just look at next char in buffer without advancing pointer
-	* @return char
+	* get saved position of last n-gram extraction
+	* @return position
 	*/
 
-	public final char peek ( ) { return buffer[fwrd]; }
-
-       /**
-	* just look at char after next in buffer without advancing pointer
-	* @return char
-	*/
-
-	public final char peekAfter ( ) { return buffer[fwrd+1]; }
-
-       /**
-	* begin next pass of n-gram extraction
-	* @return next starting position in buffer
-	*/
-
-	public final int goNext () { return next++; }
+	public final int position ( ) { return posn; }
 
        /**
 	* restart buffer
 	*/
 
-	public final void restart ( ) { next = fwrd = start; rvrs = end; }
+	public final void restart ( ) { posn = 0; fwrd = start; rvrs = end; }
 
        /**
 	* get string from range of chars in buffer

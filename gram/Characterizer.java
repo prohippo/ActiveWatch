@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Characterizer.java : 21aug2021 CPM
+// AW file Characterizer.java : 30aug2021 CPM
 // encapsulated n-gram extraction
 
 package gram;
@@ -30,6 +30,7 @@ package gram;
 import aw.Letter;
 import aw.AWException;
 import stem.Token;
+import gram.LexicalGram;
 import java.io.*;
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class Characterizer {
 
 	private static final int N2gB = Gram.IB2 + Letter.NA*Letter.NAN;
 
-	private TokenBuffer tb = new TokenBuffer(); // work area
+	private TokenBuffer tb = new TokenBuffer(LexicalGram.MXn); // work area
 
 	private Literal table;        // user-defined indices
 	private GramMap   map;        // pre-defined long lexical n-grams
@@ -83,6 +84,7 @@ public class Characterizer {
 
 		// extract all other lexical indices
 
+//		System.out.println(tb);
 		while ((g = LexicalGram.get(tb,map)) > 0)
 			las.add(g);
 

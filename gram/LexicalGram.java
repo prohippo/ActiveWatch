@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 25aug2021 CPM
+// AW file LexicalGram.java : 30aug2021 CPM
 // basic n-gram extraction
 
 package gram;
@@ -46,12 +46,11 @@ public class LexicalGram {
 		int    n;     // the n in the next n-gram to look for
 		short  g = 0; // next n-gram index to return
 
-		to = tb.goNext();
-		if (to < tb.start) to = tb.start;
-//		System.out.println("initial to= " + to);
+		to = tb.reposition(0);
+//		System.out.println("resume with to= " + to);
 //		System.out.println(tb);
 
-		while (tb.rvrs > tb.fwrd && to <= tb.fwrd) {
+		while (tb.rvrs >= tb.fwrd && to <= tb.fwrd && to < tb.rvrs) {
 
 			// check that leading char is alphabetic
 
@@ -68,6 +67,7 @@ public class LexicalGram {
 					if (g > 0) {
 						tb.fwrd = to + 4;
 						g += Gram.IB5;
+						tb.reposition(5);
 						break;
 					}
 				}
@@ -83,6 +83,7 @@ public class LexicalGram {
 					if (g > 0) {
 						tb.fwrd = to + 3;
 						g += Gram.IB4;
+						tb.reposition(4);
 						break;
 					}
 				}
@@ -102,6 +103,7 @@ public class LexicalGram {
 							int k = Letter.toByte(d);
 							g = (short)(Gram.IB3 + jcb*Letter.NA + k);
 							tb.fwrd = to + 2;
+							tb.reposition(3);
 							break;
 						}
 					}
@@ -120,11 +122,12 @@ public class LexicalGram {
 				int kd = Letter.toByte(tb.buffer[to++]);
 				g = (short)(Gram.IB2 + kc*Letter.NAN + kd);
 				tb.fwrd = to;
+				tb.reposition(2);
 				break;
 			}
 		}
 
-//		System.out.println("return " + g);
+//		System.out.println("return " + g + ", posn=" + tb.position());
 		return g;
 
 	}

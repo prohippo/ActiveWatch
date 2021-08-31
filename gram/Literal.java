@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Literal.java : 21aug2021 CPM
+// AW file Literal.java : 30aug2021 CPM
 // literal n-gram extraction
 
 package gram;
@@ -93,7 +93,6 @@ public class Literal extends LiteralBase {
 					if (n < ts)
 						n = ts;
 					tb.fwrd = n;
-					tb.goNext();
 					answer = (short)(Gram.IBL + i);
 					break;
 				}
