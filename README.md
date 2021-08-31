@@ -101,3 +101,6 @@ v0.7.1  25aug2021  fix bug in LexicalGram, improper breaking out of extraction l
                    simply Updater command line arguments
                    update Dprb for v0.7 changes in n-gram initialization
                    update documentation
+
+v0,7.2  30aug2021  fix integration problem with AW-defined and user-defined indides
+                   update documentation
