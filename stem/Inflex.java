@@ -22,11 +22,12 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Inflex.java : 10Mar00 CPM
+// AW File Inflex.java : 20sep2021 CPM
 // standard inflectional stemmer for English
 
 package stem;
 
+import java.io.*;
 import aw.Letter;
 
 public class Inflex {
@@ -34,7 +35,7 @@ public class Inflex {
 	// define operation code ranges for recognition
 
  	private static final short
-		nfai= 0, nsuc=-1,
+		nfai= 0, nsuc=-10,
 		nbeg= 8, 
 		nisa=16, 
 		nlen=24, 
@@ -45,7 +46,12 @@ public class Inflex {
 	private static final int
 		isFAIL= -1,
 		isNOTP=  0,
-		isSUCC=  1;
+		isSUCC=  1,
+		doMORE=  2;
+
+	// for communicating between methods
+
+	private static byte last = 0;
 
 	// apply logic of inflectional stemming table against word
 	
@@ -56,15 +62,16 @@ public class Inflex {
 		short[] table  // table to drive suffix removal
 
 	) {
-		int i,k,m,n;
+		int i,k,m,n,ne;
 		int opcode;    // next operation in stemming
 		int base;      // subset count
-		int  it;       // table index
+		int  it;       // table logic index
  		boolean match; // length comparison flag
  		
 		it = 0;
 		m = end;
 		n = table[it++];
+//		System.out.println("m= " + m + ", n= " + n);
     	
 		if (n >= end)
 			return isNOTP;
@@ -74,27 +81,44 @@ public class Inflex {
 		for (i = 0; i < n; i++)
 			if (word.array[--end] != (byte) table[it++])
 				return isNOTP;
- 
+
 		// scan table logic
  
 		while ((opcode = table[it++]) != 0) {
  
-			if (opcode <= nsuc) {
+//			System.out.println("opcode= " + opcode + ", end= " + end);
+			if (opcode < 0) {
  
 				// word satisfies conditions for removing ending
 
-				k = 0;
-				end = m - n;
-				if (opcode < nsuc) {
-					end -= (opcode + 10);
-					if (table[it] < 0)
-						return reflexen(word,end,0);
+//				System.out.println("opcode= " + opcode + ", end= " + end);
+//				System.out.println("word= [" + word + "]");
+				ne = opcode - nsuc;   // more length adjustment
+//				System.out.println("old end= " + end);
+//				System.out.println("ne= " + ne);
 
-					k = table[it++];
+				end = m - n;
+				if (ne <= 0) {
+//					System.out.println("new end= " + end);
+					word.setLength(end);
+					if (ne < 0)
+						word.append(last);
+//					System.out.println("word= [" + word + "]");
+					return isSUCC;
 				}
-				word.length(end);
+	
+				end -= ne - 1;
+
+//				System.out.println("new end= " + end);
+				word.setLength(end);
+//				System.out.println("root word= [" + word + "]");
+				k = table[it++];	
+//				System.out.println("k= " + k);
 				for (i = 0; i < k; i++)
 					word.append((byte)table[it++]);
+
+//				System.out.println("extended word= [" + word + "]");
+
 				return isSUCC;
 			}
  
@@ -156,7 +180,7 @@ public class Inflex {
 		return isFAIL;
 	}
 
-	// restore a word to stem form
+	// restore a word to complete stem form
 	
 	private static int reflexen (
  
@@ -166,8 +190,12 @@ public class Inflex {
  
 	) {
 
-		if (opcode == 0)
-			return deflexen(word,end,Table.restore);
+//		System.out.println("reflexen: opcode= " + opcode);
+
+		if (opcode == 0) {
+			restMore(word);
+			return isSUCC;
+		}
  
 		else if (opcode < ndbl) {
 			if (word.array[end - 1] == word.array[end - 2])
@@ -175,33 +203,75 @@ public class Inflex {
 			else
 				return deflexen(word,end,Table.special);
 		}
-		else if (opcode >= Table.v0) {
- 
+
+		else if (opcode == Table.vo) {
+
 			// vowel sequence checks
 
-			word.length(end);
-		
-			end -= 2;
-			switch (opcode) {
-case Table.v0:
-case Table.v1:
-				if (end < 0 || Letter.cnx[word.array[end]])
-					break;
-case Table.v2:
-				--end;
-				if (end < 0 || Letter.vwx[word.array[end]])
-					break;
-				if (end > 0)
-					if (word.array[end] == Table.xu && word.array[end - 1] != Table.xq )
-						break;
-				word.append((byte)Table.xe);
-			}
+//			System.out.println("vo end= " + end);
+			word.setLength(end); // trim token to length
+
+			end -= 2;            // at possible vowel in stemming result
+
+			if (end < 0 || Letter.cnx[word.array[end]])
+				return isSUCC;
+
+ 			--end;               // vowel found; now check for preceding consonant
+
+			if (end < 0 || Letter.vwx[word.array[end]])
+ 				return isSUCC;
+
+ 			if (end > 0)
+				if (word.array[end] == Table.xu && word.array[end - 1] != Table.xq )
+ 					return isSUCC;
+			word.append((byte)Table.xe);
+
 			return isSUCC;
 		}
-		else
+
+		else if (opcode == Table.mo) {
+
+			// invoke further logic
+
+			word.setLength(end); // trim token to length
+			return doMORE;
+		}
+
+		else {
+//			System.out.println("fail!");
 			return isFAIL;
+		}
 	}
- 
+
+	// do more restoration
+
+	private static void restMore (
+
+		Token word
+
+	) {
+		int  sta;
+		int  len;
+		byte[] w;
+
+//		System.out.println("restMore" + " [" +  word + "]");
+		sta = deflexen(word, word.length(),Table.restore);
+		len = word.length();
+		if (sta == doMORE) {
+			w = word.toArray();
+			if (len < 3)
+				deflexen(word,len,Table.special);
+			else if (w[len-1] == w[len-2]) {
+				word.setLength(--len);
+				last = w[len];
+				deflexen(word,len,Table.undouble);
+				last = 0;
+			}
+			else
+				deflexen(word,word.length(),Table.special);
+		}
+	}
+
  	// remove -s, -ed, -ing inflectional endings
  	
 	public static int inflex (
@@ -209,17 +279,28 @@ case Table.v2:
 		Token word  // word token
  
 	) {
-		int k,n;
- 
-		n = deflexen(word,word.length(),Table.dropS);
-		
-		k = (n == isNOTP) ? deflexen(word,word.length(),Table.dropED) : isNOTP;
- 
-		if (n != isFAIL && k == isNOTP)
-			k = deflexen(word,word.length(),Table.dropING);
- 
-		return word.length();
+		int statk=0,statn;
+		int leng;
+
+		statn = deflexen(word,word.length(),Table.dropS);
+		leng = word.length(); // word might have shortened
+
+		if (statn == isNOTP) {
+			statk = deflexen(word,leng,Table.dropED);
+			if (statk > 1) restMore(word);		
+		}
+
+		if (statk == isNOTP) {
+			statk = deflexen(word,leng,Table.dropING);
+			if (statk > 1) restMore(word);		
+		}
+
+//		System.out.println("inflex word= [" + word + "]");
+//		System.out.println("length= " + word.length());
+ 		return word.length();
 	}
+
+	// for support of morphological stemming
 
 	public static int reflex (
  
@@ -227,7 +308,9 @@ case Table.v2:
 		int opcode  // operation
  	
 	) {
+//		System.out.println("reflex: [" + word + "], opcode=" + opcode);
 		reflexen(word,word.length(),opcode);
+//		System.out.println("to    : [" + word + "]");
 		return word.length();
 	}
 	

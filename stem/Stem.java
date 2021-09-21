@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Stem.java : 03Dec98 CPM
+// AW File Stem.java : 15sep2021 CPM
 // morphological stemmer
 
 package stem;
@@ -188,7 +188,7 @@ public class Stem extends StemBase {
 
 		ap = actp[mnr];
 		lng += acts[ap++];
-		t.length(lng);
+		t.setLength(lng);
 
 		while ((k = acts[ap++]) < Letter.NA)
 			t.append(k);

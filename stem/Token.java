@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Token.java : 04Jul02 CPM
+// AW File Token.java : 13sep2021 CPM
 // convert string to AW token format
 
 package stem;
@@ -99,7 +99,7 @@ public class Token implements TokenForm {
 
 	// reset token length
 		
-	public final void length (
+	public final void setLength (
 		int n
 	) {
 		if (length > n)

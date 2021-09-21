@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Tokenizer.java : 13jul2021 CPM
+// AW File Tokenizer.java : 18sep2021 CPM
 // extract tokens from a segment of English text
 
 package stem;
@@ -90,8 +90,11 @@ public class Tokenizer {
 			return true;
 			
 		Inflex.inflex(token);
+//		System.out.println("token: " + token);
 		suffix.stem(token);
+//		System.out.println("token: " + token);
 		ts.substitute(token);
+//		System.out.println("token: " + token);
 		
 		int start = offset - length;
 		char left,right;
@@ -115,7 +118,7 @@ public class Tokenizer {
 	public Token get (
 	
 	) {
-		String t;
+		String s;
 
 		if (in == null)
 			return null;
@@ -124,19 +127,19 @@ public class Tokenizer {
 
 			// extract next lexical segment
 			 
-			t = in.get();
+			s = in.get();
 			
-			if (t == null)
+			if (s == null)
 				return null;
 			
-			// record token source
+			// save where token came from in stream
 			
-			length = t.length();
+			length = s.length();
 			offset = in.os;
 			
 			// get reduced token
 			
-			token.set(t);
+			token.set(s);
 			if (!stopped(token))
 				break;
 			
@@ -162,7 +165,7 @@ public class Tokenizer {
 			Token t;
 			while ((line = in.readLine()) != null) {
 				tkzr.set(line);
-				System.out.println(line);
+				System.out.println(">> " + line);
 
 				while ((t = tkzr.get()) != null) {
 					System.out.println(t);
