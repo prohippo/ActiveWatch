@@ -133,3 +133,7 @@ v0.7.3  04sep2021  add suffix rule to fix stemming glitch
                    add general writeup on AW and finite indexing
                    upload jars of compiled and linked AW modules
                    update documentation
+
+v0.8    20sep2021  update to latest inflectional stemming logic
+                   update implementation of inflectional stemmer
+                   update documentation
