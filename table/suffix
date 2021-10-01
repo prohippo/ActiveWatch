@@ -22,2190 +22,2466 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; suffix : 12jul2021 CPM
+; suffix : 30sep2021 CPM
 ;
 ;  0:keep, 1:any, 2:consonant, 3:consonant or U
 ;
 ;  * = ending to be matched recursively
 ;  | = beginning of word
 ;
-dse        3  1 =sud
-burete     2  5
-onch       2 88
-juan       0  2 =juan
-njury      1 11 =injure
-nulus      2 10 =annule
-ocuss      2  4
-;;;;;
-phica      1  2
-tica       2  3 =antarctic
-obia       1  9 =phobe
-rbia       1  2 =serb
-lgia       1 34
-emia       1  9 =aneme
-aemia      2 65
-hrenia     2  4 =schizophren
-ennia      2 65 =millenne
-bria       1  2 =equilibr
-steria     1 23
-phoria     1  4 =euphor
-oatia      2  3 =croat
-itia       2  9 =milite
-lavia      2  3 =yugoslav
-bola       1  3
-ema        2 64
-sma        1  2 =plasm
-omena      2  2 =phenom
-ina        2  9 =argentine
-hina       0  2 =china
-phora      1  4 =anaphor
-iac        2  2 =mania
-giac       1 33 =elegy
-rabic      1  3
-obic       1  9 =phobe
-rbic       1  2 =ascorb
-ubic       2  9 =cube
-rubic      1  3 =cherub
-idic       3  2 =acid
-odic       2  9 =episode
-hodic      2  3 =method
-iodic      2  3 =period
-lodic      1 35
-tific      2  1 =scient
-egic       2 34
-lgic       1 34
-gogic      1  3 =pedagog
-*ologic    1 36
-rgic       1 34
-surgic     1 85
-hic        2  1 =geograph
-ethic      0  2
-clic       1  9 =cycle
-elic       2  2 =evangel
-hilic      2 10 =phile
-tallic     1  3 =metal
-olic       2  2 =symbol
-tabolic    1 12 =metabole
-stolic     1 11 =systole
-ostolic    2 21 =apostle
-ylic       2  2 =oxyl
-lamic      2  3 =islam
-emic       2  9
-aemic      2  3
-nemic      1 10 =aneme
-temic      2  3 =system
-hmic       2  2 =rhythm
-omic       2  2
-nomic      1 35
-asmic      2  3 =orgasm
-ymic       2  2 =patronym
-nic        1  1 =electron
-manic      0  2
-cnic       0  2 =picnic
-genic      2 65
-rgenic     1  4 =allergen
-ienic      2 65
-inic       0  2 =clinic
-finic      1  3 =olefin
-yrannic    2 31 =tyrant
-aonic      2 86
-emonic     2 36
-demonic    1  5
-rmonic     1 36
-ironic     1 36 =irony
-sonic      0  2
-roic       1  2 =hero
-opic       2  9 =isotope
-tropic     0  2
-|topic     0  2
-ypic       2 64 =typic
-aric       2  9 =barbare
-dric       2  2 =cylindr
-heric      2 22
-omeric     1  4 =isomer
-ymeric     1  4 =polymer
-eteric     2  4 =ureter
-nteric     1  4 =trochanter
-steric     2 23
-iric       2  9
-oric       2 34
-eoric      2  3 =meteor
-phoric     1  4 =metaphor
-sphoric    0  2
-aloric     2 89
-atric      1  3 =theatr
-ctric      1  3 =electr
-metric     1  4 =symmetr
-itric      1  3 =nitr
-ntric      1  3 =concentr
-phuric     2 100
-asic       2  9
-osic       3  9
-batic      1  3 =acrobat
-reatic     2  3 =pancrea
-phatic     1  4
-matic      1  2 =drama
-ematic     2  9
-lematic    2  3 =problem
-tematic    2  3 =system
-imatic     2 11
-mmatic     1  1 =program
-|grammatic 1 47
-ngrammatic 1 48
-omatic     1 11
-iomatic    2  3 =idiom
-lomatic    2  5 =diplomat
-romatic    1  4 =aroma
-ptomatic   2  4 =symptom
-ismatic    2  3 =prism
-ymatic     2 64
-cratic     1  4 =democrat
-peratic    1  4 =opera
-astatic    2  5 =metastat
-cstatic    1 79
-lactic     1  4 =galact
-imactic    2 74
-ntactic    2 74
-otactic    2 74
-etic       1  2 =hypothet
-tetic      1  1 =diet
-getic      1 33
-athetic    2  3
-genetic    1  4
-oretic     1 34
-ocritic    2  5
-hritic     2  4 =arthrit
-rasitic    1 89
-mantic     1  4 =romant
-otic       1  2 =idiot
-aotic      2  2 =chao
-ptic       1  2
-|optic     0  2
-ortic      1 41 =aorta
-bastic     2  4 =bombast
-giastic    1 33
-siastic    1  8 =enthuse
-lastic     1  4 =plast
-mnastic    1  2 =gymn
-tastic     2 35
-*istic     1  3
-galistic   1  3
-bilistic   1 19
-llistic    0  2 =ballistic
-olistic    2 34
-tistic     0  2 =statistic
-rtistic    1  2 =art
-*otistic   2  5
-utistic    1  5 =autist
-gnostic    1  5
-cystic     1  4 =cyst
-autic      2  3 =aeronaut
-*eutic     2 32
-ytic       2  2 =analyt
-avic       2  2 =slav
-atred      2  9 =hate
-paid       1 34
-*hood      2  0 =neighbor
-*ihood     2 32
-heard      1  4
-iae        2  2
-lae        3  2
-inae       1  9
-ebrae      2  4
-endice     2 75
-indice     1 76
-atrice     2 75
-ertice     2 76
-cortice    1 77
-vortice    1 77
-bance      3  8
-cance      1 30
-dance      2  8 =abund
-idance     1  9 =avoid
-gance      1 30
-iance      1 32
-diance     1 53
-liance     3 31
-alliance   1 35
-mpliance   1 35
-ppliance   0  2
-blance     2  9 =resemble
-ilance     1  2 =vigil
-dulance    3  1 =fraud
-omance     2 31
-rmance     1  2 =perform
-tenance    2 55
-minance    1 10 =domine
-*onance    2 31
-rnance     1  2 =govern
-arance     1  2 =appear
-brance     2  2 =remembr
-drance     2  2 =hindr
-grance     1 31
-erance     2 31
-lerance    1  3
-verance    1 22
-|severance 1  5 =sever
-iverance   2  4 =deliver
-orance     2 31
-*trance    1  2 =entr
-urance     2  9
-ctance     1  2 =reluct
-*itance    2 31
-ntance     1  2 =acquaint
-ptance     1  2 =accept
-rtance     1 31
-stance     2 31
-istance    1  3 =persist
-ttance     1  1 =admit
-suance     1  9
-evance     2 31
-rvance     1  9
-wance      1  1 =allow
-yance      1  1 =convey
-cence      1 30
-*dence     1  2 =coincide
-ndence     1  2 =depend
-udence     2 31
-*gence     1 30
-ience      1 30
-lence      1 30
-llence     1  1 =excel
-*nence     1 30
-erence     1  3 =adhere
-ference    1  3 =infer
-rference   1  5 =interfere
-rrence     1  1 =deter
-sence      1 30
-ndescence  1  6
-nescence   1  5 =luminesce
-etence     2 31
-otence     2 31
-stence     1  2 =exist
-uence      1 30
-lphide     3 98
-wide       2  0 =nation
-ncee       1  3 =divorce
-rcee       1  3 =divorce
-dee        2  1 =stand
-ugee       2  3
-olee       2  3 =parole
-nee        1  2 =nomine
-gnee       1  2 =sign
-ainee      2  3 =train
-knee       0  2
-rnee       3  2 =return
-pee        1  2 =escape
-iree       2  3 =retire
-oree       2  2 =honor
-nsee       1  3 =license
-ntee       1  2 =absent
-otee       2  3 =devote
-rtee       1  2 =deport
-utee       2  3 =ampute
-yee        1  1 =employ
-rriage     1 34
-|carriage  0  2
-kage       1  1 =link
-oilage     2  3 =spoil
-mblage     1 10
-ainage     2  3
-onage      1  2 =patron
-pionage    2  4 =espion
-oppage     1  2 =stop
-kerage     1  3
-coverage   1  5
-orage      2  9 =store
-osage      2  9 =dose
-|usage     1 64
-ltage      1  2 =volt
-entage     1  3 =parent
-ontage     1  3 =front
-ootage     2  3 =foot
-ortage     2  3 =short
-astage     2 10 =waste
-eavage     2 10 =cleave
-phe        1  2 =catastroph
-eathe      1  4 =breath
-moothe     2  5 =smooth
-*like      2  0
 *able      1  7
-bable      0  2 =probable
-ocable     2 37
-rocable    2 10 =reciproce
-rbable     1  2 =absorb
-icable     2 32
-nicable    0  2 =communicable
-picable    2  3
-iable      2 32
-mmable     1  8 =inflame
-pable      0  2 =capable
-lpable     1  2 =palp
-mpable     1  2 =pump
-opable     2  2 =develop
-ppable     1  1 =stop
-rable      1  8
-serable    1 35
-morable    1 35
-disable    0  2
-usable     1 64
-metable    0  2 =timetable
-fitable    1  3 =profit
-nitable    2 10 =ignite
-ritable    2 10 =irrite
-haritable  2 12 =charite
-eritable   2  4
-veritable  1 89
-nstable    0  2
-itable     3  7 =eque
-suitable   1  4
-evitable   2  4
-cible      3  8 =reduce
-udible     2  9 =extrude
-nible      2  1 =discern
-sible      2  8
-ivisible   2 16
-onsible    0  1 =responsible
-missible   2 29
-ossible    0  2
-fusible    1 10 =fuse
-rusible    2 15 =extrude
-tible      1  1 =convert
-xible      1  1 =flex
-ptacle     1  2 =recept
-bratile    1  2 =vibr
-ctile      1  2 =contract
-ectile     0  2 =projectile
-bole       2  3 =hyperbol
-ticule     2 21 =lenticle
-ranule     2 55
-ramme      2  3 =program
-esome      2  1 =trouble
-ensome     2  2 =burden
-alline     2  2 =crystal
-bre        1  2 =calibr
-tre        1  2 =metr
-ilure      1  2 =fail
-rasure     1 10
-osure      2  9
-lature     3 10 =legislate
-gnature    1  2 =sign
-terature   1  5 =literat
-vature     2  8 =curve
-tracture   2  5 =contract
-ecture     1  3 =architect
-iture      2  0 =expend
-eiture     1  3 =forfeit
-rture      1  2 =depart
-orture     0  2
-isture     1  3 =moist
-mixture    1  3 =mix
-izure      1  9
-ese        2  0 =vietnam
-rmese      3 40 =burma
-nese       1 39
-anese      2  2 =japan
-vanese     1  2 =java
-sese       0  2
-guese      3  8
-ercise     2 29
-*idise     2 93
-*gise      1 92
-*lise      1 92
-imise      2  9
-*domise    1 94
-*nise      1 92
-arise      2  9
-iarise     2  3
-*erise     1 93
-*orise     1 93
-urise      2  9
-hesise     2 29 =synthet
-rtise      1  2 =expert
-vertise    0  2
-fense      1 25
-pense      2 25
-ispense    0  2
-monse      2  3
-ponse      2 25
-gnose      1 31
-atose      2  1 =coma
-napse      1 30
-ipse       2 29
-ypse       2 29
-pplause    1 27
-lyse       1 29
-bibate     1 10 =imbibe
-rbate      1  2 =perturb
-iccate     2  3 =desicc
-ficate     1 33
-pplicate   0  2
-applicate  1 36 =apply
-blicate    3 90
-xplicate   0  2
-nicate     3 10 =communice
-bricate    3  4 =lubric
-nticate    1  4 =authentic
-sticate    1  4 =domestic
-asticate   0  2
-osticate   2  3 =prognost
-rocate     2 10 =reciproce
-vocate     1 10 =equivoce
-lidate     1  3 =valid
-xidate     1 65
-ardate     1  3 =retard
-rudate     2 10 =extrude
-xudate     1 10 =exude
-rmeate     1  3 =perme
-llegate    1 11 =allege
-igate      2  9 =litige
-ugate      2  9
-phate      2 96
-sphate     0  2
-unciate    2 78
-iliate     2  9 =affile
-miliate    3 81
-briate     1  2 =equilibr
-uriate     2 34
-*tiate     2  1 =different
-atiate     2  9
-itiate     2  2 =init
-ilate      2  9 =compile
-dilate     0  2
-tilate     2  1 =vent
-llate      1  2 =distill
-cellate    2  3 =cancel
-ppellate   1 80
-rillate    2  3 =fibril
-cculate    1 11 =floccule
-ticulate   1 21 =particle
-|articulate  0 2
-earticulate  0 2
-narticulate  0 2
-oculate    2 11 =inoculate
-asculate   2 12
-idulate    1 11 =acidule
-agulate    1 11
-ngulate    1 20
-ungulate   0  2
-mulate     1  4 =formula
-ranulate   2 55
-onsulate   2  5
-psulate    1 11 =encapsule
-timate     1 10 =legitime
-ximate     1 10 =approxime
-planate    2 56
-ogenate    2  4
-ygenate    2  4
-signate    1  4
-designate  0  2
-inate      2  9
-ccinate    1 11
-ginate     1 10
-paginate   1 10
-iginate    2  4 =origin
-linate     2  3 =pollin
-minate     1 10 =determine
-sinate     2  3 =assassin
-lphonate   3 101
-*ionate    2  3
-rnate      1  2 =altern
-cipate     1 10 =anticipe
-arate      1  9
-parate     2  3 =dispar
-brate      1  2
-cerate     2  3 =ulcer
-ederate    2 59
-iderate    2  4 =consider
-lerate     1  3 =toler
-terate     2  3 =alter
-iterate    2  6 =literat
-tegrate    2  4 =integr
-mirate     1 10 =admire
-emirate    1  4
-spirate    1 11 =inspire
-laborate   2  5 =collabor
-lorate     2 10
-torate     2  1 =protect
-octorate   2  5 =doctor
-trate      1  2 =administr
-gurate     1 10 =configure
-naturate   1 12 =denature
-sate       2  8 =compense
-itate      2  9 =hesit
-ilitate    2 36
-bilitate   1  1 =rehab
-mitate     0  2
-etentate   2 56
-notate     2 65
-astate     2  3 =devast
-ostate     2 79
-ustate     2  3 =encrust
-mutate     2 10 =permute
-|mutate    0  2
-putate     2 10
-eputate    2 11
-luate      1  9
-quate      1  9 =antique
-ruate      2  9 =menstrue
-etuate     2 10 =perpetue
-ntuate     1  2 =accent
-*ivate     2  9
-livate     1  4
-eservate   2 12 =preserve
-private    0  2
-yzate      2 28 =hydrolyt
-bete       1  3 =diabet
-lete       2  3 =athlet
-plete      0  2
-phite      2 97
-sphite     0  2
-gnite      0  2 =ignite
-bolite     1 10
-crite      1  4 =hypocrit
-orite      2  2 =favor
-osite      2  9 =oppose
-lyte       1  3 =electrolyt
-logue      1  3 =dialog
-chieve     2 71
-thieve     1 71
-lieve      1 70
-grieve     1 71
-rcive      1  9 =coerce
-ucive      2  9 =conduce
-ceive      1 87
-asive      3 14
-hesive     2 22 =adhere
-ohesive    2 23 =cohere
-isive      2 14
-ulsive     2 18
-mulsive    1 11
-ensive     1 24
-|pensive   0  2
-intensive  1 13
-onsive     2 24
-osive      2 14
-versive    2 30
-ursive     2 10 =recurse
-|cursive   0  2
-ssive      1  2 =mass
-passive    0  2
-ccessive   3 42
-ecessive   1 16 =recede
-nsmissive  1 31 =transmit
-usive      2  9
-lusive     1 15
-reclusive  1 13 =recluse
-rusive     2 15
-tive       2  1 =act
-*ative     1  9
-bricative  3  4 =lubric
-ocative    2 37
-negative   0  2
-kative     2  1 =talk
-rmative    1  2 =inform
-urative    2  9
-sative     3  8 =accuse
-*tative    1  8
-*itative   1 34
-tentative  0  2
-eactive    2  4 =react
-effective  0  2
-ductive    1 10
-onductive  2  6
-etive      2  2 =secret
-ccretive   1 12 =accrete
-bitive     1  3 =prohibit
-nitive     1  8 =define
-unitive    2 90
-ritive     2 10 =nutrite
-sitive     2  3 =sensit
-titive     1  8 =compete
-epetitive  2 84
-uitive     2  3
-omotive    2 11
-iptive     2 58
-rptive     1 66
-urtive     0  2 =furtive
-halve      1 70
-|elve      1 69 =elf
-helve      2 70 =self
-selve      2  0
-wolve      1 70
-hoove      1 70
-eaze       2 35
-icize      2  2 =critic
-dize       2  1 =standard
-idize      2 34
-ridize     2  3 =hybrid
-uidize     2  3
-xidize     1 65
-ogize      2 34
-rgize      1 34
-thize      1  2 =sympath
-*alize     1  2 =realize
-clize      1  9
-elize      2  2 =evangel
-bilize     1 19
-obilize    2 11
-rilize     1 20
-silize     2  3 =fossil
-tilize     1 20
-llize      1  1
-olize      2  9
-polize     1 34
-mbolize    1  4
-imize      2 64
-omize      2  2 =random
-nomize     1 35
-umize      3  2 =vacuum
-nize       1  1 =recogn
-anize      2  2 =mechan
-ganize     0  2 =organize
-enize      2 64
-kenize     1  3
-agonize    2 36
-monize     2 35
-emonize    2  4
-rize       1  8
-*arize     1  2 =polar
-marize     2 10 =summare
-tarize     1  8 =milite
-uterize    2  3 =compute
-dorize     1  3 =odor
-eorize     2 35
-gorize     1 35
-horize     2 31
-aporize    2  4 =vapor
-phasize    1 30
-tasize     2 29 =metastat
-hesize     2 29
-matize     1  2 =drama
-ematize    2  2 =system
-hematize   2 65
-omatize    1  2 =axiom
-ratize     2  3 =democrat
-vatize     1 10
-erivatize  2 11 =derive(!)
-*ctize     3  2
-etize      2  2 =magnet
-itize      2  2 =digit
-ntize      1  2 =quant
-otize      2  2 =hypnot
-ptize      1  2 =bapt
-*ivize     2  9
-roze       2 108
-lyze       1 29
-self       1  0
-edish      2  9
-rdish      3  2 =kurd
-kish       2  1
-llish      1  2 =bull
-olish      2 30
-polish     0  2
-ylish      2 64
-earish     1  3 =bear
-verish     1  3 =fever
-itish      2 56
-hitish     2 10 =white
-ottish     2  2 =scot
-utish      2  9 =brute
-ewish      2  2 =jew
-mth        2  1 =warm
-owth       2  2 =grow
-ngi        3 63
-li         1  1 =israel
-nuli       2 10 =annule
-hani       2  3 =afghan
-stani      1  4 =pakistan
-qi         1  1 =iraq
-ibal       2  9
-obal       2  9
-tubal      1 65 =tube
-*ical      1  2
-cical      2  8 =farce
-*logical   1 35
-lical      2  8
-orical     2 34
-horical    2  3 =metaphor
-nsical     1  9 =nonsense
-ctrical    1  3 =electr
-ntical     1  2 =ident
-rvical     1 76 =cervix
-rocal      2 10 =reciproce
-vocal      1 10 =voce
-idal       2  9 =tide
-amidal     2  4 =pyramid
-oidal      2  3
-nodal      1 65 =node
-ageal      2 63 =esophagus
-ryngeal    1 74 =pharynx
-rheal      2  4 =diarrhea
-digal      1 35 =prodigy
-ngal       3 63
-ugal       2  9
-ibial      2  4 =tibia
-obial      2  9
+abour      1 44
+abular     2 20
+abulous    1 20
+acer       2  3 =race
 acial      2  9
-icial      1  9
-eficial    2 30
-ncial      1  9
-rcial      1  9
-edial      2 34 =remedy
-idial      2  4
-odial      2 34 =custody
-ardial     2  5 =cardia
-eial       2  3 =copeia
-gial       1  8 =vestige
-ilial      2 34 =family
-denial     1 35
-nnial      1 64 =millenne
-onial      2 34
-sarial     2 35
-*erial     2  2 =manager
-drial      2  4 =mitochondria
-aerial     0  2
-perial     0  2
-aterial    0  2 =material
-cterial    1  6 =bacteria
-rterial    1 36
-morial     1 35
-*atorial   3  4
-ectorial   1  3
-itorial    2 36
-ditorial   0  2
-nitorial   1  5
-utorial    2  4
-estrial    2  4
-ustrial    2 36
-urial      2 34
-eurial     2  3
-sial       2 33
-atial      2 67
-nitial     1  3 =init
-*ntial     1  2
-ertial     2  5 =inertia
-ivial      2  4 =trivia
-xial       1 61
-imal       2 64
-animal     0  2
-somal      1 65
-ermal      2  3 =therm
-normal     1  4
-ranal      2 10 =membrane
-omenal     2  2 =phenom
-inal       2  9
-rdinal     0  2 =cardinal
-udinal     2  9 =longitude
-final      0  2
-iginal     2  4 =origin
-rginal     1  4 =margin
-iminal     2  9 =crime
-*onal      1  9
-gonal      1  3 =hexagon
-rational   0  2
-erational  2 11
-ronal      3  3 =neuron
-rnal       1  2 =intern(!)
-urnal      0  2 =journal
-unal       2  9 =commune
-ebral      2  4 =vertebra
+acier      2  9
+acious     2 34 =fallacy
 acral      2  4 =sacra
-hedral     1  4 =polyhedr
-thedral    0  2
-heral      2  3 =peripher
-gral       1  2 =integr
-iral       2 63
-piral      0  2 =spiral
-*oral      2  2
-ioral      2  7 =behave
-moral      0  2
-erral      2  2 =refer
-tral       3  2 =centr
-estral     2  3
-*ural      2  9
-aisal      2 10 =appraise
-osal       2  9
-rsal       1  9
-ssal       1  2 =dismiss
-usal       1  9 =refuse
-ctal       1  2 =fract
-ital       2  2 =digit
-pital      0  2 =capital
-vital      0  2
-*ental     1  3
-|mental    0  2
-ontal      2  3 =front
-dotal      2 10 =anecdote
-votal      1  3 =pivot
-stal       1  2 =coast
-mittal     1  3 =transmit
-uittal     1  3 =acquit
-uttal      2  2 =rebut
-rutal      2 10 =brute
-ual        2  7
+adation    2  9 =degrade
+adden      2  2 =mad
+adii 2 121 = radius 
 adual      0  2 =gradual
-sidual     1 11 =residue
-gual       2  3 =bilingua
-nual       0  2
-inual      2 10
-qual       1  9 =eque
-rual       2  9 =accrue
-visual     1 49
-etual      2 10 =perpetue
-ventual    0  2 =eventual
-utual      0  2
-aval       1 34
-ieval      2 10 =retrieve
-ival       1  9
-stival     1  2 =fest
-|rival     0  2
-hrival     0  2
-oval       2  9
-|oval      0  2
-awal       2  2 =withdraw
-newal      1  3 =renew
-ayal       2  2 =betray
-*ful       1  0 =peace
-grateful   0  2
-ingful     2  0
-iful       2 32
-*rful      1  1 =wonder
-yerful     1  3 =prayer
-dom        2  7
-eedom      2  2
-gdom       2  1
-eldom      0  2 =seldom
-rdom       1  1 =martyr
-siasm      1  8 =enthuse
-*ism       1 29
-icism      2  2 =critic
-nticism    1  2 =romant
-tticism    1  1 =wit
-*eeism     2  2
-chism      0  2 =schism
-*alism     2  2
-oholism    2  4 =alcohol
-anism      2  1 =america
-ganism     0  2
-hanism     2  3 =mechan
-inism      2  2 =lenin
-onism      1  2 =union
+ae 2 1     = amoeba
+aeli 2 3   = israel
+aelis      2  3 =israel
+aemia      2 65
+aemic      2  3
+aerial     0  2
+afest      2  3 =safe
+agave 0 0  =
+ageal      2 63 =esophagus
+agedy      2 68
+agement    1  3 =manage
+ager       2  3 =manage
+aginous    2  9 =mucilage
+agnant     2 54
 agonism    2 36 =antagony
-rism       0  2
-*arism     2 31
-*erism     1  2
-rorism     2  3 =terror
-urism      1  9 =tour
-atism      2  1 =dogma
-rvatism    1 11 =conservate
-asitism    2 88
-autism     1 109
-nnium      1 64 =millenne
-brium      1  2 =equilibr
-ulum       2 64
-imum       2 64
-ban        1  2 =cuba
-urban      1  3 =suburb
-can        1  2 =africa
-ecan       0  2 =pecan
-lican      2  3 =republic
-xican      1 82
-ndan       1  3 =rwanda
-ilean      2  3 =chile
-pean       1  2 =europe
-rean       1  3 =korea
-dorean     1  3 =ecuador
-*ian       2  2 =india
-*ician     2  2 =tactic
-ircadian   2 12 =circade
-nadian     1 41 =canada
-radian     0  2 =radian
-omedian    2 68
-todian     2 35 =custody
-ardian     0  2 =guardian
-ogian      2 34
-iian       1  2 =hawaii
-lian       0  2 =civilian
-alian      2  4
-malian     2  3 =mammal
-talian     1 35
-tilian     1 10
-zilian     1  3
-olian      2  4 =mongolia
-anian      2  2 =iran
-banian     2  5
-amanian    2  3 =panama
-inian      2  9
+agonize    2 36
+agulate    1 11
+ailant     2  3 =assail
+ailer      2  3 =mail
+aimer      2  3 =disclaim
+ainage     2  3
+ainder     2  3 =remain
+ainee      2  3 =train
 ainian     2 65
-*arian     2 34
-lgarian    3  6
-yterian    2  4
-*itarian   2 34
-|brian     0  2
+ainous     2  3 =mountain
+ainy       2  3 =grain
 airian     2 65
-orian      2 34
-strian     1  3 =equestr
-ysian      1  1 =malay
-itian      1  3 =haiti
-titian     1  1 =diet
-otian      1  1 =lao
-ptian      1  2 =egypt
-rtian      1  1 =mar
-istian     0  2
-ruvian     1  2 =peru
-golan      2  4 =angola
-ceman      1  2 =police
-homan      1  4 =oklahoma
-ssman      1  2 =business
-*ryman     1  2
-oan        2  2 =protozoa
-joan       0  2
-koan       0  2
-loan       0  2
-|moan      0  2
-emoan      0  2
-roan       0  2
-doran      1  3 =salvador
-etan       2  3 =soweta
+aisal      2 10 =appraise
+aiver      2  4 =waive
+akly       1  2 =weak
+alian      2  4
+alicious   2 11 =malice
+*alism     2  2
+*ality     1  2
+*alize     1  2 =realize
+alliance   1 35
+alline     2  2 =crystal
+*ally      3  2
+aloric     2 89
+amanian    2  3 =panama
+amation    2  9 =defame
+amatory    2  9 =defame
+amidal     2  4 =pyramid
+aminar     2 11
+amist      2  2 =islam
+amoan 2 4  = samoa
+amper      2  3 =camp
+amplify    0  2
+amply      1 11 =ample
+*anation   2 11
+*anatory   2 11
+ancier     2 10
+anese      2  2 =japan
+anest      1  2 =mean
+anger 2 4  = range
+angest     2  4 =strange
+anian      2  2 =iran
+animal     0  2
+anism      2  1 =america
+*anist     2  2 =african
+anity      2  9
+anize      2  2 =mechan
+anner      2  2 =plan
+aonic      2 86
+aotic      2  2 =chao
+aply       1  2 =cheap
+aporize    2  4 =vapor
+aporous    1  4 =vapor
+aposition  2 11
+apour      2 44
+applicant  1 36
+applicate  1 36 =apply
+apter      1  3 =adapt
+arance     1  2 =appear
+arate      1  9
+arative 2 64 = declare
+ardate     1  3 =retard
+ardial     2  5 =cardia
+ardian     0  2 =guardian
+*arian     2 34
+ariant     2 34
+aric       2  9 =barbare
+*arily     2 34 =summary
+arise      2  9
+*arism     2 31
+arison     2  9
+arity      2  2 =par
+*arize     1  2 =polar
+armacy     0  2
+arnation   2  3 =incarn
+arrier     0  2 =barrier
+arter      2  3 =smart
+ascular    2 12
+asculate   2 12
+aseous     1  2
+asic       2  9
+asiest     1 64
+asion      3 14
+asitism    2 88
+asive      3 14
+asmic      2  3 =orgasm
+aspy       1  3
+assion 0 0  =
+assy       2  3 =class
+astage     2 10 =waste
+astate     2  3 =devast
+astatic    2  5 =metastat
+astation   2  3
+asticate   0  2
+asty       2 65
+aten       1  2 =eat
+*ateness   3  3 =adeque
+aterial    0  2 =material
+athetic    2  3
+atial      2 67
+atiate     2  9
+atiety     2  9 =sate
+atinous    2 11
+*ation     2  9
+atism      2  1 =dogma
+*ative     1  9
+atomy      2  4
+*ator      3  9
+*atorial   3  4
+atose      2  1 =coma
+atred      2  9 =hate
+atric      1  3 =theatr
+atrice     2 75
+atry       1  3 =psychiatr
+atten      0  2 =batten
+aucy 2 65  = sauce
+audis      2  4 =saudi
+aunder     2 45
+aundry     2  5
+autic      2  3 =aeronaut
+aution     0  2
+autism     1 109
+aval       1 34
+avalry 0 0  =
+aver       2  3 =save
+avic       2  2 =slav
+avier      1 34
+avocation  1 11
+avour      1 44
+avoury     1 44
+awal       2  2 =withdraw
+axima 2 116  =maximum
+axy        2 72
+ayal       2  2 =betray
+ayer       2  2 =play
+azen 1 3   = braze
+azer       2  3 =gaze
+azy 1 9    = craze
+bable      0  2 =probable
+ban        1  2 =cuba
+bance      3  8
+banger     1  4 =bang
+banian     2  5
+banon      1  3
+bastic     2  4 =bombast
+batic      1  3 =acrobat
+battery    0  2
+bduct      0  2
 betan      1  3 =tibet
-hanistan   2  3
-uan        2  2 =nicaragua
-|yuan      0  2
+bete       1  3 =diabet
+bibate     1 10 =imbibe
+bidden     1  3
+bidder     1  3 =bid
+biliary    1 10 =bile
+bilistic   1 19
+bilitate   1  1 =rehab
+bilitation 1  1 =rehab
+*bility    1 19
+bilize     1 19
+binant     1 10 =combine
+bious      0  2
+bition     1  3 =exhibit
+bitive     1  3 =prohibit
+blance     2  9 =resemble
+blement    1  3 =enable
+bler       2  3 =ramble
+blew 1 112 = blow
+blicate    3 90
+blown      1  4 =blow
+*bly       1  9
+bola       1  3
+bole       2  3 =hyperbol
+bolite     1 10
+bomber     1  4 =bomb
+boratory   1  1 =lab
+borious    1  3 =labor
+brance     2  2 =remembr
+brate      1  2
+bratile    1  2 =vibr
+bratory    1  2 =vibr
+bre        1  2 =calibr
+breadth 1 113 = broad
+bria       1  2 =equilibr
+briate     1  2 =equilibr
+briation   1  2
+bricate    3  4 =lubric
+bricative  3  4 =lubric
+brity      1  2 =celebr
+brium      1  2 =equilibr
+brous      1  2 =fibr
+bular      1  8
+bummer 0 0   =
+burete     2  5
+burger     0  2
+butant     1  3
+butcher    0  2
 byan       1  3 =libya
+*cacy      1 52
+came 1 114 = come
+can        1  2 =africa
+cance      1 30
+cancer     0  2
+cary       2 10 =scare
+casion     0  2 =occasion
+*catory    1 10
+cavitation 2 13  =
+cavity     2 10
+ccent 0 0  =
+ccessive   3 42
+ccinate    1 11
+ccretive   1 12 =accrete
+cculate    1 11 =floccule
+ceipt      1 87
+ceive      1 87
+cellate    2  3 =cancel
+cely       1  2 =fierce
+ceman      1  2 =police
+cemen      1  2 =police
+*cement    1  2 =announce
+cence      1 30
+cenity     2 65
+cent       2 25
+center     1 45
+cerate     2  3 =ulcer
+cerity     2 22 =sincere
+cession    0  2
+changer    1  6 =change
+cher       1  2 =teach
+chieve     2 71
+chism      0  2 =schism
+christ     0  2
+cible      3  8 =reduce
+cical      2  8 =farce
+*ciest 1 32  =
+*ciest 1 33  =
+cinous     3  3 =mucin
+cion       1  8
+cious      1  8
+cipate     1 10 =anticipe
+cision     1 10
+citative 1 10  =
+clamation  1 57
+clamatory  1 57
+clarify    1 91
+clarity    1 91
+clic       1  9 =cycle
+climber    1  5
+clination 2 88  =
+clize      1  9
+cnic       0  2 =picnic
+comity     0  2
+coral 0 0 =
+corder     1  4
+corous 2 3  =
+cortice    1 77
+counter    0  2
+coverage   1  5
+cracy      1 30
+cratic     1  4 =democrat
+crite      1  4 =hypocrit
+crubber 2 4  =scrub
+cstatic    1 79
+ctal       1  2 =fract
+ctance     1  2 =reluct
+ctant      1  2 =react
+cterial    1  6 =bacteria
+ctile      1  2 =contract
+ctility    1  2 =contract
+*ctize     3  2
+*ctor      1  2 =reflect
+ctory      1  2 =contradict
+ctric      1  3 =electr
+ctrical    1  3 =electr
+cuer       2  3 =rescue
+culant     1 10
+cular      1 19
+cunity     1 10
+cystic     1  4 =cyst
+dacy       1 52
+dance      2  8 =abund
+*dancy     2 30
+danger     0  2
+dant       2  1 =redund
+dantry     1  4 =pedant
+darity     0  2
+datory     1 10 =predate
+ddest      1  1 =sad
+ddition    1  2 =add
+decision   1 17
+dee        2  1 =stand
+dely       1  2 =crude
+demonic    1  5
+demption 1 115  =
+*dence     1  2 =coincide
+denial     1 35
+dent       1  8
+dentity    1  4
+deration   1  3 =consider
+designate  0  2
+dgment     1  9 =judge
+diance     1 53
+diant      1 53
+dicious    3 10
+dieter     1  4
+digal      1 35 =prodigy
+digious    1 35 =prodigy
+dilate     0  2
+diment     1 33
+dinner     0  2
+diosity    2 11
+disable    0  2
+ditious    1 10 =expedite
+ditorial   0  2
+dity       1  1 =stupid
+dize       2  1 =standard
+dizzy      0  2
+dler       2  3 =handle
+dly        1  1 =dead
+dology     1  1 =method
+dom        2  7
+*domise    1 94
+domy       1  3 =sodom
+done 1 2  =
+donist     1  3 =hedon
+dopter     1  4 =adopt
+doran      1  3 =salvador
+dorant     1  3 =odor
+doration   1 10
+dorean     1  3 =ecuador
+dorize     1  3 =odor
+dormant    0  2
+dotal      2 10 =anecdote
+dous       2  1 =hazard
+dozen      0  2
+drance     2  2 =hindr
+drawn      1  4 =draw
+dren       1  1 =child
+drial      2  4 =mitochondria
+dric       2  2 =cylindr
+drous      2  2 =wondr
+dster      0  2
+ducer      1  4 =produce
+duct       1 10
+*duction   1  4
+ductive    1 10
+dulance    3  1 =fraud
+dulant     1 10 =acidule
+dular      1 10
+dulent     3  1 =fraud
+dumber 1 4  =
+dumbest 1 4  =
+dvocation  1 11
+*eable 1 8  =
+eactive    2  4 =react
+eader      2  3 =lead
+eafter     0  2
+ealant     2  3 =seal
+ealer      2  3 =heal
+*eally     2  3
+eamer      2  3 =dream
+eamy       2  3 =dream
+eancy      2 30
+eaner      2  3 =mean
+eantry     2  4 =peasant
+eapen      2  3 =cheap
+eaper      2  3 =reap
+eapest     2  3 =cheap
+earest     2  3 =near
+earish     1  3 =bear
+earticulate  0 2
+easy       1 10 =ease
+eater      1  3 =heat
+eatest     2  3 =great
+eathe      1  4 =breath
+eation     2 10
+eator      2 10 =create
+eavage     2 10 =cleave
+eaze       2 35
+ebrae      2  4
+ebraic 2 4  =algebra
+ebral      2  4 =vertebra
+ebrant     2  3 =celebr
+ecan       0  2 =pecan
+ecession   2 16
+ecessive   1 16 =recede
+ecious     0  2 =precious
+eclination 0 0  =
+ectile     0  2 =projectile
+ectorial   1  3
+ectra 2 116  =
+ecture     1  3 =architect
+ecular     2 11
+edator 0 0  =
+edatory 2 6  =
+eddest 2 2  =
+edent      0  2 =credent
+ederate    2 59
+ederation  2 59
+edial      2 34 =remedy
+*edier     1 34
+ediment 1 9  =
+edish      2  9
+edition    1  4 =edit
+edly       1  7
+edness     2  7
+edron      2  3 =polyhedr
+eduction   2 11 =reduce
+eeder      2  3 =feed
+eedom      2  2
+*eeism     2  2
+eeler      2  3 =peel
+eement     2  2 =agree
+eenery     2  3 =green
+eepen      2  3 =deep
+eeper      2  3 =deep
+eeply      2  3 =deep
+eepy       2  3 =sleep
+eeten      2  3 =sweet
+effective  0  2
+eficial    2 30
+egic       2 34
+egular     0  2 =regular
+eial       2  3 =copeia
+eiture     1  3 =forfeit
+eity       2  1 =spontane
+ekly       1  2 =week
+eldom      0  2 =seldom
+eler       2  2 =revel
+elic       2  2 =evangel
+elize      2  2 =evangel
+ellant     2  2 =propel
+ellent     1  2 =repel
+ellion     2  2 =rebel
+elony      2  4
+elty 3 2  =
+ema        2 64
+ematic     2  9
+ematize    2  2 =system
+ember      2 44 =remembr
+ement      2  1 =state
+emer       2  3 =scheme
+emia       1  9 =aneme
+emic       2  9
+emirate    1  4
+emoan      0  2
+emonic     2 36
+emonize    2  4
+emotion    1 11
+emy        2  9
+enacious 2 88  =
+enacity 2 88  =
+*enation   2 11
+*ency      1 29
+endation   2  3
+endatory   1  3 =commend
+endice     2 75
+endorous 2 5  =
+endular    2 12 =pendule
+*ener      2  2 =listen
+enery      2  3 =scene
+eness      2  1
+enger      0  2 =messenger
+enious     2 95
+enize      2 64
+*enly      2  2
+ennia      2 65 =millenne
+enomous    2  4 =venom
+enotation  2 11
+enry       0  2
+ension     1 24
+ensive     1 24
+ensome     2  2 =burden
+entage     1  3 =parent
+*ental     1  3
+entary     2  3 =element
+entry      1  4 =entr
+enuity     2 95
+eolar      2  4 =alveola
+eoric      2  3 =meteor
+eorize     2 35
+eous       2  1 =courage
+epest      1  2 =deep
+epetition  2 84
+epetitive  2 84
+ephonic 2 89  =
+ephony 2 89  =
+eposition  1  6
+epsy       2 29
+epulsion 2 89  =
+epulsive 2 89  =
+eputate    2 11
+erance     2 31
+erary      2 30
+erational  2 11
+erbo       2  3 =serb
+ercise     2 29
+erence     1  3 =adhere
+erent      2  2 =refer
+ergency    0  2
+*erial     2  2 =manager
+erify      2  2 =ester
+erious     0  2 =serious
+*erise     1 93
+erision    2 16
+*erism     1  2
+eritable   2  4
+erivatize  2 11 =derive(!)
+ermal      2  3 =therm
+ernest 2 3  =
+erotic 1 4  =
+erotica 1 4  =
+erotica 1 5  =
+erous      2  2 =cancer
+erral      2  2 =refer
+errent     2  2 =deter
+erter      2  3 =convert
+ertial     2  5 =inertia
+ertice     2 76
+*ery       2  2 =discover
+ese        2  0 =vietnam
+eservate   2 12 =preserve
+esis       2 28
+esitation 2 13  =
+esity      2  9 =obese
+esome      2  1 =trouble
+*ession    2  3 =possess
+essy       2  3 =mess
+estation   2  3
+estion     2  3 =digest
+estral     2  3
+estrial    2  4
+esurgent   2  6
+etabular   2 13
+etan       2  3 =soweta
+eteer      2  2 =market
+etence     2 31
+etentate   2 56
+etention   2 56
+eteric     2  4 =ureter
+etery      0  2 =cemetery
+etheless 0 0  =
+ethic      0  2
+etic       1  2 =hypothet
+etion      2  9 =deplete
+etive      2  2 =secret
+etize      2  2 =magnet
+etry       1  2 =poet
+etter 2 2  =set
+etual      2 10 =perpetue
+etuate     2 10 =perpetue
+eurial     2  3
+euter      0  2 =neuter
+*eutic     2 32
+evance     2 31
+evention   2 31
+everity    2 23
+evitable   2  4
+evotion 2 88  =
+*evous     1  9 =grieve
+ewer       2  2 =new
+ewest      2  2 =new
+ewilder    0  2
+ewish      2  2 =jew
+ewy        2  2 =show
+exis       2 72
+eyor       2  2 =convey
+ezer       1  3 =freeze
+factor     0  2
+fallen     1  4 =fall
+fancier    1 36
+fatten     1  3
+fatter     1  3
+fatty      1  3
+fely       1  2 =safe
+fense      1 25
+ferance 1 3  =
+ference    1  3 =infer
+fety       1  2 =safety
+fiant      1 33
+fiber      1 44
+ficacy     0  2
+ficant     0  2
+ficate     1 33
+*fication  1 33
+ficiary    1 29
+fiery 1 22  =
+filter     1 45
+final      0  2
+finic      1  3 =olefin
+fitable    1  3 =profit
+flew 1 34  =
+flown      1 34 =fly
+focus      1 80
+forage 0 0  =
+foundation 0  2
+freely     1  4 =free
+fter       1  2 =soft
+*ful       1  0 =peace
+*fully     1  3
+*fulness   1  3
+furious    1 35
+furry      1  3 =fur
+fusible    1 10 =fuse
+galist 1 3  =
+galistic   1  3
+gance      1 30
+ganism     0  2
+ganize     0  2 =organize
+garten 0 0  =
+gatory     1 10 =instigate
+gdom       2  1
+gely       1  2 =large
+*gence     1 30
+genetic    1  4
+genic      2 65
+genous     1 65
+geny       1 65
+geration   2 12 =exaggerate
+getic      1 33
+gger       1  1 =big
+ggest 1 1  =
+gher       1  2 =high
+ghest      1  2 =high
+ghtest     1  3 =bright
+giac       1 33 =elegy
+gial       1  8 =vestige
+giastic    1 33
+gibber 0 0  =
+gienist    1 88
+gility     1 10 =agile
+ginary     1 10 =imagine
+ginate     1 10
+ginity     2  3
+gion       0  2 =region
+gious      1 49
+*gise      1 92
+gister     1 45
+gladder 1 4  =
+glement    1  3 =entangle
+gligent    1 104
+glis       1  2
+gment      0  2 =fragment
+gnancy     1  2 =pregn
+gnant      1  2 =malign
+*gnation   1 11 =stagnate
+gnatory    1  2 =sign
+gnature    1  2 =sign
+gnee       1  2 =sign
+gnite      0  2 =ignite
+gnity      1  2 =dign
+gnose      1 31
+gnosis     1 31
+gnostic    1  5
+gnty       1  2 =sovereign
+goer       2  2 =go
+gogic      1  3 =pedagog
+gogy       1  3
+golan      2  4 =angola
+gonal      1  3 =hexagon
+gone 1 2  =
+gorize     1 35
+gorous     1  3 =vigor
+gral       1  2 =integr
+grance     1 31
+grateful   0  2
+grieve     1 71
+grown      1  4 =grow
+gster      1  1 =gang
+gual       2  3 =bilingua
+guese      3  8
+gulant     1 10 =coagule
+gular      1 19
+gurate     1 10 =configure
+hadist 1 3  =jihad
+halve      1 70
+hammer 0 0  =
+hanger     1  4 =hang
+hani       2  3 =afghan
+hanism     2  3 =mechan
+hanistan   2  3
+harden     1  4
+harder     1  4
+haritable  2 12 =charite
+harity     2 12 =charite
+hbour      1 44
+heard      1  4
+hecy       2 29
+hedral     1  4 =polyhedr
+heery      2  4 =cheer
+helve      2 70 =self
+hematize   2 65
+hement 0 0 =
+hen        2  1 =strengthen
+henation   2  3
+heral      2  3 =peripher
+herant     2  3 =further
+herder     1  4
+herent     1  4 =cohere
+heric      2 22
+hery       2  3 =peripher
+hesion     1 22
+hesise     2 29 =synthet
+hesive     2 22 =adhere
+hesize     2 29
+hesy       1 29 =prophet
+hewn       1  3 =hew
+hic        2  1 =geograph
+hidden     1 65
+hiest      2  1 =health
+hilic      2 10 =phile
+himmer 0 0  =
+hina       0  2 =china
+hinder     1 45
+hion       0  2 =cushion
+*histry    2  4 =sophist
+hitish     2 10 =white
+hivalry 0 0  =
+hly        2  1 =smooth
+hmic       2  2 =rhythm
+hnology    2  2
+hodic      2  3 =method
+holist 0 0  =
+homan      1  4 =oklahoma
+honer 2 10  =
+*hood      2  0 =neighbor
+hoove      1 70
+horical    2  3 =metaphor
+hority     2  5 =authorit
+horize     2 31
+hrenia     2  4 =schizophren
+hritic     2  4 =arthrit
+hrival     0  2
+hrony      2  4 =synchron
+hrown      2  4 =throw
+hten       2  2 =fright
+htener     2  2 =bright
+hteous     0  2
+hter       2  2 =fight
+hty        1  2 =weight
+humation   2 10 =exhume
+hunger     1 45
+hy         2  1 =starch
+iable      2 32
+iac        2  2 =mania
+iae        2  2
+*ially     2  3
+*ian       2  2 =india
+iance      1 32
+ianist 1 82  =
+ianity     2  3 =christian
+iarise     2  3
+*iation    2 10
+iator      2 10
+*iatory    2 10 =retaliate
+*iatrix 2 10  =
+ibal       2  9
+ibber 2 2  =
+ibbest 2 2  =
+ibial      2  4 =tibia
+ibrant     2  3 =vibr
+icable     2 32
+*ical      1  2
+ican 1 3  =
+icant      2 53
+iccant     2  3 =desicc
+iccate     2  3 =desicc
+icest      2  3 =nice
+ichest     2  3 =rich
+icial      1  9
+*ician     2  2 =tactic
+icient     2  9 =suffice
+*icier 3 34 =spicy
+icion      0  2
+icious     0  2 =vicious
+icism      2  2 =critic
+icist      2  2 =physic
+*icity     2  2
+icize      2  2 =critic
+icly       2  2 =public
+icry       2  2 =mimic
+icter      2  3 =strict
+iculous    2 11
+icy 3 9  =spice
+idal       2  9 =tide
+idance     1  9 =avoid
+ider       2  3 =ride
+iderate    2  4 =consider
+idial      2  4
+idic       3  2 =acid
+idify      2  2 =acid
+*idise     2 93
+idize      2 34
+idulate    1 11 =acidule
+iefly      2  3 =chief
+ienation   2 12
+ience      1 30
+ienic      2 65
+iescent    0  2 =quiescent
+ieval      2 10 =retrieve
+iever      2  4 =believe
+iewer      2  3
+*ifier     2 34
+iful       2 32
+igacy      2  9 =proflige
+igate      2  9 =litige
+igatory    2  9 =oblige
+iggest     2  2 =big
+iginal     2  4 =origin
+iginate    2  4 =origin
+igner      1  3 =sign
+ignify     2  3 =dign
+ignition   1 12
+igour      2 44
+igrant     2 54
+*ihood     2 32
+iian       1  2 =hawaii
+ilance     1  2 =vigil
+ilant      2  2 =vigil
+ilate      2  9 =compile
+ilean      2  3 =chile
+iler       2  3 =compile
+*iless 2 32  =
+ilial      2 34 =family
+iliate     2  9 =affile
+ilious     2  9 =bile
+ilitate    2 36
+ilitation  2 36
+illusion   0  2
+illy       2  3 =chill
+ilty       1  2 =frail
+ilure      1  2 =fail
+ily        2 32
+imactic    2 74
+imal       2 64
+imant 1 2  =
+imary      2  9 =prime
+imatic     2 11
+imer       2  3 =time
+iminal     2  9 =crime
+imise      2  9
+imize      2 64
+immunity   1 12 =immune
+imum       2 64
+imy        2  9 =slime
+ina        2  9 =argentine
+*inacy     2 53 =obstinate
+inae       1  9
+inal       2  9
+inate      2  9
+*ination   2 11
+indice     1 76
+indred 2 3  =
+indy       2  3
+iner       1  9
+inery      2  3 =refine
+*iness     2 32
+inest      2  3 =fine
+inger      0  2 =linger
+ingful     2  0
+*ingier 2 35  =
+*ingiest 2 35  =
+ingly      2  7
+ingness    1  0
+ingy 0 0  =
+inian      2  9
+inic       0  2 =clinic
+inima 2 116  =
+inism      2  2 =lenin
+inist      2  2 =lenin
+inition    2  9 =define
+inity      2 11 =infinite
+inly       1  2 =main
+inner      2  2 =win
+innest 2 2  =
+intensive  1 13
+inter      2 44
+intry      1  4 =wintr
+inual      2 10
+invention  1  6
+iny        2  9 =shine
+iocy       2 29 =idiot
+iodic      2  3 =period
+iomatic    2  3 =idiom
+ion        1  7
+ion 2 7  =
+*ionary    2  3
+*ionate    2  3
+*ioner     2  3
+ioral      2  7 =behave
+iosis      2 29
+ioter      2  3
+ious       2 32
+ipant      2  9 =participe
+ipen       2  3 =ripe
+iplication 2 35
+iplicity   2 10
+ippage 2 2  =
+ipse       2 29
+ipt        2 58
+ipter      1  3 =script
+iption     2 58
+iptive     2 58
+iral       2 63
+ircadian   2 12 =circade
+irder 1 3  =
+irdest 1 3  =
+iree       2  3 =retire
+irest      1  2 =fair
+irety      2  3 =entire
+iric       2  9
+ironic     1 36 =irony
+irony      0  2
+irty       2  3
+iry        3  9 =inquire
+*isation   2  9
+iscent     2  4 =reminisce
+isen       2  3 =arise
+isery      0  2
+*ishly     2  3
+ision      2  9
+isive      2 14
+*ism       1 29
+ismatic    2  3 =prism
+isor       2  9 =advise
+ispen      2  3 =crisp
+ispense    0  2
+ispy       1  3 =crisp
+*ist       2  7
+istance    1  3 =persist
+istant     2  3 =assist
+istent     2  3 =persist
+istian     0  2
+*istic     1  3
+istry      2  4 =ministr
+isture     1  3 =moist
+itable     3  7 =eque
+ital       2  2 =digit
+*itance    2 31
+itant      2  9 =inhabit
+*itarian   2 34
+itate      2  9 =hesit
+*itative   1 34
+iten       2  3 =white
+iter       1  9 =write
+iterate    2  6 =literat
+itia       2  9 =milite
+itian      1  3 =haiti
+itiate     2  2 =init
+ition      0  2 =condition
+itious     2 50
+itish      2 56
+itize      2  2 =digit
+itmen 2 119 =pitman
+itor       2  9
+itorial    2 36
+itory      2  2 =prohibit
+*itous     3 34
+itric      1  3 =nitr
+itrous     2  3 =nitr
+itry       3  2 =circuit
+itten      2  9 =bite
+itter      3  2 =emit
+iture      2  0 =expend
+ival       1  9
+ivary      2  3
+*ivate     2  9
+ivation    2  9
+iven       2  3 =drive
+iver       1  3 =receive
+iverance   2  4 =deliver
+ivial      2  4 =trivia
+ivisible   2 16
+ivision    2 16
+*ivity     2  9
+*ivize     2  9
+*ivocation 3 13
+ivor       2  9
+*ization   2  9
+izen       0  2
+*izer      2  3
+izure      1  9
+joan       0  2
+juan       0  2 =juan
+jure 2 35  =
+jurious    2 10 =injure
+kage       1  1 =link
+kali 0 0  =
+kative     2  1 =talk
+ken        1  8
+kenize     1  3
+ker        1  8
+kerage     1  3
+kest       1  1 =dark
+kester     1  2 =joke
+keter      2  3
+kier       1  8 =bulk
+kiest      1 33
+kish       2  1
+klist      0  2
+kly        2  1 =dark
+kmen 2 118  =
+knee       0  2
+known      1  4 =know
+koan       0  2
+kster      2  1 =prank
+ky         1  8 =luck
+laborate   2  5 =collabor
+lactic     1  4 =galact
+lae        3  2
+laid 1 34  =
+laint      2  4 =complain
+lamic      2  3 =islam
+langer     2  4 =clang
+lantry     2  4 =gallant
+larism 3 3  =
+larist 3 3  =
+lastic     1  4 =plast
+lasty      2  4 =angioplasty
+*latory    1 10
+latry  1 1  =
+latten     2  3 =flat
+lature     3 10 =legislate
+lavia      2  3 =yugoslav
+laxis      1 73
+lder       1  2 =cold
+ldest      1  2 =old
+ldry       1  2 =herald
+lely       1  2 =sole
+lematic    2  3 =problem
+lement     0  2 =element,supplement
+lemnity    1  4
+lence      1 30
+*leness    2  2 =brittle
+lenger     2  5 =challenge
+lerance    1  3
+lerant     1  3 =toler
+lerate     1  3 =toler
+leromata 2 6  =
+lescent    1  5 =adolesce
+lesion     0  2
+lesis      0  2 =telesis
+less 1 0  =
+lete       2  3 =athlet
+letter 0 0  =
+lexy       2 73
+lgarian    3  6
+lgia       1 34
+lgic       1 34
+li         1  1 =israel
+lian       0  2 =civilian
+liance     3 31
+liant      1 33
+liber      1 44
+lical      2  8
+lican      2  3 =republic
+lidate     1  3 =valid
+*lier      2 33
+liest      1 33
+lieve      1 70
+ligator    0  2
+ligatory 2 10  =
+*like      2  0
+limmer 0 0  =
+linary     1 10 =discipline
+linate     2  3 =pollin
+lination   2  3 =pollin
+lingy 2 4  =cling
+lion       0  2 =million
+*lise      1 92
+listen 0 0  =glisten
+livate     1  4
+liver      0  2 =deliver
+llate      1  2 =distill
+llegate    1 11 =allege
+llence     1  1 =excel
+llent 1 1  =
+ller       1  2 =roll
+llery      1  2 =distill
+llest      1  2 =tall
+lliant     0  2
+llination 2 4  =
+llish      1  2 =bull
+llision    1 16
+llistic    0  2 =ballistic
+llity      1  1 =tranquil
+llize      1  1
+llous      0  2 =callous
+lmer       1  2 =calm
+loan       0  2
+lodic      1 35
+*logical   1 35
+*logist    1 35
+logue      1  3 =dialog
+loist      1  2 =solo
+lomatic    2  5 =diplomat
+lorant     1  3 =color
+lorate     2 10
+loratory   1 10 =explore
+lous       1  1 =scandal
+lover      1  4
+lower      2  3 =follow
+loyer      2  3 =employ
+lpable     1  2 =palp
+lper       1  2 =help
+lphide     3 98
+lphonate   3 101
+lry        1  1 =rival
+lsant      3  9
+ltage      1  2 =volt
+lternation 1  5 =altern
+ltination  0  2
+ltor       1 34
+ltuous     3  2 =tumult
+luate      1  9
+luation    1  9
+luer 2 3  =
+luest 2 3  =
+lular      2  1 =cell
+lusion     1 15
+lusive     1 15
+luster     0  2 =luster
+lutant     1 10
+lvular     1 64 =valve
+lyer 2 2  =
+lyse       1 29
+lyte       1  3 =electrolyt
+lyze       1 29
+macist     1  8
+macy       1  8 =supreme
+madder 1 3  =
+malian     2  3 =mammal
+maly       1  3 =anomal
+mament     2  1 =arm
+mancy      2 30 =dormant
+manic      0  2
+manity 3 3  =
+manner     0  2
+mantic     1  4 =romant
+marize     2 10 =summare
+master     0  2
+matic      1  2 =drama
+matize     1  2 =drama
+matory     2  1 =confirm
+maturation 1 12 =mature
+mbition    0  2 =ambition
+mblage     1 10
+mbolize    1  4
+meation    1  2 =perme
+meaty      1  4
+mely       1  2 =home
+menon      1  1 =phenom
+mension    0  2 =dimension
+*ment      2  0 =commit
+mention    0  2
+mergent    1  5 =emerge
+mesis 0 0  =
+metable    0  2 =timetable
+meter      1 44
+metric     1  4 =symmetr
+metry      1  4 =telemetr
+*mier 1 33  =
+*miest 1 33  =
+miliate    3 81
+mility     3 81
+mily       0  2 =family
+minance    1 10 =domine
+minant     1 10 =domine
+minate     1 10 =determine
+minent     1  4 =promine
+minist     1 10 =determine
+miral 0 0  =
+mirate     1 10 =admire
+missible   2 29
+mission    1 29
+mistry     1  8
+mitate     0  2
+mittal     1  3 =transmit
+mity       1  8 =anime
+mixture    1  3 =mix
+mly        1  1 =warm
+mmable     1  8 =inflame
+mmade 0 0  =
+mmary      3 11 =summare
+mmatic     1  1 =program
+mmation    1  8 =inflame
+mmatory    1  8 =inflame
+mment      0  2
+mmer       1  1 =program
+mmest      1  1 =slim
+mnant 1 55  =
+mnastic    1  2 =gymn
+mnation    1  2 =condemn
+monize     2 35
+monse      2  3
+moothe     2  5 =smooth
+morable    1 35
+moral      0  2
+morial     1 35
+most       2  0
+moter      1  4
+mous       1  8
+mover      1  4
+mown       1  3 =mow
+mpable     1  2 =pump
+mphant     3  3 =triumph
+mphony 1 5  =
+mpliance   1 35
+mposition  1 11
+mpy        1  2 =lump
+mster      0  2 =hamster
+mth        2  1 =warm
+mulant     1  4 =stimula
+mulate     1  4 =formula
+muli 1 121  =
+mulsion    1 11
+mulsive    1 11
+mutant     2 10
+mutate     2 10 =permute
+mvention   3  5
+nadian     1 41 =canada
+nalty      1  3 =penal
+nancy      2 30
+napse      1 30
+narticulate  0 2
+nasty      1  4
+nation     0  2
+*natory    1 10
+naturate   1 12 =denature
+ncee       1  3 =divorce
+ncer       1  3 =announce
+ncession   1 16 =concede
+ncial      1  9
+ndan       1  3 =rwanda
+ndance 3 2  =attend
+ndary      1  2 =bound
+ndence     1  2 =depend
+nder       1  2 =command
+ndescence  1  6
+ndescent   1  6
+ndest      1  2 =kind
+ndiment    0  2
+ndular     1  2
+neation    1  2 =line
+nee        1  2 =nomine
+needy      2  4
+negative   0  2
+nely       1  2 =fine
+nemic      1 10 =aneme
+*nence     1 30
+nerous     0  2 =generous
+nesce 1 2  =
+nescence   1  5 =luminesce
+nescent    1  5
+nese       1 39
+*ness      2  0 =fit
+newal      1  3 =renew
+ngal       3 63
+nger       1  3 =change
+ngest      1  2 =long
+nghy 0 0  =dinghy
+ngi        3 63
+ngrammatic 1 48
+*ngrier  1 35  =
+*ngriest 1 35  =
+ngry       1  3 =angr
+ngulate    1 20
+nible      2  1 =discern
+nic        1  1 =electron
+nicable    0  2 =communicable
+nicate     3 10 =communice
+*nier 1 33  =
+niest      1 33
+niment     1 33
+nion       0  2 =opinion
+*nise      1 92
+nister     1 45
+nitable    2 10 =ignite
+nitial     1  3 =init
+nition     2  1 =recogn
+nitive     1  8 =define
+nitor      0  2 =monitor
+nitorial   1  5
+niversity  0  2
+nize       1  1 =recogn
+njury      1 11 =injure
+nken 1 2  =
+nly        1  1 =thin
+nmen 1 118  =
+nnial      1 64 =millenne
+nnium      1 64 =millenne
+nnotation  1 11
+nnuity     0  2
+nodal      1 65 =node
+nomer      1 35
+nomic      1 35
+nomize     1 35
+normal     1  4
+notate     2 65
+notist     2  3 =hypnot
+novae 2 4  =
+nrally     0  2
+nry        1  1 =weapon
+nsee       1  3 =license
+nsical     1  9 =nonsense
+nsmissive  1 31 =transmit
+nsonant    0  2
+*nsory     1  9
+nsposition 1 12
+nstable    0  2
+nster      1 44
+ntactic    2 74
+ntance     1  2 =acquaint
+ntator     1  2 =comment
+ntee       1  2 =absent
+nteer      1  2 =volunt
+nter       1  2
+nteric     1  4 =trochanter
+ntest      1  2 =faint
+*ntial     1  2
+ntical     1  2 =ident
+nticate    1  4 =authentic
+nticism    1  2 =romant
+*nticular  1 13 =lenticule
+ntify      1  2 =ident
+ntize      1  2 =quant
+ntmen 1 119 =stuntman
+ntor       1  2 =invent
+ntric      1  3 =concentr
+ntuate     1  2 =accent
+ntuition   1  5
+nual       0  2
+nuation    1  9
+nular      2 10 =annule
+nuli       2 10 =annule
+nulus      2 10 =annule
 nyan       1  3 =kenya
 oaden      2  3 =broad
-adden      2  2 =mad
-bidden     1  3
-hidden     1 65
-ridden     1 65
-widen      1  4
-wooden     1  4
-harden     1  4
-seen       1  3
-hen        2  1 =strengthen
-ken        1  8
-token      0  2
-fallen     1  4 =fall
-wollen     2  4 =swoll
-oollen     2  3 =wool
-oolen      2  3 =wool
-tolen      2  4 =stole
-cemen      1  2 =police
-ssmen      1  2 =business
-eapen      2  3 =cheap
-eepen      2  3 =deep
-ipen       2  3 =ripe
-ispen      2  3 =crisp
-dren       1  1 =child
-isen       2  3 =arise
-osen       1  3
-oarsen     1  5
-worsen     1  5
-ten        2  1 =bright
-aten       1  2 =eat
-eeten      2  3 =sweet
-hten       2  2 =fright
-iten       2  3 =white
-atten      0  2 =batten
-fatten     1  3
-latten     2  3 =flat
-itten      2  9 =bite
-otten      2  2 =got
-shaven     1  5
-iven       2  3 =drive
-roven      2  4 =prove
-zen        1  2 =braze
-izen       0  2
-dozen      0  2
-rozen      2 108
-surgeon    1 85
-ion        1  7
-cion       1  8
-icion      0  2
-picion     2 103
-gion       0  2 =region
-hion       0  2 =cushion
-lion       0  2 =million
-ellion     2  2 =rebel
-nion       0  2 =opinion
-|anion     0  2
-pion       0  2 =champion
-rion       0  2 =clarion
-asion      3 14
-casion     0  2 =occasion
-hesion     1 22
-lesion     0  2
-ision      2  9
-cision     1 10
-decision   1 17
-llision    1 16
-erision    2 16
-|vision    1 49
-ivision    2 16
-ovision    2 16
-ulsion     2 18
-mulsion    1 11
-ension     1 24
-mension    0  2 =dimension
-|tension   1 11
-osion      1 14
-version    1 30
-|version   0  2
-*ession    2  3 =possess
-cession    0  2
-uccession  2 43
-ecession   2 16
-recession  0  2
-ncession   1 16 =concede
-rcession   1 16 =intercede
-|session   0  2 =session
-|fission   0  2
-mission    1 29
-|mission   0  2
-ussion     2  3 =discuss
-usion      1  9
-lusion     1 15
-illusion   0  2
-rusion     1 15
-*ation     2  9
-|cation    0  2
-*fication  1 33
-iplication 2 35
-vocation   1 38
-avocation  1 11
-dvocation  1 11
-*ivocation 3 13
-adation    2  9 =degrade
-endation   2  3
-foundation 0  2
-eation     2 10
-meation    1  2 =perme
-neation    1  2 =line
-*iation    2 10
-riation    1 33
-briation   1  2
-priation   1 12
-velation   1 106
-solation   2 10 =console
-amation    2  9 =defame
-clamation  1 57
-mmation    1  8 =inflame
-ummation   2 12
-rmation    1  2 =inform
-humation   2 10 =exhume
-nation     0  2
-*anation   2 11
-ranation   0  2
-*enation   2 11
-henation   2  3
-ienation   2 12
-*gnation   1 11 =stagnate
-*ination   2 11
-lination   2  3 =pollin
-ltination  0  2
-mnation    1  2 =condemn
-onation    2 11 =coronate
-arnation   2  3 =incarn
-|carnation 0  2
-lternation 1  5 =altern
-rpation    3  2 =usurp
-upation    2 34
-|ration    0  2
-deration   1  3 =consider
-ederation  2 59
-geration   2 12 =exaggerate
-piration   2 10
-doration   1 10
-oloration  2  4 =color
-toration   2 10 =restore
-maturation 1 12 =mature
-sation     1  8
-*isation   2  9
-*tation    1  8 =invite
-ilitation  2 36
-bilitation 1  1 =rehab
-|imitation 1 13
-otation    2 11
-enotation  2 11
-nnotation  1 11
-station    0  2
-astation   2  3
-estation   2  3
-|restation 0  2
-ustation   2  3
-*utation   2 11
-luation    1  9
-nuation    1  9
-ivation    2  9
-ruation    2  9
-rvation    1  9
-xation     1  1 =relax
-*ization   2  9
-unization  2 64 =immune
-*yzation   2  9
-rbtion     1  2 =absorb
-sfaction   1 34
-section    0  2
-rsection   1  5
-ssection   1  5
-*duction   1  4
-eduction   2 11 =reduce
-suction    1 107
-etion      2  9 =deplete
-uretion    2  4 =carburet
-ition      0  2 =condition
-bition     1  3 =exhibit
-mbition    0  2 =ambition
-ddition    1  2 =add
-edition    1  4 =edit
-pedition   2 12 =expedite
-olition    2  4 =abolit
-nition     2  1 =recogn
-ignition   1 12
-inition    2  9 =define
-rition     2 10 =contrite
-sition     0  2 =position
-uisition   1 22
-aposition  2 11
-eposition  1  6
-reposition 0  2
-mposition  1 11
-oposition  1 11
-pposition  1 11 =suppose
-sposition  1 11 =dispose
-nsposition 1 12
-tition     1  8 =part
-epetition  2 84
-stition    2  4
-ntuition   1  5
-mention    0  2
-tention    1 25
-etention   2 56
-stention   2 56
-vention    1 10
-evention   2 31
-mvention   3  5
-invention  1  6
-otion      0  2 =notion
-emotion    1 11
-omotion    2 11
-iption     2 58
-umption    1  9
-rption     1 66
-portion    0  2 =portion
-estion     2  3 =digest
-question   0  2
-ution      2  9
-aution     0  2
-solution   2 60
-volution   1 60
-edron      2  3 =polyhedr
-banon      1  3
-menon      1  1 =phenom
-arison     2  9
-*thern     1  2 =south
-*stern     1  2 =west
-drawn      1  4 =draw
-hewn       1  3 =hew
-rewn       1  3 =strew
-sewn       1  3 =sew
-shown      1  4 =show
-blown      1  4 =blow
-flown      1 34 =fly
-mown       1  3 =mow
-known      1  4 =know
-grown      1  4 =grow
-hrown      2  4 =throw
-sown       1  3 =sow
-erbo       2  3 =serb
-oso        3  9 =virtuose
-*ship      2  0
-pleship    1  3 =disciple
-|warship   0  2
-worship    0  2
-rillar     2  3 =fibril
-eolar      2  4 =alveola
-polar      1 10
-bular      1  8
-abular     2 20
-etabular   2 13
-tibular    2 12 =vestibule
-cular      1 19
-ecular     2 11
-*nticular  1 13 =lenticule
-rticular   0  2
-ocular     0  2
-ascular    2 12
-dular      1 10
-ndular     1  2
-endular    2 12 =pendule
-gular      1 19
-egular     0  2 =regular
-lular      2  1 =cell
-nular      2 10 =annule
-ranular    2 55
-pular      1  1 =pop
-onsular    2  5
-tular      1 19
-lvular     1 64 =valve
-aminar     2 11
-trar       2  2 =registr
-sovar      1 82
-robber     1  3
-fiber      1 44
-liber      1 44
-riber      2  4 =subscribe
-ember      2 44 =remembr
-climber    1  5
-bomber     1  4 =bomb
-sober      1 44
-orber      2  3
-acer       2  3 =race
-ncer       1  3 =announce
-cancer     0  2
-uencer     2 30 =sequent
-ducer      1  4 =produce
-eader      2  3 =lead
 oader      2  3 =load
-rader      2  4 =trade
-sader      1  4 =crusade
-vader      1  4 =evade
-bidder     1  3 =bid
-eeder      2  3 =feed
-ider       2  3 =ride
-raider     1  4
-pider      0  2
-onsider    0  2
-lder       1  2 =cold
-ewilder    0  2
-ulder      0  2 =shoulder
-nder       1  2 =command
-|render    0  2
-|tender    0  2
-ainder     2  3 =remain
-hinder     1 45
-ylinder    1 46
-wonder     1 45
-under      0  2
-aunder     2 45
-ounder     2  4
+oadest     1  3 =broad
+oamy       2  3 =foam
+oan        2  2 =protozoa
+oarsen     1  5
+oater      2  3 =boat
+oatia      2  3 =croat
+obal       2  9
+obia       1  9 =phobe
+obial      2  9
+obic       1  9 =phobe
+obility    2 11
+obilize    2 11
+ocable     2 37
+ocative    2 37
+ocritic    2  5
+octor      0  2
+octorate   2  5 =doctor
+ocular     0  2
+oculate    2 11 =inoculate
+ocuss      2  4
+odden 2 2  =
 oder       2  3 =code
-harder     1  4
-herder     1  4
-corder     1  4
-uder       2  3 =intrude
+odial      2 34 =custody
+odic       2  9 =episode
+oduction 2 88  =
+ogenate    2  4
+*oggier 1 33  =
+*oggiest 1 35  =
+oggy 2 2  =fog
+ogian      2 34
+ogize      2 34
+ogous      2 34 =analogy
+ohesive    2 23 =cohere
+oholism    2  4 =alcohol
+oidal      2  3
+oidy       2  3 =haploid
+oiesis     2 30 =poiet
+oilage     2  3 =spoil
+oiler      2  3 =spoil
+oisy       2 10 =noise
+olarity    2  9
+olee       2  3 =parole
+olest      1  2 =cool
+olian      2  4 =mongolia
+olic       2  2 =symbol
+olish      2 30
+olistic    2 34
+olition    2  4 =abolit
+olity      2  2 =frivol
+olize      2  9
+ologer     1 36
+*ologic    1 36
+oloration  2  4 =color
+olour      2 44
+olver      2  4 =solve
+omacy      2 30
+omance     2 31
+omary      2  2 =custom
+omatic     1 11
+omatize    1  2 =axiom
+omedian    2 68
+omedy      2 68
+omena      2  2 =phenom
+omenal     2  2 =phenom
+omeric     1  4 =isomer
+omic       2  2
+omier      1  2 =room
+omist      1 34
+omize      2  2 =random
+omotion    2 11
+omotive    2 11
+omous      2 34
+onage      1  2 =patron
+*onal      1  9
+*onance    2 31
+onant      2 53
+onary      2  2 =pulmon
+onation    2 11 =coronate
+onch       2 88
+ondone 0 0  =
+onduct     0  2
+onductive  2  6
+oness      1  2 =baron
+onetary    2 35
+onetize 2 35  =
+onger      2  3 =strong
+ongly      2  3 =strong
+onial      2 34
+onism      1  2 =union
+onist      2 34
+onous      2  2 =poison
+onsible    0  1 =responsible
+onsider    0  2
+onsistent  0  2 =consistent
+onsive     2 24
+onsular    2  5
+onsulate   2  5
+ontage     1  3 =front
+ontal      2  3 =front
+ontest 0 0  =
+ontier 0 0  =frontier
+*oodier 2 35  =
+oody       2  3 =mood
+oolant     2  3 =cool
+oolen      2  3 =wool
+ooler      2  3 =cool
+oollen     2  3 =wool
+oomer      2  3 =boom
+oomy 2 3  =
+ooner      2  3 =soon
+oonest     2  3 =soon
+ootage     2  3 =foot
+ooter      2  3
+oother     2  4
+opable     2  2 =develop
+opacify    1 105
+opacity    1 105
+opant      2  9 =dope
+ophy       0  2
+opic       2  9 =isotope
+opier      2 34
+oposition  1 11
+oppage     1  2 =stop
+oppy       2  2 =slop
+orage      2  9 =store
+*oral      2  2
+orance     2 31
+orary      2  2
+oratory    1 11 =orate
+orbent     1  3 =absorb
+orber      2  3
+orbiter    1  5
+ordinal 1 12  = 
+oree       2  2 =honor
+orest      1  2 =poor
+oretic     1 34
+orian      2 34
+oric       2 34
+orical     2 34
+orifer     2  1 =odor
+*orily     2 34 =summary
+*orise     1 93
+orite      2  2 =favor
+ority      1  2 =major
+ormy       2  3
+orner      0  2 =corner
+orosity    2  9 =pore
+ortage     2  3 =short
+orter      2  3 =report
+ortic      1 41 =aorta
+ortment    2  3 =deport
+orture     0  2
+osage      2  9 =dose
+osal       2  9
+osen       1  3
+osic       3  9
+osion      1 14
+osis       2 28
+osite      2  9 =oppose
+osity      1 62
+osive      2 14
+oso        3  9 =virtuose
+ossible    0  2
+ossy       2  3 =boss
+ostate     2 79
+osticate   2  3 =prognost
+ostolic    2 21 =apostle
+osure      2  9
+otactic    2 74
+otant      2  9 =promote
+otary      2 53
+otation    2 11
+otee       2  3 =devote
+otence     2 31
+otian      1  1 =lao
+otic       1  2 =idiot
+otion      0  2 =notion
+otist      2  1 =ego
+*otistic   2  5
+otize      2  2 =hypnot
+otry       2  2
+otten      2  2 =got
+otter      2  2 =plot
+ottish     2  2 =scot
 ouder      2  3 =loud
+oudy       2  3 =cloud
+oughty 0 0  =
+ounder     2  4
+*ously     1  3
+ousy       2  3 =jealous
+oval       2  9
+ovision    2 16
+owest      2  2 =low
+owner      1  3 =own
+owth       2  2 =grow
+owy        2  2 =show
+oxen 1 2  =
+oyalty     2  4
+ozer       1  3 =doze
+pable      0  2 =capable
+paginate   1 10
+paid       1 34
+pallor     1 102
+pancy      1 30
+panist 2 35  =
+parate     2  3 =dispar
+passive    0  2
+paster 1 5  =
+pean       1  2 =europe
+pedition   2 12 =expedite
+pee        1  2 =escape
+peedy      2  4
+peller     1  3 =propel
+pense      2 25
+peratic    1  4 =opera
+perial     0  2
+peter      2  3 =carpet
+petitious  1 83
+phasis     1 30
+phasize    1 30
+phate      2 96
+phatic     1  4
+phe        1  2 =catastroph
+pher       1  2 =photograph
+phica      1  2
+phite      2 97
+phora      1  4 =anaphor
+phoria     1  4 =euphor
+phoric     1  4 =metaphor
+phosis 0 0  =
+phous      1  2 =morph
+phur       2 99
+phuric     2 100
+picable    2  3
+picion     2 103
+picious    2 103
+picy       2 65
+pider      0  2
+pier       3 33
+pion       0  2 =champion
+pionage    2  4 =espion
+piracy     1 54
+piral      0  2 =spiral
+pirant     2 10 =aspire
+piration   2 10
+pital      0  2 =capital
+plaid 0 0  =
+planate    2 56
+pler       1  3 =simple
+pleship    1  3 =disciple
+plest      1  3 =simple
+plete      0  2
+plify      2  9 =simple
+polar      1 10
+polish     0  2
+polize     1 34
+ponse      2 25
+porary 2 1  =
+portion    0  2 =portion
+ppable     1  1 =stop
+ppellate   1 80
+pper       1  1 =shop
+ppier      2 34
+ppiest     1 34
+pplause    1 27
+ppliance   0  2
+pplicate   0  2
+pposition  1 11 =suppose
+premier 0 0  =
+priation   1 12
+private    0  2
+psis       1 28
+psister    0  2
+pster      0  2 =dumpster
+psulate    1 11 =encapsule
+ptacle     1  2 =recept
+ptance     1  2 =accept
+ptian      1  2 =egypt
+ptic       1  2
+ptize      1  2 =bapt
+ptomatic   2  4 =symptom
+ptor       1  2 =recept
+ptuous 2 2  =comtempt
+pular      1  1 =pop
+putate     2 10
+puty       1 10 =depute
+qi         1  1 =iraq
+qual       1  9 =eque
+qualor     2 102
+quate      1  9 =antique
+quator     0  2
+question   0  2
+rabber 2 3  =
+rabbest 2 3  =
+rabic      1  3
+rable      1  8
+racier     1 35
+racious 2 10  =
+ractile 2 4  =
+rader      2  4 =trade
+radian     0  2 =radian
+raider     1  4
+raint      2  4 =restrain
+*ralist    1  3
+rammable 2 3  =
+ramme      2  3 =program
+ranal      2 10 =membrane
+ranation   0  2
+rancy      1 30 =errant
+rantry     2  4 =errant
+ranular    2 55
+ranulate   2 55
+ranule     2 55
+rapacious 1 10  =
+rasitic    1 89
+rasper     2  4 =grasp
+rasure     1 10
+rational   0  2
+ratize     2  3 =democrat
+ratory     1  8 =respire
+rbable     1  2 =absorb
+rbate      1  2 =perturb
+rbia       1  2 =serb
+rbic       1  2 =ascorb
+rbiter     1 45
+rbour      1 44
+rbtion     1  2 =absorb
+rcee       1  3 =divorce
+rcent      0  2
+rcession   1 16 =intercede
+rcial      1  9
+rcive      1  9 =coerce
+rclement   1  4 =encircle
+rdest      1  2 =hard
+rdier      1 34
+rdinal     0  2 =cardinal
+rdish      3  2 =kurd
+rdom       1  1 =martyr
+rdry       1  2 =wizard
+rdy        1  2 =hard
+rean       1  3 =korea
+reatic     2  3 =pancrea
+recession  0  2
+reclusive  1 13 =recluse
+recy       2 29
+redder 1 3  =
+reedy      2  4
+reer 2 3  =freer
+reest 2 3  =
+*rely      1  2
+remen 1 119  =
+reness     1  2 =sure
+renity     1 65
+reposition 0  2
+rer        1  8
+restry     1  4
+resy       1 29 =heret
+retary     0  2 =secretary
+reter      2  3 =interpret
+retor      3  3 =carburet
+retory     2 10 =secrete
+rewn       1  3 =strew
+rfer       1  2 =surf
+rference   1  5 =interfere
+*rful      1  1 =wonder
+rgenic     1  4 =allergen
+rger       1  3 =charge
+rgery      0  2 =surgery
+rgest      1  3 =large
+rgic       1 34
+rginal     1  4 =margin
+rgist      1 34
+rgize      1 34
+rgument    1 10
+rheal      2  4 =diarrhea
+riation    1 33
+riber      2  4 =subscribe
+rican 1 4  =
+ricant     2  3 =lubric
+ridden     1 65
+ridize     2  3 =hybrid
+rier       1 33
+riety      2  1 =sobr
+rility     1 20
+rilize     1 20
+rillar     2  3 =fibril
+rillate    2  3 =fibril
+rinary     3 10
+ringy 2 4  =string
+rinter     2  4 =print
+rion       0  2 =clarion
+rism       0  2
+risper     2  4 =crisp
+risten 0 0  =
+risy       2 29
+ritable    2 10 =irrite
+rition     2 10 =contrite
+ritious    2 10 =nutrite
+ritis      2  3 =arthrit
+ritive     2 10 =nutrite
+ritory     0  2
+ritty      1  3 =grit
+rity       1  8
+rize       1  8
+rly        1  1 =fair
+rmance     1  2 =perform
+rmant      1  2 =inform
+rmany      1  4
+rmation    1  2 =inform
+rmative    1  2 =inform
+rmeate     1  3 =perme
+rmer       1  2 =farm
+rmese      3 40 =burma
+rmonic     1 36
+rmour      1 44
+rnal       1  2 =intern(!)
+rnance     1  2 =govern
+rnate      1  2 =altern
+rnee       3  2 =return
+rner       1  2 =burn
+rnity      1  2 =etern
+rnor       1  2 =govern
+rnt        1  2 =burn
+roan       0  2
+robber     1  3
+rocable    2 10 =reciproce
+rocal      2 10 =reciproce
+rocate     2 10 =reciproce
+rocity     1 10 =reciproce
+roic       1  2 =hero
+romatic    1  4 =aroma
+ronal      3  3 =neuron
+ropy       2 10 =rope
+rorism     2  3 =terror
+rorist     2  3 =terror
+rosity     2  1 =monstr
+rous       1  8 =barbare
+roven      2  4 =prove
+rover      1  4
+rower      2  3 =grow
+roze       2 108
+rozen      2 108
+rpation    3  2 =usurp
+rper       1  2 =sharp
+*rply      1  2
+rption     1 66
+rptive     1 66
+rrence     1  1 =deter
+rrent 1 1  =
+rriage     1 34
+rriment 1 34  =
+rroneous   1 44
+rsal       1  9
+rsant      1  9 =disperse
+rsection   1  5
+rsuit      3 10 =pursue
+rtance     1 31
+rtant      0  2
+rtee       1  2 =deport
+rterial    1 36
+rtery      0  2 =artery
+rtest      1  2 =short
+rtheless 0 0  =
+rtial 0 0  =
+rtian      1  1 =mar
+rticular   0  2
+rtillery   0  2
+rtinent    1 56
+rtise      1  2 =expert
+rtistic    1  2 =art
+rtment     0  2 =department
+rture      1  2 =depart
+rual       2  9 =accrue
+ruate      2  9 =menstrue
+ruation    2  9
+rubic      1  3 =cherub
+rudate     2 10 =extrude
+rudiment 0 0  =
+ruest 2 3  =true
+rusible    2 15 =extrude
+rusion     1 15
+rusive     2 15
+rutal      2 10 =brute
+ruvian     1  2 =peru
+rvance     1  9
+rvation    1  9
+rvatism    1 11 =conservate
+rver       1  3 =observe
+rvical     1 76 =cervix
+rvous      1  9 =nerve
+ryer       2  2 =dry
+*ryman     1  2
+ryngeal    1 74 =pharynx
+sadder 1 3  =
+sader      1  4 =crusade
+said 1 34  =
+saler      1  4 =wholesale
+salty      1  4
+*santry    1  4 =peasant
+sarial     2 35
+sarist 2 3  =
+saster     1 45
+sate       2  8 =compense
+sation     1  8
+sative     3  8 =accuse
+satory     3  8 =compense
+scious     0  2 =conscious
+scopy      1  9 =microscope
+seamy 0 0  =
+section    0  2
+sediment 0 0  =sediment
+seen       1  3
+self       1  0
+selor      2  3 =counsel
+selve      2  0
+sely       1  2
+sence      1 30
+seness     1  2 =close
+seous      3 40 =nausea
+*ser       1  2 =close
+serable    1 35
+sese       0  2
+sest       1  2 =close
+sewn       1  3 =sew
+sfaction   1 34
+sfactory   1 34
+shaven     1  5
+sher       1  2 =publish
+shest      1  2 =fresh
+shier      1  2 =cash
+shioner    1  2 =parish
+*ship      2  0
+shown      1  4 =show
+sial       2 33
+siasm      1  8 =enthuse
+siast      3  8
+siastic    1  8 =enthuse
+sible      2  8
+sidual     1 11 =residue
+sier       1 33
+*siest     3 33
+sify       2  8 =intense
+signate    1  4
+silize     2  3 =fossil
+sinate     2  3 =assassin
+sinous     1  3 =resin
+sist       0  2
+sition     0  2 =position
+sitive     2  3 =sensit
+sity       2  8 =diverse
+slaid 1 35  =
+slid 1 88  =
+slimmer 1 4  =
+sma        1  2 =plasm
+*sness     1  1 =serious
+sober      1 44
+solation   2 10 =console
+solution   2 60
+somal      1 65
+soner      1  3 =prison
+sonic      0  2
+soother    2  6
+sophy      1  4
+sovar      1 82
+sown       1  3 =sow
+spent      1 26
+sphate     0  2
+sphite     0  2
+sphoric    0  2
+spicable 1 110  =
+spiracy    2 11 =conspire
+spirate    1 11 =inspire
+sposition  1 11 =dispose
+ssal       1  2 =dismiss
+ssant      1  2 =depress
+ssary      1  2 =necess
+ssection   1  5
+sser       1  2 =pass
+ssident    0  2
+ssify      0  2 =classify
+ssitate 2 0  =
+ssive      1  2 =mass
+ssly       1  2 =gross
+ssman      1  2 =business
+ssmen      1  2 =business
+ssonant    0  2
+*ssor      1  2 =process
+stal       1  2 =coast
+stance     2 31
+stani      1  4 =pakistan
+stant      0  2 =constant
+stasis     1 30
+station    0  2
+stence     1  2 =exist
+stention   2 56
+ster       1  2 =protest
+steria     1 23
+steric     2 23
+sterious   2 36
+*stern     1  2 =west
+stery      1  4 =master
+sticate    1  4 =domestic
+stition    2  4
+stitious   2  4
+stival     1  2 =fest
+stolic     1 11 =systole
+stor       1  2 =invest
+strian     1  3 =equestr
+sty        1  2 =honest
+suance     1  9
+suant      2  9 =insue
+suction    1 107
+suer       2  3 =pursue
+suitable   1  4
+summer     0  2
+surgeon    1 85
+surgic     1 85
+tabolic    1 12 =metabole
+tabulary   2 21 =constable
+taffer     2  4
+tainty     2  4 =certain
+talian     1 35
+tallic     1  3 =metal
+tammer 0 0  =stammer
+*tancy     1 30
+tannest 1 3  =
+tant       2  1 =repent
+tariat     1 35
+tarist     1  8 =milite
+tarize     1  8 =milite
+tarter     2  4
+tary       1  8 =milite
+tasize     2 29 =metastat
+tastic     2 35
+*tation    1  8 =invite
+tatious    2  1 =ostent
+*tative    1  8
+tatory     1  8 =excite
+tcy        2  1 =bankrupt
+teely      2  4 =steel
+tegrant    2  4 =integr
+tegrate    2  4 =integr
+*tely      1  2
+tematic    2  3 =system
+temic      2  3 =system
+ten        2  1 =bright
+tenance    2 55
+teness     1  2 =white
+tentative  0  2
+tention    1 25
+terate     2  3 =alter
+terature   1  5 =literat
+tetic      1  1 =diet
+theater    1 46
+thedral    0  2
+*thern     1  2 =south
+thier      2  2 =health
+*thiest 2 34  =
+thieve     1 71
+thize      1  2 =sympath
+tiac 0 0  =
+*tiate     2  1 =different
+tible      1  1 =convert
+tibular    2 12 =vestibule
+tica       2  3 =antarctic
+ticulate   1 21 =particle
+ticule     2 21 =lenticle
+*tier     1 34 =pretty
+*tier 2 33  =
+tiest      2 33
+tific      2  1 =scient
+tigant     1 10 =litige
+tigious    1 10
+tilate     2  1 =vent
+tilian     1 10
+tility     1 10 =utile
+tilize     1 20
+timate     1 10 =legitime
 tineer     3  4
 tioneer    2  4 =auction
-eteer      2  2 =market
-nteer      1  2 =volunt
-|safer     1  4
-taffer     2  4
-orifer     2  1 =odor
-rfer       1  2 =surf
-|ager      1  3 =age
-ager       2  3 =manage
-gger       1  1 =big
-trigger    0  2
-nger       1  3 =change
-|anger     1 44
-banger     1  4 =bang
-danger     0  2
-hanger     1  4 =hang
-langer     2  4 =clang
-changer    1  6 =change
-enger      0  2 =messenger
-lenger     2  5 =challenge
-venger     1  5 =scavenge
-inger      0  2 =linger
-|singer    1  4
-onger      2  3 =strong
-hunger     1 45
-younger    1  5
-ologer     1 36
-rger       1  3 =charge
-burger     0  2
-cher       1  2 =teach
-butcher    0  2
-gher       1  2 =high
-pher       1  2 =photograph
-sher       1  2 =publish
-oother     2  4
-soother    2  6
-acier      2  9
-racier     1 35
-ancier     2 10
-fancier    1 36
-*edier     1 34
-rdier      1 34
-*ifier     2 34
-shier      1  2 =cash
-thier      2  2 =health
-kier       1  8 =bulk
-*lier      2 33
-omier      1  2 =room
-pier       3 33
-opier      2 34
-ppier      2 34
-rier       1 33
-arrier     0  2 =barrier
-urier      0  2 =courier
-sier       1 33
-*ttier     1 34 =pretty
-avier      1 34
-ker        1  8
-ealer      2  3 =heal
-saler      1  4 =wholesale
-bler       2  3 =ramble
-dler       2  3 =handle
-eler       2  2 =revel
-eeler      2  3 =peel
-iler       2  3 =compile
-ailer      2  3 =mail
-oiler      2  3 =spoil
-ller       1  2 =roll
-peller     1  3 =propel
-veller     1  3 =revel
-troller    1  4 =patrol
-ooler      2  3 =cool
-pler       1  3 =simple
-tler       2  3 =settle
-uler       2  3 =rule
-wler       1  2 =bowl
-eamer      2  3 =dream
-emer       2  3 =scheme
-imer       2  3 =time
-aimer      2  3 =disclaim
-lmer       1  2 =calm
-mmer       1  1 =program
-summer     0  2
-nomer      1 35
-oomer      2  3 =boom
-rmer       1  2 =farm
-|former    0  2
-umer       1  3 =consume
-eaner      2  3 =mean
-*ener      2  2 =listen
-htener     2  2 =bright
-igner      1  3 =sign
-iner       1  9
-anner      2  2 =plan
-manner     0  2
-inner      2  2 =win
-dinner     0  2
-unner      2  2 =gun
-*ioner     2  3
-shioner    1  2 =parish
-ooner      2  3 =soon
-soner      1  3 =prison
-rner       1  2 =burn
-orner      0  2 =corner
-owner      1  3 =own
-goer       2  2 =go
-eaper      2  3 =reap
-eeper      2  3 =deep
-lper       1  2 =help
-amper      2  3 =camp
-|hamper    0  2
-|tamper    0  2
-umper      2  3 =jump
-veloper    1  5 =develop
-pper       1  1 =shop
-rper       1  2 =sharp
-rasper     2  4 =grasp
-risper     2  4 =crisp
-rer        1  8
-*ser       1  2 =close
-sser       1  2 =pass
-eater      1  3 =heat
-theater    1 46
-oater      2  3 =boat
-icter      2  3 =strict
-dieter     1  4
-keter      2  3
-meter      1 44
-peter      2  3 =carpet
-reter      2  3 =interpret
-fter       1  2 =soft
-|after     0  2
-eafter     0  2
-hter       2  2 =fight
-|laughter  1  5
-iter       1  9 =write
-rbiter     1 45
-orbiter    1  5
-filter     1 45
-nter       1  2
-|enter     1 44
-center     1 45
-|inter     0  2
-inter      2 44
-rinter     2  4 =print
-counter    0  2
-ioter      2  3
-moter      1  4
-ooter      2  3
-voter      1  4
-apter      1  3 =adapt
-ipter      1  3 =script
-dopter     1  4 =adopt
-tarter     2  4
-arter      2  3 =smart
-erter      2  3 =convert
-orter      2  3 =report
-ster       1  2 =protest
-master     0  2
-saster     1 45
-dster      0  2
-|ester     0  2
-|fester    0  2
-kester     1  2 =joke
-gster      1  1 =gang
-gister     1 45
-nister     1 45
-|sister    0  2
-psister    0  2
-kster      2  1 =prank
-mster      0  2 =hamster
-nster      1 44
-pster      0  2 =dumpster
-luster     0  2 =luster
-fatter     1  3
-itter      3  2 =emit
-otter      2  2 =plot
-uter       1  3 =compute
-euter      0  2 =neuter
-|outer     1  3
-cuer       2  3 =rescue
-suer       2  3 =pursue
-aver       2  3 =save
-iever      2  4 =believe
-iver       1  3 =receive
-aiver      2  4 =waive
-liver      0  2 =deliver
-|river     0  2
-olver      2  4 =solve
-lover      1  4
-mover      1  4
-rover      1  4
-rver       1  3 =observe
-ewer       2  2 =new
-iewer      2  3
-lower      2  3 =follow
-rower      2  3 =grow
-xer        1  1 =fix
-ayer       2  2 =play
-loyer      2  3 =employ
-ryer       2  2 =dry
-uyer       1  2 =buy
-azer       2  3 =gaze
-ezer       1  3 =freeze
-*izer      2  3
-ozer       1  3 =doze
-yzer       2 28
-zzer       1  2
-vior       1  8
-qualor     2 102
-selor      2  3 =counsel
-pallor     1 102
-rnor       1  2 =govern
-uror       2 34
-isor       2  9 =advise
-*ssor      1  2 =process
-*ator      3  9
-eator      2 10 =create
-ligator    0  2
-iator      2 10
-ntator     1  2 =comment
-quator     0  2
-*ctor      1  2 =reflect
-factor     0  2
-octor      0  2
-itor       2  9
-retor      3  3 =carburet
-nitor      0  2 =monitor
-titor      1  8
-ltor       1 34
-ntor       1  2 =invent
-|mentor    0  2
-ptor       1  2 =recept
-stor       1  2 =invest
-*utor      2  9
-ivor       2  9
-eyor       2  2 =convey
-phur       2 99
-abour      1 44
-hbour      1 44
-rbour      1 44
-igour      2 44
-viour      1  8
-olour      2 44
-rmour      1 44
-umour      2 44
-apour      2 44
-avour      1 44
-audis      2  4 =saudi
-aelis      2  3 =israel
-glis       1  2
-phasis     1 30
-stasis     1 30
-esis       2 28
-|thesis    0  2
-lesis      0  2 =telesis
-oiesis     2 30 =poiet
-osis       2 28
-iosis      2 29
-gnosis     1 31
-psis       1 28
-ysis       2 28
-ritis      2  3 =arthrit
-laxis      1 73
-exis       2 72
-uccess     2 43
-*ness      2  0 =fit
-edness     2  7
-eness      2  1
-*leness    2  2 =brittle
-reness     1  2 =sure
-seness     1  2 =close
-teness     1  2 =white
-*ateness   3  3 =adeque
-*veness    1  2 =forgive
-ingness    1  0
-*iness     2 32
-usiness    0  2 =business
-*fulness   1  3
-oness      1  2 =baron
-*sness     1  1 =serious
-witness    0  2
-|loss      1 10
-focus      1 80
-dous       2  1 =hazard
-eous       2  1 =courage
-rroneous   1 44
-seous      3 40 =nausea
-aseous     1  2
-hteous     0  2
-ogous      2 34 =analogy
-phous      1  2 =morph
-ious       2 32
-bious      0  2
-cious      1  8
-acious     2 34 =fallacy
-dicious    3 10
-ecious     0  2 =precious
-icious     0  2 =vicious
-alicious   2 11 =malice
-picious    2 103
-scious     0  2 =conscious
-gious      1 49
-digious    1 35 =prodigy
-tigious    1 10
-ilious     2  9 =bile
-enious     2 95
-various    0  2
-erious     0  2 =serious
-sterious   2 36
-borious    1  3 =labor
-urious     0  2
-furious    1 35
-jurious    2 10 =injure
 tious      2  1 =infect
-tatious    2  1 =ostent
-itious     2 50
-ditious    1 10 =expedite
-ritious    2 10 =nutrite
-titious    2  1 =fict
-petitious  1 83
-stitious   2  4
-utious     1 50
-vious      0  2 =previous
-lous       1  1 =scandal
-llous      0  2 =callous
-abulous    1 20
-iculous    2 11
-upulous    2 20
-mous       1  8
-omous      2 34
-enomous    2  4 =venom
-ymous      2  2 =synonym
-genous     1 65
-ainous     2  3 =mountain
-cinous     3  3 =mucin
-aginous    2  9 =mucilage
-sinous     1  3 =resin
-atinous    2 11
-utinous    2 11
-uinous     2  3
-onous      2  2 =poison
-rous       1  8 =barbare
-brous      1  2 =fibr
-drous      2  2 =wondr
-erous      2  2 =cancer
-nerous     0  2 =generous
-gorous     1  3 =vigor
-aporous    1  4 =vapor
-trous      2  2 =disastr
-itrous     2  3 =nitr
-tous       1  1 =riot
-*itous     3 34
-uous       1  8
-ltuous     3  2 =tumult
-*evous     1  9 =grieve
-rvous      1  9 =nerve
-tariat     1 35
-|duct      0  2
-duct       1 10
-bduct      0  2
-onduct     0  2
-rsuit      3 10 =pursue
-iccant     2  3 =desicc
-icant      2 53
-ficant     0  2
-applicant  1 36
-ricant     2  3 =lubric
-dant       2  1 =redund
-tigant     1 10 =litige
-ugant      2  9 =conjuge
-mphant     3  3 =triumph
-diant      1 53
-fiant      1 33
-liant      1 33
-lliant     0  2
-ariant     2 34
-ealant     2  3 =seal
-ilant      2  2 =vigil
-ailant     2  3 =assail
-ellant     2  2 =propel
-oolant     2  3 =cool
-culant     1 10
-dulant     1 10 =acidule
-udulant    1  2 =fraud  
-gulant     1 10 =coagule
-mulant     1  4 =stimula
-rmant      1  2 =inform
-dormant    0  2
-gnant      1  2 =malign
-agnant     2 54
-binant     1 10 =combine
-minant     1 10 =domine
-onant      2 53
-nsonant    0  2
-ssonant    0  2
-ipant      2  9 =participe
-opant      2  9 =dope
-upant      2 34
-ebrant     2  3 =celebr
-ibrant     2  3 =vibr
-herant     2  3 =further
-lerant     1  3 =toler
-tegrant    2  4 =integr
-igrant     2 54
-pirant     2 10 =aspire
-dorant     1  3 =odor
-lorant     1  3 =color
-vorant     1  3 =flavor
-trant      1  2 =recalcitr
-lsant      3  9
-rsant      1  9 =disperse
-ssant      1  2 =depress
-tant       2  1 =repent
-ctant      1  2 =react
-itant      2  9 =inhabit
-otant      2  9 =promote
-rtant      0  2
-stant      0  2 =constant
-istant     2  3 =assist
-butant     1  3
-lutant     1 10
-mutant     2 10
-|mutant    1 54
-suant      2  9 =insue
-xant       1  1 =relax
-orbent     1  3 =absorb
-cent       2 25
-rcent      0  2
-ndescent   1  6
-iescent    0  2 =quiescent
-lescent    1  5 =adolesce
-nescent    1  5
-vescent    1  5
-iscent     2  4 =reminisce
-dent       1  8
-edent      0  2 =credent
-ssident    0  2
-udent      0  2 =prudent
-gligent    1 104
-mergent    1  5 =emerge
-vergent    1  5 =diverge
-esurgent   2  6
-icient     2  9 =suffice
-ellent     1  2 =repel
-dulent     3  1 =fraud
-*ment      2  0 =commit
-mament     2  1 =arm
-ement      2  1 =state
-*cement    1  2 =announce
-eement     2  2 =agree
-agement    1  3 =manage
-lement     0  2 =element,supplement
-blement    1  3 =enable
-glement    1  3 =entangle
-rclement   1  4 =encircle
-tlement    1  3 =settle
-zlement    1  3 =embezzle
-vement     1  2 =achieve
-gment      0  2 =fragment
-dgment     1  9 =judge
-diment     1 33
-ndiment    0  2
-niment     1 33
-mment      0  2
-rtment     0  2 =department
-ortment    2  3 =deport
-rgument    1 10
-minent     1  4 =promine
-rtinent    1 56
-spent      1 26
-erent      2  2 =refer
-herent     1  4 =cohere
-werent     1  4 =were
-errent     2  2 =deter
-istent     2  3 =persist
-onsistent  0  2 =consistent
-laint      2  4 =complain
-raint      2  4 =restrain
-rnt        1  2 =burn
-ipt        2 58
-ceipt      1 87
-|script    0  2
-siast      3  8
-icest      2  3 =nice
-oadest     1  3 =broad
-ddest      1  1 =sad
-|oddest    1  3
-ldest      1  2 =old
-ndest      1  2 =kind
-rdest      1  2 =hard
-udest      1  9 =loud
-afest      2  3 =safe
-iggest     2  2 =big
-ngest      1  2 =long
-angest     2  4 =strange
-rgest      1  3 =large
-ichest     2  3 =rich
-ghest      1  2 =high
-shest      1  2 =fresh
-hiest      2  1 =health
-kiest      1 33
-liest      1 33
-niest      1 33
-ppiest     1 34
-*siest     3 33
-asiest     1 64
-tiest      2 33
-viest      1 33
-ziest      1 33
-kest       1  1 =dark
-llest      1  2 =tall
-olest      1  2 =cool
-plest      1  3 =simple
-mmest      1  1 =slim
-anest      1  2 =mean
-inest      2  3 =fine
-oonest     2  3 =soon
-eapest     2  3 =cheap
-epest      1  2 =deep
-earest     2  3 =near
-irest      1  2 =fair
-orest      1  2 =poor
-sest       1  2 =close
-eatest     2  3 =great
-ghtest     1  3 =bright
-ntest      1  2 =faint
-rtest      1  2 =short
-ttest      1  1 =fit
-ewest      2  2 =new
-owest      2  2 =low
-*ist       2  7
-macist     1  8
-icist      2  2 =physic
-*logist    1 35
-rgist      1 34
-*ralist    1  3
-klist      0  2
-ylist      0  2
-amist      2  2 =islam
-omist      1 34
-*anist     2  2 =african
-gienist    1 88
-inist      2  2 =lenin
-minist     1 10 =determine
-onist      2 34
-donist     1  3 =hedon
-loist      1  2 =solo
-tarist     1  8 =milite
-christ     0  2
-rorist     2  3 =terror
-sist       0  2
-|dentist   0  2
-otist      2  1 =ego
-notist     2  3 =hypnot
-|lost      1 10 =lose
-most       2  0
-yst        2 28
-*cacy      1 52
-ficacy     0  2
-dacy       1 52
-igacy      2  9 =proflige
-macy       1  8 =supreme
-omacy      2 30
-armacy     0  2
-*inacy     2 53 =obstinate
-cracy      1 30
-piracy     1 54
-spiracy    2 11 =conspire
-uracy      2 53
-uacy       2  8
-vacy       1 52
-hecy       2 29
-recy       2 29
-|icy       1 64
-picy       2 65
-*dancy     2 30
-eancy      2 30
-mancy      2 30 =dormant
-nancy      2 30
-gnancy     1  2 =pregn
-pancy      1 30
-rancy      1 30 =errant
-*tancy     1 30
-uancy      2 30
-vancy      1 30
-*ency      1 29
-ergency    0  2
-uncy       1 10
-iocy       2 29 =idiot
-tcy        2  1 =bankrupt
-needy      2  4
-peedy      2  4
-reedy      2  4
-agedy      2 68
-omedy      2 68
-oidy       2  3 =haploid
-indy       2  3
-oody       2  3 =mood
-rdy        1  2 =hard
-oudy       2  3 =cloud
-opacify    1 105
-idify      2  2 =acid
-plify      2  9 =simple
-amplify    0  2
-ignify     2  3 =dign
-clarify    1 91
-erify      2  2 =ester
-trify      2 68
-urify      2  9
-sify       2  8 =intense
-ssify      0  2 =classify
-ntify      1  2 =ident
-gogy       1  3
-dology     1  1 =method
-hnology    2  2
-hy         2  1 =starch
-ophy       0  2
-sophy      1  4
-ky         1  8 =luck
-maly       1  3 =anomal
-*bly       1  9
-icly       2  2 =public
-dly        1  1 =dead
-edly       1  7
-|idly      1 65
-cely       1  2 =fierce
-dely       1  2 =crude
-freely     1  4 =free
-teely      2  4 =steel
-fely       1  2 =safe
-gely       1  2 =large
-lely       1  2 =sole
-mely       1  2 =home
-nely       1  2 =fine
-*rely      1  2
-sely       1  2
-*tely      1  2
-uely       2  2 =unique
-*vely      1  2
-iefly      2  3 =chief
-ingly      2  7
-|singly    1 12
-ongly      2  3 =strong
-ugly       2  2
-hly        2  1 =smooth
-*ishly     2  3
-ily        2 32
-mily       0  2 =family
-|oily      1  3
-*arily     2 34 =summary
-*orily     2 34 =summary
-kly        2  1 =dark
-akly       1  2 =weak
-ekly       1  2 =week
-*ally      3  2
-|dally     0  2
-*eally     2  3
-*ially     2  3
-|rally     0  2
-nrally     0  2
-illy       2  3 =chill
-*fully     1  3
-|fully     1  4
-mly        1  1 =warm
-nly        1  1 =thin
-*enly      2  2
-inly       1  2 =main
-aply       1  2 =cheap
-eeply      2  3 =deep
-amply      1 11 =ample
-*rply      1  2
-rly        1  1 =fair
-|early     0  2
-ssly       1  2 =gross
-*ously     1  3
-*tly       1  1
-wly        1  1 =slow
-xly        1  1 =complex
-eamy       2  3 =dream
-oamy       2  3 =foam
-emy        2  9
-imy        2  9 =slime
-domy       1  3 =sodom
-atomy      2  4
-ormy       2  3
-rmany      1  4
-geny       1 65
-iny        2  9 =shine
-ainy       2  3 =grain
-yranny     2 31 =tyrant
-elony      2  4
-hrony      2  4 =synchron
-irony      0  2
-eepy       2  3 =sleep
-mpy        1  2 =lump
-scopy      1  9 =microscope
-ropy       2 10 =rope
-oppy       2  2 =slop
-aspy       1  3
-ispy       1  3 =crisp
-cary       2 10 =scare
-ndary      1  2 =bound
-ugary      2  4 =sugar
-ficiary    1 29
-biliary    1 10 =bile
-tabulary   2 21 =constable
-imary      2  9 =prime
-mmary      3 11 =summare
-omary      2  2 =custom
-ginary     1 10 =imagine
-linary     1 10 =discipline
-rinary     3 10
-onary      2  2 =pulmon
-*ionary    2  3
-erary      2 30
-orary      2  2
-ssary      1  2 =necess
-tary       1  8 =milite
-onetary    2 35
-retary     0  2 =secretary
-entary     2  3 =element
-otary      2 53
-votary     0  2
-ivary      2  3
-icry       2  2 =mimic
-aundry     2  5
-ldry       1  2 =herald
-rdry       1  2 =wizard
-*ery       2  2 =discover
-heery      2  4 =cheer
-rgery      0  2 =surgery
-hery       2  3 =peripher
-llery      1  2 =distill
-rtillery   0  2
-enery      2  3 =scene
-eenery     2  3 =green
-inery      2  3 =refine
-isery      0  2
-etery      0  2 =cemetery
-rtery      0  2 =artery
-stery      1  4 =master
-ystery     0  2
-battery    0  2
-|very      0  2
-ngry       1  3 =angr
-iry        3  9 =inquire
-lry        1  1 =rival
-nry        1  1 =weapon
-enry       0  2
-zenry      1  3 =citizen
-visory     2 10
-*nsory     1  9
-*catory    1 10
-datory     1 10 =predate
-endatory   1  3 =commend
-gatory     1 10 =instigate
-igatory    2  9 =oblige
-*iatory    2 10 =retaliate
-*latory    1 10
-matory     2  1 =confirm
-amatory    2  9 =defame
-clamatory  1 57
-mmatory    1  8 =inflame
-*natory    1 10
-*anatory   2 11
-gnatory    1  2 =sign
-ratory     1  8 =respire
-bratory    1  2 =vibr
-oratory    1 11 =orate
-boratory   1  1 =lab
-loratory   1 10 =explore
-satory     3  8 =compense
-tatory     1  8 =excite
-ctory      1  2 =contradict
-sfactory   1 34
-uctory     2  9 =introduce
-retory     2 10 =secrete
-itory      2  2 =prohibit
-uditory    1 82
-ritory     0  2
-utory      2  9 =statute
-vory       1  3 =savor
-furry      1  3 =fur
-atry       1  3 =psychiatr
-etry       1  2 =poet
-metry      1  4 =telemetr
-itry       3  2 =circuit
-dantry     1  4 =pedant
-eantry     2  4 =peasant
-lantry     2  4 =gallant
-rantry     2  4 =errant
-*santry    1  4 =peasant
-entry      1  4 =entr
-intry      1  4 =wintr
-otry       2  2
-restry     1  4
-istry      2  4 =ministr
-*histry    2  4 =sophist
-mistry     1  8
+tistic     0  2 =statistic
 *tistry    2  4 =dentist
-avoury     1 44
-easy       1 10 =ease
-hesy       1 29 =prophet
-resy       1 29 =heret
-oisy       2 10 =noise
-risy       2 29
-epsy       2 29
-assy       2  3 =class
-essy       2  3 =mess
-ossy       2  3 =boss
-ussy       2  3 =fuss
-ousy       2  3 =jealous
-meaty      1  4
-fety       1  2 =safety
-riety      2  1 =sobr
+titian     1  1 =diet
+tition     1  8 =part
+titious    2  1 =fict
+titive     1  8 =compete
+titor      1  8
+tive       2  1 =act
+tlement    1  3 =settle
+tler       2  3 =settle
+*tly       1  1
+todian     2 35 =custody
+token      0  2
+tolen      2  4 =stole
+torate     2  1 =protect
+toration   2 10 =restore
 toriety    1 35
-atiety     2  9 =sate
-xiety      2 33
-irety      2  3 =entire
-hty        1  2 =weight
-opacity    1 105
-*icity     2  2
-iplicity   2 10
+tous       1  1 =riot
+tracture   2  5 =contract
+tral       3  2 =centr
+*trance    1  2 =entr
+trant      1  2 =recalcitr
+trar       2  2 =registr
+trate      1  2 =administr
+tre        1  2 =metr
 tricity    2  2 =electr
-rocity     1 10 =reciproce
-dity       1  1 =stupid
-udity      2  9 =crude
-eity       2  1 =spontane
-*ality     1  2
-|quality   0  2
-*bility    1 19
-obility    2 11
-gility     1 10 =agile
-mility     3 81
-rility     1 20
-tility     1 10 =utile
-ctility    1  2 =contract
-uility     2  3 =tranquil
-llity      1  1 =tranquil
-olity      2  2 =frivol
-mity       1  8 =anime
-comity     0  2
-ymity      2  2 =anonym
-anity      2  9
-ianity     2  3 =christian
-vanity     1 55
-cenity     2 65
-renity     1 65
-gnity      1  2 =dign
-inity      2 11 =infinite
-ginity     2  3
-lemnity    1  4
-rnity      1  2 =etern
-unity      1 11 =disunite
-cunity     1 10
-immunity   1 12 =immune
+trify      2 68
+trigger    0  2
+troller    1  4 =patrol
+tropic     0  2
+trous      2  2 =disastr
+ttance     1  1 =admit
+ttest      1  1 =fit
+tticism    1  1 =wit
+tubal      1 65 =tube
+tular      1 19
 tunity     1 10
-rity       1  8
-arity      2  2 =par
-darity     0  2
-harity     2 12 =charite
-clarity    1 91
-olarity    2  9
-*ularity   2  4
-brity      1  2 =celebr
-cerity     2 22 =sincere
-verity     1 89
-everity    2 23
-ority      1  2 =major
-hority     2  5 =authorit
-sity       2  8 =diverse
-esity      2  9 =obese
-osity      1 62
-diosity    2 11
-rosity     2  1 =monstr
-orosity    2  9 =pore
-uosity     2 10 =virtuose
-niversity  0  2
+typical 1 10  =
+uacy       2  8
+ual        2  7
+uan        2  2 =nicaragua
+uancy      2 30
 uantity    0  2
-dentity    1  4
-uity       2  8
-enuity     2 95
-nnuity     0  2
-vity       1 10 =gravite
-cavity     2 10
-*ivity     2  9
-xity       1  1 =complex
-nalty      1  3 =penal
-salty      1  4
-oyalty     2  4
-ilty       1  2 =frail
+uatter 2 3  =squat
+ubic       2  9 =cube
+uccess     2 43
+uccession  2 43
+ucive      2  9 =conduce
+uclear 2 122  =
+uclei 2 122  =nucleus
+uctory     2  9 =introduce
+udence     2 31
+udent      0  2 =prudent
+uder       2  3 =intrude
+udest      1  9 =loud
+udible     2  9 =extrude
+udinal     2  9 =longitude
+uditory    1 82
+udity      2  9 =crude
+udulant    1  2 =fraud  
+uely       2  2 =unique
+uence      1 30
+uencer     2 30 =sequent
+ugal       2  9
+ugant      2  9 =conjuge
+ugary      2  4 =sugar
+ugate      2  9
+ugee       2  3
+uggest 0 0 =
+ugly       2  2
+uidize     2  3
+uility     2  3 =tranquil
 uilty      1  4 =guilt
+uinous     2  3
+uisition   1 22
+uitive     2  3
+uittal     1  3 =acquit
+uity       2  8
+ulaic 2 3  =
+*ularity   2  4
+ulder      0  2 =shoulder
+uler       2  3 =rule
+ulsion     2 18
+ulsive     2 18
 ulty       1  3 =fault
-gnty       1  2 =sovereign
-tainty     2  4 =certain
-irty       2  3
-sty        1  2 =honest
-asty       2 65
-lasty      2  4 =angioplasty
-nasty      1  4
-fatty      1  3
-ritty      1  3 =grit
+ulum       2 64
+umer       1  3 =consume
+umize      3  2 =vacuum
+ummation   2 12
+umnae 2 4  =
+umour      2 44
+umper      2  3 =jump
+umption    1  9
+unal       2  9 =commune
+unciate    2 78
+uncy       1 10
+under      0  2
+ungulate   0  2
+unitive    2 90
+unity      1 11 =disunite
+unization  2 64 =immune
+unner      2  2 =gun
+uosity     2 10 =virtuose
+uous       1  8
+upant      2 34
+upation    2 34
+upulous    2 20
+uracy      2 53
+*ural      2  9
+urance     2  9
+urative    2  9
+urban      1  3 =suburb
+urber 2 3  =
+uretion    2  4 =carburet
+urial      2 34
+uriate     2 34
+urier      0  2 =courier
+urify      2  9
+urious     0  2
+urise      2  9
+urism      1  9 =tour
+urnal      0  2 =journal
+uror       2 34
+ursive     2 10 =recurse
+urtive     0  2 =furtive
+usable     1 64
+usal       1  9 =refuse
+usiness    0  2 =business
+usion      1  9
+usive      2  9
+ussion     2  3 =discuss
+ussy       2  3 =fuss
+ustate     2  3 =encrust
+ustation   2  3
+ustrial    2 36
+*utation   2 11
+utee       2  3 =ampute
+uter       1  3 =compute
+uterize    2  3 =compute
+utinous    2 11
+utiny 0 0  =mutiny
+ution      2  9
+utious     1 50
+utish      2  9 =brute
+utistic    1  5 =autist
+*utor      2  9
+utorial    2  4
+utory      2  9 =statute
+uttal      2  2 =rebut
+utual      0  2
+uyer       1  2 =buy
+vacy       1 52
+vader      1  4 =evade
+valier 0 0  =
+vancy      1 30
+vanese     1  2 =java
+vanity     1 55
+various    0  2
+vatize     1 10
+vature     2  8 =curve
+velation   1 106
+veller     1  3 =revel
+veloper    1  5 =develop
+*vely      1  2
+vement     1  2 =achieve
+vener 2 4  =
+*veness    1  2 =forgive
+venger     1  5 =scavenge
+vention    1 10
+ventual    0  2 =eventual
+veracity 1 3  =verite
+verance    1 22
+vergent    1  5 =diverge
+verish     1  3 =fever
+veritable  1 89
+verity     1 89
+versary 2 88  =
+version    1 30
+versive    2 30
+vertise    0  2
+vescent    1  5
+vier 1 33 =
+viest      1 33
+vior       1  8
+viour      1  8
+vious      0  2 =previous
+visory     2 10
+visual     1 49
+vital      0  2
+vity       1 10 =gravite
+vocal      1 10 =voce
+vocate     1 10 =equivoce
+vocation   1 38
+volution   1 60
+vorant     1  3 =flavor
+vortice    1 77
+vory       1  3 =savor
+votal      1  3 =pivot
+votary     0  2
+voter      1  4
+vulsion 2 88  =
+vulsive 2 88  =
+wance      1  1 =allow
+wannest 1 3  =
+weight 1 5  =
+werent     1  4 =were
+wide       2  0 =nation
+widen      1  4
+witness    0  2
 witty      1  3
-puty       1 10 =depute
-ewy        2  2 =show
-owy        2  2 =show
+wler       1  2 =bowl
+wly        1  1 =slow
+wollen     2  4 =swoll
+wolve      1 70
+women 1 119  =
+wonder     1 45
+wooden     1  4
+worsen     1  5
+worship    0  2
+xant       1  1 =relax
+xation     1  1 =relax
+xer        1  1 =fix
+xial       1 61
+xible      1  1 =flex
+xican      1 82
+xidate     1 65
+xidize     1 65
+xiety      2 33
+ximate     1 10 =approxime
+xity       1  1 =complex
+xive 1 1  =
+xly        1  1 =complex
+xplicate   0  2
+xudate     1 10 =exude
 xy         1  1 =sex
-axy        2 72
-lexy       2 73
+yalist 1 3  =loyal
+yammer 0 0  =
+yance      1  1 =convey
+yee        1  1 =employ
+yerful     1  3 =prayer
+yest 2 1  =
+ygenate    2  4
+ylaid 1 35  =
+ylic       2  2 =oxyl
+ylinder    1 46
+ylish      2 64
+ylist      0  2
+ymatic     2 64
+ymeric     1  4 =polymer
+ymic       2  2 =patronym
+ymity      2  2 =anonym
+ymous      2  2 =synonym
+younger    1  5
+ypic       2 64 =typic
+ypse       2 29
+yrannic    2 31 =tyrant
+yranny     2 31 =tyrant
+ysian      1  1 =malay
+ysis       2 28
+ysmic 2 3  =
+yst        2 28
+ystal 0 0  =chrystal
+ystery     0  2
+yterian    2  4
+ytic       2  2 =analyt
+yzate      2 28 =hydrolyt
+*yzation   2  9
+yzer       2 28
+zarist 2 3  =
+zen        1  2 =braze
+zenry      1  3 =citizen
+*zier 1 33  =
+ziest      1 33
+zilian     1  3
+zlement    1  3 =embezzle
+zzer       1  2
 zzy        1  2 =jazz
-dizzy      0  2
+|after     0  2
+|ager      1  3 =age
+|anger     1 44
+|anion     0  2
+|archer 0 0  =
+|ardent 0 0  =
+|arise 0 0  =
+|articulate  0 2
+|aver 0 0  =
+|ban 0 0  =
+|better 0 0  =
+|bitter 0 0  =
+|bless 0 0  =
+|brian     0  2
+|cacti 1 123  =
+|canter 0 0  =
+|carnation 0  2
+|carriage  0  2
+|caster 0 0  =
+|cation    0  2
+|cement 0 0  =
+|condom 0 0  =
+|cursive   0  2
+|dally     0  2
+|dentist   0  2
+|dimer 0 0  =
+|doable 1 3  =
+|duct      0  2
+|early     0  2
+|easter 0 0  =easter
+|elve      1 69 =elf
+|enter     1 44
+|ester     0  2
+|feckless 0 0  =
+|fester    0  2
+|fetter 0 0  =
+|fission   0  2
+|foci 1 122  =
+|forest 0 0  =
+|former    0  2
+|frolic 0 0  =
+|fully     1  4
+|grammatic 1 47
+|hamper    0  2
+|icy       1 64
+|idly      1 65
+|imitation 1 13
+|inter     0  2
+|internation 0 0  =
+|lace 0 0  =
+|lacy 1 88  =
+|laic 1 35  =
+|laity 1 35  =
+|laughter  1  5
+|liable 0 0  =
+|liter 0 0  =liter
+|loss      1 10
+|lost      1 10 =lose
+|media 1 117  =
+|men 1 118  =
+|mental    0  2
+|mentor    0  2
+|miser 0 0  =
+|mission   0  2
+|moan      0  2
+|muster 0 0  =
+|mutant    1 54
+|mutate    0  2
+|nation 0 0  =nation
+|oddest    1  3
+|oily      1  3
+|optic     0  2
+|outer     1  3
+|oval      0  2
+|panic 0 0  =
+|pastor 0 0  =
+|pension 0 0  =
+|pensive   0  2
+|peter 0 0  =
+|prize 0 0  =
+|quality   0  2
+|rally     0  2
+|random 0 0  =
+|ration    0  2
+|reckless 0 0  =
+|redden 1 4  =
+|redone 1 5  =
+|rely 0 0  =
+|render    0  2
+|restation 0  2
+|rival     0  2
+|river     0  2
+|rodent 0 0  =
+|ruthless 0 0  =
+|safer     1  4
+|sally 0 0  =sally
+|scent 0 0  =
+|script    0  2
+|sedition 0 0  =
+|serer 1 5  =
+|serial 1 111  =
+|session   0  2 =session
+|severance 1  5 =sever
+|shy 0 0  =
+|silly 0 0  =
+|simmer 0 0  =
+|singer    1  4
+|singly    1 12
+|sister    0  2
+|sky 0 0  =
+|solder 0 0  =
+|stable 0 0  =
+|swagger 0 0  =
+|tally 0 0  =
+|tamper    0  2
+|ten 0 0  =ten
+|tender    0  2
+|tension   1 11
+|thesis    0  2
+|topic     0  2
+|twist 0 0  =
+|unbless 0 0  =unbless
+|unship 0 0  =
+|usage     1 64
+|version   0  2
+|very      0  2
+|vision    1 49
+|warship   0  2
+|waster 1 6  =
+|worship 0 0  =
+|wrist 0 0  =
+|yuan      0  2

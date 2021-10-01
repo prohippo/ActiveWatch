@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file TableCode.java : 20aug2021 CPM
+// AW file TableCode.java : 30aug2021 CPM
 // for building external AW literal index tables
 
 package aw.table;
@@ -53,7 +53,7 @@ public class TableCode {
 		return s.toString();
 	}
 
-	// encode characters for proper sorting
+	// encode characters for proper sorting of literals
 
         public static char encode (
                 char c
@@ -71,7 +71,7 @@ public class TableCode {
 		return c;
 	}
 
-	// map back encoding to store in table
+	// map back encoding to store literals in table
 
 	public static int forStoring (
 

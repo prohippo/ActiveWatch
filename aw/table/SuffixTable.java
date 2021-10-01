@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SuffixTable.java : 21aug2021 CPM
+// AW file SuffixTable.java : 30sep2021 CPM
 // compile suffix table from listing of patterns
 
 package aw.table;
@@ -35,39 +35,39 @@ import object.QuickSorting;
 public class SuffixTable extends StemExtension {
 
 	private static final int SFXLEN = 16;      // maximum suffix length
-	private static final int NSFXND = 4096;    // maximum number of nodes
-	private static final int NSFX   = 2400;    // maximum suffix count
-	
+	private static final int NSFXND = 6500;    // maximum number of nodes
+	private static final int NSFX   = 2500;    // maximum suffix count
+
 	private int free; // next free node
-	
+
 	private String[] rec = new String[NSFX+2]; // input suffix records
 
-	// build a loadable suffix table from action
-	// definitions and a suffix list
+	// build a loadable suffix table from a listing of
+	// word endings and action definitions
 
 	public SuffixTable (
-	
+
 	) {
 		super(NSFXND);
 	}
-	
+
 	public void build (
-	
-		BufferedReader ina,
-		BufferedReader ins
-		
+
+		BufferedReader ina, // suffix rules from file
+		BufferedReader ins  // actions
+
 	) throws AWException {
 
-		char x=0;
-		int  i,k;
-		String r;
-		
+		char  x=0;
+		short i,k;
+		String  r;
+
 		System.out.println("getting actions");
-		
+
 		// define actions for match from file
 
 		for (k = i = 0; i < NASQ; ) {
-		
+
 			try {
 				if ((r = ina.readLine()) == null)
 					break;
@@ -76,52 +76,54 @@ public class SuffixTable extends StemExtension {
 			}
 
 			// retention count
-						
+
 			r = r.trim();
 			if (r.length() < 2 || r.charAt(0) == ';')
 				continue;
 			if (!Character.isDigit(r.charAt(0)))
 				throw new AWException("no retention count: " + r);
-			
-			int n,ns=0;
-			
-			actp[i] = (short) k;
-			ns = r.charAt(0) - '0';
-			acts[k++] = (byte) ns;
+
+			actp[i] = k;
+			int nr = r.charAt(0) - '0';
+			acts[k++] = (byte) nr;
 			r = r.substring(1);
 
 			// restored characters
-						
+
+			int n;
+
 			for (n = 0;; n++) {
 				x = r.charAt(n);
 				if (!Character.isLetter(x))
 					break;
-				acts[k++] = (byte) TableCode.recode(Character.toUpperCase(x));
+				acts[k++] = Letter.toByte(x);
 			}
-			actn[i++] = (short)(ns + n);
+			actn[i++] = (short)(nr + n);
 			acts[k++] = (x == '!') ? StemBase.ENDR : StemBase.ENDS;
 		}
 
 		// pad out rest of actions
-				
+
 		acts[k]   = 0;
 		acts[k+1] = StemBase.ENDS;
 		while (i < NASQ)
 			actp[i++] = (short) k;
  
+		// load suffixes
+
 		StringBuffer suf;
 		String rs;
 		int m,n;
-		
+
 		System.out.println("getting suffixes");
-		
+
 		// read suffixes plus actions on match
 
 		i = 0;
 		rec[i++] = QuickSorting.LoSentinel;
 
 		for (;;) {
-		
+
 			try {
 				if ((rs = ins.readLine()) == null)
 					break;
@@ -134,30 +136,30 @@ public class SuffixTable extends StemExtension {
 				continue;
 
 			// suffix pattern
-			
+
 			for (m = 0; !Character.isWhitespace(r.charAt(m)); m++);
 			suf = new StringBuffer(r.substring(0,m));
 
-			// major action on match
-						
+			// contextual condition on match
+
 			r = r.substring(m).trim();
 			for (m = 0; Character.isDigit(r.charAt(m)); m++);
 			if (m == 0)
-				throw new AWException("no major action");
+				throw new AWException("no contextual condition: " + rs);
 			int mj = Integer.parseInt(r.substring(0,m));
-			
-			// minor action on match
-			
+
+			// final action on match
+
 			r = r.substring(m).trim();
 			for (m = 0; m < r.length(); m++)
 				if (!Character.isDigit(r.charAt(m)))
 					break;
 			if (m == 0)
-				throw new AWException("no minor action");
+				throw new AWException("no final action: " + rs);
 			int mn = Integer.parseInt(r.substring(0,m));
 
 			// check for valid suffix pattern
-			
+
 			x = suf.charAt(0);
 			if (x == '|')
 				suf.setCharAt(0,'!'); // done for sorting
@@ -180,9 +182,9 @@ public class SuffixTable extends StemExtension {
 		rec[i] = QuickSorting.HiSentinel;
 
 		System.out.print("sorting ");
-		
+
 		QuickSorting.sort(rec,n,SFXLEN);
-		
+
 		System.out.println("done");
 
 		// build a suffix tree, with separate subtrees
@@ -195,14 +197,14 @@ public class SuffixTable extends StemExtension {
 			x = r.charAt(0);
 
 			// start from last letter in suffix
-						
+
 			if (!Character.isLetter(x))
 				throw new AWException("illegal suffix: " + r);
-				
+
 			int ip = x - 'A';
 
 			// add suffix table index if needed
-					
+
 			if (sufx[ip] < 0) {
 				if (free > NSFXND)
 					throw new AWException("suffix overflow on " + r);
@@ -212,11 +214,11 @@ public class SuffixTable extends StemExtension {
 			}
 
 			// find where to insert suffix in tree
-			
-			int np = sufx[ip];
+
+			short np = sufx[ip];
 			for (;;) {
 				if (r.length() == 0)
-					throw new AWException("bad suffix: " + rec[i]);				
+					throw new AWException("bad suffix: " + rec[i]);
 				x = r.charAt(0);
 				if (Character.isWhitespace(x))
 					break;
@@ -240,7 +242,7 @@ public class SuffixTable extends StemExtension {
 			}
 
 			// add new tree nodes as needed
-			
+
 			while (Character.isLetter(x)) {
 				putAlpha(free++,x - 'A');
 				r = r.substring(1);
@@ -261,17 +263,17 @@ public class SuffixTable extends StemExtension {
 			putAction(free-1,major,minor);
 			stopLinkSequence(free-1);
 		}
-		
+
 		System.out.println("table built with " + free + " nodes");
 	}
-	
+
 	public void save (
-	
+
 		DataOutputStream out
-		
+
 	) throws AWException {
 		save(out,free);
 		System.out.println("table saved");
 	}
-	
+
 }

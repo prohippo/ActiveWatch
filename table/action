@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; action : 12jul2021 CPM
+; action : 25sep2021 CPM
 0.      = 0  (maximum of 127!)
 1.      = 1
 2.      = 2
@@ -133,3 +133,18 @@
 3k.      =107
 1eeze.   =108
 4st.     =109
+3se.     =110
+5es.     =111
+2ow.     =112
+2oad.    =113
+1ome.    =114
+2em.     =115
+4um.     =116
+5um.     =117
+2an.     =118
+3an.     =119
+4an.     =120
+3us.     =121
+4us.     =122
+5us.     =123
+3ite.    =124

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Stem.java : 15sep2021 CPM
+// AW File Stem.java : 30sep2021 CPM
 // morphological stemmer
 
 package stem;
@@ -34,28 +34,29 @@ import java.io.*;
 
 class StemFrame {
 
-	byte    mjr; // action code
-	byte    mnr; // action code
+	short   act; // action code
+	byte    cnd; // condition for match
 	byte    len; // length remaining
 	boolean flg; // recursion flag
-	
+
 }
 
 // classs for stemming
 
 public class Stem extends StemBase {
 
-	private StemFrame[] stk;
-	
+	private   StemFrame[] stk;
+
 	// for subclassing by table building class
-	
+
 	protected Stem (
-	
+
 	) {
 	}
-	
-	// constructor to load
-	
+
+	// constructor to load preconstructed tables from file
+	// and set up stack for lookup
+
 	public Stem (
 		DataInputStream in
 	) throws AWException {
@@ -65,9 +66,9 @@ public class Stem extends StemBase {
 		for (int i = 0; i < stk.length; i++)
 			stk[i] = new StemFrame();
 	}
-	
+
 	// actual stemming method
-	
+
 	public int stem (
 		Token t
 	) {
@@ -76,34 +77,39 @@ public class Stem extends StemBase {
 		int  k,n;
 
 		int ln = t.length();
+//		System.out.println("token= " + t + ", ln= " + ln);
+
 		if (ln == 0)
 			return 0;
-			
-		stk[0].mjr = stk[0].mnr = 0;
+
+		stk[0].cnd = 0;
+		stk[0].act = 0;
 		stk[0].flg = false;
 
 		// recursion loop for multiple suffixes
-		
+
 		do {
 
 			// initialize stack for any failure
-			
+
 			stk[0].len = (byte) ln;
 			stkn = 1;
 
 			// get initial entry into suffix table
-			
+
 			n = t.array[--ln];
 			if (n < Letter.NA && sufx[n] >= 0) {
 				p = sufx[n];
+//				System.out.println("n= " + n + ", p= " + p);
 
 				// search suffix tree
-				
+
 				while (ln >= 0) {
 					if (t.array[ln] == suftbl[p].alpha) {
-						if (suftbl[p].major != 0 || suftbl[p].minor != 0) {
-							stk[stkn].mjr = suftbl[p].major;
-							stk[stkn].mnr = suftbl[p].minor;
+//						System.out.println("== " + t.array[ln]);
+						if (suftbl[p].cndn != 0 || suftbl[p].actn != 0) {
+							stk[stkn].cnd = suftbl[p].cndn;
+							stk[stkn].act = suftbl[p].actn;
 							stk[stkn].flg = false;
 							stk[stkn++].len = (byte) ln;
 						}
@@ -114,14 +120,14 @@ public class Stem extends StemBase {
 					}
 					else {
 						if (suftbl[p].alpha == AST && ln >= 0) {
-							stk[stkn].mjr = suftbl[p].major;
-							stk[stkn].mnr = suftbl[p].minor;
+							stk[stkn].cnd = suftbl[p].cndn;
+							stk[stkn].act = suftbl[p].actn;
 							stk[stkn].flg = true;
 							stk[stkn++].len = (byte)(ln + 1);
 						}
 
 						// continue suffix matching
-						
+
 						int m = suftbl[p].getLink();
 						if (CodedLink.isNull(m))
 							break;
@@ -130,25 +136,28 @@ public class Stem extends StemBase {
 				}
 
 				// check for condition of matching entire word
-				
+
 				if (suftbl[p].alpha == VBR && ln < 0) {
 					stk[stkn].flg = false;
-					stk[stkn].mjr = suftbl[p].major;
-					stk[stkn].mnr = suftbl[p].minor;
+					stk[stkn].cnd = suftbl[p].cndn;
+					stk[stkn].act = suftbl[p].actn;
 					stk[stkn++].len = 0;
 				}
 			}
 
 			// look for longest applicable suffix
-			
+
 			do {
+//				System.out.println("stkn= " + stkn);
 				ln = stk[--stkn].len;
-				k = evalcd(stk[stkn].mjr,stk[stkn].mnr,ln,t,stk[0].len);
+				k = evalcd(stk[stkn].cnd,stk[stkn].act,ln,t,stk[0].len);
+//				System.out.println("k = " + k + ", ln= " + ln);
 			} while (k < 0);
 			ln = k;
 
 		} while (stk[stkn].flg);
 
+//		System.out.println("final ln= " + ln);
 		return ln;
 	}
 
@@ -156,8 +165,8 @@ public class Stem extends StemBase {
 	// and return a positive value if so
 
 	private int evalcd (
-		int	mjr, // major action code
-		int	mnr, // minor action code
+		int	cnd, // contextual condition for match
+		int	act, // action code
 		int	lng, // current token length
 		Token t, // token string
 		int fail // length to return
@@ -166,38 +175,46 @@ public class Stem extends StemBase {
 		byte k;
 		int ap;  // action sequence pointer
 
-		// apply major action to word
+		// apply contextual condition to word
+
+//		System.out.println("cnd= " + cnd + ", act= " + act);
+//		System.out.println("lng= " + lng + ", token= " + t);
 
 		if (lng > 0)
 			x = t.array[lng - 1];
-		else if (mjr > 1)
+		else if (cnd > 1)
 			return -1;
 
-		if (mjr == 0)
+		if (cnd == 0)
 			return fail;
-		else if (mjr == 1
-			  || mjr == 2 && Letter.cns[x]
-			  || mjr == 3 && Letter.spc[x])
+		else if (cnd == 1
+			  || cnd == 2 && Letter.cns[x]
+			  || cnd == 3 && Letter.spc[x])
 			  ;
 		else
 			return -1;
 
-		if (actn[mnr] + lng < MNSW) return -1;
+//		System.out.println("delta= " + actn[act]);
+		if (actn[act] + lng < MNSW) return -1;
 
-		// apply minor action to word
+		// apply action to word
 
-		ap = actp[mnr];
+		ap = actp[act];
 		lng += acts[ap++];
 		t.setLength(lng);
 
-		while ((k = acts[ap++]) < Letter.NA)
+//		System.out.println("actual token= " + t +", ap= " + ap);
+		while ((k = acts[ap++]) < Letter.NA) {
+//			System.out.println("append= " + k);
 			t.append(k);
-			
+		}
+
+//		System.out.println("k= " + k + ".ap= " + ap);
 		if (k == ENDR)
 			Inflex.reflex(t,0);
 
 		// return modified length
-		
+
 		return t.length();
 	}
 

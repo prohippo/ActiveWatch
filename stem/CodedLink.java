@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CodedLink.java : 11Sep00 CPM
+// CodedLink.java : 30sep2021 CPM
 // encoded links for a binary tree (c.f. Knuth vol. III)
 
 package stem;
@@ -34,7 +34,7 @@ public class CodedLink implements Serializable {
 	private   static final short zero = 0; // to code null link
 	
 	private   static final int   sign = 0x8000; // to get sign bit
-	private   static final int   mask = 0x7FFF; // to get link
+	private   static final short mask = 0x7FFF; // to get link
 	
 	protected static final int   size = 2;
 	
@@ -45,7 +45,7 @@ public class CodedLink implements Serializable {
 	// successor is indicated by the lower bits of the link field; the sign
 	// bit of the link field will be ON if there is no left successor.
 	
-	public final int     getLink ( ) { return (link & mask); }
+	public final short   getLink ( ) { return (short)(link & mask); }
 	public final void    setLink ( int node )	{ link |= node; }
 	public final boolean isLeftEnd ( ) { return (link < 0); }
 	public final void    setLeftEnd ( ) { link |= sign; }
