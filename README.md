@@ -137,3 +137,8 @@ v0.7.3  04sep2021  add suffix rule to fix stemming glitch
 v0.8    20sep2021  update to latest inflectional stemming logic
                    update implementation of inflectional stemmer
                    update documentation
+
+v0.9    30sep2021  expand morphological stemming
+                   fix longstanding problems in stemming code
+                   clean up and and extend code commentary
+                   update documentation
