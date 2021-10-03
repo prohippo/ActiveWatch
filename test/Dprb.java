@@ -85,7 +85,7 @@ public class Dprb {
 			System.out.println(" (" + Format.it(i,5) + "):  percent=" + fx);
 			sum += pb.array[i];
 		}
-		System.out.print("\ntotal percentage of top " + pb.ns + " occurrences= ");
+		System.out.print("\ntotal percentage of occurrences for top " + pb.ns + " = ");
 		System.out.println(Format.it(100.*sum,5,2));
 		
 	}
