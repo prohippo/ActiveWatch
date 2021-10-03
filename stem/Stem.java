@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Stem.java : 30sep2021 CPM
+// AW File Stem.java : 02oct2021 CPM
 // morphological stemmer
 
 package stem;
@@ -107,6 +107,8 @@ public class Stem extends StemBase {
 				while (ln >= 0) {
 					if (t.array[ln] == suftbl[p].alpha) {
 //						System.out.println("== " + t.array[ln]);
+
+						// check for possible match of suffix pattern
 						if (suftbl[p].cndn != 0 || suftbl[p].actn != 0) {
 							stk[stkn].cnd = suftbl[p].cndn;
 							stk[stkn].act = suftbl[p].actn;

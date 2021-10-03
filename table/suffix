@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; suffix : 30sep2021 CPM
+; suffix : 02oct2021 CPM
 ;
 ;  0:keep, 1:any, 2:consonant, 3:consonant or U
 ;
@@ -49,7 +49,7 @@ aemia      2 65
 aemic      2  3
 aerial     0  2
 afest      2  3 =safe
-agave 0 0  =
+agave 0 2  =
 ageal      2 63 =esophagus
 agedy      2 68
 agement    1  3 =manage
@@ -144,7 +144,7 @@ asitism    2 88
 asive      3 14
 asmic      2  3 =orgasm
 aspy       1  3
-assion 0 0  =
+assion 0 2  =
 assy       2  3 =class
 astage     2 10 =waste
 astate     2  3 =devast
@@ -180,7 +180,7 @@ autic      2  3 =aeronaut
 aution     0  2
 autism     1 109
 aval       1 34
-avalry 0 0  =
+avalry 0 2  =
 aver       2  3 =save
 avic       2  2 =slav
 avier      1 34
@@ -248,7 +248,7 @@ brity      1  2 =celebr
 brium      1  2 =equilibr
 brous      1  2 =fibr
 bular      1  8
-bummer 0 0   =
+bummer 0 2   =
 burete     2  5
 burger     0  2
 butant     1  3
@@ -264,7 +264,7 @@ casion     0  2 =occasion
 *catory    1 10
 cavitation 2 13  =
 cavity     2 10
-ccent 0 0  =
+ccent 0 2  =
 ccessive   3 42
 ccinate    1 11
 ccretive   1 12 =accrete
@@ -308,7 +308,7 @@ clination 2 88  =
 clize      1  9
 cnic       0  2 =picnic
 comity     0  2
-coral 0 0 =
+coral 0 2 =
 corder     1  4
 corous 2 3  =
 cortice    1 77
@@ -443,13 +443,13 @@ ecan       0  2 =pecan
 ecession   2 16
 ecessive   1 16 =recede
 ecious     0  2 =precious
-eclination 0 0  =
+eclination 0 2  =
 ectile     0  2 =projectile
 ectorial   1  3
 ectra 2 116  =
 ecture     1  3 =architect
 ecular     2 11
-edator 0 0  =
+edator 0 2  =
 edatory 2 6  =
 eddest 2 2  =
 edent      0  2 =credent
@@ -597,7 +597,7 @@ etentate   2 56
 etention   2 56
 eteric     2  4 =ureter
 etery      0  2 =cemetery
-etheless 0 0  =
+etheless 0 2  =
 ethic      0  2
 etic       1  2 =hypothet
 etion      2  9 =deplete
@@ -650,7 +650,7 @@ fitable    1  3 =profit
 flew 1 34  =
 flown      1 34 =fly
 focus      1 80
-forage 0 0  =
+forage 0 2  =
 foundation 0  2
 freely     1  4 =free
 fter       1  2 =soft
@@ -665,7 +665,7 @@ galistic   1  3
 gance      1 30
 ganism     0  2
 ganize     0  2 =organize
-garten 0 0  =
+garten 0 2  =
 gatory     1 10 =instigate
 gdom       2  1
 gely       1  2 =large
@@ -684,7 +684,7 @@ ghtest     1  3 =bright
 giac       1 33 =elegy
 gial       1  8 =vestige
 giastic    1 33
-gibber 0 0  =
+gibber 0 2  =
 gienist    1 88
 gility     1 10 =agile
 ginary     1 10 =imagine
@@ -732,7 +732,7 @@ gular      1 19
 gurate     1 10 =configure
 hadist 1 3  =jihad
 halve      1 70
-hammer 0 0  =
+hammer 0 2  =
 hanger     1  4 =hang
 hani       2  3 =afghan
 hanism     2  3 =mechan
@@ -748,7 +748,7 @@ hedral     1  4 =polyhedr
 heery      2  4 =cheer
 helve      2 70 =self
 hematize   2 65
-hement 0 0 =
+hement 0 2 =
 hen        2  1 =strengthen
 henation   2  3
 heral      2  3 =peripher
@@ -767,18 +767,18 @@ hic        2  1 =geograph
 hidden     1 65
 hiest      2  1 =health
 hilic      2 10 =phile
-himmer 0 0  =
+himmer 0 2  =
 hina       0  2 =china
 hinder     1 45
 hion       0  2 =cushion
 *histry    2  4 =sophist
 hitish     2 10 =white
-hivalry 0 0  =
+hivalry 0 2  =
 hly        2  1 =smooth
 hmic       2  2 =rhythm
 hnology    2  2
 hodic      2  3 =method
-holist 0 0  =
+holist 0 2  =
 homan      1  4 =oklahoma
 honer 2 10  =
 *hood      2  0 =neighbor
@@ -920,7 +920,7 @@ ingful     2  0
 *ingiest 2 35  =
 ingly      2  7
 ingness    1  0
-ingy 0 0  =
+ingy 0 2  =
 inian      2  9
 inic       0  2 =clinic
 inima 2 116  =
@@ -1043,7 +1043,7 @@ juan       0  2 =juan
 jure 2 35  =
 jurious    2 10 =injure
 kage       1  1 =link
-kali 0 0  =
+kali 0 2  =
 kative     2  1 =talk
 ken        1  8
 kenize     1  3
@@ -1100,7 +1100,7 @@ lesion     0  2
 lesis      0  2 =telesis
 less 1 0  =
 lete       2  3 =athlet
-letter 0 0  =
+letter 0 2  =
 lexy       2 73
 lgarian    3  6
 lgia       1 34
@@ -1119,14 +1119,14 @@ lieve      1 70
 ligator    0  2
 ligatory 2 10  =
 *like      2  0
-limmer 0 0  =
+limmer 0 2  =
 linary     1 10 =discipline
 linate     2  3 =pollin
 lination   2  3 =pollin
 lingy 2 4  =cling
 lion       0  2 =million
 *lise      1 92
-listen 0 0  =glisten
+listen 0 2  =glisten
 livate     1  4
 liver      0  2 =deliver
 llate      1  2 =distill
@@ -1212,7 +1212,7 @@ mension    0  2 =dimension
 *ment      2  0 =commit
 mention    0  2
 mergent    1  5 =emerge
-mesis 0 0  =
+mesis 0 2  =
 metable    0  2 =timetable
 meter      1 44
 metric     1  4 =symmetr
@@ -1227,7 +1227,7 @@ minant     1 10 =domine
 minate     1 10 =determine
 minent     1  4 =promine
 minist     1 10 =determine
-miral 0 0  =
+miral 0 2  =
 mirate     1 10 =admire
 missible   2 29
 mission    1 29
@@ -1238,7 +1238,7 @@ mity       1  8 =anime
 mixture    1  3 =mix
 mly        1  1 =warm
 mmable     1  8 =inflame
-mmade 0 0  =
+mmade 0 2  =
 mmary      3 11 =summare
 mmatic     1  1 =program
 mmation    1  8 =inflame
@@ -1316,7 +1316,7 @@ newal      1  3 =renew
 ngal       3 63
 nger       1  3 =change
 ngest      1  2 =long
-nghy 0 0  =dinghy
+nghy 0 2  =dinghy
 ngi        3 63
 ngrammatic 1 48
 *ngrier  1 35  =
@@ -1474,7 +1474,7 @@ onant      2 53
 onary      2  2 =pulmon
 onation    2 11 =coronate
 onch       2 88
-ondone 0 0  =
+ondone 0 2  =
 onduct     0  2
 onductive  2  6
 oness      1  2 =baron
@@ -1494,8 +1494,8 @@ onsular    2  5
 onsulate   2  5
 ontage     1  3 =front
 ontal      2  3 =front
-ontest 0 0  =
-ontier 0 0  =frontier
+ontest 0 2  =
+ontier 0 2  =frontier
 *oodier 2 35  =
 oody       2  3 =mood
 oolant     2  3 =cool
@@ -1581,7 +1581,7 @@ otter      2  2 =plot
 ottish     2  2 =scot
 ouder      2  3 =loud
 oudy       2  3 =cloud
-oughty 0 0  =
+oughty 0 2  =
 ounder     2  4
 *ously     1  3
 ousy       2  3 =jealous
@@ -1624,7 +1624,7 @@ phite      2 97
 phora      1  4 =anaphor
 phoria     1  4 =euphor
 phoric     1  4 =metaphor
-phosis 0 0  =
+phosis 0 2  =
 phous      1  2 =morph
 phur       2 99
 phuric     2 100
@@ -1641,7 +1641,7 @@ piral      0  2 =spiral
 pirant     2 10 =aspire
 piration   2 10
 pital      0  2 =capital
-plaid 0 0  =
+plaid 0 2  =
 planate    2 56
 pler       1  3 =simple
 pleship    1  3 =disciple
@@ -1663,7 +1663,7 @@ pplause    1 27
 ppliance   0  2
 pplicate   0  2
 pposition  1 11 =suppose
-premier 0 0  =
+premier 0 2  =
 priation   1 12
 private    0  2
 psis       1 28
@@ -1788,7 +1788,7 @@ rinter     2  4 =print
 rion       0  2 =clarion
 rism       0  2
 risper     2  4 =crisp
-risten 0 0  =
+risten 0 2  =
 risy       2 29
 ritable    2 10 =irrite
 rition     2 10 =contrite
@@ -1857,8 +1857,8 @@ rtee       1  2 =deport
 rterial    1 36
 rtery      0  2 =artery
 rtest      1  2 =short
-rtheless 0 0  =
-rtial 0 0  =
+rtheless 0 2  =
+rtial 0 2  =
 rtian      1  1 =mar
 rticular   0  2
 rtillery   0  2
@@ -1872,7 +1872,7 @@ ruate      2  9 =menstrue
 ruation    2  9
 rubic      1  3 =cherub
 rudate     2 10 =extrude
-rudiment 0 0  =
+rudiment 0 2  =
 ruest 2 3  =true
 rusible    2 15 =extrude
 rusion     1 15
@@ -1903,9 +1903,9 @@ sative     3  8 =accuse
 satory     3  8 =compense
 scious     0  2 =conscious
 scopy      1  9 =microscope
-seamy 0 0  =
+seamy 0 2  =
 section    0  2
-sediment 0 0  =sediment
+sediment 0 2  =sediment
 seen       1  3
 self       1  0
 selor      2  3 =counsel
@@ -2018,7 +2018,7 @@ taffer     2  4
 tainty     2  4 =certain
 talian     1 35
 tallic     1  3 =metal
-tammer 0 0  =stammer
+tammer 0 2  =stammer
 *tancy     1 30
 tannest 1 3  =
 tant       2  1 =repent
@@ -2055,7 +2055,7 @@ thier      2  2 =health
 *thiest 2 34  =
 thieve     1 71
 thize      1  2 =sympath
-tiac 0 0  =
+tiac 0 2  =
 *tiate     2  1 =different
 tible      1  1 =convert
 tibular    2 12 =vestibule
@@ -2144,7 +2144,7 @@ ugant      2  9 =conjuge
 ugary      2  4 =sugar
 ugate      2  9
 ugee       2  3
-uggest 0 0 =
+uggest 0 2 =
 ugly       2  2
 uidize     2  3
 uility     2  3 =tranquil
@@ -2216,7 +2216,7 @@ utee       2  3 =ampute
 uter       1  3 =compute
 uterize    2  3 =compute
 utinous    2 11
-utiny 0 0  =mutiny
+utiny 0 2  =mutiny
 ution      2  9
 utious     1 50
 utish      2  9 =brute
@@ -2229,7 +2229,7 @@ utual      0  2
 uyer       1  2 =buy
 vacy       1 52
 vader      1  4 =evade
-valier 0 0  =
+valier 0 2  =
 vancy      1 30
 vanese     1  2 =java
 vanity     1 55
@@ -2312,7 +2312,7 @@ xplicate   0  2
 xudate     1 10 =exude
 xy         1  1 =sex
 yalist 1 3  =loyal
-yammer 0 0  =
+yammer 0 2  =
 yance      1  1 =convey
 yee        1  1 =employ
 yerful     1  3 =prayer
@@ -2337,7 +2337,7 @@ ysian      1  1 =malay
 ysis       2 28
 ysmic 2 3  =
 yst        2 28
-ystal 0 0  =chrystal
+ystal 0 2  =chrystal
 ystery     0  2
 yterian    2  4
 ytic       2  2 =analyt
@@ -2357,43 +2357,43 @@ zzy        1  2 =jazz
 |ager      1  3 =age
 |anger     1 44
 |anion     0  2
-|archer 0 0  =
-|ardent 0 0  =
-|arise 0 0  =
+|archer 0 2  =
+|ardent 0 2  =
+|arise 0 2  =
 |articulate  0 2
-|aver 0 0  =
-|ban 0 0  =
-|better 0 0  =
-|bitter 0 0  =
-|bless 0 0  =
+|aver 0 2  =
+|ban 0 2  =
+|better 0 2  =
+|bitter 0 2  =
+|bless 0 2  =
 |brian     0  2
 |cacti 1 123  =
-|canter 0 0  =
+|canter 0 2  =
 |carnation 0  2
 |carriage  0  2
-|caster 0 0  =
+|caster 0 2  =
 |cation    0  2
-|cement 0 0  =
-|condom 0 0  =
+|cement 0 2  =
+|condom 0 2  =
 |cursive   0  2
 |dally     0  2
 |dentist   0  2
-|dimer 0 0  =
+|dimer 0 2  =
 |doable 1 3  =
 |duct      0  2
 |early     0  2
-|easter 0 0  =easter
+|easter 0 2  =easter
 |elve      1 69 =elf
 |enter     1 44
 |ester     0  2
-|feckless 0 0  =
+|feckless 0 2  =
 |fester    0  2
-|fetter 0 0  =
+|fetter 0 2  =
 |fission   0  2
 |foci 1 122  =
-|forest 0 0  =
+|forest 0 2  =
 |former    0  2
-|frolic 0 0  =
+|frolic 0 2  =
 |fully     1  4
 |grammatic 1 47
 |hamper    0  2
@@ -2401,87 +2401,87 @@ zzy        1  2 =jazz
 |idly      1 65
 |imitation 1 13
 |inter     0  2
-|internation 0 0  =
-|lace 0 0  =
+|internation 0 2  =
+|lace 0 2  =
 |lacy 1 88  =
 |laic 1 35  =
 |laity 1 35  =
 |laughter  1  5
-|liable 0 0  =
-|liter 0 0  =liter
+|liable 0 2  =
+|liter 0 2  =liter
 |loss      1 10
 |lost      1 10 =lose
 |media 1 117  =
 |men 1 118  =
 |mental    0  2
 |mentor    0  2
-|miser 0 0  =
+|miser 0 2  =
 |mission   0  2
 |moan      0  2
-|muster 0 0  =
+|muster 0 2  =
 |mutant    1 54
 |mutate    0  2
-|nation 0 0  =nation
+|nation 0 2  =nation
 |oddest    1  3
 |oily      1  3
 |optic     0  2
 |outer     1  3
 |oval      0  2
-|panic 0 0  =
-|pastor 0 0  =
-|pension 0 0  =
+|panic 0 2  =
+|pastor 0 2  =
+|pension 0 2  =
 |pensive   0  2
-|peter 0 0  =
-|prize 0 0  =
+|peter 0 2  =
+|prize 0 2  =
 |quality   0  2
 |rally     0  2
-|random 0 0  =
+|random 0 2  =
 |ration    0  2
-|reckless 0 0  =
+|reckless 0 2  =
 |redden 1 4  =
 |redone 1 5  =
-|rely 0 0  =
+|rely 0 2  =
 |render    0  2
 |restation 0  2
 |rival     0  2
 |river     0  2
-|rodent 0 0  =
-|ruthless 0 0  =
+|rodent 0 2  =
+|ruthless 0 2  =
 |safer     1  4
-|sally 0 0  =sally
-|scent 0 0  =
+|sally 0 2  =sally
+|scent 0 2  =
 |script    0  2
-|sedition 0 0  =
+|sedition 0 2  =
 |serer 1 5  =
 |serial 1 111  =
 |session   0  2 =session
 |severance 1  5 =sever
-|shy 0 0  =
-|silly 0 0  =
-|simmer 0 0  =
+|shy 0 2  =
+|silly 0 2  =
+|simmer 0 2  =
 |singer    1  4
 |singly    1 12
 |sister    0  2
-|sky 0 0  =
-|solder 0 0  =
-|stable 0 0  =
-|swagger 0 0  =
-|tally 0 0  =
+|sky 0 2  =
+|solder 0 2  =
+|stable 0 2  =
+|swagger 0 2  =
+|tally 0 2  =
 |tamper    0  2
-|ten 0 0  =ten
+|ten 0 2  =ten
 |tender    0  2
 |tension   1 11
 |thesis    0  2
 |topic     0  2
-|twist 0 0  =
-|unbless 0 0  =unbless
-|unship 0 0  =
+|twist 0 2  =
+|unbless 0 2  =unbless
+|unship 0 2  =
 |usage     1 64
 |version   0  2
 |very      0  2
 |vision    1 49
 |warship   0  2
 |waster 1 6  =
-|worship 0 0  =
-|wrist 0 0  =
+|worship 0 2  =
+|wrist 0 2  =
 |yuan      0  2
