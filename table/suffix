@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; suffix : 02oct2021 CPM
+; suffix : 07oct2021 CPM
 ;
 ;  0:keep, 1:any, 2:consonant, 3:consonant or U
 ;
@@ -1009,7 +1009,7 @@ ition      0  2 =condition
 itious     2 50
 itish      2 56
 itize      2  2 =digit
-itmen 2 119 =pitman
+itmen 2 120 =pitman
 itor       2  9
 itorial    2 36
 itory      2  2 =prohibit
@@ -1057,7 +1057,7 @@ kiest      1 33
 kish       2  1
 klist      0  2
 kly        2  1 =dark
-kmen 2 118  =
+kmen 2 119  =
 knee       0  2
 known      1  4 =know
 koan       0  2
@@ -1344,7 +1344,7 @@ nize       1  1 =recogn
 njury      1 11 =injure
 nken 1 2  =
 nly        1  1 =thin
-nmen 1 118  =
+nmen 1 119  =
 nnial      1 64 =millenne
 nnium      1 64 =millenne
 nnotation  1 11
@@ -1382,7 +1382,7 @@ nticism    1  2 =romant
 *nticular  1 13 =lenticule
 ntify      1  2 =ident
 ntize      1  2 =quant
-ntmen 1 119 =stuntman
+ntmen 1 120 =stuntman
 ntor       1  2 =invent
 ntric      1  3 =concentr
 ntuate     1  2 =accent
@@ -1393,6 +1393,7 @@ nular      2 10 =annule
 nuli       2 10 =annule
 nulus      2 10 =annule
 nyan       1  3 =kenya
+oable      1  1 =do
 oaden      2  3 =broad
 oader      2  3 =load
 oadest     1  3 =broad
@@ -1745,7 +1746,7 @@ reedy      2  4
 reer 2 3  =freer
 reest 2 3  =
 *rely      1  2
-remen 1 119  =
+remen 1 120  =
 reness     1  2 =sure
 renity     1 65
 reposition 0  2
@@ -2290,7 +2291,7 @@ wler       1  2 =bowl
 wly        1  1 =slow
 wollen     2  4 =swoll
 wolve      1 70
-women 1 119  =
+women 1 120  =
 wonder     1 45
 wooden     1  4
 worsen     1  5
@@ -2367,7 +2368,7 @@ zzy        1  2 =jazz
 |bitter 0 2  =
 |bless 0 2  =
 |brian     0  2
-|cacti 1 123  =
+|cacti 1 122  =
 |canter 0 2  =
 |carnation 0  2
 |carriage  0  2
@@ -2379,7 +2380,6 @@ zzy        1  2 =jazz
 |dally     0  2
 |dentist   0  2
 |dimer 0 2  =
-|doable 1 3  =
 |duct      0  2
 |early     0  2
 |easter 0 2  =easter
@@ -2390,7 +2390,7 @@ zzy        1  2 =jazz
 |fester    0  2
 |fetter 0 2  =
 |fission   0  2
-|foci 1 122  =
+|foci 1 121  =
 |forest 0 2  =
 |former    0  2
 |frolic 0 2  =
@@ -2403,15 +2403,15 @@ zzy        1  2 =jazz
 |inter     0  2
 |internation 0 2  =
 |lace 0 2  =
-|lacy 1 88  =
-|laic 1 35  =
-|laity 1 35  =
+|lacy 1 10 =
+|laic 1 34  =
+|laity 1 34 =
 |laughter  1  5
 |liable 0 2  =
 |liter 0 2  =liter
 |loss      1 10
 |lost      1 10 =lose
-|media 1 117  =
+|media 1 116  =
 |men 1 118  =
 |mental    0  2
 |mentor    0  2
@@ -2438,8 +2438,8 @@ zzy        1  2 =jazz
 |random 0 2  =
 |ration    0  2
 |reckless 0 2  =
-|redden 1 4  =
-|redone 1 5  =
+|redden 1 3  =
+|redone 1 4  =
 |rely 0 2  =
 |render    0  2
 |restation 0  2
@@ -2452,7 +2452,7 @@ zzy        1  2 =jazz
 |scent 0 2  =
 |script    0  2
 |sedition 0 2  =
-|serer 1 5  =
+|serer 1 4  =
 |serial 1 111  =
 |session   0  2 =session
 |severance 1  5 =sever
@@ -2481,7 +2481,7 @@ zzy        1  2 =jazz
 |very      0  2
 |vision    1 49
 |warship   0  2
-|waster 1 6  =
+|waster 1 5  =
 |worship 0 2  =
 |wrist 0 2  =
 |yuan      0  2

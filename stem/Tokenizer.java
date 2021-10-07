@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Tokenizer.java : 30sep2021 CPM
+// AW File Tokenizer.java : 06oct2021 CPM
 // extract tokens from a segment of English text
 
 package stem;
@@ -131,16 +131,25 @@ public class Tokenizer {
 			if (s == null)
 				return null;
 
+//			System.out.println("s= " + s);
+
 			// save where token came from in stream
 
 			length = s.length();
 			offset = in.os;
 
+//			System.out.println("len= " + length + ", off= " + offset);
+
 			// get reduced token
 
 			token.set(s);
+
+//			System.out.println("token= " + token);
+
 			if (!stopped(token))
 				break;
+
+//			System.out.println("stopped");/Users/clintonmah/Desktop/ActiveW/archive 
 
 		}
 
@@ -154,7 +163,7 @@ public class Tokenizer {
 		String src = (as.length > 0) ? as[0] : "input";
 		int ip = (as.length > 1) ? Integer.parseInt(as[1]) : -1;
 		int nn = (as.length > 2) ? Integer.parseInt(as[2]) : 10;
-		System.out.println("ip= " + ip + ", nn= " + nn);
+//		System.out.println("ip= " + ip + ", nn= " + nn);
 		try {
 			Stem   mor = new Stem(new DataInputStream(new FileInputStream("sufs")));
 			Stop   stp = new Stop(new DataInputStream(new FileInputStream("stps")));
@@ -172,7 +181,7 @@ public class Tokenizer {
 					System.out.println(t);
 				}
 			}
-			System.out.println("ip= " + ip + ", nn= " + nn);
+//			System.out.println("ip= " + ip + ", nn= " + nn);
 			mor.dump(ip,ip+nn-1);
 		} catch (IOException e) {
 			System.err.println(e);
