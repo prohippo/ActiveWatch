@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 30aug2021 CPM
+// AW file LexicalGram.java : 06oct2021 CPM
 // basic n-gram extraction
 
 package gram;
@@ -55,7 +55,7 @@ public class LexicalGram {
 			// check that leading char is alphabetic
 
 			c = tb.buffer[to++];
-//			System.out.println("lexical to=" + to + ", c=" + c);
+//			System.out.println("lexical to=" + to + ", c= [" + c + "]");
 //			System.out.println(tb);
 			if (Character.isLetter(c)) {
 
@@ -67,7 +67,7 @@ public class LexicalGram {
 					if (g > 0) {
 						tb.fwrd = to + 4;
 						g += Gram.IB5;
-						tb.reposition(5);
+						to = tb.reposition(5);
 						break;
 					}
 				}
@@ -83,7 +83,7 @@ public class LexicalGram {
 					if (g > 0) {
 						tb.fwrd = to + 3;
 						g += Gram.IB4;
-						tb.reposition(4);
+						to = tb.reposition(4);
 						break;
 					}
 				}
@@ -93,7 +93,7 @@ public class LexicalGram {
 //				System.out.println(tb);
  
 				if  (tb.end - to >= 2 && tb.fwrd - to < 2) {
-//					System.out.println("3-grams");
+//					System.out.println("3-grams, to= " + to);
  
 					// seed for alphabetic 3-gram?
 					int jcb = find(c,tb.buffer[to]);
@@ -103,7 +103,8 @@ public class LexicalGram {
 							int k = Letter.toByte(d);
 							g = (short)(Gram.IB3 + jcb*Letter.NA + k);
 							tb.fwrd = to + 2;
-							tb.reposition(3);
+							to = tb.reposition(3);
+//							System.out.println(tb);
 							break;
 						}
 					}
@@ -122,7 +123,12 @@ public class LexicalGram {
 				int kd = Letter.toByte(tb.buffer[to++]);
 				g = (short)(Gram.IB2 + kc*Letter.NAN + kd);
 				tb.fwrd = to;
-				tb.reposition(2);
+//				System.out.println("fwrd= " + tb.fwrd);
+//				System.out.print("before to= " + to);
+				to = tb.reposition(2);
+//				System.out.print(" after to= " + to);
+//				System.out.println("");
+//				System.out.println(tb);
 				break;
 			}
 		}

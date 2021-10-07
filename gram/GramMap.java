@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 27aug2021 CPM
+// AW file GramMap.java : 07oct2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -134,7 +134,7 @@ public class GramMap {
 		"stock", "stone", "store", "story", "strai", "strat", "stree", "struc", "style", "super",
 		"table", "teach", "techn", "tempt", "theat", "theor", "therm", "think", "track", "tract",
 		"trade", "train", "trans", "trave", "treat", "truct", "ultur", "ument", "under", "unive",
-		"velop", "villA", "ville", "volve", "watch", "water", "woman", "world", "write", "ystem"
+		"velop", "villa", "ville", "volve", "watch", "water", "woman", "world", "write", "ystem"
 	};
 
 	private HashMap<String,Integer> h4g; // for 4-gram lookup

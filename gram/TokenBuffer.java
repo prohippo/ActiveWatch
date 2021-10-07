@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TokenBuffer.java : 30aug2021 CPM
+// TokenBuffer.java : 06oct2021 CPM
 // auxiliary buffer for n-gram index extraction
 
 package gram;
@@ -112,11 +112,10 @@ public class TokenBuffer {
 	*/
 
 	public final int reposition ( int n ) {
-		if (n == 0) {
-			n = fwrd - posn;
-			if (n > maxn) n = maxn;
-		}
-		posn = fwrd - n + 1;
+		if (n > 0)
+			posn = fwrd - n + 1;
+		if (posn == 0)
+			posn = 1;
 		return posn;
 	}
 

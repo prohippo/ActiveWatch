@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Literal.java : 30aug2021 CPM
+// AW file Literal.java : 06oct2021 CPM
 // literal n-gram extraction
 
 package gram;
@@ -138,6 +138,7 @@ public class Literal extends LiteralBase {
 
 			for (to = ts, lo = litx[i];; --to, lo++) {
 				x = lita[lo];
+//				System.out.println("x= " + x + ", tb[" + to + "]= " + tb.buffer[to]);
 
 				// compare current literal to token
 
@@ -145,7 +146,7 @@ public class Literal extends LiteralBase {
 					break;
  
 				else if (tb.buffer[to] < x) {
-					if (x < Letter.NAN)
+					if (Character.isLetter(x))
 						break;
 
 					// on match, record start of literal
