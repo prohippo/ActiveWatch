@@ -142,3 +142,8 @@ v0.9    30sep2021  expand morphological stemming
                    fix longstanding problems in stemming code
                    clean up and and extend code commentary
                    update documentation
+
+v.0.9.1 07oct2021  fix problems in n-gram extraction
+                   fix problems in morphological stemming rule extension
+                   fix typo in AW 5-gram table
+                   update documentation
