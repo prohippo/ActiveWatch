@@ -25,11 +25,11 @@ can achieve ever better finite approximations to full-word indexing.
 So, how big would our finite have to be to support some useful text
 analysis? The ActiveWatch demonstration makes the case that 10⁴ should
 be enough for automatic clustering of text items by content or for
-other processing done with vectors. You probably will pass on it for
-finding all documents containing a specific word.
+other processing done with vectors. You should look elsewhere if you
+ijust want to find all documents containing a specific word.
 
 In any case, the big advantage of a vector representation of text is
-that it allows us to organize our processing of it at a higher level of
+that it lets us organize our processing of it at a higher level of
 abstraction. Once we have text as vectors, it should not really matter
 where these vectors came from. We care only that they are easy to work
 with and carry enough information for the purposes of users.
@@ -74,13 +74,13 @@ The latest AW release includes thirteen prebuilt AW modules that combine for
 an automatic clustering demonstration. These are found in separate runnable
 jar files in the subdirectory jars. Documentation is skimpy, but there is now
 a PDF file (HowToIndexText.pdf) that should provide essential information. If
-the creek don't rise, a user manual is forthcoming.
+the creek don't rise, A user manual should be forthcoming.
 
-To build out c1wyour mowna basic AW clustering capability, run the 'build' shells
+To build out c1wyour mowna basic AW clustering capability, run the 'build' shell
 script included with the AW GitHub download. The script is for macOS Darwin Unix
 and should be edited for your computing platform. You will have to install a Java
-JDK if you do not have one already. Everything in the AW demonstration will
-have to run from a command line.
+JDK if you do not have one already. Everything in the AW demonstration still
+has to run from a command line.
 
 AW software is free for all uses and is released under BSD licensing.
 
@@ -143,7 +143,13 @@ v0.9    30sep2021  expand morphological stemming
                    clean up and and extend code commentary
                    update documentation
 
-v.0.9.1 07oct2021  fix problems in n-gram extraction
+v0.9.1 07oct2021   fix problems in n-gram extraction
                    fix problems in morphological stemming rule extension
                    fix typo in AW 5-gram table
+                   update documentation
+
+v1.0   14oct2021   clean up definitions of n-gram limits
+                   clean up literal n-grams and morphological stemming
+                   extend builtin 4-and 5-grams
+                   fix a lookup bug for 4- and 5-grams
                    update documentation
