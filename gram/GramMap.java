@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 07oct2021 CPM
+// AW file GramMap.java : 11oct2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -106,7 +106,33 @@ public class GramMap {
 		"unde", "unit", "urch", "urse", "ussi", "ustr", "valu", "veal", "vehi", "velo",
 		"vent", "verh", "vers", "vert", "vest", "vice", "vict", "vide", "view", "vill",
 		"visi", "volu", "vote", "walk", "wall", "want", "ward", "ware", "wash", "wast",
-		"week", "west", "whol", "wind", "wing", "work", "worl", "writ", "xper", "year"
+		"week", "west", "whol", "wind", "wing", "work", "worl", "writ", "xper", "year",
+
+		"aban", "acre", "agen", "aign", "aire", "amin", "anat", "arab", "arma", "asia",
+		"atar", "atto", "audi", "aven", "barr", "bell", "bene", "berg", "blea", "bloo",
+		"brid", "brit", "burg", "bush", "cade", "cala", "cale", "canc", "capa", "cape",
+		"carr", "cern", "chea", "chic", "chie", "chor", "chur", "clar", "clim", "clin",
+		"colu", "corn", "corr", "cret", "crew", "crow", "ctic", "cuse", "cuss", "cust",
+		"dana", "dang", "dead", "dear", "deca", "decl", "dela", "dele", "deli", "dens",
+		"depe", "dict", "dier", "draw", "eard", "earm", "ebri", "ecal", "echo", "ecla",
+		"eden", "eech", "egen", "egot", "eleb", "elem", "elim", "elit", "enal", "ench",
+		"ensu", "erit", "etto", "file", "fill", "firm", "floo", "flor", "flow", "fres",
+		"fric", "func", "fund", "gall", "gend", "glob", "hame", "hank", "hant", "hell",
+		"hief", "hill", "hind", "hint", "hope", "hore", "hori", "hour", "igen", "ilet",
+		"imen", "inch", "inci", "insu", "intr", "iter", "ivat", "join", "lade", "lage",
+		"lare", "lari", "lash", "lend", "lett", "lind", "lint", "lite", "llab", "llet",
+		"lone", "mala", "male", "mari", "marr", "mary", "mass", "mast", "math", "matt",
+		"mend", "mens", "mera", "merg", "mile", "morn", "mort", "mpac", "nest", "nion",
+		"nior", "nnel", "noon", "norm", "nsit", "oast", "odel", "onat", "orri", "otel",
+		"pack", "pact", "pair", "pant", "pate", "path", "patt", "pena", "pent", "plic",
+		"ploy", "pond", "pone", "prea", "pred", "prem", "prep", "pret", "prev", "pric",
+		"prio", "priv", "push", "pute", "rald", "rash", "rast", "rebo", "rede", "rend",
+		"repe", "repu", "rice", "rich", "ride", "rina", "rine", "rise", "rnet", "robe",
+		"roni", "rook", "rose", "rres", "rush", "rust", "sacr", "sala", "sale", "sali",
+		"sche", "scur", "scus", "sele", "sell", "send", "shan", "shoo", "solu", "sour",
+		"spot", "sset", "stal", "stel", "sten", "stig", "surg", "susp", "tale", "tali",
+		"targ", "teen", "tele", "tens", "terv", "tick", "tilt", "toon", "tort", "tria",
+		"troy", "trus", "unce", "urge", "vant", "vene", "viol", "weal", "wear", "xplo"
 	};
 
 	private static final String[] l5g = {
@@ -134,7 +160,13 @@ public class GramMap {
 		"stock", "stone", "store", "story", "strai", "strat", "stree", "struc", "style", "super",
 		"table", "teach", "techn", "tempt", "theat", "theor", "therm", "think", "track", "tract",
 		"trade", "train", "trans", "trave", "treat", "truct", "ultur", "ument", "under", "unive",
-		"velop", "villa", "ville", "volve", "watch", "water", "woman", "world", "write", "ystem"
+		"velop", "villa", "ville", "volve", "watch", "water", "woman", "world", "write", "ystem",
+
+		"actic", "ament", "chief", "clear", "custo", "dress", "emand", "energ", "estig", "estim",
+		"fores", "frien", "grant", "hance", "imate", "iness", "isten", "large", "learn", "litic",
+		"llage", "llege", "lleng", "maste", "merge", "minat", "nance", "neral", "nsist", "opera",
+		"otent", "paign", "perio", "plica", "pring", "prise", "ranch", "rench", "senat", "sense",
+		"short", "sourc", "ssist", "still", "teria", "trial", "trict", "trong", "white", "winte"
 	};
 
 	private HashMap<String,Integer> h4g; // for 4-gram lookup
