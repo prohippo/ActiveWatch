@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 06oct2021 CPM
+// AW file LexicalGram.java : 14oct2021 CPM
 // basic n-gram extraction
 
 package gram;
@@ -63,10 +63,10 @@ public class LexicalGram {
 
 				if  (tb.end - to >= 4 && tb.fwrd - to < 4) {
 					String gs = new String(tb.buffer,to-1,5);
-					g = (short)(gm.encode5g(gs));
-					if (g > 0) {
+					int    gg = gm.encode5g(gs);
+					if (gg >= 0) {
 						tb.fwrd = to + 4;
-						g += Gram.IB5;
+						g = (short)(gg + Gram.IB5);
 						to = tb.reposition(5);
 						break;
 					}
@@ -78,11 +78,11 @@ public class LexicalGram {
 //				System.out.println(tb);
 				if  (tb.end - to >= 3 && tb.fwrd - to < 3) {
 					String gs = new String(tb.buffer,to-1,4);
-					g = (short)(gm.encode4g(gs));
-//					System.out.println(gs + "=" + g);
-					if (g > 0) {
+					int    gg = gm.encode4g(gs);
+//					System.out.println(gs + "=" + gg);
+					if (gg >= 0) {
 						tb.fwrd = to + 3;
-						g += Gram.IB4;
+						g = (short)(gg + Gram.IB4);
 						to = tb.reposition(4);
 						break;
 					}
