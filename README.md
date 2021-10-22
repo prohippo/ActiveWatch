@@ -153,3 +153,8 @@ v1.0   14oct2021   clean up definitions of n-gram limits
                    extend builtin 4-and 5-grams
                    fix a lookup bug for 4- and 5-grams
                    update documentation
+
+v1.0.1 22oct2021   extend built-in 4-grams by 200
+                   add 5-grams not chosen by general frequency
+                   edit default literal n-grams to remove redundancy
+                   update documentation
