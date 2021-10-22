@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; literal : 12oct2021 CPM
+; literal : 21oct2021 CPM
 
 -000
 -000
@@ -61,7 +61,6 @@
 -establish
 -final
 -finance
--gress
 -icate
 -icide
 -illion
@@ -91,10 +90,7 @@
 -print
 -program
 -quent
--ract
--reach
 -russia
--sale
 -scholastic
 -soil
 -son
@@ -107,12 +103,13 @@
 -talk
 -travel
 -trust
+-union
+-unite
 -value
 -verse
 -vise
 -wide
 -wood
--word
 100-
 198-
 199-
@@ -132,14 +129,12 @@ accumulate
 accuse
 acid-
 acquire
-actor-
 actress
 address-
 administr
 agent-
 aggress-
 agriculture
-aid
 airline-
 airplane
 alcohol
@@ -149,13 +144,11 @@ america-
 amex-
 announce-
 annuity-
-anti-
 appetite
 apply
 appoint
 appraise
 appropriate
-arch-
 architect
 associate
 asthma-
@@ -184,7 +177,6 @@ cabinet-
 cancer-
 capit-
 cardi-
-carr-
 cash-
 chairman-
 character
@@ -235,9 +227,7 @@ council-
 counter-
 country-
 coup-
-court-
 create-
-crew-
 crime
 critic-
 crude
@@ -270,7 +260,6 @@ domestic-
 dose-
 drought-
 drug-
-earth-
 earthquake
 economy
 educate
@@ -298,19 +287,15 @@ extern-
 extra-
 fabricate
 family-
-farm-
 father-
 fda
 feature-
 federal
 fertile
-file-
 fish-
 flight-
 football
-force-
 foreign-
-forest-
 freight-
 fruit-
 future
@@ -323,13 +308,11 @@ giga-
 golf
 gourmet
 govern
-grain
 greenhouse
 handicap
 hardware
 harvest
 health
-heart
 hetero-
 highway
 hockey
@@ -338,7 +321,6 @@ hollywood
 homo-
 hospital
 hotel
-house-
 hunt
 hurricane
 hydro-
@@ -384,7 +366,6 @@ macro-
 magazine
 market-
 maxi-
-mean-
 meat-
 media-
 medic-
@@ -393,13 +374,11 @@ mega-
 member-
 memory-
 mental
-merge
 meta-
 metal-
 micro-
 milite
 milk-
-milli-
 million-
 ministr
 missile-
@@ -436,7 +415,6 @@ party
 pasture
 patient
 peace-
-pent-
 people-
 person
 pesticide
@@ -445,10 +423,7 @@ pharmac-
 photo-
 pill
 pipeline
-plan-
-plane
 plastic
-play-
 police-
 policy
 politic
@@ -460,7 +435,6 @@ poultry
 prescribe
 preside-
 prevent
-price-
 pro-
 problem
 process-
@@ -477,10 +451,7 @@ publish
 quarter-
 quasi-
 question
-race
-radio
 railroad
-rain-
 rape
 react-
 reason-
@@ -497,7 +468,6 @@ republic
 research
 reserve
 resign
-resp-
 restaurant
 result
 retro-
@@ -505,7 +475,6 @@ revenue
 rocket-
 rubber-
 sail-
-sale
 satel-
 satellite
 school-
@@ -530,7 +499,6 @@ soccer-
 social
 software
 song-
-sound-
 south-
 soviet-
 spill
@@ -549,7 +517,6 @@ system
 talk-
 tariff
 teamster-
-techn
 technique
 televise
 tell-
@@ -563,7 +530,6 @@ therapy
 thermo-
 threat
 tobacco-
-trade-
 traffic-
 transit
 transport
@@ -571,8 +537,6 @@ treaty
 trillion-
 tutor
 ultra-
-union-
-unite-
 universe-
 university
 vacate-
@@ -591,7 +555,6 @@ weapon
 weather-
 weight-
 welfare-
-white-
 window-
 wine-
 workstation-
