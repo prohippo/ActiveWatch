@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 11oct2021 CPM
+// AW file GramMap.java : 21oct2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -132,7 +132,28 @@ public class GramMap {
 		"sche", "scur", "scus", "sele", "sell", "send", "shan", "shoo", "solu", "sour",
 		"spot", "sset", "stal", "stel", "sten", "stig", "surg", "susp", "tale", "tali",
 		"targ", "teen", "tele", "tens", "terv", "tick", "tilt", "toon", "tort", "tria",
-		"troy", "trus", "unce", "urge", "vant", "vene", "viol", "weal", "wear", "xplo"
+		"troy", "trus", "unce", "urge", "vant", "vene", "viol", "weal", "wear", "xplo",
+
+		"abit", "adem", "adet", "aile", "anar", "anon", "anso", "apar", "appo", "arni",
+		"arra", "arro", "assu", "atri", "avid", "awar", "bear", "broa", "brow", "bute",
+		"cali", "capt", "cere", "civi", "cket", "cong", "cott", "danc", "dard", "dare",
+		"daug", "dean", "deat", "dece", "desc", "desp", "devi", "dida", "dona", "door",
+		"drop", "eant", "ebat", "ebra", "eder", "edes", "eeti", "eleg", "eles", "elon",
+		"emed", "emem", "emis", "enef", "enfo", "enor", "eput", "erag", "erap", "etal",
+		"etro", "eval", "evid", "evil", "expl", "farm", "favo", "feel", "gard", "gine",
+		"girl", "glan", "grap", "grat", "hart", "hase", "hate", "heav", "hend", "ibut",
+		"icer", "imet", "imit", "imme", "inap", "inet", "inta", "itut", "ivil", "japa",
+		"lebr", "lent", "ligi", "limi", "lley", "mant", "mbin", "merc", "metr", "mint",
+		"minu", "mist", "mmis", "mond", "moti", "mpar", "ncia", "ndam", "nerg", "netw",
+		"ngag", "ngra", "noti", "nser", "nsio", "nsis", "obab", "ocke", "olat", "ombi",
+		"ondu", "onen", "ongr", "onic", "onor", "onsc", "ortu", "oust", "oute", "pane",
+		"pari", "patr", "peni", "perm", "pete", "peti", "plat", "prec", "pros", "quit",
+		"rama", "rame", "rass", "reak", "ream", "rebe", "reed", "resc", "resh", "reta",
+		"retr", "rish", "rita", "roll", "rous", "rran", "rrow", "rtun", "salo", "sane",
+		"sani", "sano", "scal", "scar", "scot", "sers", "sess", "shea", "slea", "slow",
+		"sore", "sort", "ssen", "stay", "suit", "sume", "surv", "tena", "tenc", "terc",
+		"thar", "thol", "thon", "ticl", "tire", "tiss", "tono", "tout", "trem", "tren",
+		"tres", "trou", "uard", "uite", "unct", "unic", "uret", "vinc", "wife", "word"
 	};
 
 	private static final String[] l5g = {
@@ -166,7 +187,9 @@ public class GramMap {
 		"fores", "frien", "grant", "hance", "imate", "iness", "isten", "large", "learn", "litic",
 		"llage", "llege", "lleng", "maste", "merge", "minat", "nance", "neral", "nsist", "opera",
 		"otent", "paign", "perio", "plica", "pring", "prise", "ranch", "rench", "senat", "sense",
-		"short", "sourc", "ssist", "still", "teria", "trial", "trict", "trong", "white", "winte"
+		"short", "sourc", "ssist", "still", "teria", "trial", "trict", "trong", "white", "winte",
+
+		"actor", "anima", "force", "grain", "heart", "plane", "plant", "power", "radio", "reach"
 	};
 
 	private HashMap<String,Integer> h4g; // for 4-gram lookup
