@@ -43,3 +43,4 @@ java -jar ${AWD}/CLUSTR
 java -jar ${AWD}/SUMRZR
 java -jar ${AWD}/CLSFYR
 java -jar ${AWD}/KEYWDR
+java -jar 4{AWD}/WATCHR

@@ -155,6 +155,10 @@ v1.0   14oct2021   clean up definitions of n-gram limits
                    update documentation
 
 v1.0.1 22oct2021   extend built-in 4-grams by 200
-                   add 5-grams not chosen by general frequency
-                   edit default literal n-grams to remove redundancy
+                   add built-in 5-grams not chosen by general frequency
+                   edit default literal n-grams to reduce indexing redundancy
+                   update documentation
+
+v1.1   27oct2021   add WATCHR module to help monitor residuals
+                   make index vector operations more transpparent
                    update documentation

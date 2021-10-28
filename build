@@ -11,6 +11,7 @@ javac aw/cluster/ClustererMain.java
 javac aw/summarize/SummarizerMain.java
 javac aw/classify/ClassifierMain.java
 javac aw/keyword/KeyworderMain.java
+javac aw/watch/WatcherMain.java
 
 jar cfe LITBLD  \
 aw.table.LiteralTableMain   \
@@ -424,3 +425,28 @@ object/CodedVector.class \
 object/CodedVectorBase.class \
 object/IndexVector.class \
 object/SimpleIndexVector.class
+
+jar cfe WATCHR aw.watch.WatcherMain \
+./aw/Control.class \
+./aw/Offset.class \
+./aw/Probabilities.class \
+./aw/FileAccess.class \
+./aw/Parameter.class \
+./aw/BatchFile.class \
+./aw/Sequence.class \
+./aw/OffsetBase.class \
+./aw/AWException.class \
+./aw/Vector.class \
+./aw/FileName.class \
+./aw/StatisticsFile.class \
+./aw/watch/WatcherMain.class \
+./aw/watch/Watcher$Rec.class \
+./aw/watch/Watcher.class \
+./aw/Banner.class \
+./aw/Vectors.class \
+./aw/Run.class \
+./object/IndexVectors.class \
+./object/CodedVectorBase.class \
+./object/IndexVector.class \
+./object/SimpleIndexVector.class \
+./object/CodedVector.class
