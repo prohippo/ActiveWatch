@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 21oct2021 CPM
+// AW file GramMap.java : 05nov2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -153,7 +153,18 @@ public class GramMap {
 		"sani", "sano", "scal", "scar", "scot", "sers", "sess", "shea", "slea", "slow",
 		"sore", "sort", "ssen", "stay", "suit", "sume", "surv", "tena", "tenc", "terc",
 		"thar", "thol", "thon", "ticl", "tire", "tiss", "tono", "tout", "trem", "tren",
-		"tres", "trou", "uard", "uite", "unct", "unic", "uret", "vinc", "wife", "word"
+		"tres", "trou", "uard", "uite", "unct", "unic", "uret", "vinc", "wife", "word",
+
+		"bump", "cern", "chem", "crum", "cyte", "cyto", "ddle", "digi", "drum", "dump",
+		"empt", "fest", "fict", "frag", "gate", "giga", "grum", "hemo", "hest", "hick",
+		"hump", "ject", "jest", "jump", "kick", "kilo", "lick", "lict", "lith", "lump",
+		"meat", "mega", "mete", "nect", "nest", "nick", "ooth", "ount", "pest", "pict",
+		"phys", "pine", "plas", "pump", "quad", "rode", "rrow", "rude", "rump", "sick",
+		"stic", "stle", "sump", "tail", "tect", "trum", "uest", "vect", "wick", "zest",
+
+		"blue", "bone", "boul", "brav", "cone", "deep", "done", "elte", "folk", "glen",
+		"gold", "grav", "gray", "isle", "iron", "leep", "mble", "mech", "melt", "mone",
+		"nkle", "pike", "pois", "rike", "rone", "unio", "vine", "well", "wine", "zone"
 	};
 
 	private static final String[] l5g = {
@@ -189,7 +200,10 @@ public class GramMap {
 		"otent", "paign", "perio", "plica", "pring", "prise", "ranch", "rench", "senat", "sense",
 		"short", "sourc", "ssist", "still", "teria", "trial", "trict", "trong", "white", "winte",
 
-		"actor", "anima", "force", "grain", "heart", "plane", "plant", "power", "radio", "reach"
+		"actor", "anima", "force", "grain", "heart", "plane", "plant", "power", "radio", "reach",
+		"colon", "ellow", "fruit", "macro", "micro", "might", "ocean", "photo", "sight", "tight",
+		"brook", "brown", "field", "haven", "highw", "point", "sprin", "storm", "valle", "venue"
+
 	};
 
 	private HashMap<String,Integer> h4g; // for 4-gram lookup
