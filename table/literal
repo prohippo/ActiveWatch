@@ -22,17 +22,12 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; literal : 21oct2021 CPM
+; literal : 05nov2021 CPM
 
 -000
--000
--0000
 -0000
 -00000
--00000
 -000000
--000000
--0000000
 -0000000
 -00000000
 -000000000
@@ -65,6 +60,7 @@
 -icide
 -illion
 -inform
+-ique
 -interest
 -ition
 -itol
@@ -304,7 +300,6 @@ gatt
 genera-
 general-
 generate
-giga-
 golf
 gourmet
 govern
@@ -335,7 +330,6 @@ industry-
 infect
 inflate
 infra-
-infrastructure
 injury
 insure
 interest-
@@ -362,21 +356,17 @@ lumber-
 lunch-
 machine
 macintosh
-macro-
 magazine
 market-
 maxi-
-meat-
 media-
 medic-
 medicate
-mega-
 member-
 memory-
 mental
 meta-
 metal-
-micro-
 milite
 milk-
 million-
@@ -420,7 +410,6 @@ person
 pesticide
 petroleum
 pharmac-
-photo-
 pill
 pipeline
 plastic
@@ -556,7 +545,6 @@ weather-
 weight-
 welfare-
 window-
-wine-
 workstation-
 yeltsin-
 yield-
