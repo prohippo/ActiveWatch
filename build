@@ -440,7 +440,7 @@ jar cfe WATCHR aw.watch.WatcherMain \
 ./aw/FileName.class \
 ./aw/StatisticsFile.class \
 ./aw/watch/WatcherMain.class \
-./aw/watch/Watcher$Rec.class \
+./aw/watch/Watcher\$Rec.class \
 ./aw/watch/Watcher.class \
 ./aw/Banner.class \
 ./aw/Vectors.class \
