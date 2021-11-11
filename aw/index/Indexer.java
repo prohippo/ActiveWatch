@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Indexer.java : 03Mar00 CPM
+// AW file Indexer.java : 06nov2021 CPM
 // top-level n-gram indexing
 
 package aw.index;
@@ -83,10 +83,11 @@ public class Indexer {
 			System.out.println(vd.length() + " chars");			
 			System.out.println("** analyzing");
 			vb = vd.derive();
-			System.out.println("** transforming");
 
 			// build transformed count array for index vector
 			
+			System.out.println("** transforming");
+
 			for (int j = 1; j <= Parameter.MXI; j++)
 				if (vb[j] > 0)
 					vb[j] = (byte) Parameter.transform(vb[j]);

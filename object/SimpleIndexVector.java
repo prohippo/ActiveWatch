@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SimpleIndexVector.java : 24oct2021 CPM
+// AW file SimpleIndexVector.java : 06nov2021 CPM
 // n-gram index vector for text item
 
 package object;
@@ -37,7 +37,7 @@ abstract class CodedVectorBase implements Serializable {
 	// vector byte encodings
 
 	protected static final int MAXSUM=32764; // limit for vector sum
-	protected static final int BYTS=	256; // byte modulus
+	protected static final int BYTS=    256; // byte modulus
 	protected static final int FULL= BYTS-1; // maximum unsigned byte value
 
 	protected static final byte ZERO=  -128; // signed encoding of unsigned zero 
@@ -99,7 +99,7 @@ abstract class CodedVectorBase implements Serializable {
 
 	public final int endEncoding (
 
-		int	bo, // buffer offset
+		int    bo, // buffer offset
 		int   nex, // number of extents
 		int mvssm  // minimum vector sum
 
@@ -323,8 +323,8 @@ public class SimpleIndexVector extends CodedVector implements Serializable {
 
 	public SimpleIndexVector (
 
-		byte[] v,	 // array
-		int	mvsum  // minimum vector sum
+		byte[] v,    // array
+		int    mvsum // minimum vector sum
 
 	) {
 		super();
