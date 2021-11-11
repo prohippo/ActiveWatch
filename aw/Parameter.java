@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Parameter.class : 12oct2021 CPM
+// AW file Parameter.java : 11nov2021 CPM
 // basic indexing definitions
 
 package aw;
@@ -48,9 +48,11 @@ public class Parameter {
 	  9600,10000,10400,10800,11200,11600,12000,    0
 	};
 
-	// logarithmic transformation of n-gram counts
+	// logarithmic base-2 transformation of n-gram counts
 	
-	private static       short[] TRANSFORM = { 0,1,2,2,3,3,3,3,4,4,4,4,4 };
+	private static       short[] TRANSFORM = {
+	  0, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4
+        };
 	private static final int     TLMT      = TRANSFORM.length - 1;
 	
 	// size of transform table
@@ -67,8 +69,10 @@ public class Parameter {
 		int k // value to map
 	) {
 	
-		if (k > TLMT || k < 0)
+		if (k > TLMT)
 			k = TLMT;
+		else if (k < 0)
+			k = 0;
 			
 		return TRANSFORM[k];
 		
