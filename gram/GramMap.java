@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 05nov2021 CPM
+// AW file GramMap.java : 09nov2021 CPM
 // lookup for longer n-grams
 
 package gram;
@@ -164,7 +164,12 @@ public class GramMap {
 
 		"blue", "bone", "boul", "brav", "cone", "deep", "done", "elte", "folk", "glen",
 		"gold", "grav", "gray", "isle", "iron", "leep", "mble", "mech", "melt", "mone",
-		"nkle", "pike", "pois", "rike", "rone", "unio", "vine", "well", "wine", "zone"
+		"nkle", "pike", "pois", "rike", "rone", "unio", "vine", "well", "wine", "zone",
+
+		"anyo", "dium", "eeze", "oyal", "poke", "rize", "size", "yoff", "youn", "zero",
+		"bact", "doze", "fate", "izen", "moor", "nate", "spon", "yard", "yarn", "yout",
+		"bull", "dale", "full", "gull", "hull", "pole", "pull", "shor", "sole", "tole",
+		"ambl", "bibl", "cote", "dote", "embl", "gote", "mote", "roke", "tang", "umbl"
 	};
 
 	private static final String[] l5g = {

@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; literal : 05nov2021 CPM
+; literal : 09nov2021 CPM
 
 -000
 -0000
@@ -32,6 +32,8 @@
 -00000000
 -000000000
 -agent
+-ake
+-aze
 -brother
 -byte
 -change
@@ -56,6 +58,7 @@
 -establish
 -final
 -finance
+-iate
 -icate
 -icide
 -illion
@@ -64,6 +67,7 @@
 -interest
 -ition
 -itol
+-iya
 -judge
 -jury
 -less
@@ -104,6 +108,7 @@
 -value
 -verse
 -vise
+-virus
 -wide
 -wood
 100-
@@ -125,6 +130,7 @@ accumulate
 accuse
 acid-
 acquire
+act-
 actress
 address-
 administr
@@ -155,7 +161,6 @@ audio-
 author
 auto-
 average-
-bacter-
 barrel-
 baseball
 basketball
@@ -533,7 +538,6 @@ variable-
 veget-
 venture
 video-
-virus
 vitamin
 volley-
 volume-
@@ -548,3 +552,4 @@ window-
 workstation-
 yeltsin-
 yield-
+york-
