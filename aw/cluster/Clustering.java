@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Clustering.java : 08Oct02 CPM
-// basic clustering algorithm
+// Clustering.java : 09nov2021 CPM
+// basic clustering with minimal spanning tree method
 
 package aw.cluster;
 
@@ -32,10 +32,10 @@ import aw.*;
 public class Clustering {
 
 	public short[] ncls; // cluster assignment for each item
-	public short[] nlnk; // cluster node linkage for item
+	public short[] nlnk; // cluster node links for item
 	public short[]  hiz; // strongest cluster link
 	public short[]  loz; // weakest
-	public short[] vcnt; // count of links for an item
+	public short[] vcnt; // total count of links for an item
  
 	public short  count; // current number of clusters
 	public short  limit; // highest cluster number used
@@ -153,7 +153,7 @@ public class Clustering {
 		
 		return no;
 	}
-    
+
 	// gets the index of the first free cluster list
 
 	private short allocate (
@@ -233,54 +233,54 @@ public class Clustering {
 		clsh[q] = -1;
 		--count;
 	}
-    
-    // break up a cluster for regrouping
-    
-	private static final int incm = 1; // fixed-point threshold increment
-    
-    private int th; // save new minimum threshold
-    
-    public int breakUp ( int k, short[] cm ) {
-        th = loz[k] + incm;
-        
-        int nle = 0; // how many links dropped
-        
-        for (int i = clsh[k], j = 0; i > 0; i = nlnk[i]) {
-            cm[j++] = (short) i;
-            ncls[i] = -1;
-            nle += matrix.drop(i,th);
-        }
-        
-        --count;
-        clsh[k] = -1;
 
-        return nle;
-    }
-    
-    // get threshold for breakup
-    
-    public final int getThreshold ( ) { return th; }
-    
-    // recover unclustered
-    
-    public int recoverResiduals ( short[] cm, boolean[] wh ) {
-        int nr = 0;
-        for (short i = 1; i < ncls.length; i++) {
-            if (ncls[i] < 0)
-                cm[nr++] = i;
-            else
-                wh[i] = true;
-        }
-        return nr;
-    }
-    
-    public int getSize ( int k ) {
-        if (k < 0 || k > limit)
-            return -1;
-        int no = 0;
-        for (int n = clsh[k]; n > 0; n = nlnk[n])
-            no++;
-        return no;
-    }
-	
+	// break up a cluster for regrouping
+
+	private static final int incm = 1; // fixed-point threshold increment
+
+	private int th; // save new minimum threshold
+
+	public int breakUp ( int k, short[] cm ) {
+		th = loz[k] + incm;
+
+		int nle = 0; // how many links dropped
+
+		for (int i = clsh[k], j = 0; i > 0; i = nlnk[i]) {
+			cm[j++] = (short) i;
+			ncls[i] = -1;
+			nle += matrix.drop(i,th);
+		}
+
+		--count;
+		clsh[k] = -1;
+
+		return nle;
+	}
+
+	// get threshold for breakup
+
+	public final int getThreshold ( ) { return th; }
+
+	// recover unclustered
+
+	public int recoverResiduals ( short[] cm, boolean[] wh ) {
+		int nr = 0;
+		for (short i = 1; i < ncls.length; i++) {
+			if (ncls[i] < 0)
+				cm[nr++] = i;
+			else
+				wh[i] = true;
+		}
+		return nr;
+	}
+
+	public int getSize ( int k ) {
+		if (k < 0 || k > limit)
+			return -1;
+		int no = 0;
+		for (int n = clsh[k]; n > 0; n = nlnk[n])
+			no++;
+		return no;
+	}
+
 }

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Clusterer.java : 04Oct02 CPM
+// Clusterer.java : 08nov2021 CPM
 // derive cluster seeds
 
 package aw.cluster;
@@ -40,44 +40,44 @@ public class Clusterer {
 	private short[] ipz;  // cluster indices for sorting
 
 	private short[]  cm;  // cluster membership list
-    
-    private short[]  sz;  // cluster sizes
-	
+
+	private short[]  sz;  // cluster sizes
+
 	private float   dthr; // link density threshold
 	private int     mxsz; // maximum cluster seed size
 
 	// initialization
-		
+
 	public Clusterer (
-	
+
 	) throws AWException {
-	
+
 		x = new LinkMatrix(Link.MXML);
-        x.show();
-		
+		x.show();
+
 		int n = x.nrow;
 		System.out.println(n + " rows in link matrix");
 		if (n == 0)
 			throw new AWException("no links");
-		
+
 		ipz = new short[n+1];
 		cm  = new short[n+1];
-        sz  = new short[n+1];
-		
+		sz  = new short[n+1];
+
 		c = new Clustering(x);
-		
+
 	}
 
 	// set up sequence file
-		
+
 	public void run (
-	
+
 		float dth, // link density threshold
 		int   nit, // number of iterations
 		int   mxs  // maximum cluster seed size
-		
+
 	) throws AWException {
-	
+
 		int iter; // iteration count
 
 		if (x.nrow < 2) {
@@ -85,12 +85,12 @@ public class Clusterer {
 			save();
 			return;
 		}
-		
+
 		int nr = x.nrow;
 		for (int i = 0; i < nr; i++)
 			cm[i] = (short)(i + 1);
 		group(nr);
-		
+
 		// first round of splitting and reclustering
 		// to meet link density criteria
 
@@ -111,23 +111,23 @@ public class Clusterer {
 			// more splitting and reclustering
 
 			iter = regroup(iter);
-			
+
 		}
 
 		order();
 
 		int nn = save();
-		
+
 		System.out.println(nn + " items clustered out of " + nr);
-		
+
 	}
-	
+
 	// form new cluster seeds from current links
-	
+
 	private void group (
-	
+
 		int nr
-	
+
 	) throws AWException {
 
 		int sum = 0;
@@ -137,18 +137,18 @@ public class Clusterer {
 
 		for (int i = 0; i < nr; i++)
 			c.cluster(cm[i]);
-	
+
 	}
-	
+
 	// reform cluster seeds until all satisfy
 	// criterion for density of links
-	
+
 	private int regroup (
 
 		int   iter  // iteration running count
 
 	) throws AWException {
-	
+
 		int im;	    // index of least dense cluster
 		int mi;	    // index of largest     cluster
 		int ml;     // size of largest cluster
@@ -170,7 +170,7 @@ public class Clusterer {
 					ipz[j++] = (short) i;
 
 					// get cluster size and minimum interlinkage for an item in it
-					
+
 					mlc = Link.MXTC;
 
 					lcls = 0;
@@ -180,14 +180,18 @@ public class Clusterer {
 					sz[i] = lcls;
 
 					// note largest cluster not fully interlinked
-					
+
 					if (ml < lcls && mlc < lcls) {
 						ml = lcls;
 						mi = i;
 					}
 
-					// note cluster with lowest link density
-					
+					// note the cluster with lowest link density,
+					// computed as lowest number of links for
+					// any item in the cluster divided by the
+					// maximum possible number of links for any
+					// item in the cluster
+
 					d = mlc/(float)(lcls-1);
 					if (dm > d) {
 						dm = d;
@@ -202,7 +206,7 @@ public class Clusterer {
 			System.out.print("largest cluster=" + ml);
 			System.out.print(" connectivity=" + Format.it(dm,4,2));
 			System.out.println(":" + Format.it(dthr,4,2));
-			
+
 			if (ml <= mxsz && dm >= dthr)
 				break;
 			if (ml >  mxsz)
@@ -217,8 +221,8 @@ public class Clusterer {
 			// break up least dense cluster
 
 			int nle = c.breakUp(im,cm); // how many links dropped
-            
-            double thr = c.getThreshold()/LinkMatrix.SCALF;
+
+			double thr = c.getThreshold()/LinkMatrix.SCALF;
 			System.out.println(Format.it(thr,4,1));
 			System.out.println(nle + " links dropped");
 
@@ -228,43 +232,43 @@ public class Clusterer {
 			// get clusters from links still remaining
 
 			group(no);
-			
+
 			System.out.println();
 
 		}
-		
+
 		return iter;
-		
+
 	}
 
 	// get links of residuals for another
 	// round of clustering
-	
+
 	private int recover (
 
 		int no  // total number of items
 
 	) {
-	
+
 		boolean[] wh = new boolean[no+1]; // indicate which are in cluster seeds
 
 		int ns = c.recoverResiduals(cm,wh);
-		
+
 		x.narrow(wh);
-		
+
 		return ns;
-		
+
 	}
-	
+
 	// order clusters by size and strongest link with index array
 
 	private void order (
-	
+
 	) {
-    
+
 		for (int k = 1; k < c.count; k++) {
 			short ipzk = ipz[k];
- 
+
 			int j = k;
 			for (; --j >= 0; ) {
 				short ipzj = ipz[j];
@@ -277,7 +281,7 @@ public class Clusterer {
 			}
 			ipz[j+1] = ipzk;
 		}
-		
+
 	}
 
 	// write out cluster seeds by descending size
@@ -285,17 +289,17 @@ public class Clusterer {
 	private static short delim = (short)(-1);
 
 	private int save (
-	
+
 	) throws AWException{
-	
+
 		int nmcl = 0;
 		System.out.println();
-		
+
 		try {
-		
+
 			Member mbr  = null;
 			double sclf = 1.0/LinkMatrix.SCALF;
-			
+
 			for (int i = 0; i < c.count; i++) {
 
 				System.out.print("cluster " + (i+1));
@@ -313,18 +317,18 @@ public class Clusterer {
 				mbr = new Member(delim,delim);
 
 			}
-			
+
 			if (mbr == null)
 				mbr = new Member(null);
-			
+
 			mbr.close();
-			
+
 		} catch (IOException e) {
 			throw new AWException("cannot write clusters");
 		}		
 
 		return nmcl;
-		
+
 	}
-	
+
 }
