@@ -167,3 +167,9 @@ v1.1.1 07nov2021   add 4- and 5-grams to reduce indexing noise
                    clean up file defining default literal n-grams
                    fix problem with build file for WATCHR
                    update documentation
+
+v1.2.2 11nov2021   add 4-grams to reduce indexing noise
+                   extend and clean up default literal n-grams
+                   clean up various source files for readability
+                   clean up clustering source code, add comments
+                   update documentATION
