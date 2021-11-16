@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; literal : 09nov2021 CPM
+; literal : 14nov2021 CPM
 
 -000
 -0000
@@ -32,10 +32,10 @@
 -00000000
 -000000000
 -agent
--ake
 -aze
 -brother
 -byte
+-candidate
 -change
 -charge
 -check
@@ -130,7 +130,6 @@ accumulate
 accuse
 acid-
 acquire
-act-
 actress
 address-
 administr
@@ -194,7 +193,7 @@ commit
 committee-
 common-
 communi-
-compan-
+campaign-
 companion
 company
 composite
@@ -310,6 +309,7 @@ gourmet
 govern
 greenhouse
 handicap
+harass-
 hardware
 harvest
 health
