@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Squeezer.java : 13aug2021 CPM
+// AW file Squeezer.java : 15nov2021 CPM
 // create run squeezed vector file
 
 package aw.squeeze;
@@ -162,12 +162,12 @@ public class Squeezer {
 
 					if (ssn != 1) {
 						ivn = siv.squeezeNull(ivs,ivn);
-						System.out.println(" disregarded " + ssn);
-						System.out.println("i=" + i + ", j=" + j);
+//						System.out.println(" disregarded " + ssn);
+//						System.out.println("i=" + i + ", j=" + j);
 					}
 					else {
 						ivn = siv.squeeze(ivs,ivn,keep,mvsum);
-						System.out.println(j + ": base=" + ivn);
+//						System.out.println(j + ": base=" + ivn);
 					}
 					nitm++;
 					siv.skip();
