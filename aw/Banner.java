@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Banner.java : 06nov2021 CPM
+// AW File Banner.java : 12nov2021 CPM
 // main module banner class
 
 package aw;
@@ -30,7 +30,7 @@ package aw;
 import java.io.*;
 
 public final class Banner {
-	static final String version = "v1.1.2 (2021) Java";
+	static final String version = "v1.1.3 (2021) Java";
 	static final String year = "1997-2002, 2021";
 	
 	String id;
