@@ -179,3 +179,7 @@ v1.1.3 16nov2021   add 4- and 5-grams to reduce indexing noise
                    add tools for identifying where frequent n-grams come from
                    comment out diagnostic print statements in SQUEZR
                    update documentation
+
+v1.1.4 19nov2021   add 4- and 5-grams to reduce indexing noise
+                   clean up poorly formatted source files
+                   update documentation
