@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ClusterProfileBase.java : 18Sep02 CPM
+// AW file ClusterProfileBase.java : 17nov2021 CPM
 // cluster profile generation
 
 package object;
@@ -37,51 +37,51 @@ public class ClusterProfileBase extends ProfileMaker {
 
 	private static final int MULTPL = 10; // for setting minimum probability threshold
 	private static final int MXM    =  9; // maximum number of items to consider
-	
+
 	private static final int MINLNG = 11; // minimum profile index count
 
 	// build profile from list of items
-	
+
 	public ClusterProfileBase ( ) {
-    
-    }
-    
-    public ClusterProfileBase (
 	
+	}
+	
+	public ClusterProfileBase (
+
 		SimpleIndexVector[] item, // item list
 		int[]   weight, // item weights
 		int     multpl, // multiple for acceptance threshold
 		int     minlng  // minimum profile length
 
 	) throws AWException {
-    
-        combine(item,weight,multpl,minlng);
-        
-    }
-    
-    public void combine (
 	
+		combine(item,weight,multpl,minlng);
+		
+	}
+	
+	public void combine (
+
 		SimpleIndexVector[] item, // item list
 		int[]   weight, // item weights
 		int     multpl, // multiple for acceptance threshold
 		int     minlng  // minimum profile length
 
 	) throws AWException {
-        int count = item.length;
+		int count = item.length;
 		if (count == 0)
 			return;
 
 		int nr = accumulate(item,weight);
 
 		// set thresholds for index selection
-		
+
 		int min = (count == 1) ? 1 : 2;
-		
+
 		int thr = 0;
 		for (int i = 0; i < count; i++)
 			thr += weight[i];
 		thr /= 3;
-		
+
 		for (int i = 1; i < Parameter.MXI; i++) {
 			if (fv[i] > 0)
 				if (fv[i] < thr || cv[i] < min) {
@@ -91,7 +91,7 @@ public class ClusterProfileBase extends ProfileMaker {
 		}
 
 		// keep indices with highest discrimination value
-		
+
 		int k = compress(nr,multpl);
 		if (k < minlng)
 			k = 0;
@@ -99,14 +99,14 @@ public class ClusterProfileBase extends ProfileMaker {
 		k = weight(k);
 		fill(k);
 	}
-	
+
 	// build n-gram vectors fv and cv for selected items
-	
+
 	private int accumulate (
-	
+
 		SimpleIndexVector[] it,
 		int[]  wt
-		
+
 	) throws AWException {
 		int nr = 0;
 		for (int i = 0; i < it.length; i++) {
@@ -116,20 +116,20 @@ public class ClusterProfileBase extends ProfileMaker {
 		return nr;
 	}
 
-	private static final double TH    = 1.0; // minimum constribution
-	private static final int    M     =   1; // minimum item count
+	private static final double TH	= 1.0; // minimum constribution
+	private static final int    M	=   1; // minimum item count
 
 	private static final double prTHR = .75; // what percentage of items an index must occur in
 
 	private static int LMN = Gram.IB2 + Letter.NA*Letter.NAN; // limit on n-grams starting with letter
 
 	// select best discriminators for profile
-		
+
 	private int focus (
-	
+
 		int no,
 		int nm  // what to use as message base size
-		
+
 	) throws AWException {
 		float[] pr; // n-gram probability
 		float[] cn; // n-gram contributions
@@ -138,13 +138,13 @@ public class ClusterProfileBase extends ProfileMaker {
 		short[] ip; // sort indices
  
 		// load n-gram counts, if not done already
-		
+
  		if (ct == null)
  			ct = new Counts();
  			
 		if (no <= 0 || nm <= 0)
 			return 0;
-			
+
 		cn = new float[no];
 		pr = new float[no];
 		ip = new short[no+2];
@@ -178,8 +178,8 @@ public class ClusterProfileBase extends ProfileMaker {
 			}
 			vf[i] = sw;
 		}
-		
+
 		return no;
 	}
-	
+
 }
