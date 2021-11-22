@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Map.java : 12Oct99 CPM
+// AW file Map.java : 20nov2021 CPM
 // profile allocation map
 
 package aw;
@@ -32,43 +32,43 @@ import java.io.*;
 public class Map {
 
 	public  static final int MXSP = 720; // maximum number of profiles
-	
+
 	private static final String file = "maps";
-	
+
 	public  static final byte bX = (byte) 0; // unused byte
 	public  static final byte bD = (byte) 1; // allocation bit
 	public  static final byte bA = (byte) 2; // activation bit
 	public  static final byte bN = (byte) 4; // new bit
 	public  static final byte bU = (byte) 8; // user-definition bit
-	
+
 	protected short  lm; // maximum allocated profile
 	private   short  na; // number of allocated profiles
 	private   short  nu; //           user profiles
 	private   byte[] aa; // map allocation array
-	
+
 	// create a profile map, loading from file if possible
-		
+
 	public Map (
 
 	) {
 
 		aa = new byte[MXSP+2];
 		load();
-			
+
 	}
 
 	// read current map form file
-		
+
 	public void load (
-	
+
 	) {
-	
+
 		DataInputStream in = null;
-	
+
 		try {
-		
+
 			// read from file if possible
-		
+
 			FileInputStream is = new FileInputStream(FileAccess.to(file));
 			in = new DataInputStream(new BufferedInputStream(is));
 			na = in.readShort();
@@ -78,23 +78,23 @@ public class Map {
 			in.close();
 
 		} catch (IOException e) {
-		
+
 			System.out.println("new map created");
-		
+
 		} 
-		
+
 	}
 
 	// write updated map to file
-		
+
 	public void save (
-	
+
 	) throws IOException {
-	
+
 		DataOutputStream out = null;
-	
+
 		try {
-		
+
 			FileOutputStream os = new FileOutputStream(FileAccess.to(file));
 			out = new DataOutputStream(new BufferedOutputStream(os));
 			out.writeShort(na);
@@ -104,21 +104,21 @@ public class Map {
 			out.close();
 
 		} catch (IOException e) {
-		
+
 			throw e;
-			
+
 		}
-		
+
 	}
 
 	// basic map accessors and operations
-	
+
 	public final void update ( ) {
 		for (int i = 1; i <= lm; i++)
 			if ((aa[i] & bN) != 0)
 				aa[i] ^= bN;
 	}
-	
+
 	public final void clear ( int n ) {
 		if ((aa[n] & bU) != 0)
 			--nu;
@@ -126,31 +126,31 @@ public class Map {
 			--na;
 		aa[n] = 0;
 	}
-	
+
 	public final boolean defined ( int n ) {
 		return (n > 0 && n <= MXSP && aa[n] != 0);
 	}
-	
+
 	public final boolean userType ( int n ) {
 		return ((aa[n] & bU) != 0);
 	}
-	
+
 	public final boolean newType ( int n ) {
 		return ((aa[n] & bN) != 0);
 	}
-	
+
 	public final boolean activeType ( int n ) {
 		return ((aa[n] & bA) != 0);
 	}
-	
+
 	public final boolean typeOf ( int n, byte b ) {
 		return ((aa[n] & b) != 0);
 	}
-	
+
 	public final void toggleActivation ( int n ) {
 		aa[n] ^= bA;
 	}
-	
+
 	public final short findFree ( ) {
 		for (short i = 1; i <= lm; i++)
 			if (aa[i] == 0)
@@ -160,10 +160,10 @@ public class Map {
 		else
 			return -1;
 	}
-	
+
 	public final void setType ( short n, byte b ) {
 		byte x = aa[n];
-		
+
 		aa[n] = b;
 		if (b == 0) {
 			if (x != 0)
@@ -180,17 +180,17 @@ public class Map {
 				lm = n;
 		}
 	}
-	
+
 	public final int countAll ( ) {
 		return na;
 	}
-	
+
 	public final int countUser ( ) {
 		return nu;
 	}
-	
+
 	public final int limit ( ) {
 		return lm;
 	}
-	
+
 }
