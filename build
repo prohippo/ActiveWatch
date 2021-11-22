@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 javac aw/table/LiteralTableMain.java
 javac aw/table/StopTableMain.java
 javac aw/table/SuffixTableMain.java

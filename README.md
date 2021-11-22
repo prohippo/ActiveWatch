@@ -160,7 +160,7 @@ v1.0.1 22oct2021   extend built-in 4-grams by 200
                    update documentation
 
 v1.1   27oct2021   add WATCHR module to help monitor residuals
-                   make index vector operations more transpparent
+                   make index vector operations more transparent
                    update documentation
 
 v1.1.1 07nov2021   add 4- and 5-grams to reduce indexing noise
@@ -183,3 +183,9 @@ v1.1.3 16nov2021   add 4- and 5-grams to reduce indexing noise
 v1.1.4 19nov2021   add 4- and 5-grams to reduce indexing noise
                    clean up poorly formatted source files
                    update documentation
+
+v1.1.5 21nov2021   fix bug in arguments for WATCHR
+                   add diagnostic tools
+                   clean up source files
+                   update documentation
+
