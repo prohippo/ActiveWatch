@@ -1,0 +1,306 @@
+#!/bin/zsh
+
+javac test/Dclu.java
+javac test/Dixs.java
+javac test/Dlnk.java
+javac test/Dlss.java
+javac test/Dprb.java
+javac test/Dscn.java
+javac test/Dseq.java
+javac test/Dsqv.java
+javac test/Dtxt.java
+javac test/Dvec.java
+javac test/TG.java
+
+####
+
+jar cfe CTRL aw.Control \
+aw/Control.class \
+aw/FileAccess.class
+
+jar cfe DCLU test.Dclu \
+aw/AWException.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Item.class \
+aw/Link.class \
+aw/Member.class \
+aw/Offset.class \
+aw/OffsetBase.class \
+aw/Run.class \
+aw/Sequence.class \
+aw/Subsegment.class \
+object/ItemRun.class \
+object/LinkMapping.class \
+object/RunIndex.class \
+test/Dclu.class
+
+jar cfe DIXS test.Dixs \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Format.class \
+aw/Index.class \
+aw/Source.class \
+test/Dixs.class
+
+jar cfe DLNK test.Dlnk \
+aw/AWException.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Format.class \
+aw/Item.class \
+aw/Link.class \
+aw/Offset.class \
+aw/OffsetBase.class \
+aw/Run.class \
+aw/Sequence.class \
+aw/Subsegment.class \
+object/ItemRun.class \
+object/LinkMapping.class \
+object/RunIndex.class \
+test/Dlnk.class
+
+jar cfe DLSS test.Dlss \
+aw/AWException.class \
+aw/Attribute.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Format.class \
+aw/Index.class \
+aw/Item.class \
+aw/LinedString.class \
+aw/Map.class \
+aw/Offset.class \
+aw/OffsetBase.class \
+aw/ProfileFile.class \
+aw/Residual.class \
+aw/Run.class \
+aw/Sequence.class \
+aw/Source.class \
+aw/Stamp.class \
+aw/Subsegment.class \
+object/AccessionNumber.class \
+object/ISAMData.class \
+object/IndexedItem.class \
+object/ItemMembership.class \
+object/ItemTally.class \
+object/ListHead.class \
+object/ListNode.class \
+object/ProfileList.class \
+object/Text.class \
+object/TextItem.class \
+test/Dlss.class \
+web/ThreadTimer.class \
+web/TimedURL.class
+
+jar cfe DMAP test.Dmap \
+./test/Dmap.class \
+./aw/FileAccess.class \
+./aw/Map.class
+
+jar cfe DPRB test/Dprb \
+aw/AWException.class \
+aw/FileAccess.class \
+aw/Format.class \
+aw/Letter.class \
+aw/Parameter.class \
+aw/Probabilities.class \
+aw/Range.class \
+aw/ResourceInput.class \
+aw/SelectProbabilities.class \
+aw/StatisticsFile.class \
+aw/TextAnalysisFile.class \
+gram/Gram.class \
+gram/GramMap.class \
+gram/GramDecode.class \
+gram/GramStart.class \
+gram/Literal.class \
+gram/LiteralBase.class \
+gram/LiteralDecoding.class \
+gram/LiteralExtension.class \
+gram/TokenBuffer.class \
+stem/TokenForm.class \
+test/Dprb.class
+
+jar cfe DSCN test.Dscn \
+gram/Gram.class \
+gram/GramStart.class \
+gram/TokenBuffer.class \
+gram/LiteralExtension.class \
+gram/GramMap.class \
+gram/LiteralBase.class \
+gram/LiteralDecoding.class \
+gram/Literal.class \
+gram/GramDecode.class \
+test/ScanIndexVector.class \
+test/Dscn.class \
+aw/TextAnalysisFile.class \
+aw/Control.class \
+aw/Format.class \
+aw/ResourceInput.class \
+aw/Offset.class \
+aw/FileAccess.class \
+aw/Parameter.class \
+aw/BatchFile.class \
+aw/OffsetBase.class \
+aw/AWException.class \
+aw/Vector.class \
+aw/FileName.class \
+aw/Letter.class \
+stem/TokenForm.class \
+object/CodedVectorBase.class \
+object/IndexVector.class \
+object/SimpleIndexVector.class \
+object/CodedVector.class
+
+jar cfe DSEQ test.Dseq \
+./test/Dseq.class \
+./aw/Control.class \
+./aw/Offset.class \
+./aw/FileAccess.class \
+./aw/BatchFile.class \
+./aw/Sequence.class \
+./aw/OffsetBase.class \
+./aw/AWException.class \
+./aw/FileName.class \
+./aw/Run.class
+
+jar cfe DSQV test.Dsqv  \
+./aw/AWException.class \
+./aw/BatchFile.class \
+./aw/Control.class \
+./aw/FileAccess.class \
+./aw/FileName.class \
+./aw/Format.class \
+./aw/Letter.class \
+./aw/Offset.class \
+./aw/OffsetBase.class \
+./aw/Parameter.class \
+./aw/Probabilities.class \
+./aw/Range.class \
+./aw/StatisticsFile.class \
+./aw/Vector.class \
+./aw/Vectors.class \
+./object/CodedVector.class \
+./object/CodedVectorBase.class \
+./object/IndexVector.class \
+./object/IndexVectors.class \
+./object/PairwiseModel.class \
+./object/SimpleIndexVector.class \
+./object/VectorsForInnerProducts.class \
+./test/Dsqv.class \
+./test/DsqvIndexVectors.class
+
+jar cfe DTXT test.Dtxt \
+aw/AWException.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Index.class \
+aw/Source.class \
+aw/Subsegment.class \
+object/Text.class \
+object/TextItem.class \
+object/TextSubsegment.class \
+test/Dtxt.class \
+web/ThreadTimer.class \
+web/TimedURL.class
+
+jar cfe DVEC test.Dvec \
+aw/AWException.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Format.class \
+aw/Index.class \
+aw/Item.class \
+aw/Offset.class \
+aw/OffsetBase.class \
+aw/Parameter.class \
+aw/Reference.class \
+aw/Vector.class \
+object/CodedVector.class \
+object/CodedVectorBase.class \
+object/IndexVector.class \
+object/SimpleIndexVector.class \
+test/Dvec\$ByteBuffer.class \
+test/Dvec.class
+
+jar cfe GMx gram.Characterizer \
+aw/AWException.class \
+aw/FileAccess.class \
+aw/Letter.class \
+aw/ResourceInput.class \
+aw/TextAnalysisFile.class \
+gram/Characterizer.class \
+gram/Gram.class \
+gram/GramDecode.class \
+gram/GramMap.class \
+gram/GramStart.class \
+gram/LexicalGram.class \
+gram/Literal.class \
+gram/LiteralBase.class \
+gram/LiteralDecoding.class \
+gram/LiteralExtension.class \
+gram/TokenBuffer.class \
+stem/Token.class \
+stem/TokenForm.class \
+stem/Translation.class
+
+jar cfe TGx test.TG \
+./gram/LexicalGram.class \
+./gram/Gram.class \
+./gram/GramStart.class \
+./gram/TokenBuffer.class \
+./gram/LiteralExtension.class \
+./gram/Characterizer.class \
+./gram/GramMap.class \
+./gram/LiteralBase.class \
+./gram/LiteralDecoding.class \
+./gram/Literal.class \
+./gram/SimpleList.class \
+./gram/GramDecode.class \
+./test/TG.class \
+./test/TGbase.class \
+./aw/TextAnalysisFile.class \
+./aw/Format.class \
+./aw/ResourceInput.class \
+./aw/FileAccess.class \
+./aw/Parameter.class \
+./aw/FastProbabilities.class \
+./aw/AWException.class \
+./aw/Letter.class \
+./stem/CodedLink.class \
+./stem/Translation.class \
+./stem/StemStart.class \
+./stem/TokenForm.class \
+./stem/StemFrame.class \
+./stem/TokenPattern.class \
+./stem/StemBase.class \
+./stem/Tokenizer.class \
+./stem/Table.class \
+./stem/TokenSubstitution.class \
+./stem/Extracter.class \
+./stem/Inflex.class \
+./stem/Stopat.class \
+./stem/PatternQualify.class \
+./stem/Stem.class \
+./stem/Stop.class \
+./stem/Token.class \
+./stem/StopBase.class \
+./stem/Node.class \
+./stem/SubstitutionEntry.class \
+./object/KeyTextAnalysis.class \
+./object/AnalyzedToken.class \
+./object/TextAnalysisBase.class \
+./object/TextAnalysis.class

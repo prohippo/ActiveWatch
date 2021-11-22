@@ -22,7 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dseq.java : 10Mar00
+// Dseq.java : 20nov2021 CPM
+// show sequence or residual file
 
 package test;
 
