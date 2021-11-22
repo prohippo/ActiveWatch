@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SqueezerMain.java : 25oct2021 CPM
+// AW file SqueezerMain.java : 20nov2021 CPM
 // look for text segments with low-probability n-gram indices
 
 package aw.watch;
@@ -31,9 +31,10 @@ import aw.*;
 
 public class WatcherMain {
 
-	static int    minL =  50; // minimum vector length
-	static int    nSel =  24; // number of segments to select
-	static double maxS = 0.5; // maximum sum of probabilities
+	static int    nSel =  24;        // number of segments to select
+	static int    minL =  50;        // minimum vector length
+	static String filn = "residual"; // sequence file to work from
+	static double maxS = 0.5;        // maximum sum of probabilities
 
 	public static void main (
 		String[] av
@@ -41,12 +42,12 @@ public class WatcherMain {
 
 		// convert any arguments
 
-		String filn = (av.length > 0) ? av[0] : "residual";
-
+		if (av.length > 0)
+			nSel = Integer.parseInt(av[0]);
 		if (av.length > 1)
 			minL = Integer.parseInt(av[1]);
 		if (av.length > 2)
-			nSel = Integer.parseInt(av[2]);
+			filn = av[2];
 		if (av.length > 3)
 			maxS = Double.valueOf(av[3]).doubleValue();
 

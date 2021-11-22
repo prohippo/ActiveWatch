@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Watcher.java : 26oct2021 CPM
+// AW file Watcher.java : 20nov2021 CPM
 // find statistical standouts in AW sequence of items
 
 package aw.watch;
@@ -158,7 +158,6 @@ public class Watcher {
 	public void showSelection (
 
 	) {
-		System.out.println(String.format("\n%d indexing standouts",nsel));
 		String fmt = "%3d) %2d::%-5d %10.8f (%4d)\n";
 		for (int k = 0; k < nsel; k++) {
 			Rec r = sel[k];
