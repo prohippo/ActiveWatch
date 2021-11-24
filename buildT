@@ -4,6 +4,7 @@ javac test/Dclu.java
 javac test/Dixs.java
 javac test/Dlnk.java
 javac test/Dlss.java
+javac test/Dmap.java
 javac test/Dprb.java
 javac test/Dscn.java
 javac test/Dseq.java
