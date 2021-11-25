@@ -1,20 +1,20 @@
 ActiveWatch (AW) is a set of Java software modules for building various
-automatic text processing capabilities. It is unusual in its being based
-on indexing text according to only a finiite set of selected lexical
+statistical text processing capabilities. It is unusual in its being based
+on indexing text according to only a finite set of selected lexical
 features instead of whole words. It represents text items as M-dimensional
 numerical vectors, where M will be on the order of 10⁴.
 
-Finite indexing allows for reliable estimation of the probability that a
-particular lexical feature in a text item of given length. A multinomial
+Finite indexing lets us reliably estimate the probability that a given
+lexical feature occurs in a text item of given length. A multinomial
 model can then be applied to compute a statistically scaled inner-product
 similarity measure between pairs of vectors. This offers an alternative
 to the normalized, but unscaled, cosine similarity of Gerard Salton.
 
 AW lexical features for indexing text currently fall into three types: 
-(1) all alphanumeric 2-grams, like TH, F1, 2X, or 00; frequency-selected
-alphabetic n-grams (where n > 2), like QUE, REVE, and CLASS; and a fixed
-number of user-defined alphabetic word beginnings and word endings, like
-THERMO- and -MOTHER, which could encompass an entire word like MOTHER.
+(1) all alphanumeric 2-grams, like TH, F1, 2X, or 00; (2) selected
+alphabetic n-grams (for n > 2), like QUE, REVE, and CLASS; and (3) a
+fixed number of user-defined alphanumeric word beginnings and endings,
+like THERMO- and -MOTHER; these can cover an entire word like MOTHER.
 
 Indexing with word fragments will always be noisier than with whole
 words. For example, if the word CONFABULATE is unrecognized, we must
@@ -25,11 +25,11 @@ can achieve ever better finite approximations to full-word indexing.
 So, how big would our finite have to be to support some useful text
 analysis? The ActiveWatch demonstration makes the case that 10⁴ should
 be enough for automatic clustering of text items by content or for
-other processing done with vectors. You should look elsewhere if you
-ijust want to find all documents containing a specific word.
+other processing done with vectors. You should look elsewhere, however,
+if you just want to find all documents containing a specific word.
 
 In any case, the big advantage of a vector representation of text is
-that it lets us organize our processing of it at a higher level of
+that it lets us organize its processing at a higher level of
 abstraction. Once we have text as vectors, it should not really matter
 where these vectors came from. We care only that they are easy to work
 with and carry enough information for the purposes of users.
@@ -37,26 +37,26 @@ with and carry enough information for the purposes of users.
 The advantage of finite indexing is that it makes a statistically scaled
 similarity measure practical. This allows a text processing system to
 make many decisions on its own without a human always hovering around like
-a helicopter parent. This makes a system much more manageable and also
-much more resiliant when something unexpected happens.
+a helicopter parent. A system then becomes much more manageable and also
+more resiliant when something unexpected happens.
 
 AW will score similarity by the the number of standard deviations that a
 raw inner product falls above or below the mean of a noise distribution.
 This noise will be roughly Gaussian; an AW scaled similarity of 3 standard
 deviations would be significant at about p = .003. With actual text data,
-we usually will expect scaled similarity above 5 standard deviations.
+We usually will expect AW scaled similarity above 5 standard deviations.
 
-Some index tuning is needed to achieve this kind of performance. This will
-mainly involve adjustments of the index keys defined by a users for
-particular target text data and, to a lesser extent, to stemming and
-stopword deletion. One can also expect that AW will continue to expand its
-frequency-selected n-grams over time.
+Some index tuning is needed to achieve such performance. This will mainly
+involve adjustments of the index keys defined by a users for particular
+target text data and, to a lesser extent, to stemming and stopword deletion.
+One can also expect that AW will continue to expand its frequency-selected
+n-grams indexings over time.
 
-The first version of AW was written in C around 1982 and was employed for
-information discovery in unfamiliar text data. The current Java version
-dates back to around 1999, but has some recent tweaks in its linguistic
-analysis and its inclusion of 4- and 5-letter word fragments for indexing.
-Only 2- and 3-letter fragments were used previously. 
+AW was first written in C around 1982 for information discovery in unfamiliar
+text data. The current Java version dates back to around 1999, but has some
+recent tweaks in its linguistic analysis and it addition of 4- and 5-letter
+word fragments for indexing. Only 2- and 3-letter fragments, plus user-defined
+indices, were xsemployed previously. 
 
 The modules included in the AW GitHub repository mainly provide support for
 simple clustering of text items by content. These are organized functionally
@@ -66,21 +66,21 @@ This was when Java was still a somewhat new programming language.
 
 Java AW eventually evolved to support many kinds of statistical natural
 processing, but this GitHub repository includes only a small subset of modules
-for automatic clustering of text items. This software should give you a good
-overall idea of what you can do with AW finite indexing and statistically
-scaled similarity between pairs of text items.
+for automatic clustering of text items in particular. This software should
+give you a good overall idea of what you can do with AW finite indexing and
+statistically scaled similarity between pairs of text items.
 
-The latest AW release includes thirteen prebuilt AW modules that combine for
-an automatic clustering demonstration. These are found in separate runnable
-jar files in the subdirectory jars. Documentation is skimpy, but there is now
+The latest AW release includes fourteen prebuilt AW modules that combine to
+demonstrate automatic clustering. These are found in separate runnable jar
+files in the subdirectory jars. Documentation is skimpy, but there is now
 a PDF file (HowToIndexText.pdf) that should provide essential information. If
-the creek don't rise, A user manual should be forthcoming.
+the creek don't rise, a user manual should be forthcoming.
 
-To build out c1wyour mowna basic AW clustering capability, run the 'build' shell
-script included with the AW GitHub download. The script is for macOS Darwin Unix
-and should be edited for your computing platform. You will have to install a Java
-JDK if you do not have one already. Everything in the AW demonstration still
-has to run from a command line.
+To build out our basic AW clustering capability, run the 'build' shell script
+included with the AW GitHub download. The script is for macOS Darwin Unix
+and should be edited for your computing platform. You will have to install a
+Java JDK if you do not have one already. Everything in the AW demonstration
+still has to run from a command line.
 
 AW software is free for all uses and is released under BSD licensing.
 
@@ -91,6 +91,7 @@ v0.1    16jun2021  Initial upload of original AW Java source code.
 v0.2    10ju12021  Clean up and reorganize code for SEGMTR module
                    Add code to dump AW output files
                    Collect news data set for demonstration
+
 
 v0.3    13jul2021  Clean up and debug code in AW table building modules
                    Add unit testing
@@ -189,3 +190,8 @@ v1.1.5 21nov2021   fix bug in arguments for WATCHR
                    clean up source files
                    update documentation
 
+v1.1.6 24nov2021   add 4- and 5-grams to reduce indexing noise
+                   clean up literals
+                   add diagnostic tools
+                   add scripting to build AW tools
+                   update documentation
