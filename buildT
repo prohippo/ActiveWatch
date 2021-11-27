@@ -5,6 +5,7 @@ javac test/Dixs.java
 javac test/Dlnk.java
 javac test/Dlss.java
 javac test/Dmap.java
+javac test/Dngm.java
 javac test/Dprb.java
 javac test/Dscn.java
 javac test/Dseq.java
@@ -106,6 +107,16 @@ jar cfe DMAP test.Dmap \
 ./test/Dmap.class \
 ./aw/FileAccess.class \
 ./aw/Map.class
+
+jar cfe DNGM test/Dngm \
+./gram/Gram.class \
+./test/Dngm.class \
+./aw/Format.class \
+./aw/Probabilities.class \
+./aw/FileAccess.class \
+./aw/Parameter.class \
+./aw/AWException.class \
+./aw/StatisticsFile.class
 
 jar cfe DPRB test/Dprb \
 aw/AWException.class \
