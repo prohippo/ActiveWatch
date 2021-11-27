@@ -195,3 +195,10 @@ v1.1.6 24nov2021   add 4- and 5-grams to reduce indexing noise
                    add diagnostic tools
                    add scripting to build AW tools
                    update documentation
+
+v1.1.7 26nov2021   add 4- and 5-grams to reduce indexing noise
+                   clean up literals
+                   add diagnostic tools
+                   add scripting to build AW tools
+                   update documentation
+
