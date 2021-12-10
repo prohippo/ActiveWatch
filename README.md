@@ -92,7 +92,6 @@ v0.2    10ju12021  Clean up and reorganize code for SEGMTR module
                    Add code to dump AW output files
                    Collect news data set for demonstration
 
-
 v0.3    13jul2021  Clean up and debug code in AW table building modules
                    Add unit testing
 
@@ -119,15 +118,15 @@ v0.7    21aug2021  add and extend diagnostic tools
                    reorganize startup of n-gram analysis
                    clean up problems with deprecation and type casting
 
-v0.7.1  25aug2021  fix bug in LexicalGram, improper breaking out of extraction loop
-                   replace incorrect 4-gram and incorrect 5-gram in GramMap lists
+v0.7.1  25aug2021  fix bug in LexicalGram in breaking out of extraction loop
+                   replace incorrect 4- and 5-grams in GramMap lists
                    clean up literal file to align with current 4- and 5-grams
                    fix inconsistent stemming rules in suffix filw
                    simply Updater command line arguments
                    update Dprb for v0.7 changes in n-gram initialization
                    update documentation
 
-v0,7.2  30aug2021  fix integration problem with AW-defined and user-defined indides
+v0,7.2  30aug2021  fix integration of AW-defined and user-defined indices
                    update documentation
 
 v0.7.3  04sep2021  add suffix rule to fix stemming glitch
@@ -157,7 +156,7 @@ v1.0   14oct2021   clean up definitions of n-gram limits
 
 v1.0.1 22oct2021   extend built-in 4-grams by 200
                    add built-in 5-grams not chosen by general frequency
-                   edit default literal n-grams to reduce indexing redundancy
+                   edit default literal to reduce indexing redundancy
                    update documentation
 
 v1.1   27oct2021   add WATCHR module to help monitor residuals
@@ -177,7 +176,7 @@ v1.1.2 11nov2021   add 4-grams to reduce indexing noise
 
 v1.1.3 16nov2021   add 4- and 5-grams to reduce indexing noise
                    extend and clean up default literal n-grams
-                   add tools for identifying where frequent n-grams come from
+                   add tools to identify where frequent n-grams come from
                    comment out diagnostic print statements in SQUEZR
                    update documentation
 
@@ -206,3 +205,8 @@ v1.1.8 01dec2021   add 4- and 5-grams to reduce indexing noise
                    clean up literals
                    update documentation
 
+v1.1.9 10dec2021   fix bug on oriority of leading, trailing literals
+                   add 4- and 5-grams to reduce indexing noise
+                   clean up literals
+                   update documentation
+                   add AW User Guide
