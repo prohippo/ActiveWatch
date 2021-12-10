@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LiteralTable.java : 20aug2021 CPM
+// LiteralTable.java : 09dec2021 CPM
 // compile literal table from listing of patterns
 
 package aw.table;
@@ -67,7 +67,7 @@ public class LiteralTable extends LiteralBase implements TableBuilder {
 			
 				r = r.trim().toLowerCase();
 				k = r.length();
-				if (k <= 2)
+				if (k <= 3)
 					continue;
 				if (r.charAt(0) == ';')
 					continue;
@@ -83,8 +83,11 @@ public class LiteralTable extends LiteralBase implements TableBuilder {
 						throw new AWException("literal cannot have form -WXYZ-");
 					xr = "-";
 				}
-				else
+				else {
+					if (r.charAt(--k) == '-')
+						r = r.substring(0,k);
 					ry = "-";  // unmarked literal assumed to be leading type
+				}
 			
 				if (n > Gram.NLIT)
 					throw new AWException("too many records");
