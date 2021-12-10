@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 14oct2021 CPM
+// AW file LexicalGram.java : 10dec2021 CPM
 // basic n-gram extraction
 
 package gram;
@@ -31,7 +31,7 @@ import aw.Letter;
 
 public class LexicalGram {
 
-	public static final int MXn = 5; // max n for lexical n-grams
+	public static final int MXn = 5; // max n for built-in lexical n-grams
 
 //	get next n-gram index from token buffer
 
@@ -50,7 +50,7 @@ public class LexicalGram {
 //		System.out.println("resume with to= " + to);
 //		System.out.println(tb);
 
-		while (tb.rvrs >= tb.fwrd && to <= tb.fwrd && to < tb.rvrs) {
+		while (to <= tb.fwrd && to < tb.rvrs) {
 
 			// check that leading char is alphabetic
 
