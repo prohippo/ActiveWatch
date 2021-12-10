@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Table.java : 19sep2021 CPM
+// AW file Table.java : 07dec2021 CPM
 // inflectional stemming table definitions for English
 
 package stem;
@@ -157,7 +157,8 @@ class Table {
 		  4,xb,xi,no,z2, 4,xg,xd,no,z3, 5,xp,xm,xu,no,z3, 5,xp,xa,xs,no,z5,
 		  7,xp,xi,xr,xt,xs,no,z4, 6,xd,xn,xu,xo,no,z4, 6,xd,xe,xe,xs,no,z4,
 		  6,xk,xc,xu,xd,no,z3, 5,xs,xo,xg,no,z3, 5,xe,xr,xi,no,z3, 5,xa,xr,
-		 xi,y0,z2, 4,xt,xa,no,z2, 4,xf,xl,no,z4, 6,xi,xv,xe,xd,y0,mo
+		 xi,y0,z2, 4,xt,xa,no,z2, 4,xf,xl,no,z4, 6,xi,xv,xe,xd,y0,z2, 4,xp,
+		 xn,no,mo
 	};
  
 	static final short[] restore = {
