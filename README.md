@@ -143,70 +143,73 @@ v0.9    30sep2021  expand morphological stemming
                    clean up and and extend code commentary
                    update documentation
 
-v0.9.1 07oct2021   fix problems in n-gram extraction
+v0.9.1  07oct2021  fix problems in n-gram extraction
                    fix problems in morphological stemming rule extension
                    fix typo in AW 5-gram table
                    update documentation
 
-v1.0   14oct2021   clean up definitions of n-gram limits
+v1.0    14oct2021  clean up definitions of n-gram limits
                    clean up literal n-grams and morphological stemming
                    extend builtin 4-and 5-grams
                    fix a lookup bug for 4- and 5-grams
                    update documentation
 
-v1.0.1 22oct2021   extend built-in 4-grams by 200
+v1.0.1  22oct2021  extend built-in 4-grams by 200
                    add built-in 5-grams not chosen by general frequency
                    edit default literal to reduce indexing redundancy
                    update documentation
 
-v1.1   27oct2021   add WATCHR module to help monitor residuals
+v1.1    27oct2021  add WATCHR module to help monitor residuals
                    make index vector operations more transparent
                    update documentation
 
-v1.1.1 07nov2021   add 4- and 5-grams to reduce indexing noise
+v1.1.1  07nov2021  add 4- and 5-grams to reduce indexing noise
                    clean up file defining default literal n-grams
                    fix problem with build file for WATCHR
                    update documentation
 
-v1.1.2 11nov2021   add 4-grams to reduce indexing noise
+v1.1.2  11nov2021  add 4-grams to reduce indexing noise
                    extend and clean up default literal n-grams
                    clean up various source files for readability
                    clean up clustering source code, add comments
                    update documentATION
 
-v1.1.3 16nov2021   add 4- and 5-grams to reduce indexing noise
+v1.1.3  16nov2021  add 4- and 5-grams to reduce indexing noise
                    extend and clean up default literal n-grams
                    add tools to identify where frequent n-grams come from
                    comment out diagnostic print statements in SQUEZR
                    update documentation
 
-v1.1.4 19nov2021   add 4- and 5-grams to reduce indexing noise
+v1.1.4  19nov2021  add 4- and 5-grams to reduce indexing noise
                    clean up poorly formatted source files
                    update documentation
 
-v1.1.5 21nov2021   fix bug in arguments for WATCHR
+v1.1.5  21nov2021  fix bug in arguments for WATCHR
                    add diagnostic tools
                    clean up source files
                    update documentation
 
-v1.1.6 24nov2021   add 4- and 5-grams to reduce indexing noise
+v1.1.6  24nov2021  add 4- and 5-grams to reduce indexing noise
                    clean up literals
                    add diagnostic tools
                    add scripting to build AW tools
                    update documentation
 
-v1.1.7 26nov2021   add 4- and 5-grams to reduce indexing noise
+v1.1.7  26nov2021  add 4- and 5-grams to reduce indexing noise
                    clean up literals
                    add diagnostic tools
                    add scripting to build AW tools
                    update documentation
 
-v1.1.8 01dec2021   add 4- and 5-grams to reduce indexing noise
+v1.1.8  01dec2021  add 4- and 5-grams to reduce indexing noise
                    clean up literals
                    update documentation
 
-v1.1.9 10dec2021   fix bug on oriority of leading, trailing literals
+v1.1.9  10dec2021  fix bug on oriority of leading, trailing literals
                    add 4- and 5-grams to reduce indexing noise
                    clean up literals
                    update documentation
                    add AW User Guide
+
+v1.1.10 20dec2021  add 4- and 5-grams to reduce indexing noise
+                   update documentation 
