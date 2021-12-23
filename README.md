@@ -213,3 +213,9 @@ v1.1.9  10dec2021  fix bug on oriority of leading, trailing literals
 
 v1.1.10 20dec2021  add 4- and 5-grams to reduce indexing noise
                    update documentation 
+
+v1.1.11 23dec2021  add 4- and 5-grams to reduce indexing noise
+                   fix typo in AW banner
+                   update documentation
+
+
