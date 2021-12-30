@@ -218,4 +218,6 @@ v1.1.11 23dec2021  add 4- and 5-grams to reduce indexing noise
                    fix typo in AW banner
                    update documentation
 
+v1.1.12 30dec2021  add 4- and 5-grams to reduce indexing noise
+                   update documentation
 
