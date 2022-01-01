@@ -221,3 +221,6 @@ v1.1.11 23dec2021  add 4- and 5-grams to reduce indexing noise
 v1.1.12 30dec2021  add 4-grams to reduce indexing noise
                    update documentation
 
+v1.2    01jan2022  add 4- and 5-grams to reduce indexing noise
+                   add diagnostic tools for profiles and match lists
+                   update documentation

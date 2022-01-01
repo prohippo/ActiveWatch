@@ -4,9 +4,11 @@ javac test/Dclu.java
 javac test/Dixs.java
 javac test/Dlnk.java
 javac test/Dlss.java
+javac test/Dlst.java
 javac test/Dmap.java
 javac test/Dngm.java
 javac test/Dprb.java
+javac test/Dpro.java
 javac test/Dscn.java
 javac test/Dseq.java
 javac test/Dsqv.java
@@ -316,3 +318,57 @@ jar cfe TGx test.TG \
 ./object/AnalyzedToken.class \
 ./object/TextAnalysisBase.class \
 ./object/TextAnalysis.class
+
+jar cfe DPRO test/Dpro \
+./gram/Gram.class \
+./gram/GramStart.class \
+./gram/TokenBuffer.class \
+./gram/LiteralExtension.class \
+./gram/GramMap.class \
+./gram/LiteralBase.class \
+./gram/LiteralDecoding.class \
+./gram/Literal.class \
+./gram/GramDecode.class \
+./test/Dpro.class \
+./aw/TextAnalysisFile.class \
+./aw/Format.class \
+./aw/ResourceInput.class \
+./aw/FileAccess.class \
+./aw/Parameter.class \
+./aw/Range.class \
+./aw/FastProbabilities.class \
+./aw/Profile.class \
+./aw/AWException.class \
+./aw/Filter.class \
+./aw/StatisticsFile.class \
+./aw/ProfileFile.class \
+./aw/Letter.class \
+./aw/Counts.class \
+./stem/Translation.class \
+./stem/TokenForm.class \
+./stem/Token.class \
+./object/ProfileChecker\$Sf.class \
+./object/ProfileToDump.class \
+./object/ProfileChecker.class \
+./object/ProfileToUse.class
+
+jar cfe DLST test/Dlst \
+./test/Dlst.class \
+./aw/Control.class \
+./aw/Format.class \
+./aw/Index.class \
+./aw/FileAccess.class \
+./aw/Item.class \
+./aw/BatchFile.class \
+./aw/Subsegment.class \
+./aw/AWException.class \
+./aw/FileName.class \
+./object/Gapping.class \
+./object/AccessionNumber.class \
+./object/ListHead.class \
+./object/ISAMData.class \
+./object/IndexedItem.class \
+./object/ListNode.class \
+./object/ProfileList.class \
+./object/GappedProfileList.class \
+./object/SortedProfileList.class
