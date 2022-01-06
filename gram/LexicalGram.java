@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file LexicalGram.java : 10dec2021 CPM
+// AW file LexicalGram.java : 05jan2022 CPM
 // basic n-gram extraction
 
 package gram;
@@ -31,7 +31,14 @@ import aw.Letter;
 
 public class LexicalGram {
 
-	public static final int MXn = 5; // max n for built-in lexical n-grams
+	public static int MXn = 5; // max n for built-in lexical n-grams
+
+//	limit n in n-grams
+
+	public static void set ( int n ) {
+		if (n < 5 && n > 2)
+			MXn = n;
+	}
 
 //	get next n-gram index from token buffer
 
@@ -61,7 +68,7 @@ public class LexicalGram {
 
 				// look for alphabetic 5-gram at current buffer position
 
-				if  (tb.end - to >= 4 && tb.fwrd - to < 4) {
+				if  (MXn >= 5 && tb.end - to >= 4 && tb.fwrd - to < 4) {
 					String gs = new String(tb.buffer,to-1,5);
 					int    gg = gm.encode5g(gs);
 					if (gg >= 0) {
@@ -76,7 +83,7 @@ public class LexicalGram {
 
 //				System.out.println("4-grams");
 //				System.out.println(tb);
-				if  (tb.end - to >= 3 && tb.fwrd - to < 3) {
+				if  (MXn >= 4 && tb.end - to >= 3 && tb.fwrd - to < 3) {
 					String gs = new String(tb.buffer,to-1,4);
 					int    gg = gm.encode4g(gs);
 //					System.out.println(gs + "=" + gg);
