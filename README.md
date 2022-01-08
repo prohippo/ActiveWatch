@@ -228,3 +228,7 @@ v1.2    01jan2022  add 4- and 5-grams to reduce indexing noise
 v1.2.1  06jan2022  add 4- and 5-grams to reduce indexing noise
                    allow indexing to stop a 3- or 4-grams
                    update documentation
+
+v1.2.2  07jan2022  add 4- and 5-grams to reduce indexing noise
+                   update documentation
+
