@@ -226,9 +226,15 @@ v1.2    01jan2022  add 4- and 5-grams to reduce indexing noise
                    update documentation
 
 v1.2.1  06jan2022  add 4- and 5-grams to reduce indexing noise
-                   allow indexing to stop a 3- or 4-grams
+                   allow indexing to stop at 3- or 4-grams
                    update documentation
 
 v1.2.2  07jan2022  add 4- and 5-grams to reduce indexing noise
                    update documentation
+
+v1.3    11jan2022  add 4- and 5-grams to reduce indexing noise
+                   add new AW modules PROFLR and EXMPLR
+                   add missing source files
+                   update documentation
+
 
