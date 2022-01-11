@@ -14,20 +14,22 @@ javac aw/summarize/SummarizerMain.java
 javac aw/classify/ClassifierMain.java
 javac aw/keyword/KeyworderMain.java
 javac aw/watch/WatcherMain.java
+javac aw/derive/ProfilerMain.java
+javac aw/derive/ExemplerMain.java
 
 jar cfe LITBLD  \
 aw.table.LiteralTableMain   \
-./gram/Gram.class \
-./gram/LiteralBase.class \
-./aw/TextAnalysisFile.class \
-./aw/LimitedString.class \
-./aw/AWException.class \
-./aw/table/TableCode.class \
-./aw/table/LiteralTable.class \
-./aw/table/LiteralTableMain.class \
-./aw/table/TableBuilder.class \
-./aw/Letter.class \
-./object/QuickSorting.class
+gram/Gram.class \
+gram/LiteralBase.class \
+aw/TextAnalysisFile.class \
+aw/LimitedString.class \
+aw/AWException.class \
+aw/table/TableCode.class \
+aw/table/LiteralTable.class \
+aw/table/LiteralTableMain.class \
+aw/table/TableBuilder.class \
+aw/Letter.class \
+object/QuickSorting.class
 
 jar cfe STPBLD  \
 aw.table.StopTableMain   \
@@ -44,18 +46,18 @@ object/QuickSorting.class
 
 jar cfe SUFBLD  \
 aw.table.SuffixTableMain   \
-./aw/TextAnalysisFile.class \
-./aw/LimitedString.class \
-./aw/AWException.class \
-./aw/table/TableCode.class \
-./aw/table/SuffixTable.class \
-./aw/table/SuffixTableMain.class \
-./aw/Letter.class \
-./stem/CodedLink.class \
-./stem/StemBase.class \
-./stem/StemExtension.class \
-./stem/Node.class \
-./object/QuickSorting.class
+aw/TextAnalysisFile.class \
+aw/LimitedString.class \
+aw/AWException.class \
+aw/table/TableCode.class \
+aw/table/SuffixTable.class \
+aw/table/SuffixTableMain.class \
+aw/Letter.class \
+stem/CodedLink.class \
+stem/StemBase.class \
+stem/StemExtension.class \
+stem/Node.class \
+object/QuickSorting.class
 
 jar cfe CLSFYR aw.classify.ClassifierMain \
 aw/AWException.class \
@@ -429,26 +431,136 @@ object/IndexVector.class \
 object/SimpleIndexVector.class
 
 jar cfe WATCHR aw.watch.WatcherMain \
-./aw/Control.class \
-./aw/Offset.class \
-./aw/Probabilities.class \
-./aw/FileAccess.class \
-./aw/Parameter.class \
-./aw/BatchFile.class \
-./aw/Sequence.class \
-./aw/OffsetBase.class \
-./aw/AWException.class \
-./aw/Vector.class \
-./aw/FileName.class \
-./aw/StatisticsFile.class \
-./aw/watch/WatcherMain.class \
-./aw/watch/Watcher\$Rec.class \
-./aw/watch/Watcher.class \
-./aw/Banner.class \
-./aw/Vectors.class \
-./aw/Run.class \
-./object/IndexVectors.class \
-./object/CodedVectorBase.class \
-./object/IndexVector.class \
-./object/SimpleIndexVector.class \
-./object/CodedVector.class
+aw/Control.class \
+aw/Offset.class \
+aw/Probabilities.class \
+aw/FileAccess.class \
+aw/Parameter.class \
+aw/BatchFile.class \
+aw/Sequence.class \
+aw/OffsetBase.class \
+aw/AWException.class \
+aw/Vector.class \
+aw/FileName.class \
+aw/StatisticsFile.class \
+aw/watch/WatcherMain.class \
+aw/watch/Watcher\$Rec.class \
+aw/watch/Watcher.class \
+aw/Banner.class \
+aw/Vectors.class \
+aw/Run.class \
+object/IndexVectors.class \
+object/CodedVectorBase.class \
+object/IndexVector.class \
+object/SimpleIndexVector.class \
+object/CodedVector.class
+
+jar cfe PROFLR aw.derive.ProfilerMain \
+gram/LexicalGram.class \
+gram/Gram.class \
+gram/GramStart.class \
+gram/TokenBuffer.class \
+gram/LiteralExtension.class \
+gram/Characterizer.class \
+gram/GramMap.class \
+gram/LiteralBase.class \
+gram/LiteralDecoding.class \
+gram/Literal.class \
+gram/GramDecode.class \
+aw/TextAnalysisFile.class \
+aw/Stamp.class \
+aw/ResourceInput.class \
+aw/Probabilities.class \
+aw/FileAccess.class \
+aw/Parameter.class \
+aw/Item.class \
+aw/Profile.class \
+aw/AWException.class \
+aw/derive/Deriver.class \
+aw/derive/Profiler.class \
+aw/derive/ProfilerMain.class \
+aw/StatisticsFile.class \
+aw/ProfileFile.class \
+aw/Letter.class \
+aw/Banner.class \
+aw/Map.class \
+aw/Attribute.class \
+aw/Counts.class \
+stem/CodedLink.class \
+stem/Translation.class \
+stem/StemStart.class \
+stem/TokenForm.class \
+stem/StemFrame.class \
+stem/TokenPattern.class \
+stem/StemBase.class \
+stem/Tokenizer.class \
+stem/Table.class \
+stem/TokenSubstitution.class \
+stem/Extracter.class \
+stem/Inflex.class \
+stem/Stopat.class \
+stem/PatternQualify.class \
+stem/Stem.class \
+stem/Stop.class \
+stem/Token.class \
+stem/StopBase.class \
+stem/Node.class \
+stem/SubstitutionEntry.class \
+object/KeyTextAnalysis.class \
+object/ListHead.class \
+object/AnalyzedToken.class \
+object/TextAnalysisBase.class \
+object/FillerProfile.class \
+object/ListNode.class \
+object/ProfileList.class \
+object/TextAnalysis.class \
+object/KeyProfile.class \
+object/ProfileModel.class \
+object/ProfileMaker.class \
+object/CodedVector.class
+
+jar cfe EXMPLR aw.derive.ExemplerMain \
+gram/Gram.class \
+aw/Control.class \
+aw/Stamp.class \
+aw/Reference.class \
+aw/Offset.class \
+aw/Probabilities.class \
+aw/Index.class \
+aw/FileAccess.class \
+aw/Parameter.class \
+aw/Item.class \
+aw/Range.class \
+aw/BatchFile.class \
+aw/Profile.class \
+aw/OffsetBase.class \
+aw/AWException.class \
+aw/derive/Deriver.class \
+aw/derive/Exempler.class \
+aw/derive/ExemplerMain.class \
+aw/Vector.class \
+aw/FileName.class \
+aw/StatisticsFile.class \
+aw/ProfileFile.class \
+aw/Letter.class \
+aw/Banner.class \
+aw/Map.class \
+aw/Attribute.class \
+aw/Counts.class \
+object/ClusterProfile.class \
+object/ClusterIndexVector.class \
+object/ListHead.class \
+object/ClusterWeighting.class \
+object/PairwiseModel.class \
+object/CodedVectorBase.class \
+object/IndexVector.class \
+object/FillerProfile.class \
+object/ListNode.class \
+object/SimpleIndexVector.class \
+object/ProfileList.class \
+object/CodedVector.class \
+object/IndexVectorForLink.class \
+object/ClusterWeighting$IxVecL.class \
+object/ClusterProfileBase.class \
+object/ProfileModel.class \
+object/ProfileMaker.class
