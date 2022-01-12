@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Profiler.java : 26Jul01 CPM
+// Profiler.java : 12jan2022 CPM
 // explicitly create profiles from keys for matching against items
 
 package aw.derive;
@@ -33,17 +33,17 @@ import object.KeyProfile;
 import java.io.*;
 
 public class Profiler extends Deriver {
-	
+`
 	private StringBuffer sb = new StringBuffer();
-	
+`
 	// initialization
-	
+`
 	public Profiler ( boolean reset ) {
 		super(reset);
 	}
-		
-	// this is required by superclass
-	
+`
+	// this non-abstract method is required by superclass
+`
 	protected Profile derive ( ) throws AWException {
 		sb.setLength(0);
 		try {

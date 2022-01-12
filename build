@@ -560,7 +560,7 @@ object/SimpleIndexVector.class \
 object/ProfileList.class \
 object/CodedVector.class \
 object/IndexVectorForLink.class \
-object/ClusterWeighting$IxVecL.class \
+object/ClusterWeighting\$IxVecL.class \
 object/ClusterProfileBase.class \
 object/ProfileModel.class \
 object/ProfileMaker.class

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Deriver.java : 11jan2022 CPM
+// Deriver.java : 12jan2022 CPM
 // create an array of profiles from text definitions
 
 package aw.derive;
@@ -40,20 +40,20 @@ import java.util.Date;
 public abstract class Deriver {
 
 	public  static final double TH = 7.5; // default threshold
-	
+
 	private static final byte   SP =  32; // blank fill
-	
+
 	private static final byte type = (byte)(Map.bD | Map.bA | Map.bU);
 
 	private Map map = new Map();
 	private Attribute att = new Attribute();
 	private Item[]   none = new Item[0];
 	private ProfileList emp = new ProfileList(none,0);
-	
+
 	private Profile nomatch = new Profile(); // a profile that will match nothing
-	
+
 	// initialization
-	
+
 	public Deriver ( boolean reset ) {
 		Date d = new Date();
 		att.stm.cdate = att.stm.rdate = att.stm.mdate = d.getTime();
@@ -67,85 +67,105 @@ public abstract class Deriver {
 		nomatch.gms[0] = (short)(Parameter.MXI + 2);
 		nomatch.wts[0] = -1;
 	}
-	
+
 	protected BufferedReader in; // for derive()
 	protected String        kys; // for derive()
-	
+
 	protected String          r; // last input record
-	
+
 	private int count; // how many profiles created
-	
+
 	// main processing loop
 
 	public void run ( BufferedReader in ) throws AWException {
 		try {
+
+			// process file of profile definitions
+
 			this.in = in;
 			count = 0;
+
+			int k = 0;
+
+			// align with first definition
+
 			while ((r = in.readLine()) != null && !r.startsWith("----"));
-				
-			// process file of profile definitions
-			
+
 			for (int ni = 1; r != null; ni++) {
+
+				// check for predefined profile number
+
+				k = r.indexOf(',');
+				short pn = 0;				
+				if (k > 0) {
+					pn = Short.parseShort(r.substring(k+1).trim());
+					r = r.substring(0,k);
+				}
+
+				// check for minimum match threshold
+
+				k = r.indexOf('=');
+				float th = (float) TH;
+				if (k > 0) {
+					r = r.substring(k+1).trim();
+					th = Double.valueOf(r).floatValue();
+				}
+
+				// go to first definition line
+
 				r = in.readLine();
    				if (r == null)
    				    break;
 
-				int k = r.indexOf('=');
-				float th = (float) TH;
-				if (k >= 0) {
-					r = r.substring(k + 1).trim();
-					th = Double.valueOf(r).floatValue();
-					r = in.readLine();
-				}
-				
-				// create a profile by method defined elsewhere
-				
+				// create a profile by non-abstract method defined elsewhere
+
 				Profile pp = derive();
 				if (pp == null)
 					pp = nomatch;
 				else
 					count++;
-				
-				// save profile under a new number
-				
-				short n = map.findFree();
-					
-				System.out.print("definition " + ni + ": profile " + n);
-				if (n < 0)
+
+				// save profile under a new number if none supplied
+
+				if (pn == 0)
+					pn = map.findFree();
+
+				System.out.print("definition " + ni + ": profile " + pn);
+				if (pn < 0)
 					break;
 				if (pp == nomatch)
 					System.out.print(" null");
-				map.setType(n,type);
+				map.setType(pn,type);
 				pp.sgth = th;
-				pp.save(n);
-				emp.save(n,false);
+				pp.save(pn);
+				emp.save(pn,false);
 				int lkys = kys.length();
 				if (lkys > att.kys.length)
 					lkys = att.kys.length;
 				System.arraycopy(kys.getBytes(),0,att.kys,0,lkys);
 				for (int i = lkys; i < att.kys.length; i++)
 					att.kys[i] = SP;
-				att.save(n);
+				att.save(pn);
 				System.out.println();
 			}
 
 			if (count == 0)
 				throw new AWException("no profile definitions");
-			
+
 			// save profile allocations
-			
+
 			map.save();
 		} catch (IOException e) {
 			throw new AWException(e);
 		}
 	}
-	
+
 	// this must be provided by a subclass
-	
+
 	protected abstract Profile derive ( ) throws AWException;
-	
+
 	// get count of created profiles
-	
+
 	public final int getCount ( ) { return count; }
 
 }

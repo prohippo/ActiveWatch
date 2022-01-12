@@ -42,7 +42,7 @@ public class Exempler extends Deriver {
 	private static final int  MLTP =  10; // default minimum count for profile index
 	private static final int  MLNG =  16; // default minimum number of profile indices
 	private static final double TH = 7.5; // default minimum link threshold
-	
+
 	private int  mltp; // actual parameters for computation
 	private int  mlng; //
 	private double th; //
@@ -56,24 +56,24 @@ public class Exempler extends Deriver {
 		this.th   = th;
 		kys = "|"; // no keys
 	}
-	
+
 	// initialize with defaults
-	
+
 	public Exempler ( boolean reset ) {
 		this(reset,MLTP,MLNG,TH);
 	}
-	
+
 	private static final int MNH = 8; // set half threshold for more items than this
 	private static final int MNL = 4; // set nominal threshold for (MNH >= n > MNL) items
-	
+
 	private Vector<Item> v = new Vector<Item>();  // to accumulate items
-	
+
 	// required by superclass to create actual profile
 
 	protected Profile derive ( ) throws AWException {
-	
+
 		// collect example items for profile
-		
+
 		try {
 			v.setSize(0);
 			while (r != null && !r.startsWith("----")) {
@@ -93,22 +93,22 @@ public class Exempler extends Deriver {
 			return null;
 		Item[] it = new Item[m];
 		v.copyInto(it);
-		
+
 		ClusterWeighting cw = new ClusterWeighting(it,m);
 		int[] wt = cw.score(th);
 		int wn = 0;
 		for (int i = 0; i < m; i++)
 		    if (wn < wt[i])
 		        wn = wt[i];
-		
+
 		// set minimum link threshold for items
-		
+
 		int wm = (m > MNH) ? (m/2) : (m > MNL) ? MNL : (m - 1);
 		if (wm > wn)
 		    wm = wn;
-		
+
 		// filter out items with too few links
-		
+
 		int k = 0;
 		int d = (m > MNL) ? 1 : 0;
 		for (int i = 0; i < m; i++)
@@ -116,9 +116,9 @@ public class Exempler extends Deriver {
 				it[k  ] = it[i];
 				wt[k++] = wt[i] - d;
 			}
-		
+
 		// create profile
-		
+
 		ClusterProfile cp = new ClusterProfile(k,it,wt,mltp,mlng);
 		return cp.profile;
 	}
