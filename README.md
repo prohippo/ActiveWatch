@@ -56,7 +56,7 @@ AW was first written in C around 1982 for information discovery in unfamiliar
 text data. The current Java version dates back to around 1999, but has some
 recent tweaks in its linguistic analysis and it addition of 4- and 5-letter
 word fragments for indexing. Only 2- and 3-letter fragments, plus user-defined
-indices, were xsemployed previously. 
+indices, were employed previously. 
 
 The modules included in the AW GitHub repository mainly provide support for
 simple clustering of text items by content. These are organized functionally
