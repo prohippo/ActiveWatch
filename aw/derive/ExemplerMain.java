@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// ExemplerMain.java : 10jan2022 CPM
+// ExemplerMain.java : 12jan2022 CPM
 // profile creation by example
 
 package aw.derive;
@@ -34,10 +34,11 @@ import java.io.*;
 public class ExemplerMain {
 
 	public static void main ( String[] a ) {
+		String fn = "";
 		try {
 			Banner ba = new Banner("Exempler");
 			ba.show();
-			String fn = (a.length > 0) ? a[0] : "categories";
+			fn = (a.length > 0) ? a[0] : "examples";
 			boolean reset = (a.length > 1) ? true : false;
 			System.out.println("setting up");
 			Exempler p = new Exempler(reset);
@@ -47,6 +48,8 @@ public class ExemplerMain {
 			in.close();
 			System.out.println(p.getCount() + " created");
 			System.out.println("DONE");
+		} catch (java.io.FileNotFoundException e) {
+			System.err.println("no definition file: " + fn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

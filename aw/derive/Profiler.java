@@ -33,17 +33,17 @@ import object.KeyProfile;
 import java.io.*;
 
 public class Profiler extends Deriver {
-`
+
 	private StringBuffer sb = new StringBuffer();
-`
+
 	// initialization
-`
+
 	public Profiler ( boolean reset ) {
 		super(reset);
 	}
-`
+
 	// this non-abstract method is required by superclass
-`
+
 	protected Profile derive ( ) throws AWException {
 		sb.setLength(0);
 		try {

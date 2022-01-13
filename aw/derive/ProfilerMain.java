@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// ProfilerMain.java : 10jan2022 CPM
+// ProfilerMain.java : 12jan2022 CPM
 // driver
 
 package aw.derive;
@@ -34,19 +34,22 @@ import java.io.*;
 public class ProfilerMain {
 
 	public static void main ( String[] a ) {
+		String fn = "";
 		try {
 			Banner ba = new Banner("Profiler");
 			ba.show();
-			String fn = (a.length > 0) ? a[0] : "topics";
+			fn = (a.length > 0) ? a[0] : "topics";
 			boolean reset = (a.length > 1) ? true : false;
 			Profiler p = new Profiler(reset);
 			BufferedReader in = new BufferedReader(new FileReader(fn));
 			p.run(in);
 			in.close();
 			System.out.println("DONE");
+		} catch (java.io.FileNotFoundException e) {
+			System.err.println("no definition file: " + fn);
 		} catch (AWException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
