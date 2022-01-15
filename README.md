@@ -86,158 +86,158 @@ AW software is free for all uses and is released under BSD licensing.
 
 Release History:
 
-> v0.1    16jun2021  Initial upload of original AW Java source code.
-> 
-> v0.2    10ju12021  Clean up and reorganize code for SEGMTR module
->                    Add code to dump AW output files
->                    Collect news data set for demonstration
-> 
-> v0.3    13jul2021  Clean up and debug code in AW table building modules
->                    Add unit testing
-> 
-> v0.4    16jul2021  Clean up and reorganize code for INDEXR module
->                    Add code to dump AW output files
->                    Update to expect UTF-8 text input, not ASCII
-> 
-> v0.5    06aug2021  Clean up code for SEGMTR module
->                    Fix problems in UTF-8 handling
->                    Add diagnostic tools
->                    Build initial versions of AW clustering modules to test
-> 
-> v0.6    12aug2021  Clean up SEGMTR, UPDATR, SEQNCR, SQUEZR, SUMRZR, KEYWDR modules
->                    Fix problems in UTF-8 handling, subsegmenting long text items
->                    Add and extend diagnostic tools
->                    Clean up text data sample for clustering demonstration
->                    Edit and update documentation
-> 
-> v0.6.1  14aug2021  Fix mishandling of multi-segment items in AW clustering
-> 
-> v0.7    21aug2021  add and extend diagnostic tools
->                    remove phonetic indexing
->                    add 4- and 5-gram indices
->                    reorganize startup of n-gram analysis
->                    clean up problems with deprecation and type casting
-> 
-> v0.7.1  25aug2021  fix bug in LexicalGram in breaking out of extraction loop
->                    replace incorrect 4- and 5-grams in GramMap lists
->                    clean up literal file to align with current 4- and 5-grams
->                    fix inconsistent stemming rules in suffix filw
->                    simply Updater command line arguments
->                    update Dprb for v0.7 changes in n-gram initialization
->                    update documentation
-> 
-> v0,7.2  30aug2021  fix integration of AW-defined and user-defined indices
->                    update documentation
-> 
-> v0.7.3  04sep2021  add suffix rule to fix stemming glitch
->                    add general writeup on AW and finite indexing
->                    upload jars of compiled and linked AW modules
->                    update documentation
-> 
-> v0.8    20sep2021  update to latest inflectional stemming logic
->                    update implementation of inflectional stemmer
->                    update documentation
-> 
-> v0.9    30sep2021  expand morphological stemming
->                    fix longstanding problems in stemming code
->                    clean up and and extend code commentary
->                    update documentation
-> 
-> v0.9.1  07oct2021  fix problems in n-gram extraction
->                    fix problems in morphological stemming rule extension
->                    fix typo in AW 5-gram table
->                    update documentation
-> 
-> v1.0    14oct2021  clean up definitions of n-gram limits
->                    clean up literal n-grams and morphological stemming
->                    extend builtin 4-and 5-grams
->                    fix a lookup bug for 4- and 5-grams
->                    update documentation
-> 
-> v1.0.1  22oct2021  extend built-in 4-grams by 200
->                    add built-in 5-grams not chosen by general frequency
->                    edit default literal to reduce indexing redundancy
->                    update documentation
-> 
-> v1.1    27oct2021  add WATCHR module to help monitor residuals
->                    make index vector operations more transparent
->                    update documentation
-> 
-> v1.1.1  07nov2021  add 4- and 5-grams to reduce indexing noise
->                    clean up file defining default literal n-grams
->                    fix problem with build file for WATCHR
->                    update documentation
-> 
-> v1.1.2  11nov2021  add 4-grams to reduce indexing noise
->                    extend and clean up default literal n-grams
->                    clean up various source files for readability
->                    clean up clustering source code, add comments
->                    update documentATION
-> 
-> v1.1.3  16nov2021  add 4- and 5-grams to reduce indexing noise
->                    extend and clean up default literal n-grams
->                    add tools to identify where frequent n-grams come from
->                    comment out diagnostic print statements in SQUEZR
->                    update documentation
-> 
-> v1.1.4  19nov2021  add 4- and 5-grams to reduce indexing noise
->                    clean up poorly formatted source files
->                    update documentation
-> 
-> v1.1.5  21nov2021  fix bug in arguments for WATCHR
->                    add diagnostic tools
->                    clean up source files
->                    update documentation
-> 
-> v1.1.6  24nov2021  add 4- and 5-grams to reduce indexing noise
->                    clean up literals
->                    add diagnostic tools
->                    add scripting to build AW tools
->                    update documentation
-> 
-> v1.1.7  26nov2021  add 4- and 5-grams to reduce indexing noise
->                    clean up literals
->                    add diagnostic tools
->                    add scripting to build AW tools
->                    update documentation
-> 
-> v1.1.8  01dec2021  add 4- and 5-grams to reduce indexing noise
->                    clean up literals
->                    update documentation
-> 
-> v1.1.9  10dec2021  fix bug on oriority of leading, trailing literals
->                    add 4- and 5-grams to reduce indexing noise
->                    clean up literals
->                    update documentation
->                    add AW User Guide
-> 
-> v1.1.10 20dec2021  add 4- and 5-grams to reduce indexing noise
->                    update documentation 
-> 
-> v1.1.11 23dec2021  add 4- and 5-grams to reduce indexing noise
->                    fix typo in AW banner
->                    update documentation
-> 
-> v1.1.12 30dec2021  add 4-grams to reduce indexing noise
->                    update documentation
-> 
-> v1.2    01jan2022  add 4- and 5-grams to reduce indexing noise
->                    add diagnostic tools for profiles and match lists
->                    update documentation
-> 
-> v1.2.1  06jan2022  add 4- and 5-grams to reduce indexing noise
->                    allow indexing to stop at 3- or 4-grams
->                    update documentation
-> 
-> v1.2.2  07jan2022  add 4- and 5-grams to reduce indexing noise
->                    update documentation
-> 
-> v1.3    11jan2022  add 4- and 5-grams to reduce indexing noise
->                    add new AW modules PROFLR and EXMPLR
->                    add missing source files
->                    update documentation
-> 
-> v1.3.1  15jan2022  add 4- and 5-grams to reduce indexing noise
->                    clean up literals
->                    clean up stemming
->                    update documentation
+	v0.1    16jun2021  Initial upload of original AW Java source code.
+	
+	v0.2    10ju12021  Clean up and reorganize code for SEGMTR module
+	                   Add code to dump AW output files
+	                   Collect news data set for demonstration
+	
+	v0.3    13jul2021  Clean up and debug code in AW table building modules
+	                   Add unit testing
+	
+	v0.4    16jul2021  Clean up and reorganize code for INDEXR module
+	                   Add code to dump AW output files
+	                   Update to expect UTF-8 text input, not ASCII
+	
+	v0.5    06aug2021  Clean up code for SEGMTR module
+	                   Fix problems in UTF-8 handling
+	                   Add diagnostic tools
+	                   Build initial versions of AW clustering modules to test
+	
+	v0.6    12aug2021  Clean up SEGMTR, UPDATR, SEQNCR, SQUEZR, SUMRZR, KEYWDR modules
+	                   Fix problems in UTF-8 handling, subsegmenting long text items
+	                   Add and extend diagnostic tools
+	                   Clean up text data sample for clustering demonstration
+	                   Edit and update documentation
+	
+	v0.6.1  14aug2021  Fix mishandling of multi-segment items in AW clustering
+	
+	v0.7    21aug2021  add and extend diagnostic tools
+	                   remove phonetic indexing
+	                   add 4- and 5-gram indices
+	                   reorganize startup of n-gram analysis
+	                   clean up problems with deprecation and type casting
+	
+	v0.7.1  25aug2021  fix bug in LexicalGram in breaking out of extraction loop
+	                   replace incorrect 4- and 5-grams in GramMap lists
+	                   clean up literal file to align with current 4- and 5-grams
+	                   fix inconsistent stemming rules in suffix filw
+	                   simply Updater command line arguments
+	                   update Dprb for v0.7 changes in n-gram initialization
+	                   update documentation
+	
+	v0,7.2  30aug2021  fix integration of AW-defined and user-defined indices
+	                   update documentation
+	
+	v0.7.3  04sep2021  add suffix rule to fix stemming glitch
+	                   add general writeup on AW and finite indexing
+	                   upload jars of compiled and linked AW modules
+	                   update documentation
+	
+	v0.8    20sep2021  update to latest inflectional stemming logic
+	                   update implementation of inflectional stemmer
+	                   update documentation
+	
+	v0.9    30sep2021  expand morphological stemming
+	                   fix longstanding problems in stemming code
+	                   clean up and and extend code commentary
+	                   update documentation
+	
+	v0.9.1  07oct2021  fix problems in n-gram extraction
+	                   fix problems in morphological stemming rule extension
+	                   fix typo in AW 5-gram table
+	                   update documentation
+	
+	v1.0    14oct2021  clean up definitions of n-gram limits
+	                   clean up literal n-grams and morphological stemming
+	                   extend builtin 4-and 5-grams
+	                   fix a lookup bug for 4- and 5-grams
+	                   update documentation
+	
+	v1.0.1  22oct2021  extend built-in 4-grams by 200
+	                   add built-in 5-grams not chosen by general frequency
+	                   edit default literal to reduce indexing redundancy
+	                   update documentation
+	
+	v1.1    27oct2021  add WATCHR module to help monitor residuals
+	                   make index vector operations more transparent
+	                   update documentation
+	
+	v1.1.1  07nov2021  add 4- and 5-grams to reduce indexing noise
+	                   clean up file defining default literal n-grams
+	                   fix problem with build file for WATCHR
+	                   update documentation
+	
+	v1.1.2  11nov2021  add 4-grams to reduce indexing noise
+	                   extend and clean up default literal n-grams
+	                   clean up various source files for readability
+	                   clean up clustering source code, add comments
+	                   update documentATION
+	
+	v1.1.3  16nov2021  add 4- and 5-grams to reduce indexing noise
+	                   extend and clean up default literal n-grams
+	                   add tools to identify where frequent n-grams come from
+	                   comment out diagnostic print statements in SQUEZR
+	                   update documentation
+	
+	v1.1.4  19nov2021  add 4- and 5-grams to reduce indexing noise
+	                   clean up poorly formatted source files
+	                   update documentation
+	
+	v1.1.5  21nov2021  fix bug in arguments for WATCHR
+	                   add diagnostic tools
+	                   clean up source files
+	                   update documentation
+	
+	v1.1.6  24nov2021  add 4- and 5-grams to reduce indexing noise
+	                   clean up literals
+	                   add diagnostic tools
+	                   add scripting to build AW tools
+	                   update documentation
+	
+	v1.1.7  26nov2021  add 4- and 5-grams to reduce indexing noise
+	                   clean up literals
+	                   add diagnostic tools
+	                   add scripting to build AW tools
+	                   update documentation
+	
+	v1.1.8  01dec2021  add 4- and 5-grams to reduce indexing noise
+	                   clean up literals
+	                   update documentation
+	
+	v1.1.9  10dec2021  fix bug on oriority of leading, trailing literals
+	                   add 4- and 5-grams to reduce indexing noise
+	                   clean up literals
+	                   update documentation
+	                   add AW User Guide
+	
+	v1.1.10 20dec2021  add 4- and 5-grams to reduce indexing noise
+	                   update documentation 
+	
+	v1.1.11 23dec2021  add 4- and 5-grams to reduce indexing noise
+	                   fix typo in AW banner
+	                   update documentation
+	
+	v1.1.12 30dec2021  add 4-grams to reduce indexing noise
+	                   update documentation
+	
+	v1.2    01jan2022  add 4- and 5-grams to reduce indexing noise
+	                   add diagnostic tools for profiles and match lists
+	                   update documentation
+	
+	v1.2.1  06jan2022  add 4- and 5-grams to reduce indexing noise
+	                   allow indexing to stop at 3- or 4-grams
+	                   update documentation
+	
+	v1.2.2  07jan2022  add 4- and 5-grams to reduce indexing noise
+	                   update documentation
+	
+	v1.3    11jan2022  add 4- and 5-grams to reduce indexing noise
+	                   add new AW modules PROFLR and EXMPLR
+	                   add missing source files
+	                   update documentation
+	
+	v1.3.1  15jan2022  add 4- and 5-grams to reduce indexing noise
+	                   clean up literals
+	                   clean up stemming
+	                   update documentation
