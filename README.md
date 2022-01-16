@@ -239,5 +239,5 @@ Release History:
 	
 	v1.3.1  15jan2022  add 4- and 5-grams to reduce indexing noise
 	                   clean up literals
-	                   clean up stemming
+	                   clean up and extend stemming
 	                   update documentation
