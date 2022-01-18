@@ -4,6 +4,10 @@ on indexing text according to only a finite set of selected lexical
 features instead of whole words. It represents text items as M-dimensional
 numerical vectors, where M will be on the order of 10⁴.
 
+For an AW User Guide, see the file AWug.pdf in this repository. For a
+general description of finite and other kinds of indexing see the
+repository file HowtoIndex.pdf.
+
 Finite indexing lets us reliably estimate the probability that a given
 lexical feature occurs in a text item of given length. A multinomial
 model can then be applied to compute a statistically scaled inner-product
