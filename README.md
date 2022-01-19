@@ -248,3 +248,7 @@ Release History:
 
 	v1.3.2  17jan2022  add 4- and 5-grams to reduce indexing noise
 	                   update documentation
+
+	v1.3.3  19jan2022  add 4-grams to reduce indexing noise
+	                   add literls to reduce noise
+	                   update documentation
