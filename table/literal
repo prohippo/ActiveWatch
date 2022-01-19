@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; literal : 14jan2022 CPM
+; literal : 19jan2022 CPM
 
 -000
 -0000
@@ -312,6 +312,7 @@ library-
 longshore-
 luggage-
 lumber-
+mcca-
 machine-
 macintosh-
 magazine-
@@ -322,6 +323,7 @@ memory-
 mental-
 meta-
 metal-
+middle-
 milite-
 million-
 ministr-
@@ -395,6 +397,7 @@ reform-
 region-
 relate-
 remain-
+repeal-
 report-
 represent-
 republic-
