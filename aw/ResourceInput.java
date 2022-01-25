@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ResourceInput.java : 07Sep99 CPM
+// AW file ResourceInput.java : 24jan2022 CPM
 // for transparent support of jarred applications
 //
 // for optional packaging of AW tables into a .jar file as resources

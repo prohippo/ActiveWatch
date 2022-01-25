@@ -256,3 +256,7 @@ Release History:
 	v1.3.4  20jan2022  add 4-grams to reduce indexing noise
 	                   add literals to reduce noise
 	                   update documentation
+	
+	v1.4    25jan2022  add PHRASR module to AW complement
+                           update documentation
+
