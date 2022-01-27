@@ -22,12 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Segmenter.java : 19jul2021 CPM
+// AW file Segmenter.java : 26jan2022 CPM
 // top-level class for text segmentation
 
 package aw.segment;
 
 import aw.*;
+import aw.Lines;
 import web.TimedURL;
 import java.io.*;
 import java.net.*;
