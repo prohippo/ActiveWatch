@@ -22,11 +22,11 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Inputs.java : 01aug2021 CPM
+// AW file Inputs.java : 26jan2022 CPM
 // special line buffering for reading UTF-8 text files
 // in DOS, Unix, or Macintosh formats on Internet
 
-package aw.segment;
+package aw;
 
 import aw.ByteTool;
 import aw.CharArray;

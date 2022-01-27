@@ -290,8 +290,8 @@ aw/segment/Event.class     \
 aw/segment/Automaton.class \
 aw/segment/SegmenterMain.class \
 aw/segment/Arc.class    \
-aw/segment/Lines.class  \
-aw/segment/Inputs.class \
+aw/Lines.class  \
+aw/Inputs.class \
 aw/segment/Subsegmenter.class  \
 aw/segment/Segmenter.class     \
 aw/BatchFile.class      \

@@ -25,7 +25,7 @@
 // AW File Lines.java : 04aug2021 CPM
 // line indexing for text segmentation and display
 
-package aw.segment;
+package aw;
 
 import aw.CharArray;
 import java.io.*;

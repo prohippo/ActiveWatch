@@ -258,5 +258,7 @@ Release History:
 	                   update documentation
 	
 	v1.4    25jan2022  add PHRASR module to AW complement
-                           update documentation
+	                   update documentation
+
+	v1.4.1  26jan2022  move Lines.java and Inputs.java to aw package
 
