@@ -262,3 +262,7 @@ Release History:
 
 	v1.4.1  26jan2022  move Lines.java and Inputs.java to aw package
 
+	v1.4.2  02feb2022  add ANALZR module to AW complement
+	                   clean up CharArray source code
+                           clean up phrase exrracrion source code
+	                   update documentation

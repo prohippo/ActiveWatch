@@ -16,6 +16,7 @@ javac aw/keyword/KeyworderMain.java
 javac aw/watch/WatcherMain.java
 javac aw/derive/ProfilerMain.java
 javac aw/derive/ExemplerMain.java
+javac aw/phrase/AnalyzerMain.java
 javac aw/phrase/PhraserMain.java
 
 jar cfe LITBLD  \
@@ -566,7 +567,102 @@ object/ClusterProfileBase.class \
 object/ProfileModel.class \
 object/ProfileMaker.class
 
-#!/bin/zsh
+jar cfe ANALZR aw.phrase.AnalyzerMain \
+gram/LexicalGram.class \
+gram/Gram.class \
+gram/SortedList.class \
+gram/GramStart.class \
+gram/TokenBuffer.class \
+gram/LiteralExtension.class \
+gram/Characterizer.class \
+gram/GramMap.class \
+gram/LiteralBase.class \
+gram/LiteralDecoding.class \
+gram/Literal.class \
+gram/SimpleList.class \
+gram/GramDecode.class \
+aw/TextAnalysisFile.class \
+aw/Control.class \
+aw/IndexedBatchFile.class \
+aw/ResourceInput.class \
+aw/Source.class \
+aw/Index.class \
+aw/FileAccess.class \
+aw/Parameter.class \
+aw/phrase/PhraseScorer.class \
+aw/phrase/TaggedPhrase.class \
+aw/phrase/PhraseElement.class \
+aw/phrase/Syntax.class \
+aw/phrase/CombinedSymbolTable.class \
+aw/phrase/PhraseExtractor.class \
+aw/phrase/Parsing.class \
+aw/phrase/SyntaxSpec.class \
+aw/phrase/PhraseAnalysis.class \
+aw/phrase/PhraseSyntax.class \
+aw/phrase/SymbolTable.class \
+aw/phrase/WordType.class \
+aw/phrase/PhraseSelector.class \
+aw/phrase/Phraser.class \
+aw/phrase/Record.class \
+aw/phrase/SyntaxPatt.class \
+aw/phrase/PhraseExtraction.class \
+aw/phrase/Parse.class \
+aw/phrase/Start.class \
+aw/Item.class \
+aw/BatchFile.class \
+aw/Subsegment.class \
+aw/Profile.class \
+aw/OffsetBase.class \
+aw/AWException.class \
+aw/Transform.class \
+aw/SortableObject.class \
+aw/FileName.class \
+aw/ProfileFile.class \
+aw/Letter.class \
+aw/Map.class \
+aw/CharArray.class \
+web/TimedURL.class \
+web/ThreadTimer.class \
+stem/CodedLink.class \
+stem/Translation.class \
+stem/StemStart.class \
+stem/TokenForm.class \
+stem/StemFrame.class \
+stem/TokenPattern.class \
+stem/StemBase.class \
+stem/Tokenizer.class \
+stem/Table.class \
+stem/TokenSubstitution.class \
+stem/Extracter.class \
+stem/Inflex.class \
+stem/Stopat.class \
+stem/PatternQualify.class \
+stem/Stem.class \
+stem/Stop.class \
+stem/Token.class \
+stem/StopBase.class \
+stem/Node.class \
+stem/SubstitutionEntry.class \
+object/Gapping.class \
+object/AccessionNumber.class \
+object/KeyTextAnalysis.class \
+object/ListHead.class \
+object/WordHashTable.class \
+object/AnalyzedToken.class \
+object/TextAnalysisBase.class \
+object/ISAMData.class \
+object/IndexedItem.class \
+object/FullProfile.class \
+object/HashTable.class \
+object/ListNode.class \
+object/ProfileList.class \
+object/TextAnalysis.class \
+object/Hashing.class \
+object/GappedProfileList.class \
+object/SortedProfileList.class \
+object/TextItem.class \
+object/Text.class
+
 jar cfe PHRASR aw.phrase.PhraserMain \
 gram/LexicalGram.class \
 gram/Gram.class \
