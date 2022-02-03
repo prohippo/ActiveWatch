@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Inputs.java : 26jan2022 CPM
+// AW file Inputs.java : 31jan2022 CPM
 // special line buffering for reading UTF-8 text files
 // in DOS, Unix, or Macintosh formats on Internet
 
@@ -328,6 +328,28 @@ public class Inputs implements Runnable {
 	) {
 		backup = true;
 		backposition = pos;
+	}
+
+	////////
+	//////// for debugging
+
+	public static void main ( String[] a ) {
+
+		CharArray line;
+		String file = (a.length > 0) ? a[0] : "text";
+		try {
+			FileInputStream in = new FileInputStream(file);
+			Inputs inp = new Inputs(in);
+			line = inp.input();
+			System.out.println("> " + line);
+			line = inp.input();
+			System.out.println("> " + line);
+			line = inp.input();
+			System.out.println("> " + line);
+			in.close();
+		} catch ( Exception e ) {
+			System.err.println(e);
+		}
 	}
 
 }

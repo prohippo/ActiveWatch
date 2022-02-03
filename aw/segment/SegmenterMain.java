@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File SegmenterMain.java : 27jul2021 CPM
+// AW File SegmenterMain.java : 31jan2022 CPM
 // class for text segmenting application
 
 package aw.segment;
@@ -45,19 +45,26 @@ public class SegmenterMain {
 			delims = a[1];
 			a = Arrays.copyOfRange(a,2,a.length);
 		}
-			
+		int lvl = 0;
+		if (a.length > 1 && a[0].equals("-l")) {
+			lvl = Integer.parseInt(a[1]);
+			a = Arrays.copyOfRange(a,2,a.length);
+		}
+
 		String[] items = (a.length > 0) ? a : new String[] { "text" };
 		
 		Banner banner = new Banner("Segmenter");
 		banner.show();
 
+		System.out.println("delims= \"" + delims + "\"");
+			
 		try {
 		
 			Segmenter x;
 			int n = 0;
 			try {
 				BufferedReader r = new BufferedReader(new FileReader(delims));
-				x = new Segmenter(r,0);
+				x = new Segmenter(r,lvl);
 				r.close();
 			
 				for (int i = 0; i < items.length; i++) {
@@ -70,6 +77,7 @@ public class SegmenterMain {
 						File f = new File(file);
 						u = "file:" + f.getAbsolutePath();
 					}
+					System.out.println("reading \"" + u + "\"");
 					n += x.run(u);
 				}
 			} catch (IOException e) {

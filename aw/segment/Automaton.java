@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Automaton.java : 07aug2021 CPM
+// AW File Automaton.java : 31jan2022 CPM
 // a finite-state automaton for text segmentation
 
 package aw.segment;
@@ -187,7 +187,7 @@ public class Automaton {
 	
 	private int level=0; // for tracking execution
 	
-	public final void setLevel ( int lvl ) { level = lvl; }
+	public final void setLevel ( int lvl ) { level = lvl; } // for debugging output
 	
 	public Automaton (
 		BufferedReader in
@@ -208,6 +208,8 @@ public class Automaton {
 
 				if (buffer.length() <= 1 || buffer.charAt(0) == ';')
 					continue;
+
+				System.out.println("[" + buffer + "]");
 
 				if (narcs == NOA)
 					throw new AWException("arc overflow");
@@ -299,8 +301,13 @@ public class Automaton {
 		event = Event.NIL;
 
 		System.out.println("automaton: item " + idn);
+		if (level > 0)
+			System.out.println("debugging at level= " + level + "\n");
 
 	 	for (;;) {
+
+			if (level > 2)
+				System.out.println("state= " + state);
 
 			// get next line of input if needed
 		
@@ -412,7 +419,14 @@ case Event.EOM:			// end of item
 
 			}
 
+			if (level > 1) {
+				System.out.println("sx= " + ix.se + ", sj= " + ix.sj);
+				System.out.println("hs= " + ix.hs + ", tl= " + ix.tl);
+			}
+
 			state = arcm.end;
+			if (level > 2)
+				System.out.println("to state " + state);
 			if (arcm.act > 0)
 				textline = null;
 			if (event == Event.EOM)
