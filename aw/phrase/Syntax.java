@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Syntax.java : 19Jun00 CPM
-// define named syntactic categories
+// Syntax.java : 25jan2022 CPM
+// define named syntactic categories for phrase analysis
 
 package aw.phrase;
 
@@ -154,7 +154,7 @@ public class Syntax {
 	) {
 		if (done) return;
 		
-		// syntax types to be recognized explicit for phrase extraction
+		// syntax types to be recognized explicitly for phrase extraction
 
 		adjectiveType   = (byte) tb.syntacticType("ADJective");
 		adverbType      = (byte) tb.syntacticType("ADVerb");
