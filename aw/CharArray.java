@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CharArray.java : 09Jul2921 CPM
+// CharArray.java : 02feb2022 CPM
 // a less restrictive, memory-efficient equivalent to String class
 
 package aw;
@@ -32,53 +32,52 @@ import stem.Token;
 
 public class CharArray implements SortableObject {
 
-	protected char[] array; // string buffer
-	protected int offset;   // offset for start of string
-	protected int limit;    // end of string
-	
+	private static final String ellipsis = "\u2026";
+
+	protected char[] array;  // string buffer
+	protected int    offset; // offset for start of string
+	protected int    limit;  // end of string buffer
+
 	private static final char[] empty = { 0 }; // null-terminated
 
 	// create from regular string class
-	
+
 	public CharArray (
 		String text
 	) {
 		this(text.length());
 		text.getChars(0,limit,array,0);
-		array[limit] = 0;
 	}
-	
-	// for array of specified length
-	
+
+	// for empty array of specified length
+
 	public CharArray (
 		int length
 	) {
 		offset = 0;
 		limit = length;
-		array = new char[limit + 1];
+		array = new char[limit];
 	}
-	
-	// for empty array
-	
+
+	// for empty array to be filled out later
+
 	public CharArray (
-	
+
 	) {
 		array = empty;
 	}
-	
+
 	// analog to substring()
-	
+
 	public CharArray subarray (
 		int offset,
 		int limit
 	) {
-		CharArray ca = new CharArray();
-		setSubarray(ca,offset,limit);
-		return ca;
+		return getSubarray(offset,limit);
 	}
-	
+
 	// assign from another CharArray
-	
+
 	public final void assign (
 		CharArray ca
 	) {
@@ -86,63 +85,89 @@ public class CharArray implements SortableObject {
 		offset = ca.offset;
 		limit  = ca.limit;
 	}
-	
+
 	// assign from Token
-	
+
 	public final void assign (
 		Token to
 	) {
 		offset = 0;
-		limit = to.length();
+		limit  = to.length();
+		if (limit > array.length) limit = array.length;
 		System.arraycopy(to.array,0,array,0,limit);
-		array[limit] = 0;
 	}
-	
+
 	// assign to null
-	
+
 	public final void assignNull (
-	
+
 	) {
 		offset = 0;
 		limit  = 0;
 	}
-	
+
 	// reset offset to start
-	
+
 	public final void reset (
-	
+
 	) {
 		offset = 0;
 	}
-	
-	// shared code for creating substring
-	
-	protected final void setSubarray (
-		CharArray ca,
+
+	// create CharArray substring sharing buffer of CharArray string
+
+	protected final CharArray getSubarray (
 		int offset,
 		int limit
 	) {
-		ca.array = array;
+		CharArray ca = new CharArray();
+		ca.array  = array;
 		ca.offset = (this.limit < offset) ? this.limit : offset;
-		ca.limit = (this.limit < limit) ? this.limit : limit;
+		ca.limit  = (this.limit < limit)  ? this.limit : limit;
+		return ca;
 	}
-	
+
 	// fill array from char array
-	
+
 	public final CharArray fillChars (
 		char[] b,
 		int    o,
 		int    n
 	) {
+		if (n >= array.length)
+			n = array.length;
 		System.arraycopy(b,o,array,0,n);
-		array[n] = 0;
 		offset = 0;
-		limit = n;
+		limit  = n;
 		return this;
 	}
-	
+
+	// copy chars to another char array
+
+	public final void copyChars (
+		char[] b,
+		int    n
+	) {
+		int m = array.length - offset;
+		if (n > m) n = m;
+		System.arraycopy(array,offset,b,0,n);
+	}
+
+	// copy chars to another char array
+
+	public final int copyChars (
+		char[] b,
+		int    n,
+		int    m
+	) {
+		int bo = offset - n;
+		if (bo < 0 || m >= b.length) return 0;
+		System.arraycopy(array,bo,b,0,m);
+		return m;
+	}
+
 	// analogous to String method
-	
+
 	public final int indexOf (
 		char x
 	) {
@@ -151,9 +176,9 @@ public class CharArray implements SortableObject {
 				return o - offset;
 		return -1;
 	}
-	
+
 	// analogous to String method, but with CharArray
-	
+
 	public final int indexOfIgnoringCase (
 		char x
 	) {
@@ -162,58 +187,57 @@ public class CharArray implements SortableObject {
 				return o - offset;
 		return -1;
 	}
-	
+
 	// current position in buffer
-	
+
 	public final int position ( ) { return offset; }
-	
-	// advance position in buffer
-	
-	public final void skip ( int n ) { offset += n; }
-	
-	// advance position in buffer
-	
-	public final void skip ( ) { offset++; }
-	
+
 	// like for String or StringBuffer
-	
+
 	public final int length ( ) { return limit - offset; }
-	
+
 	// anything left in buffer
-	
+
 	public final boolean notEmpty ( ) { return (limit > offset); }
-	
-	// like for String, but with no explicit check
-	
+
+	// move ahead in char array as buffer
+
+	public void skip ( int n ) {
+		offset += n;
+	}
+
+	// just like for String
+
 	public final char charAt ( int  n ) {
 		if (offset + n < limit)
 			return array[offset + n];
 		else
 			return '\0';
 	}
-	
+
 	// like for StringBuffer, but with no explicit check
-	
+
 	public final void setCharAt ( int  n, char x ) { array[offset + n] = x; }
-	
+
 	// move a character with no explicit check
-	
+
 	public final void moveChar ( int n, int m ) { array[offset + n] = array[offset + m]; }
-	
+
 	// put character back with no explicit check
-	
+
 	public final void putCharBack ( char x ) { array[--offset] = x; }
-	
-	// get as String with changes
-	
+
+	// format as String for printing out
+
 	public final String toString (
-	
+
 	) {
-		return new String(array,offset,limit - offset);
+		String pre = (offset > 0) ? ellipsis : "";
+		return pre + new String(array,offset,limit - offset);
 	}
-	
+
 	// get portion as String without changes
-	
+
 	public final String getSubstring (
 		int os,
 		int ln
@@ -233,15 +257,15 @@ public class CharArray implements SortableObject {
 	}
 
 	// identify text to match
-	
+
 	public final void set (
 		int n
 	) {
 		set(array,offset,n);
 	}
-	
+
 	// comparison for SortableObject
-	
+
 	public final int compareTo (
 		SortableObject o
 	) {
@@ -263,13 +287,13 @@ public class CharArray implements SortableObject {
 	) {
 		Transform.map(array);
 	}
-	
+
 	////////
 	//////// implement strspn()
 	////////
-	
+
 	// check for sequence of specified chars, but for CharArray
-	
+
 	public final boolean span (
 		int    n, // characters to check
 		String p  // characters to match
@@ -279,16 +303,16 @@ public class CharArray implements SortableObject {
 				return false;
 		return true;
 	}
-	
+
 	////////
 	//////// class methods for string matching
 	////////
-	
+
 	private static final int N = 100; // maximum string match
 	private static char[] ss = new char[N+1]; // save substring to match against
-	
+
 	// what text to match 
-	
+
 	public static void set (
 		char[] s,
 		int o,
@@ -304,15 +328,15 @@ public class CharArray implements SortableObject {
 	}
 
 	// match uppercase string in char array
-	
+
 	public static boolean match (
 		String p
 	) {
 		return match(p,p.length());
 	}
-	
+
 	// match uppercase string in char array
-	
+
 	public static boolean match (
 		String p,
 		int n
@@ -322,5 +346,5 @@ public class CharArray implements SortableObject {
 				return false;
 		return true;
 	}
-	
+
 }
