@@ -51,7 +51,6 @@ aw.table.SuffixTableMain   \
 aw/TextAnalysisFile.class \
 aw/LimitedString.class \
 aw/AWException.class \
-aw/table/TableCode.class \
 aw/table/SuffixTable.class \
 aw/table/SuffixTableMain.class \
 aw/Letter.class \

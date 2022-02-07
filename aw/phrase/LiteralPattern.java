@@ -22,12 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LiteralPattern.java : 15Jan99 CPM
+// LiteralPattern.java : 06feb2022 CPM
 // identification of syntactic element by pattern matching
 
 package aw.phrase;
 
 import aw.Letter;
+import aw.phrase.Syntax;
 import java.io.*;
 
 public class LiteralPattern {
