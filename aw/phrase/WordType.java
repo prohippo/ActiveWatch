@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// WordType.java : 24jan2022 CPM
+// WordType.java : 09feb2022 CPM
 // to determine syntactic type from mini-dictionary
 
 package aw.phrase;
@@ -35,22 +35,22 @@ import java.io.*;
 public class WordType {
 
 	public static String wordFileName = "words";
-	
+
 	private static final int TableSize = 2053; // hash table size
 
 	private static WordHashTable wordTable = new WordHashTable(TableSize); // for word lookup
 	private static SyntaxSpec[]  wordType  = new SyntaxSpec[TableSize];    // syntax for words
 	private static boolean wordsLoaded = false;
 	private static int     wordCount = 0;
-	
+
 	// looks for word as char[] in table
-	
+
 	public static boolean match (
-	
+
 		char[] a,
 		int    n,
 		SyntaxSpec x
-		
+
 	) {
 		if (!wordsLoaded)
 			return false;
@@ -64,24 +64,24 @@ public class WordType {
 			return true;
 		}
 	}
-	
+
 	// loads words plus syntactic categories and returns a count
-	
+
 	static public int load (
-	
+
 		SymbolTable stb
-	
+
 	) throws IOException {
 		String line;
 
 		if (wordsLoaded)
 			return wordCount;
-			
+
 		SyntaxPatt wordSyntax = new SyntaxPatt();
-		
+
 		for (int i = 0; i < TableSize; i++)
 			wordType[i] = new SyntaxSpec();
-		
+
 		BufferedReader in = ResourceInput.openReader(wordFileName);
 
 		while ((line = in.readLine()) != null) {
@@ -126,7 +126,7 @@ public class WordType {
 		}
 		in.close();
 		wordsLoaded = true;
-		
+
 		return wordCount;
 	}
 

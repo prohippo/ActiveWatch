@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-//  LiteralType.java : 20Apr99 CPM
+// LiteralType.java : 07feb2022 CPM
 // look up text segments to be treated as single token
 
 package aw.phrase;
@@ -33,24 +33,24 @@ import java.io.*;
 public class LiteralType {
 
 	private LiteralPatternMatcher lmp;
-	
+
 	// initialize
-	
+
 	public LiteralType (
 		DataInputStream is
 	) throws IOException {
 		lmp = new LiteralPatternMatcher(is);
 	}
-	
+
 	// method for pattern matching
-	
+
 	public boolean match (
 		CharArrayWithTypes s,
 		SyntaxSpec x
 	) {
-		
+
 		// check special patterns first
-		
+
 		if (s.dateType() || s.timeType()) {
 			x.type = Syntax.timeType;
 			x.modifiers = Syntax.functionalFeature;
@@ -61,18 +61,18 @@ public class LiteralType {
 			x.modifiers = (byte)(Syntax.functionalFeature | Syntax.capitalFeature);
 			return true;
 		}
-		
+
 		// encode first character in text
-		
+
 		int chN = Letter.toByte(s.charAt(0));
 		if (chN < 0)
 			chN = Letter.NAN;
-			
+
 		if (lmp.match(s,chN,x) ||
 			lmp.match(s,Letter.NAN + 1,x))
 			return true;
-		
+
 		return false;
 	}
-	
+
 }

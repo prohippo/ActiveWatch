@@ -33,31 +33,31 @@ import java.io.*;
 public class Rewriter {
 
 	public  static final String file = "rewrites";
-	
+
 	private static final int H =100;
 	private static final int M = 64; // maximum rule count
 	private static final int N = 32; // first characters for rules
 
 	private static final char EMPTY = (char) Parsing.Empty;
 	private static final char DELIM = (char) -32768;
-	
+
 	private short   count = 0; // rule table itself
 	private short[] index = new short[M+1];
 	private char[]  rules;
-	
+
 	private String  leads;
 
 	// initialize by loading equivalences
-	
+
 	public Rewriter (
-	
+
 	) {
 		StringBuffer sb = new StringBuffer(H);
 		StringBuffer ld = new StringBuffer( );
 		String r;
-			
+
 		try {
-		
+
 			BufferedReader in = new BufferedReader(new FileReader(file));
 			while ((r = in.readLine()) != null) {
 				if (count == M)
@@ -77,25 +77,26 @@ public class Rewriter {
 			rules = new char[n];
 			sb.getChars(0,n,rules,0);
 			leads = ld.toString();
-			
+
 		} catch (IOException e) {
+			System.err.print("cannot read rewriting rules");
 		}
 	}
 
 	// convert equivalence to standard internal form
-	
+
 	private int norm (
 		char[] r,
 		int   lr
 	) {
 		int s,t;
-		
+
 		int ss = -1;
 
 		for (s = t = 0; t < lr;) {
-		
+
 			switch (r[t]) {
-			
+
 	case '\\':
 				t++;
 				char c = r[t];
@@ -112,7 +113,7 @@ public class Rewriter {
 					}
 					r[--t] = (char) k;
 				}
-					
+
 				break;
 	case '/':
 				r[t] = '\n';
@@ -123,7 +124,7 @@ public class Rewriter {
 					ss = s;
 				}
 				break;
-				
+
 			}
 			r[s++] = r[t++];
 
@@ -144,7 +145,7 @@ public class Rewriter {
 	}
 
 	// replace everything in a char array by their equivalences
-			
+
 	void rewrite (
 		CharArray r
 	) {
@@ -157,7 +158,7 @@ public class Rewriter {
 					break;
 			if (ir == lr)
 				break;
-				
+
 			for (int i = 0; i < count; i++) {
 				int t = index[i];
 				int n = 0;
@@ -173,6 +174,6 @@ public class Rewriter {
 			}
 		}
 	}
-	
+
 }
 

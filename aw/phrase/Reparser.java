@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Reparser.java : 26jan2022 CPM
+// Reparser.java : 09feb2022 CPM
 // for joining or splitting of phrases
 
 package aw.phrase;
@@ -44,7 +44,7 @@ public class Reparser {
 	}
 
 	private static final String file = "rules";
-	
+
 	private static final int PHBFLM = 8192; // buffer size
 
 	private static final int Nrules = 64;
@@ -57,28 +57,28 @@ public class Reparser {
 	private int nn;    // join rule subcount
 
 	private int mw;    // minimum width for split
-	
+
 	private SymbolTable stb;
 
 	// initialization for file
-	
+
 	public Reparser (
 		SymbolTable stb
 	) {
-	
+
 		this.stb = stb;
-		
+
 		for (int i = 0; i < Nrules; i++)
 			rule[i] = new Rule();
-			
+
 		for (int i = 0; i < Nelements; i++)
 			element[i] = new RuleElement();
-		
+
 		try {
-		
+
 			BufferedReader in = new BufferedReader(new FileReader(file));
 			String b;
-			
+
 			// read in joining rules from file
 
 			while ((b = in.readLine()) != null) {
@@ -98,14 +98,15 @@ public class Reparser {
 					if (mw > w)
 						mw = w;
 			}
-			
+
 			in.close();
-		
+
 		} catch (IOException e) {
+			System.out.println("cannot read reparsing rules");
 		}
 
 	}
-	
+
 	// parse rule string from file
 
 	private static final byte WILD = (byte) 0xFF;
@@ -113,10 +114,10 @@ public class Reparser {
 	private int processRule (
 		String b
 	) {
-	
+
 		if (b.length() == 0)
 			return 0;
-			
+
 		char ch = b.charAt(0);
 
 		if (ch == ';')
@@ -136,7 +137,7 @@ public class Reparser {
 			b = b.trim();
 			if (b.length() == 0)
 				break;
-				
+
 			if (b.charAt(0) == '^') {
 				b = b.substring(1); ns = n;
 			}
@@ -144,7 +145,7 @@ public class Reparser {
 			b = b.trim();
 			if (b.length() == 0 || b.charAt(0) == '|')
 				break;
-			
+
 			RuleElement e = element[ne + n];
 			if (b.charAt(0) != '~')
 				e.sense = true;
@@ -188,7 +189,7 @@ public class Reparser {
 	// ---------------------------- SPECIAL SYNTAX CHECK
 
 	private SyntaxSpec ss = new SyntaxSpec();
-	
+
 	private boolean compareSyntax (
 		RuleElement e,
 		byte[] a,
@@ -274,7 +275,7 @@ public class Reparser {
 		phx[++nphx] = (short) nelx;
 		return ai - as;
 	}
-	
+
 	// check rules for join at location
 
 	private boolean testJoin (
@@ -284,7 +285,7 @@ public class Reparser {
 	) {
 		if (where == 0 || left == 0 || right == 0)
 			return false;
-			
+
 		int wb;
 
 		// try all joining rules in order of definition
@@ -406,7 +407,7 @@ public class Reparser {
 		}
 		return 0;
 	}
-	
+
 	// find the end of a phrase in an analysis
 
 	private int endPhrase (
@@ -482,7 +483,7 @@ public class Reparser {
 			int count = phx[i + 1] - k;
 			int ns;
 			while ((ns = testSplit(k,count)) != 0) {
-			
+
 				n = elx[k + ns] - elx[k];
 				System.arraycopy(pb,a,parse.buffer,b,n);
 				a += n;
@@ -494,7 +495,7 @@ public class Reparser {
 				k += ns;
 				count -= ns;
 				parse.count++;
-		
+
 			}
 
 			// copy back rest of phrase

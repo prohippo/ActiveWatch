@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// SymbolTable.java : 24jan2022 CPM
+// SymbolTable.java : 08feb2022 CPM
 // for encoding syntax symbols
 
 package aw.phrase;
@@ -57,7 +57,7 @@ public class SymbolTable {
 	
 		String s
 		
-	)  throws AWException{
+	) throws AWException {
 		byte x = 0;
 		while (s.length() > 0 && Character.isWhitespace(s.charAt(0)))
 			s = s.substring(1);
@@ -203,7 +203,7 @@ public class SymbolTable {
 		
 	) throws AWException {
 		int m,n;
-		int featureString,featureStart;
+		int featureBase,featureStart;
 		char sense; // feature sense indicator
 
 		Patt.modifiermasks[0] = Patt.modifiermasks[1] = 0;
@@ -212,30 +212,33 @@ public class SymbolTable {
 	
 		// get bracketed syntactic features for symbol
 
-		if ((featureString = symbolString.indexOf('[')) < 0)
+		if ((featureBase = symbolString.indexOf('[')) < 0)
 		
 			symbol = symbolString;
 		
 		else {
 
-			symbol = symbolString.substring(0,featureString);
+			symbol = symbolString.substring(0,featureBase);
 			
-			featureString++;
-			while (symbolString.charAt(featureString) != ']') {
+			featureBase++;
+			while (symbolString.charAt(featureBase) != ']') {
 
 				// feature sense (+,-) must be present
 
-				sense = symbolString.charAt(featureString++);
+				sense = symbolString.charAt(featureBase++);
 				if (sense != '+' && sense != '-')
 					throw new AWException("bad syntactic feature: " + symbolString);
 
 				// get next feature and look up
 
-				featureStart = featureString;
-				while (Character.isLetterOrDigit(symbolString.charAt(featureString)))
-					featureString++;
+				featureStart = featureBase;
+				while (Character.isLetterOrDigit(symbolString.charAt(featureBase)))
+					featureBase++;
+				String feature = symbolString.substring(featureStart,featureBase);
 
-				String feature = symbolString.substring(featureStart,featureString);
+//				System.out.println("start= " + featureBase + " in " + symbolString);;
+//				System.out.println(symbolCount + " symbols defined");
+
 				n = scanForFeature(feature);
 				if (n < 0)
 					throw new AWException("unrecognized feature name: " + feature);

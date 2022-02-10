@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file EndingBase.java : 11Sep00 CPM
+// AW file EndingBase.java : 09feb2022 CPM
 // for keeping table of endings associated with parts of speech
 
 package aw.phrase;
@@ -37,42 +37,42 @@ class Node extends CodedLink {
 	public static final int size = 2 + SyntaxSpec.size + CodedLink.size;
 
 	// instance variables
-	
+
 	public byte alpha;        // character to match
 	public byte constraint;   // added conditions on match
 	public SyntaxSpec syntax; // syntax associated with match
-	
+
 	public Node ( ) {
 		syntax = new SyntaxSpec();
 	}
-	
+
 	public final void read ( DataInputStream in ) throws IOException {
 		alpha = in.readByte();
 		constraint = in.readByte();
 		syntax.read(in);
 		link = in.readShort();
 	}
-	
+
 	public final void write ( DataOutputStream out ) throws IOException {
 		out.writeByte(alpha);
 		out.writeByte(constraint);
 		syntax.write(out);
 		out.writeShort(link);
 	}
-	
+
 }
 
 public class EndingBase {
-	
+
 	public static final String file = "endss"; // word endings file
-	
+
 	public static final byte Empty = -1; // value for empty end tree index
 
 	protected Node[]  endtbl; // ending table
 	protected short[] endx = new short[Letter.NA]; // table index by letter
 
 	// definition of vowel (includes Y)
-	
+
 	public static boolean VOWEL ( char x ) {
 		int cb = Letter.toByte(x);
 		return (cb >= 0) ? !Letter.cnx[cb] : false;
@@ -90,29 +90,29 @@ public class EndingBase {
 			endtbl[i] = node;
 		}
 	}
-	
+
 	// set table for loading
-	
+
 	public EndingBase (
-	
+
 	) {
 	}
-	
+
 	// clear out
-	
+
 	public void clear (
-	
+
 	) {
 		for (int i = 0; i < Letter.NA; i++)
 			endx[i] = Empty;
 	}
-	
+
 	// read suffix table from stream
-		
+
 	public void load (
 		DataInputStream in
 	) throws IOException {
-		
+
 		for (int i = 0; i < Letter.NA; i++)
 			endx[i] = in.readShort();
 
@@ -121,36 +121,36 @@ public class EndingBase {
 		endtbl = new Node[nn];
 
 		for (int i = 0; i < nn; i++) {
-		
+
 			// fill out table node from file
-			
+
 			endtbl[i] = new Node();
 			endtbl[i].read(in);
-			
+
 		}
 		in.close();
-			
+
 	}
-	
+
 	// write ending table to stream
-		
+
 	public void save (
 		DataOutputStream out,
 		int              count
 	) throws IOException {
-	
+
 		for (int i = 0; i < Letter.NA; i++)
 			out.writeShort(endx[i]);
 
 		// write out endings
-		
+
 		out.writeInt(count);
-		
+
 		for (int i = 0; i < count; i++)
 			endtbl[i].write(out);
 
 		out.close();
-		
+
 	}
-	
+
 }

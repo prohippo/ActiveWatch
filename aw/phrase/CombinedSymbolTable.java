@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CombinedSymbolTable.java : 24jan2022 CPM
+// CombinedSymbolTable.java : 09feb2022 CPM
 // for defining syntactic types and features
 
 package aw.phrase;
@@ -34,14 +34,14 @@ import java.io.*;
 public class CombinedSymbolTable extends SymbolTable {
 
 	private static final int BufferSize  = 80;  // input line buffer size
-	
+
 	private static final String SymbolFileName = "symbols";
-	
+
 	private int syntaxCount;  // number of syntax  symbols
 	private int featureCount; // number of feature symbols
-	
+
 	public CombinedSymbolTable (
-	
+
 	) throws IOException {
 		super();
 		try {
@@ -52,23 +52,23 @@ public class CombinedSymbolTable extends SymbolTable {
 	}
 
 	public CombinedSymbolTable (
-	
+
 		BufferedReader reader
-		
+
 	) throws IOException {
 		super();
 		loadSymbols(reader);
 	}
-	
+
 	private static final char DEL = 255;
 	private static final char COM = ';';
-	
+
 	// read a line
-	
+
 	private String gets (
-	
+
 		BufferedReader in
-		
+
 	) throws IOException {
 		String s = in.readLine();
 		if (s != null) {
@@ -83,29 +83,29 @@ public class CombinedSymbolTable extends SymbolTable {
 	}
 
 	// loads syntax type and feature modifier symbols into the global
-	// symbolTable from the "symbol" file and sets symbolsLoaded flag
+	// symbolTable from the "symbols" file and sets symbolsLoaded flag
 
 	private void loadSymbols (
-	
+
 		BufferedReader reader
-		
+
 	) throws IOException {
 		String inBuff;
 		int n;
-		
+
 		// read in symbol definitions until line starting with '.'
 
 		int mapping = 0;
-		
+
 		try {
 
 			while ((inBuff = gets(reader)) != null) {
 				if (inBuff.length() == 0)
 					continue;
-				
+
 				if (inBuff.charAt(0) == '.')
 					break;
-					
+
 				if (syntaxCount++ >= TableSize)
 					throw new IOException("symbol overflow at " + inBuff);
 
@@ -118,7 +118,7 @@ public class CombinedSymbolTable extends SymbolTable {
 			while ((inBuff = gets(reader)) != null) {
 				if (inBuff.length() == 0)
 					continue;
-				
+
 				if (syntaxCount + featureCount >= TableSize)
 					throw new IOException("feature overflow at " + inBuff);
 
@@ -132,30 +132,30 @@ public class CombinedSymbolTable extends SymbolTable {
 				symbolMap[mapping++] = (byte) x;
 				featureCount++;
 			}
-			
+
 		} catch (AWException e) {
 			throw new IOException("cannot interpret symbols");
 		}
-		
+
 		reader.close();
 	}
 
 	// to override
-	
+
 	int scanForType (
-	
+
 		String typ
-		
+
 	) {
 		return scan(typ,0,syntaxCount);
 	}
 
 	// to override
-	
+
 	int scanForFeature (
-	
+
 		String fet
-		
+
 	) {
 		return scan(fet,syntaxCount,syntaxCount+featureCount);
 	}

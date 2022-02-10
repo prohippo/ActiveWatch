@@ -22,31 +22,30 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraserMain.java : 08feb2022 CPM
-// phrase summarization application
+// EndingBuilder.java : 09feb2022 CPM
 
 package aw.phrase;
 
-import aw.Banner;
 import aw.AWException;
+import aw.phrase.EndingTable;
+import java.io.*;
 
-public class PhraserMain {
+public class EndingBuilder {
 
-	private static final int nphX = 5;
-	
 	public static void main ( String[] a ) {
-		Banner banner = new Banner("Phraser");
-		banner.show();
-
-		System.out.println("phrase summarization for item clusters");
-		int nph = (a.length > 0) ? Integer.parseInt(a[0]) : nphX;
 		try {
-			Phraser an = new Phraser(nph);
-			an.run();
+			FileInputStream is = new FileInputStream(EndingTable.input);
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
+			EndingTable etb = new EndingTable();
+			etb.build(in);
+			etb.save();
+			in.close();
 			System.out.println("DONE");
+		} catch (IOException e) {
+			System.err.println(e);
 		} catch (AWException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

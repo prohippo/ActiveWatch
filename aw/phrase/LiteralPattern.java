@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LiteralPattern.java : 06feb2022 CPM
+// LiteralPattern.java : 09feb2022 CPM
 // identification of syntactic element by pattern matching
 
 package aw.phrase;
@@ -33,11 +33,11 @@ import java.io.*;
 
 public class LiteralPattern {
 
-	public    static final String file = "litss";
-	
+	public    static final String file = "patss";
+
 	public    static final int LIMIT = 512;
 	protected static final int NINDX = Letter.NAN + 3;
-	
+
 	protected static final String WILDs = "@#!?%"; // wildcards matching 1 char
 	protected static final String NULLs = "[]\\";  // these match null strings
 	protected static final String INITs = WILDs + "*["; // may legally start pattern
@@ -54,7 +54,7 @@ public class LiteralPattern {
 	protected static final char SPCS = '_';
 	protected static final char WILD = '?';
 	protected static final char ESCP = '\\';
-	
+
 	protected static final char DEL = (char) Parsing.Empty;
 
 	protected short[] index  = new short[NINDX];   // first entry starting with a given character
@@ -63,13 +63,13 @@ public class LiteralPattern {
 	protected char[] pattern; // stored entries
 
 	// get patterns from file (JDK 1.1)
-	
+
 	public void load (
-	
+
 		DataInputStream in
-	
+
 	) throws IOException {
-	
+
 		for (int i = 0; i < NINDX; i++)
 			index[i] = in.readShort();
 		int n = index[NINDX-1];
@@ -83,17 +83,17 @@ public class LiteralPattern {
 		pattern = new char[m];
 		InputStreamReader rd = new InputStreamReader(in);
 		rd.read(pattern,0,m);
-		
+
 	}
-	
+
 	// put patterns into file (JDK 1.1)
-	
+
 	public void save (
-	
+
 		OutputStream os
-	
+
 	) throws IOException {
-	
+
 		if (pattern == null)
 			return;
 		BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -109,7 +109,7 @@ public class LiteralPattern {
 		OutputStreamWriter wr = new OutputStreamWriter(bos);
 		wr.write(pattern,0,m);
 		wr.flush();
-		
+
 	}
 
 }

@@ -22,11 +22,12 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AnalyzerMain.java : 19Nov98 CPM
+// AnalyzerMain.java : 08feb2022 CPM
 // phrase analysis application
 
 package aw.phrase;
 
+import aw.Banner;
 import aw.AWException;
 
 public class AnalyzerMain {
@@ -35,6 +36,9 @@ public class AnalyzerMain {
 	private static final int wlX = 8;
 	
 	public static void main ( String[] a ) {
+		Banner banner = new Banner("Analyzer");
+		banner.show();
+
 		System.out.println("phrase analysis of text items");
 		int nb = (a.length > 0) ? Integer.parseInt(a[0]) : nbX;
 		int wl = (a.length > 1) ? Integer.parseInt(a[1]) : wlX;
