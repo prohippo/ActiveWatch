@@ -37,32 +37,33 @@ public class ResourceInput {
 	static public DataInputStream openStream (
 		String file
 	) throws IOException {
-	
+
 		InputStream stream = open(file);
 		if (stream == null)
 			stream = new FileInputStream(FileAccess.to(file));
 		return new DataInputStream(new BufferedInputStream(stream));
-		
+
 	}
-	
+
 	static public BufferedReader openReader (
 		String file
 	) throws IOException {
-	
+
 		Reader r;
 		InputStream stream = open(file);
 		if (stream != null)
 			r = new InputStreamReader(stream);
 		else
 			r = new FileReader(FileAccess.to(file));
+		if (r == null) System.err.println("cannot open " + file);
 		return new BufferedReader(r);
-		
+
 	}
-	
+
 	static private InputStream open (
 		String file
 	) {
 		return ResourceInput.class.getResourceAsStream("/" + file);
 	}
-	
+
 }

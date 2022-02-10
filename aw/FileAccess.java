@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// FileAccess.java : 15Feb99 CPM
+// FileAccess.java : 09feb2022 CPM
 // for invisible access to files in a different directory
 
 package aw;
@@ -32,9 +32,9 @@ import java.io.*;
 public class FileAccess {
 
 	private static String where = ""; // directory path string
-	
+
 	// set directory for access
-	
+
 	public static void setDirectory (
 		String wh
 	) {
@@ -47,7 +47,7 @@ public class FileAccess {
 			where = wh;
 		}
 	}
-	
+
 	public final static String to ( String file ) { return where + file; }
-	
+
 }
