@@ -266,3 +266,10 @@ Release History:
 	                   clean up CharArray source code
                            clean up phrase exrracrion source code
 	                   update documentation
+
+	v1.4.3  10feb2022  add PATBLD and ENDBLD support modules for phrase analysis
+	                   add language processing tables for phrase analysis
+	                   add reporting on failure to load language processing tables
+	                   add bannder to ANALZR and PHRASR modules
+	                   clean up source files
+	                   update documentation
