@@ -1,0 +1,42 @@
+; PAR Core Text Processing
+; revised basic syntax definitions
+; SYMBOLS : 19JAN96 CPM
+;
+; syntactic types and defining codes
+ADJective    1:0010
+ADVerb       1:0001
+AUXiliary    5:0000
+CONjunction  7:1000
+DETerminer   4:0000
+INItial      2:0100
+NAMe         2:0010
+NEGation     7:0100
+NOUn         1:1000
+NXV          1:1100
+NUMber       3:0001
+PREposition  6:0000
+PROnoun      3:1000
+TIMe         1:1001
+TITle        2:1000
+VERb         1:0100
+.
+; syntactic features [0 - 7]
+CAPital   =0
+FUNctional=1
+BREak     =2
+INFlected =3
+POSsessive=4
+;
+DEFinite=5
+PARticle=5
+FIRst   =5
+SUR     =6
+MORe    =7
+FOUr    =7
+;
+; semantic features [8 - 15]
+ACTor    =8
+CORporate=9
+ABStract =10
+SITe     =11
+

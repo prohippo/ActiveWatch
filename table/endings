@@ -1,0 +1,158 @@
+; Core Text Processing  -  Endings Table for Syntax Defaults
+; File ENDINGS: 17NOV96 CPM
+;
+; exceptions noted below must be handled in elsewhere explicitly by word
+;
+ia      NOUn
+ic      ADJective  ;but mechanic
+linic   NOUn
+hood    NOUn
+ance    NOUn
+ence    NOUn
+wide    ADVerb
+ee      NOUn
+age     NOUn
+like    ADJective
+able    ADJective  ;but timetable
+ible    ADJective  ;but mandible, crucible
+ure     NOUn       ;but insure, endure
+ese     ADJective
+eese    NOUn
+ense    NOUn       ;but dispense
+onse    NOUn
+ate     VERb       ;but climate, certificate, accurate, considerate
+nate    NOUn
+inate   VERb
+torate  NOUn
+ite     NOUn
+ive     ADJective  ;but missive
+ize     VERb
+ish     ADJective  ;but hashish, impoverish
+i       ADJective  ;but Yaqui, etc.
+al      ADJective  ;but vital, disposal, rehearsal, journal
+pital   NOUn
+val     NOUn
+wal     NOUn
+ayal    NOUn
+ol      NOUn
+ful     ADJective
+sm      NOUn
+ium     NOUn
+an      NOUn
+ean     VERb
+bean    ADJective
+rean    ADJective
+man     NOUn
+woman   NOUn
+men     NOUn
+women   NOUn
+ion     NOUn
+son     NOUn
+ern     ADJective 
+ship    NOUn
+lar     ADJective
+llar    NOUn
+or      NOUn
+is      NOUn
+ness    NOUn
+ous     ADJective
+iant    ADJective
+ient    ADJective
+ment    NOUn
+aint    NOUn
+rnt     ADJective
+pt      NOUn       ;but except, rapt
+iest    ADJective
+ist     NOUn       ;but assist
+most    ADject     ;but almost
+cy      NOUn
+ify     VERb
+chy     ADJective
+archy   NOUn       ; but starchy
+phy     NOUn
+bly     ADVerb[+FUN]
+arily   ADVerb[+FUN]
+edly    ADVerb[+FUN]
+tely    ADVerb[+FUN]
+ively   ADVerb[+FUN]
+ingly   ADVerb[+FUN]
+ily     ADVerb
+mily    NOUn
+ally    ADVerb
+ically  ADVerb[+FUN]
+ially   ADVerb[+FUN]
+ually   ADVerb[+FUN]
+fully   ADVerb[+FUN]
+nly     ADVerb[+FUN]
+ously   ADVerb[+FUN]
+inly    ADVerb
+ssly    ADVerb
+ously   ADVerb
+tly     ADVerb[+FUN]
+ctly    ADVerb
+rtly    ADVerb
+;
+ary     ADJective  ;but summary
+ory     ADJective  ;but laboratory, pillory
+ntary   ADJective
+ery     NOUn
+iry     NOUn
+lry     NOUn
+nry     NOUn
+try     NOUn
+ety     NOUn
+ity     NOUn
+;
+ology   NOUn
+nomy    NOUn
+;
+!iy      NAMe
+!okin    NAMe[+SUR]
+!ov      NAMe[+SUR]
+!ev      NAMe[+SUR]
+!ukin    NAMe[+SUR]
+!wicz    NAMe[+SUR]
+!vich    NAMe[+SUR]
+!aki     NAMe
+;
+!bay     NAMe
+!berg    NAMe
+!bridge  NAMe
+!brook   NAMe
+!burg    NAMe
+!cliff   NAMe
+!dale    NAMe
+!dam     NAMe
+!fall    NAMe
+!field   NAMe
+!ford    NAMe
+!hill    NAMe
+!mill    NAMe
+!mont    NAMe
+!ridge   NAMe
+!smith   NAMe
+!stein   NAMe
+!stone   NAMe
+!ton     NAMe       ;but wonton, canton
+!town    NAMe
+!tree    NAMe
+!vale    NAMe
+!view    NAMe
+!ville   NAMe
+!wald    NAMe
+!well    NAMe
+!wood    NAMe
+;
+!banc    NAMe[+CORp]
+!care    NAMe[+CORp]
+!com     NAMe[+CORp]
+!comm    NAME[+CORp]
+!cor     NAMe[+CORp]
+!corp    NAMe[+CORp]
+!health  NAMe[+CORp]
+!pro     NAMe[+CORp]
+!sys     NAMe[+CORp]
+!tech    NAMe[+CORp]
+!tek     NAMe[+CORp]
+
+

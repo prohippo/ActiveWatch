@@ -1,0 +1,7 @@
+?[+CAP] ^ PRE[+PARt] DET ?[+CAP-PARt] |
+TITle[+CAP+PARt] ^ ?[+CAP-PARt-FUN]
+INItial[+CAP] ^ ?[+CAP-PARt-FUN]
+ADJective ^ VERb[+INFl]
+.
+
+
