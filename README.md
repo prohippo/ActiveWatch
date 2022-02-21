@@ -244,7 +244,7 @@ Release History:
 	v1.3.1  15jan2022  add 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   clean up and extend stemming
-	                   update documentation, fix this file for MD
+	                   update documentation, fix this file for MD formatting
 
 	v1.3.2  17jan2022  add 4- and 5-grams to reduce indexing noise
 	                   update documentation
@@ -272,4 +272,9 @@ Release History:
 	                   add reporting on failure to load language processing tables
 	                   add bannder to ANALZR and PHRASR modules
 	                   clean up source files
+	                   update documentation
+
+	v1.4.4  20feb2022  extensive reworking of ANALZR module
+	                   fix incomplete LexicalAtomStream
+	                   clean up CharArray class
 	                   update documentation
