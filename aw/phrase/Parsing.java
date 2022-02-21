@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Parsing.java : 08Apr99 CPM
+// Parsing.java : 11feb2022 CPM
 // basic phrase description with I/O
 
 package aw.phrase;
@@ -42,62 +42,70 @@ public class Parsing {
 	short  count;  // of phrases
 	short  length; // of buffer in bytes
 	byte[] buffer; // parse codes
-	
+
 	// initialize from stream
-	
+
 	public Parsing (
-	
+
 		DataInput in
-		
+
 	) throws IOException {
 		load(in);
 	}
-	
+
 	// initialize from array
-	
+
 	public Parsing (
-	
+
 		int count,
 		int length,
 		byte[] buffer
-		
+
 	) {
 		this.count  = (short) count;
 		this.length = (short) length;
 		this.buffer = buffer;
 	}
-	
+
 	// write parsing to output stream
-	
+
 	public void save (
-	
+
 		DataOutput out
-		
+
 	) throws IOException {
 		out.writeShort(count);
 		out.writeShort(length);
 		out.write(buffer,0,length);
 	}
-	
+
 	// read parsing from input stream
-	
+
 	public void load (
-	
+
 		DataInput in
-		
+
 	) throws IOException {
 		count  = in.readShort();
 		length = in.readShort();
 		buffer = new byte[length];
 		in.readFully(buffer,0,length);
 	}
-	
+
 	// access from outside package
-	
+
 	public final int getCount ( ) { return count; }
-	
+
 	public final int getLength ( ) { return length; }
-	
+
 	public final byte[] getBuffer ( ) { return buffer; }
-	
+
+	public String toString ( ) {
+		String s = " " + count + " phrases in " + length + " bytes: ";
+		int ln = (length < 16) ? length : 16;
+		for (int i = 0; i < ln; i++)
+			s += String.format("%x",buffer[i]);
+		if (ln < length) s += " ...";
+		return s;
+	}
 }

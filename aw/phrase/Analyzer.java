@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Analyzer.java : 03Mar00 CPM
+// Analyzer.java : 10feb2022 CPM
 // phrase analysis update module
 
 package aw.phrase;
@@ -35,27 +35,31 @@ public class Analyzer extends AnalyzerBase {
 
 	private int batch; // which to analyze
 	private int count; // how many items
-	
+
 	private static final int W = 80; // line width
-	
+
 	// data base initializations
-	
+
 	public Analyzer (
-	
-		int nb,
-		int wl
-	
+
+		int nb, // byte limit on output for single item
+		int wl  // word limit for single phrase
+
 	) throws AWException {
 		super(nb,wl);
 		Control c = new Control();
 		batch = c.cubn;
 		count = Index.count(batch);
+		if (count == 0) {
+			batch = c.previous(batch);
+			count = Index.count(batch);
+		}
 	}
-	
+
 	// process every item in last batch
-	
+
 	public void run (
-	
+
 	) throws AWException {
 		Parse pp = null;
 		for (int n = 0; n < count; n++) {
@@ -64,6 +68,7 @@ public class Analyzer extends AnalyzerBase {
 			String ts = it.getBody();
 			LinedText lt = new LinedText(ts,W);
 			Parsing ps = analyze(lt);
+			System.out.println(ps);
 			reparse(ts,ps);
 			try {
 				pp = new Parse(ps);
@@ -75,5 +80,5 @@ public class Analyzer extends AnalyzerBase {
 		if (pp != null)
 			pp.close();
 	}
-	
+
 }

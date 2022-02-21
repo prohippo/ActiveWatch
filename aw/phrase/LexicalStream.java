@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalStream.java : 30jan2022 CPM
+// LexicalStream.java : 16feb2022 CPM
 // break text into lexical elements
 
 package aw.phrase;
@@ -32,73 +32,74 @@ import aw.Letter;
 
 public class LexicalStream {
 
-	public static final char stp   = 0x81; // phrase   stop
-	public static final char stpf  = 0x82; // sentence stop
+	public static final char stp   = 0xA1; // phrase   stop
+	public static final char stpf  = 0xA2; // sentence stop
 	public static final char empty = 0x7F; // to be ignored
 	public static final char blank = 0x20; // ASCII space
-	
+
 	public static final char CR = '\r';
 	public static final char LF = '\n';
 	public static final char BS = '\b';
-	
+
 	public static final char AMP = '&';
-	public static final char BSL = '\'';
-	
+	public static final char BSL = '\\';
+
 	private static final String punc = "!?:;";
 	private static final String brac = "()[] ";
 
 	protected CharArray text; // text buffer
-	
+
 	private static final int N = 3; // maximum space count for no break
 	private static final int L = 4; // maximum abbreviation length
-	
+
 	// initialize with 0 terminated buffer
-	
+
 	public LexicalStream (
-	
+
 		CharArray text
-		
+
 	) {
 		this.text = text;
 	}
-	
+
 	// check for end of stream
-	
+
 	public final boolean end ( ) { return (text.length() == 0); }
-	
+
 	// moves to the next word or major punctuation in text
 	// and returns the number of characters moved
-	
+
 	public int find (
-	
+
 	) {
 		int it = 0;
 		int lmt = text.length();
-	
+
+//		System.out.println("++++ text= " + text);
 		for (; text.notEmpty(); it++) {
 			char c = text.charAt(it);
 			if (c == stp || c == stpf) break;
 			if (c == empty) continue;
-				
+
 			// skip over initial spaces
 
 			int itb = it;
 			while (c == blank)
 				c = text.charAt(++it);
-				
+
 			int k = it - itb;
-			
+
 			if (c == CR) {
 				k = 0; continue;
 			}
 			if (c == LF) {
 				k = 0; continue;
 			}
-			
+
 			int n = 0;
 			for (; c != 0 && Character.isISOControl(c); n++)
 				c = text.charAt(++it);
-				
+
 			if (it >= lmt) {
 				it = lmt;
 				break;
@@ -108,7 +109,7 @@ public class LexicalStream {
 				c = ']';
 				text.setCharAt(--it,c);
 			}
-				
+
 			// special character checks and conversions
 
 			if (c == 0 || Character.isLetterOrDigit(c) || c == AMP || c == BSL)
@@ -131,7 +132,10 @@ public class LexicalStream {
 				}
 			}
 			else if (c == '.') {
-				if (text.charAt(it+1) != '.' || text.charAt(it+2) != '.')
+//				System.out.println("LexicalStream c= " + c);
+				if (it + 2 >= lmt)
+					text.setCharAt(it,stpf);
+				else if (text.charAt(it+1) != '.' || text.charAt(it+2) != '.')
 					text.setCharAt(it,stpf);
 				else {
 					it += 2;
@@ -142,41 +146,41 @@ public class LexicalStream {
 			else if (c == BS)
 				text.setCharAt(it,' ');
 		}
-		
+
 		text.skip(it);
 		return it;
 	}
-	
+
 	private static final String brks = "!?()[]";
-	
+
 	// scans the next alphanumeric sequence in text
 	// and count of characters
-	
+
 	public int get (
-	
+
 	) {
 		if (!text.notEmpty())
 			return 0;
 
 		int it = 0;
 		char c = text.charAt(it);
-		
+
 		// special treatment for comma
-		
+
 		if (c == ',') {
 			c = stp;
 			text.setCharAt(it,c);
 		}
-		
+
 		// look for phrase or sentence break
-		
+
 		if (c == stp || c == stpf) {
 			text.skip(1);
 			return 1;
 		}
-		
+
 		// scan for next element
-		
+
 		for (int k = 0;; it++) {
 			c = text.charAt(it);
 			if (c == 0 || Character.isWhitespace(c) || c == stp || c == stpf)
@@ -214,9 +218,13 @@ public class LexicalStream {
 		text.skip(it);
 		return it;
 	}
-	
+
+	// is stream exhausted?
+
+	public final boolean notEmpty ( ) { return text.notEmpty(); }
+
 	// for access to token outside of package
-	
+
 	public final String collect ( int n ) { return text.getSubstring(-n,0); }
 
 }

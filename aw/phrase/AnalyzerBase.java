@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AnalyzerBase.java : 03Mar00 CPM
+// AnalyzerBase.java : 10feb2022 CPM
 // functions broken up for analysis of one item at a time
 
 package aw.phrase;
@@ -37,20 +37,20 @@ public class AnalyzerBase {
 
 	private LiteralType lty;
 	private Reparser    rps;
-	
+
 	private byte[] analysis; // results of analysis
-	
+
 	private int wlm; // word limit in phrase
-	
+
 	// initialize language tables
 
 	public AnalyzerBase (
-	
-		int nb,
-		int wlm
-		
+
+		int nb, // byte limit for output
+		int wlm // word limit for any phrase
+
 	) throws AWException {
-		
+
 		try {
 			PhraseSyntax.loadDefinitions();
 			DataInputStream is = ResourceInput.openStream(LiteralPattern.file);
@@ -60,40 +60,40 @@ public class AnalyzerBase {
 		} catch (IOException e) {
 			throw new AWException(e);
 		}
-		
+
 		this.wlm = wlm;
 		analysis = allocate(nb);
 	}
-	
+
 	// allow for overriding
-	
+
 	public byte[] allocate (
-	
+
 		int n
-		
+
 	) {
 		return new byte[n];
 	}
-	
+
 	// process a lined item by paragraphs
-	
+
 	public Parsing analyze (
-	
+
 		LinedText lt
-		
+
 	) throws AWException {
 		int nPhrase = 0;
 		int lAnalysis = 0;
-		
+
 		int nl = (lt.nl < NL) ? lt.nl : NL;
-		
+
 		TextAnalyzer ta;
 		try {
 			ta = new TextAnalyzer(lt.ts,lt.lx,nl,lty);
 		} catch (IOException e) {
 			throw new AWException(e);
 		}
-		
+
 		// parse each paragraph
 
 		int n;
@@ -103,23 +103,23 @@ public class AnalyzerBase {
 		}
 
 		// even out length of analysis by padding
-		
+
 		analysis[lAnalysis] = Parsing.Pad;
 		if ((lAnalysis%2) > 0)
 			lAnalysis++;
 
 		return new Parsing(nPhrase,lAnalysis,analysis);
 	}
-	
+
 	// special-case adjustments of analysis
-	
+
 	public void reparse (
-	
+
 		String text,
 		Parsing parse
-	
+
 	) {
 		rps.reparse(text,parse);
 	}
-		
+
 }

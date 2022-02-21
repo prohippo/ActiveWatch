@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CharArrayWithTypes.java : 30jan2022 CPM
+// CharArrayWithTypes.java : 15feb2022 CPM
 // with methods to support recognizing of basic types of lexical entitiess
 
 package aw.phrase;
@@ -34,7 +34,7 @@ public class CharArrayWithTypes extends CharArray {
 	// inherits
 	// char[] array;
 	// int   offset;
-	// int    limit;
+	// int   length;
 
 	// create array from substring
 
@@ -57,7 +57,13 @@ public class CharArrayWithTypes extends CharArray {
 		int offset,
 		int count
 	) {
-		return getSubarray(offset,count);
+		CharArrayWithTypes can = new CharArrayWithTypes(); // empty
+		if (offset < length && count + offset <= length) {
+			can.array = new char[count];
+			can.length = count;
+			System.arraycopy(array,offset,can.array,0,count);
+		}
+		return can;  // this should be cast to CharArrayWithTypes!
 	}
 
 	// implement date check

@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtomStream.java : 30jan2022 CPM
-// produce a sequence of syntactically tagged atoms
+// LexicalAtomStream.java : 16feb2022 CPM
+// produce a sequence of syntactically tagged atoms from text
 
 package aw.phrase;
 
@@ -35,11 +35,9 @@ public class LexicalAtomStream extends LexicalStream {
 	// inherits
 	// CharArray text;
 
-	private LiteralType   lt; // for multi-word atoms
+	private LiteralType   lt; // for parsing multi-word atoms
 
-	private LexicalAtom atom; // for return
-
-	private boolean putBack = false;
+	private LexicalAtom atom; // for temporarily saving atom for next output
 
 	// initialize
 
@@ -59,7 +57,7 @@ public class LexicalAtomStream extends LexicalStream {
 	) {
 		super(tx);
 		this.lt = lt;
-		atom = new LexicalAtom();
+		atom = null;  // no saved previous atom
 	}
 
 	// put back an atom
@@ -67,7 +65,7 @@ public class LexicalAtomStream extends LexicalStream {
 	public void backUp (
 		LexicalAtom a
 	) {
-		putBack = true;
+		atom = a;
 	}
 
 	// special check for putback
@@ -75,7 +73,8 @@ public class LexicalAtomStream extends LexicalStream {
 	public int find (
 
 	) {
-		return (putBack) ? 0 : super.find();
+//		System.out.println("find start of atom");
+		return (atom != null) ? 0 : super.find();
 	}
 
 	// gets the next token from a text string plus syntactic information
@@ -83,29 +82,34 @@ public class LexicalAtomStream extends LexicalStream {
 	public LexicalAtom next (
 
 	) {
-		if (putBack) {
-			putBack = false;
-			return atom;
+		if (atom != null) {
+//			System.out.println("putBack= " + atom); 
+			LexicalAtom as = atom;
+			atom = null;
+			return as;
 		}
 
+//		System.out.println("next: " + text);
 		CharArrayWithTypes text = (CharArrayWithTypes) this.text;
 
-		LexicalAtom a = atom;
-		a.skip           = super.find();
-		a.spec.type      = Syntax.unknownType;
-		a.spec.modifiers = a.spec.semantics = 0;
-		a.atom[0] = 0;
+		LexicalAtom a = new LexicalAtom();
 
 		// check for special case of null atom
 
 //		System.out.println("length= " + text.length());
-		if (text.length() == 0)
+		if (text.isEmpty())
 			return null;
 
-		char x = text.charAt(0);
-		if (stop(x,a))
-			return a;
+		int k = find();
+//		System.out.println("found= " + k + " in " + this);
 
+		char x = text.charAt(0);
+//		System.out.println("x= " + x + " : " + a);
+		if (stop(x,a)) {   // look for single stop character
+			return a;
+		}
+
+//		System.out.println("set atom feature bits");
 		// set feature bits for any capitalization
 
 		if (Character.isUpperCase(x))
@@ -180,9 +184,10 @@ public class LexicalAtomStream extends LexicalStream {
 
 		}
 
-//		System.out.println("1 " + a);
+//		System.out.println("1: " + a);
 		text.copyChars(a.atom,kl,a.span);  // fill current atom for return
-//		System.out.println("2 " + a);
+//		System.out.println("2: " + a);
+//		System.out.println("text= [" + text + "]");
 		return a;
 
 	}
@@ -193,6 +198,7 @@ public class LexicalAtomStream extends LexicalStream {
 		char x,
 		LexicalAtom a
 	) {
+//		System.out.println("stop x= " + x);
 		if ((x & 0x80) == 0)
 			return false;
 		else {
@@ -200,11 +206,20 @@ public class LexicalAtomStream extends LexicalStream {
 				a.stopp = true;
 			else
 				a.stops = true;
+			a.atom[0] = x;
 			a.span = 1;
 			a.length = 0;
+//			System.out.println("a= " + a);
 			text.skip(1);
+//			System.out.println("text= " + text);
 			return true;
 		}
+	}
+
+	// show stream
+
+	public final String toString ( ) {
+		return "stream@" + text.position() + "= " + text.toString();
 	}
 
 	////////
@@ -219,12 +234,14 @@ public class LexicalAtomStream extends LexicalStream {
 		try {
 			System.out.println("=" + a[0]);
 			CharArrayWithTypes chwt = new CharArrayWithTypes(a[0]);
-			System.out.println("[" + chwt + "]");
-			LexicalAtomStream las = new LexicalAtomStream(chwt);     // no multi-word atoms
-			for (int i = 0; i < 6; i++) {
+			System.out.println("[[" + chwt + "]]");
+			LexicalAtomStream las = new LexicalAtomStream(chwt);  // no multi-word atoms
+			for (int i = 0; las.notEmpty(); i++) {
+				System.out.println(" -------- " + i);
+				System.out.println(las);
 				LexicalAtom atom = las.next();
-				System.out.println(atom);
-				System.out.println("[" + chwt + "]");
+				System.out.println(">> " + atom);
+				System.out.println("(" + i + ") [" + chwt + "]");
 			}			
 		} catch (Exception e) {
 			System.err.println(e);

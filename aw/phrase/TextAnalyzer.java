@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TextAnalyzer.java : 21Apr99 CPM
+// TextAnalyzer.java : 11feb2022 CPM
 // process an entire text item by paragraphs
 
 package aw.phrase;
@@ -33,18 +33,18 @@ public class TextAnalyzer {
 
 	private LiteralType lty;
 	private TextParagrapher tpg;
-	
+
 	private static boolean defined = false;
-	
+
 	private CharArrayWithTypes cha; // writeable copy of text
 
 	public TextAnalyzer (
-	
+
 		String text,
 		int[]  lining,
 		int    nlines,
 		LiteralType lty
-	
+
 	) throws IOException {
 		if (!defined) {
 			SymbolTable stb = PhraseSyntax.getSymbolTable();
@@ -59,7 +59,7 @@ public class TextAnalyzer {
 		tpg = new TextParagrapher(cha,lining,nlines);
 		this.lty = lty;
 	}
-	
+
 	private int Pp; // parse pointer
 	private int Sp; // last sentence start
 	private byte[] Pb;
@@ -71,11 +71,11 @@ public class TextAnalyzer {
 	private int phraseCount;
 
 	// store offset, possibly require multiple bytes
-		
+
 	private int setPosition (
-	
+
 		int offset
-		
+
 	) {
 		while (offset > Parsing.OverflowValue) {
 			Pb[Pp++] = Parsing.Overflow;
@@ -87,37 +87,39 @@ public class TextAnalyzer {
 	// reset for analyses
 
 	public final void restart ( ) { addedSkip = 0; }
-	
+
 	// get number of phrases extracted
-	
+
 	public final int countPhrases ( ) { return phraseCount; }
 
 	// get phrases from next paragraph
-	
+
 	public int analyze (
-	
+
 		byte[] parse,
 		int    start,
 		int    wordlimit
-		
+
 	) {
 		Pb = parse;
 		Pp = start;
 		phraseCount = 0;
-		
+
 		// end of text check
 
 		CharArrayWithTypes tx = tpg.next();
 		if (tx == null || tx.length() == 0)
 			return 0;
-			
+
 		int o = tpg.offset();
-		
+
+		System.out.println("offset= " + o);
 		LexicalAtomStream las = new LexicalAtomStream(tx,lty);
-		
+
 		int n = las.find();
 		n = setPosition(n);
 
+		System.out.println("n= " + n);
 		Pb[Pp++] = Parsing.Paragraph;
 		Pb[Pp++] = (byte)(n + o);
 		int length = 2;
@@ -153,15 +155,15 @@ public class TextAnalyzer {
 		int nContent  = 0; // count of content elements in phrase
 		int nFunction = 0; //       of noncontent elements
 		int nNumber   = 0; //       of number elements
-		
+
 		previousSyntax.type = Syntax.unknownType;
 		previousSyntax.modifiers = Syntax.moreFeature;
-		
+
 		int n = las.find();
 
 		int phraseSkip = addedSkip + n;
 		addedSkip = 0;
-		
+
 		int Pps,Ppt,Ppz;
 
 		Pps = Ppz = Pp;
@@ -169,7 +171,7 @@ public class TextAnalyzer {
 		Ppt = Pp;
 		Pb[Pp++] = Parsing.Phrase;
 		Pb[Pp++] = (byte) phraseSkip;
-		
+
 		LexicalAtom a = null;
 
 		for (int k = 0; k < wordlimit; k++) {
@@ -179,11 +181,12 @@ public class TextAnalyzer {
 			// get next word in phrase
 
 			a = las.next();
+			System.out.println("atom= " + a);
 			if (a == null)
 				break;
 
 			addedSkip += a.skip;
-			
+
 			if (a.length == 0) {
 				previousSyntax.type = Syntax.unknownType;
 				previousSyntax.modifiers = 0;
@@ -193,7 +196,7 @@ public class TextAnalyzer {
 				else
 					continue;
 			}
-			
+
 			// get syntactic type for atom
 
 			if (a.spec.type == Syntax.unknownType)
@@ -217,7 +220,7 @@ public class TextAnalyzer {
 
 			Pb[Pp++] = a.spec.type;
 			Pb[Pp++] = a.spec.modifiers;
-			
+
 			if (!Syntax.positionalType(a.spec)) {
 				addedSkip += a.span;
 				nFunction++;
@@ -239,9 +242,9 @@ public class TextAnalyzer {
 		// back up past trailing non-content words
 
 		Pp = Pps;
-		
+
 		// check for all elements being simple numbers
-		
+
 		if (nContent > 0)
 			if (nFunction == 0 && nContent == nNumber) {
 				for (int i = 0; i < nNumber; i++) {
@@ -260,7 +263,7 @@ public class TextAnalyzer {
 			while (--Ppt >= Ppz)
 				addedSkip += Parsing.OverflowValue;
 			Pp = Ppz;
-			
+
 		}
 
 		if (a != null && a.stops) {

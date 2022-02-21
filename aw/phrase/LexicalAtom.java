@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtom.java : 28jan2022 CPM
-// need to declare data type separately
+// LexicalAtom.java : 14feb2022 CPM
+// unit of parsing for phrase analysis with associated data type
 
 package aw.phrase;
 
@@ -40,41 +40,43 @@ public class LexicalAtom {
 	public SyntaxSpec spec; // syntax for atom
 	public boolean   stopp; // stop phrase
 	public boolean   stops; // stop sentence
-	
+
 	// initialize
-	
+
 	public LexicalAtom (
-	
+
 	) {
 		spec = new SyntaxSpec();
 		atom = new char[L+1];
 	}
-	
+
 	// for debugging
-	
+
 	public final byte modifiers ( ) { return spec.modifiers; }
-	
+
 	// for debugging
-	
+
 	public final byte type ( ) { return spec.type; }
 
-	// got printing
+	// for printing
 
-	public String toString ( ) { return new String(atom) + "[" + spec.type + "] span= " + span; }
-	
+	public String toString ( ) {
+		return new String(atom) + "[" + spec.type + "] skip= " + skip + ", span= " + span;
+	}
+
 	// get syntax information by lookup or inference
-	
+
 	public void getSyntax (
-	
+
 		SyntaxSpec prev
-		
+
 	) {
 
 		// check for a number
-		
+
 		if (NumberType.match(atom,span,spec))
 			return;
-		
+
 		// look up the word or its ending for its syntactic type
 
 		if (WordType.match(atom,span,spec)   ||
@@ -86,7 +88,7 @@ public class LexicalAtom {
 
 		if (InflectionType.match(atom,span,spec))
 			return;
-			
+
 		// if inflected, try lookup again
 
 		if ((spec.modifiers & Syntax.inflectedFeature) == 0)
@@ -99,12 +101,12 @@ public class LexicalAtom {
 			spec.type = Syntax.verbType;
 			spec.modifiers |= Syntax.breakFeature;
 		}
-		else if (prev.type == Syntax.determinerType  ||
+		else if (prev.type == Syntax.determinerType ||
 			prev.type == Syntax.adjectiveType   ||
 			prev.type == Syntax.prepositionType ||
 			prev.type == Syntax.unknownType)
 			spec.type = Syntax.nounType;
 
 	}
-	
+
 }

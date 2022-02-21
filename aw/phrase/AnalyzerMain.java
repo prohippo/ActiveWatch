@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AnalyzerMain.java : 08feb2022 CPM
+// AnalyzerMain.java : 10feb2022 CPM
 // phrase analysis application
 
 package aw.phrase;
@@ -32,9 +32,9 @@ import aw.AWException;
 
 public class AnalyzerMain {
 
-	private static final int nbX = 16000;
-	private static final int wlX = 8;
-	
+	private static final int nbX = 16000; // byte limit for output
+	private static final int wlX = 8;     // word limit for single phrase
+
 	public static void main ( String[] a ) {
 		Banner banner = new Banner("Analyzer");
 		banner.show();
@@ -42,6 +42,7 @@ public class AnalyzerMain {
 		System.out.println("phrase analysis of text items");
 		int nb = (a.length > 0) ? Integer.parseInt(a[0]) : nbX;
 		int wl = (a.length > 1) ? Integer.parseInt(a[1]) : wlX;
+		System.out.println("word limit for any phrase= " + wl);
 		try {
 			Analyzer an = new Analyzer(nb,wl);
 			an.run();
@@ -50,5 +51,5 @@ public class AnalyzerMain {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

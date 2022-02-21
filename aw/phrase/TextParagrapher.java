@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TextParagrapher.java : 26jan2022 CPM
+// TextParagrapher.java : 10feb2022 CPM
 // divide a text into paragraphs
 
 package aw.phrase;
@@ -31,41 +31,41 @@ public class TextParagrapher {
 
 	private static final String Spaces = " \f\t\013\177";
 	private static final String Indent = " \t\377";
-	
+
 	private static final int W = 32; // nominal width for filled out line
-	
+
 	private CharArrayWithTypes text;
-	
+
 	private int[] lining;
 	private int   nlines;
-	
+
 	private int    start;
-	
+
 	private Rewriter rwr;
-	
+
 	// initialize with text and line index
 
 	public TextParagrapher (
-	
+
 		CharArrayWithTypes text,
 		int[] lining,
 		int   nlines
-		
+
 	) {
 		this.text = text;
 		this.lining = lining;
 		this.nlines = nlines;
-		
+
 		rwr = new Rewriter();
-		
+
 		trimTrailingBlanks();
 		recognizeStopPunctuation();
 	}
-	
+
 	// trim trailing blanks from each line
-	
+
 	private void trimTrailingBlanks (
-	
+
 	) {
 		for (int i = 0; i < nlines; i++) {
 			int k = lining[i];
@@ -76,15 +76,15 @@ public class TextParagrapher {
 						text.setCharAt(n,LexicalStream.empty);
 		}
 	}
-	
+
 	// special handling of periods
-	
+
 	private void recognizeStopPunctuation (
-	
+
 	) {
 		int Tp = 1;
 		int Tl = lining[nlines];
-		
+
 		for (; Tp < Tl; Tp++) {
 			if (text.charAt(Tp) != '.')
 				continue;
@@ -97,33 +97,33 @@ public class TextParagrapher {
 				text.setCharAt(Tp++,LexicalStream.empty);
 				continue;
 			}
-			
+
 			// cannot stop unless followed by space
-			
+
 			if (!Character.isWhitespace(text.charAt(Tp+1)))
 				if (!Character.isLetterOrDigit(text.charAt(Tp+1)))
 					text.setCharAt(Tp, LexicalStream.empty);
 
 		}
 	}
-	
+
 	// return offset on text
-	
+
 	private int nxtr = 0;
 	private int incr = 0;
-	
+
 	public final int offset ( ) { return incr; }
-	
+
 	// get next paragraph by scanning up to empty line,
 	// but across at least one non-empty line
-	
+
 	public CharArrayWithTypes next (
-	
+
 	) {
 		int skip = start;
-		
+
 		// scan for empty line
-		
+
 		int k = start;
 		for (int count = 0; k < nlines; k++) {
 
@@ -136,48 +136,48 @@ public class TextParagrapher {
 				break;
 			else
 				skip++;
-				
+
 		}
-		
+
 		// rewrite specified text elements
-		
+
 		rwr.rewrite(text);
-		
+
 		// check for tabular formatting
 
 		interpretIndentation(skip,k);
-		
+
 		delineateColumns(skip,k);
-		
+
 		int bs = lining[skip];
 		int ln = lining[k] - bs;
 		incr = bs - lining[start] + nxtr;
-		
+
 		for (nxtr = 0; ln > 0; --ln, nxtr++)
 			if (text.charAt(bs+ln-1) != LexicalStream.empty &&
 				text.charAt(bs+ln-1) != '\r')
 				break;
 
 		CharArrayWithTypes paragraph = (CharArrayWithTypes) text.subarray(bs,bs+ln);
-		
+
 		start = k;
-		
+
 		return paragraph;
 	}
-	
+
 	private static final char Tab = '\t';
 
 	// to tell when indentation starts a paragraph
-	
+
 	private void interpretIndentation (
-	
+
 		int skip,
 		int limit
-		
+
 	) {
 		int Tp = lining[skip];
 		int in = spanning(Tp,Indent);
-		
+
 		// compare subsequent lines with first
 
 		for (int i = skip + 1; i < limit; i++) {
@@ -211,13 +211,13 @@ public class TextParagrapher {
 			in = k;
 		}
 	}
-	
+
 	// detect next possible column break
-	
+
 	private int scanForBreak (
-	
+
 		int is
-	
+
 	) {
 		int il = lining[nlines] - 3;
 		for (; is < il; is++) {
@@ -229,14 +229,14 @@ public class TextParagrapher {
 		}
 		return -1;
 	}
-	
+
 	// equivalent of strspn() in C library
-	
+
 	private int spanning (
-	
+
 		int    pos,
 		String set
-		
+
 	) {
 		int bas = pos;
 		for (; text.charAt(pos) > 0; pos++)
@@ -246,12 +246,12 @@ public class TextParagrapher {
 	}
 
 	// equivalent of strcspn() in C library
-	
+
 	private int spanningNot (
-	
+
 		int    pos,
 		String set
-		
+
 	) {
 		int bas = pos;
 		for (; text.charAt(pos) > 0; pos++)
@@ -259,7 +259,7 @@ public class TextParagrapher {
 				break;
 		return pos - bas;
 	}
-	
+
 	private static final int NPOS = 6; // maximum number of columns in text
 	private static final int MINL = 4; // minimum line count
 
@@ -268,18 +268,18 @@ public class TextParagrapher {
 	private int[] poe = new int[NPOS];
 
 	// detect table formatting
-	
+
 	private void delineateColumns (
-	
+
 		int skip,
 		int limit
-		
+
 	) {
 		if (nlines - skip < MINL)
 			return;
 
 		boolean pattern = false;
-		
+
 		for (int i = skip; i <limit; i++) {
 
 			// look for columns aligned with spaces
@@ -319,7 +319,7 @@ public class TextParagrapher {
 							break;
 					}
 				}
-				
+
 				if (npos == 1 && pos[0] == 0)
 					continue;
 
@@ -337,11 +337,11 @@ public class TextParagrapher {
 	}
 
 	// put in explicit tabbing for spaces in specified line
-	
+
 	private void markSpacing (
-	
+
 		int k
-		
+
 	) {
 		int pp;
 		int lp = lining[k];
@@ -357,11 +357,11 @@ public class TextParagrapher {
 	}
 
 	// column alignments need to show up on consecutive lines
-	
+
 	private boolean corroborateSpacing (
-	
+
 		int   k
-		
+
 	) {
 		int lp = lining[k];
 		int ln = lining[k + 1] - lining[k];
@@ -378,5 +378,5 @@ public class TextParagrapher {
 		}
 		return (j == npos);
 	}
-	
+
 }
