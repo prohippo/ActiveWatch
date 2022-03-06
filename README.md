@@ -278,3 +278,10 @@ Release History:
 	                   fix incomplete LexicalAtomStream
 	                   clean up CharArray class
 	                   update documentation
+
+	v1.4.5  04mar2022  extensive reworking of Start and Parse classes
+	                   reorganize AW special hash tables
+	                   clean up source files for entity type classes
+	                   rework ANALZR and PHRASR modules
+	                   add DXPH and DSPH tools
+	                   update documentation

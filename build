@@ -246,7 +246,6 @@ object/FullProfile.class \
 object/GappedProfileList.class \
 object/Gapping.class \
 object/HashTable.class \
-object/Hashing.class \
 object/KeyDerivation.class \
 object/KeyTextAnalysis.class \
 object/ListHead.class \
@@ -501,7 +500,6 @@ aw/Control.class \
 aw/FileAccess.class \
 aw/FileName.class \
 aw/Index.class \
-aw/IndexedBatchFile.class \
 aw/Inputs.class \
 aw/Letter.class \
 aw/Lines.class \
@@ -547,7 +545,6 @@ aw/phrase/TextParagrapher.class \
 aw/phrase/TimeType.class \
 aw/phrase/WordType.class \
 object/HashTable.class \
-object/Hashing.class \
 object/Text.class \
 object/TextItem.class \
 object/WordHashTable.class \
@@ -679,7 +676,6 @@ aw/Control.class \
 aw/FileAccess.class \
 aw/FileName.class \
 aw/Index.class \
-aw/IndexedBatchFile.class \
 aw/Item.class \
 aw/Letter.class \
 aw/Map.class \
@@ -732,9 +728,7 @@ object/FullProfile.class \
 object/GappedProfileList.class \
 object/Gapping.class \
 object/HashTable.class \
-object/Hashing.class \
 object/ISAMData.class \
-object/IndexedItem.class \
 object/KeyTextAnalysis.class \
 object/ListHead.class \
 object/ListNode.class \
