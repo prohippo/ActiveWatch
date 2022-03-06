@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// InflectionType.java : 23Apr99 CPM
+// InflectionType.java : 23feb2022 CPM
 // use inflection ending to set syntax type
 
 package aw.phrase;

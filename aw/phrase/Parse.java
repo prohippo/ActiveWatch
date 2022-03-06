@@ -22,16 +22,15 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Parse.java : 09feb2022 CPM
+// AW file Parse.java : 28feb2022 CPM
 // phrase analysis access class
 
 package aw.phrase;
 
-import aw.OffsetBase;
-import aw.IndexedBatchFile;
+import aw.BatchFile;
 import java.io.*;
 
-public class Parse extends IndexedBatchFile {
+public class Parse extends BatchFile {
 
 	public static final String root = "parse"; // for file name
 	public static final int    size = 1;       // byte
@@ -44,6 +43,15 @@ public class Parse extends IndexedBatchFile {
 	private static Parsing save;
 
 	public Parsing analysis; // actual parsing
+
+	// implicit closing
+
+	public static void close (
+
+	) {
+		closeIt(ios);
+		ios = null;
+	}
 
 	// to support subclasses with constructors of different signatures
 
@@ -87,60 +95,23 @@ public class Parse extends IndexedBatchFile {
 		bns = bn;
 		access(unSPECIFIED);
 		analysis.save(ios);
+		Start sr = new Start(position());
+		sr.save(bn);
 	}
 
-	// create new offset record
-
-	public OffsetBase offsetRecord (
-	) {
-		return new Start(0);
-	}
-
-	// get offset for variable-length record from index
-
-	public OffsetBase offsetRecord (
-		int bn,
-		int n
+	// file position for I/O
+	
+	public static int position (
+	
 	) throws IOException {
-		return new Start(bn,n);
+		return (ios == null) ? 0 : (int) ios.getFilePointer();
 	}
-
-	// close any open files
-
-	public static void closeIt (
-		RandomAccessFile io
-	) {
-		try {
-			if (io != null)
-				io.close();
-			ios = null;
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-		Start.close();
-	}
-
-	// implicit closing
-
-	public static void close (
-
-	) {
-		closeIt(ios);
-	}
-
-	// current file length
-
-	public static int length (
-		int bn  // batch number
-	) {
-		return countIt(root,bn,1);
-	}
-
+	
 	// accessors
 
 	protected final String rootF ( ) { return root; }
-	protected final int  sizeF ( ) { return size; }
-	protected final int  bnsF ( ) { return bns; }
+	protected final int    sizeF ( ) { return size; }
+	protected final int     bnsF ( ) { return bns; }
 
 	protected final RandomAccessFile iosF ( ) { return ios; }
 	protected final void iosF ( RandomAccessFile io ) { ios = io; }

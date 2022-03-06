@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// NumberType.java : 23Apr99 CPM
+// NumberType.java : 23feb2022 CPM
 // test for number formats
 
 package aw.phrase;
@@ -30,15 +30,15 @@ package aw.phrase;
 public class NumberType {
 
 	private static final String emb = ",./-:";
-	
+
 	// recognize numerical token
-	
+
 	public static boolean match (
-	
+
 		char[] a,
 		int   ln,
 		SyntaxSpec x
-		
+
 	) {
 		int nd = 0, no = 0;
 
@@ -55,7 +55,7 @@ public class NumberType {
 					no++;
 			}
 		}
-		
+
 		if (no + nd == ln)
 			return false;
 		x.type = Syntax.numberType;
@@ -63,5 +63,5 @@ public class NumberType {
 			x.modifiers |= Syntax.moreFeature;
 		return true;
 	}
-	
+
 }

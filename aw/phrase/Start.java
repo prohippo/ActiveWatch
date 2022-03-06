@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Start.java : 09feb2022 CPM
-// phrase start offset in file separate from parse
+// AW file Start.java : 26feb2022 CPM
+// parse start offset in separate file
 
 package aw.phrase;
 
@@ -39,7 +39,8 @@ public class Start extends OffsetBase {
 	private static int bns = unDEFINED; // saved batch number
 	private static int ins = unDEFINED; // saved item index in batch
 
-	private static int offsets;  // saved offset
+	private static int offsets;         // saved offset
+	private static final int zero = 0;  // for first offset
 
 	// set phrase offset record
 
@@ -81,11 +82,11 @@ public class Start extends OffsetBase {
 	public void save (
 		int bn  // batch number
 	) throws IOException {
-		if (offset >= 0) {
-			bns = bn;
-			access(unSPECIFIED);
-			ios.writeInt(offset);
-		}
+		bns = bn;
+		access(unSPECIFIED);
+		if (ios.getFilePointer() == 0)
+			ios.writeInt(zero);
+		ios.writeInt(offset);
 	}
 
 	// get record count

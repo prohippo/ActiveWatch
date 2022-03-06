@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// EndingType.java : 22Apr99 CPM
+// EndingType.java : 23feb2022 CPM
 // to determine syntactic type
 
 package aw.phrase;
@@ -37,13 +37,13 @@ public class EndingType {
 	private static EndingBase etb;
 
 	// get syntactic type from match of word endings
-	
+
 	public static boolean match (
-	
+
 		char[] a,
 		int   ln,
 		SyntaxSpec x
-		
+
 	) {
 		if (etb == null)
 			load();
@@ -56,9 +56,9 @@ public class EndingType {
 				break;
 		if (ab == ln)
 			return false;
-			
+
 		byte ms = (byte)(~x.modifiers);
-		
+
 		SyntaxSpec save = null;
 
 		int ap = ln - 1;
@@ -90,7 +90,7 @@ public class EndingType {
 					break;
 				n++;
 				--ap;
-				
+
 			}
 			else {
 
@@ -101,9 +101,9 @@ public class EndingType {
 					break;
 			}
 		}
-		
+
 		// show best match
-		
+
 		if (save == null)
 			return false;
 		else {
@@ -113,11 +113,11 @@ public class EndingType {
 			return true;
 		}
 	}
-	
+
 	// read in ending table
-	
+
 	private static void load (
-	
+
 	) {
 		try {
 			DataInputStream in = ResourceInput.openStream(EndingBase.file);
@@ -128,5 +128,5 @@ public class EndingType {
 			etb.clear();
 		}
 	}
-	
+
 }

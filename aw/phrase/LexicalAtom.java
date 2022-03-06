@@ -22,12 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtom.java : 14feb2022 CPM
+// LexicalAtom.java : 23feb2022 CPM
 // unit of parsing for phrase analysis with associated data type
 
 package aw.phrase;
 
 import aw.phrase.Syntax;
+import java.util.Arrays;
 
 public class LexicalAtom {
 
@@ -35,8 +36,8 @@ public class LexicalAtom {
 
 	public int        skip; // offset from current stream location
 	public int        span; // actual width within stream
+	public int      length; // atom length
 	public char[]     atom; // atom as normalized string
-	public int      length; // length of stored string
 	public SyntaxSpec spec; // syntax for atom
 	public boolean   stopp; // stop phrase
 	public boolean   stops; // stop sentence
@@ -61,7 +62,8 @@ public class LexicalAtom {
 	// for printing
 
 	public String toString ( ) {
-		return new String(atom) + "[" + spec.type + "] skip= " + skip + ", span= " + span;
+		String sa = new String(Arrays.copyOfRange(atom,0,length));
+		return sa + "[[" + spec.type + "]] skip= " + skip + ", span= " + span;
 	}
 
 	// get syntax information by lookup or inference

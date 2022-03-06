@@ -34,14 +34,14 @@ public class NameType {
 	// recognize a token of 2 to 5 characters with the first two
 	// capitalized preceded by a token without its second letter
 	// capitalized or containing no vowels or all vowels
-	
+
 	public static boolean match (
-	
+
 		char[] a,
 		int    n,
 		SyntaxSpec x, // for current atom
 		SyntaxSpec p  // for previous
-		
+
 	) {
 		if ( n < 2 || n > 5)
 			return false;
@@ -70,5 +70,5 @@ public class NameType {
 
 		return false;
 	}
-	
+
 }

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Analyzer.java : 10feb2022 CPM
+// Analyzer.java : 24feb2022 CPM
 // phrase analysis update module
 
 package aw.phrase;
@@ -62,14 +62,17 @@ public class Analyzer extends AnalyzerBase {
 
 	) throws AWException {
 		Parse pp = null;
+		System.out.println("batch count= " + count);
 		for (int n = 0; n < count; n++) {
 			System.out.println(batch + ":" + n);
 			TextItem it = new TextItem(batch,n);
 			String ts = it.getBody();
+			System.out.println(ts.length() + " chars");
 			LinedText lt = new LinedText(ts,W);
 			Parsing ps = analyze(lt);
-			System.out.println(ps);
+			System.out.println("  parsing= " + ps);
 			reparse(ts,ps);
+			System.out.println("reparsing= " + ps);
 			try {
 				pp = new Parse(ps);
 				pp.save(batch);

@@ -22,13 +22,14 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// WordType.java : 09feb2022 CPM
+// WordType.java : 04mar2022 CPM
 // to determine syntactic type from mini-dictionary
 
 package aw.phrase;
 
 import aw.AWException;
 import aw.ResourceInput;
+import aw.phrase.Syntax;
 import object.WordHashTable;
 import java.io.*;
 
@@ -130,4 +131,29 @@ public class WordType {
 		return wordCount;
 	}
 
+//
+////	for debugging
+
+	private static int test ( String x ) {
+		int nh = wordTable.lookUp(x);
+		System.out.println("[[" + x + "]] -> " + nh);
+		return nh;
+	}
+
+	public static void main ( String[] a ) {
+		int n;
+		try {
+			System.out.println("testing WordType");
+			CombinedSymbolTable stb = new CombinedSymbolTable();
+			System.out.println("symbol count= " + stb.symbolCount);
+			WordType.load(stb);
+			System.out.println("word   count= " + wordCount);
+			test("the");
+			n = test("and");
+			if (n < 0)
+				System.out.println(wordType[-n]);
+		} catch ( IOException e ) {
+			System.err.println(e);
+		}
+	}
 }

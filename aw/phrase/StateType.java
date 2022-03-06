@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// StateType.java : 26jan2022 CPM
+// StateType.java : 23feb2022 CPM
 //  hard logic to recognize state references in addresses
 
 package aw.phrase;
@@ -31,7 +31,7 @@ public class StateType {
 
 	private static final char Stp = (char) Parsing.Phrase;
 	private static final char Del = (char) Parsing.Empty;
-	
+
 	private static final boolean T = true, F = false;
 
 	private static final boolean dg[]= { // coded standard USPS abbreviations
@@ -62,21 +62,21 @@ public class StateType {
 		F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,
 		F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F
 	};
-	
+
 	private static final int M = 26;
-	
+
 	// find state reference in string
-	
+
 	public static int match (
-	
+
 		char[] s, // string will null terminator
 		int    o  // offset in buffer
-		
+
 	) {
 		int to = o;
-		
+
 		// look for preceding comma
-		
+
 		int lm = s.length - 1;
 		if (lm < to + 4 || s[to] != ',')
 			return 0;
@@ -92,7 +92,7 @@ public class StateType {
 		char y = s[to];
 
 		// get total length of letter sequence
-		
+
 		int k = 0;
 		int lk = lm - to;
 		for (; k < lk; k++)
@@ -129,7 +129,7 @@ public class StateType {
 		// for 2-element state names
 
 		CharArrayWithTypes.set(s,uo,5);
-		
+
 		if (!Character.isWhitespace(s[to]) && !Character.isLetterOrDigit(s[to]))
 			;
 		else if (k == 4) {
@@ -187,16 +187,16 @@ public class StateType {
 		if (k == 1) {
 
 			// look up digrams
-			
+
 			if (!dg[M*(x - 'A') + (y - 'A')])
 				return 0;
-				
+
 		}
-		
+
 		else {
-		
+
 			// match minimal sequences case by case
-			
+
 			if (Character.isLetter(x)) 
 				uo++;
 			CharArrayWithTypes.set(s,uo,3);
@@ -273,7 +273,7 @@ public class StateType {
 				f = (CharArrayWithTypes.match("ASH") ||
 					 CharArrayWithTypes.match("IS")  ||
 					 CharArrayWithTypes.match("YO"));
-			
+
 	case 1:
 				f = (CharArrayWithTypes.match("HAM") ||
 					 CharArrayWithTypes.match("JER") ||
@@ -296,19 +296,19 @@ public class StateType {
 				return 0;
 
 			// on match, skip remaining chars
-			
+
 			for (uo += 2; Character.isLetter(s[uo]); uo++);
 			to = uo;
 		}
 
 		// check context of what follows
 
-		if (s[to] > 0) {
-		
+		if (to < s.length) {
+
 			if (Character.isWhitespace(s[to])) {
-			
+
 				// space should be followed by possible zipcode
-				
+
 				for (uo = to; Character.isWhitespace(s[uo]) || s[uo] == Del; uo++);
 				if (!digits(s,uo,5))
 					return 0;
@@ -319,38 +319,40 @@ public class StateType {
 					else
 						return 0;
 				to = uo;
-					
+
 			}
 			else if (Character.isLetterOrDigit(s[to]))
-			
+
 				// should not happen
-				
+
 				return 0;
-				
+
 			else {
-			
+
 				// check first char afterward
-				
-				if (s[to] == ',')
+
+				if (to == s.length)
+					;
+				else if (s[to] == ',')
 					s[to] = Del;
 				else if (s[to] == '.') {
 					to++;
-					if (s[to] == 0)
+					if (to == s.length)
 						;
 					else if (Character.isWhitespace(s[to]))
 						s[uo] = Stp;
 					else if (!Character.isLetterOrDigit(s[to]))
 						return 0;
 				}
-					
+
 			}
 		}
 
 		return (to - o);
 	}
-	
+
 	// match a sequence of k digits
-	
+
 	private static boolean digits (
 		char[] s,
 		int   uo,

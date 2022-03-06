@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtomStream.java : 16feb2022 CPM
+// LexicalAtomStream.java : 01mar2022 CPM
 // produce a sequence of syntactically tagged atoms from text
 
 package aw.phrase;
@@ -100,8 +100,9 @@ public class LexicalAtomStream extends LexicalStream {
 		if (text.isEmpty())
 			return null;
 
-		int k = find();
-//		System.out.println("found= " + k + " in " + this);
+		a.skip = find();
+
+//		System.out.println("skip= " + a.skip + " in " + this);
 
 		char x = text.charAt(0);
 //		System.out.println("x= " + x + " : " + a);
@@ -186,6 +187,7 @@ public class LexicalAtomStream extends LexicalStream {
 
 //		System.out.println("1: " + a);
 		text.copyChars(a.atom,kl,a.span);  // fill current atom for return
+		a.length = a.span;
 //		System.out.println("2: " + a);
 //		System.out.println("text= [" + text + "]");
 		return a;

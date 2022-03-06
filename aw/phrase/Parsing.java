@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Parsing.java : 11feb2022 CPM
+// Parsing.java : 23feb2022 CPM
 // basic phrase description with I/O
 
 package aw.phrase;
@@ -104,7 +104,7 @@ public class Parsing {
 		String s = " " + count + " phrases in " + length + " bytes: ";
 		int ln = (length < 16) ? length : 16;
 		for (int i = 0; i < ln; i++)
-			s += String.format("%x",buffer[i]);
+			s += String.format("%02x ",buffer[i]);
 		if (ln < length) s += " ...";
 		return s;
 	}

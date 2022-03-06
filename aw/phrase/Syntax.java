@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Syntax.java : 25jan2022 CPM
+// Syntax.java : 04mar2022 CPM
 // define named syntactic categories for phrase analysis
 
 package aw.phrase;
@@ -38,37 +38,41 @@ class SyntaxSpec {
 	byte type;      // part of speech
 	byte modifiers; // more lexical info
 	byte semantics; // semantic features
-	
+
 	void copy (
-	
+
 		SyntaxSpec x
-		
+
 	) {
 		type = x.type;
 		modifiers = x.modifiers;
 		semantics = x.semantics;
 	}
-	
+
 	void read (
-	
+
 		DataInput in
-		
+
 	) throws IOException {
 		type = in.readByte();
 		modifiers = in.readByte();
 		semantics = in.readByte();
 	}
-	
+
 	void write (
-	
+
 		DataOutput out
-		
+
 	) throws IOException {
 		out.writeByte(type);
 		out.writeByte(modifiers);
 		out.writeByte(semantics);
 	}
-	
+
+	public String toString ( ) {
+		return String.format(" %02x %02x %02x",type,modifiers, semantics);
+	}
+
 }
 
 // for rules
@@ -83,11 +87,11 @@ class SyntaxPatt {
 	byte[] semanticmasks = new byte[2]; // bit masks
 
 	// compare type with pattern
-	
+
 	public boolean matchSyntaxType (
-	
+
 		SyntaxSpec spec
-		
+
 	) {
 		return (
 			((type & spec.type) & Syntax.x0F) == 0 &&
@@ -96,11 +100,11 @@ class SyntaxPatt {
 	}
 
 	// compare features with pattern
-	
+
 	public boolean matchSyntaxFeatures (
-	
+
 		SyntaxSpec spec
-		
+
 	) {
 		return !(
 			(modifiermasks[0] & ~spec.modifiers) != 0 ||
@@ -118,7 +122,7 @@ public class Syntax {
 	public static final byte xF0 = (byte) 0xF0; //
 
 	// for named types
-	
+
 	public static byte 
 		adjectiveType,
 		adverbType,
@@ -134,7 +138,7 @@ public class Syntax {
 		verbType;
 
 	// for named features
-	
+
 	public static byte
 		capitalFeature,
 		functionalFeature,
@@ -142,18 +146,18 @@ public class Syntax {
 		inflectedFeature,
 		possessiveFeature,
 		moreFeature;
-		
+
 	private static boolean done = false;
-	
+
 	// define categories from symbol table
-	
+
 	public static void initialize (
 
 		SymbolTable tb
-		
+
 	) {
 		if (done) return;
-		
+
 		// syntax types to be recognized explicitly for phrase extraction
 
 		adjectiveType   = (byte) tb.syntacticType("ADJective");
@@ -168,7 +172,7 @@ public class Syntax {
 		timeType        = (byte) tb.syntacticType("TIMe");
 		unknownType     = (byte) tb.syntacticType("UNKnown");
 		verbType        = (byte) tb.syntacticType("VERb");
-		
+
 		// syntax features
 
 		capitalFeature    = (byte) tb.modifierFeature("CAPital");
@@ -182,11 +186,11 @@ public class Syntax {
 	}
 
 	// check for content constituent
-	
+
 	public static final boolean positionalType (
 		SyntaxSpec ss
 	) {
 		return (ss.modifiers & functionalFeature) == 0;
 	}
-	
+
 }

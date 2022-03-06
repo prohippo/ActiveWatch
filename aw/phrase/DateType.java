@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// DateType.java : 033Jul04 CPM
+// DateType.java : 23feb2022 CPM
 // hard-logic to recognize dates in text
 
 package aw.phrase;
@@ -33,18 +33,18 @@ public class DateType {
 		"JANUARY", "FEBRUARY", "MARCH"    , "APRIL"  , "MAY"     , "JUNE"    ,
 		"JULY"   , "AUGUST"  , "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
 	};
-	
+
 	private static final String dy = "0123";
-	
+
 	private static int yr0,yr1; // for year
 	private static int mo0,mo1; // for month
 	private static int dy0,dy1; // for date
 
 	public static int match (
-	
+
 		char[] s,
 		int    o
-		
+
 	) {
 		int os = o;
 		int k = aMonth(s,o);
@@ -59,7 +59,7 @@ public class DateType {
 				return 0;
 			o += k;
 			int m = (s[o] == ',') ? 1 : 0;
-			
+
 			int om = o + m;
 			om += CharArrayWithTypes.trim(s,om);
 			int mm = aYear(s,om);
@@ -97,9 +97,9 @@ public class DateType {
 		}
 		return 0;
 	}
-	
+
 	// parse a month name
-	
+
 	private static int aMonth ( char[] s, int o ) {
 		int k = 3;
 		int i = 0;
@@ -111,21 +111,21 @@ public class DateType {
 				break;
 		if (i == mo.length)
 			return 0;
-			
+
 		int m = i + 1;
 		if (m > 9) {
 			mo0 = '1';
 			m -= 10;
 		}
 		mo1 = (char)('0' + m);
-		
+
 		o += k;
 		char x = s[o];
 		if (x == '.')
 			return k + 1;
 		if (Character.isWhitespace(x))
 			return k;
-			
+
 		String ms = mo[i];
 		int n = ms.length();
 		while (k < n)
@@ -140,14 +140,14 @@ public class DateType {
 	}
 
 	// parse a day number
-	
+
 	private static int aDay ( char[] s, int o ) {
 		int  k;
 
-		if (s[o] == 0)
+		if (o >= s.length)
 			return 0;
 		char x = s[o++];
-		
+
 		if (Character.isDigit(x)) {
 			if (s[o] == 0) {
 			    dy0 = x;
@@ -180,9 +180,9 @@ public class DateType {
 
 			if (s[o] == 0 || !Character.isLetter(s[o]))
 				return k;
-				
+
 			CharArrayWithTypes.set(s,o,2);
-				
+
 			switch (x) {
 	case '1':
 				if (!CharArrayWithTypes.match("ST"))
@@ -212,19 +212,19 @@ public class DateType {
 	}
 
 	// parse a year
-	
+
 	private static int aYear ( char[] s, int o ) {
 		int ln = s.length - o - 1;
 		if (ln <= 0)
 			return 0;
-			
+
 		int n = 0;
 		for (; n < ln; n++)
 			if (!Character.isDigit(s[n+o]))
 				break;
 		if (n != 2 && n != 4)
 			return 0;
-		
+
 		yr0 = s[o+n-2];
 		yr1 = s[o+n-1];
 		int to = o + n;
@@ -235,8 +235,8 @@ public class DateType {
 			if (m < 2 || n == 2)
 				;
 			else if (CharArrayWithTypes.match("AD") ||
-				CharArrayWithTypes.match("BC") ||
-				CharArrayWithTypes.match("CE")  ) {
+				 CharArrayWithTypes.match("BC") ||
+				 CharArrayWithTypes.match("CE")) {
 				if (ln > to + 2 || !Character.isLetterOrDigit(s[to+2]))
 					return n + 3;
 			}
@@ -249,8 +249,8 @@ public class DateType {
 			else if (m < 4)
 				;
 			else if (CharArrayWithTypes.match("A.D.") ||
-				CharArrayWithTypes.match("B.C.") ||
-				CharArrayWithTypes.match("C.E.")  ) {
+				 CharArrayWithTypes.match("B.C.") ||
+				 CharArrayWithTypes.match("C.E.")  ) {
 				if (ln > to + 4 || !Character.isLetterOrDigit(s[to+4]))
 					return n + 5;
 			}
@@ -264,10 +264,10 @@ public class DateType {
 		if (n == 4)
 			if (s[o] != '1' && s[o] != '2')
 				return 0;
-			
+
 		if (!Character.isLetter(s[o + n]))
 			return n;
-			
+
 		return 0;
 	}
 

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TimeType.java : 26jan2022 CPM
+// TimeType.java : 23feb2022 CPM
 // hard logic to recognize time references in text
 
 package aw.phrase;
@@ -36,26 +36,26 @@ public class TimeType {
 		"EST","EDT",
 		"UMT","GMT"
 	};
-	
+
 	private static final String h = "012";
 
 	public static int match (
-	
+
 		char[] s,
 		int    o
-		
+
 	) {
-		if (!Character.isDigit(s[o]))
+		if (o >= s.length || !Character.isDigit(s[o]))
 			return 0;
 		char x = s[o];
 		int os = o;
 		o++;
-		
+
 		int to = o;
-		
-		if (s[o] == 0)
+
+		if (o == s.length)
 			return 0;
-		
+
 		if (Character.isDigit(s[o])) {
 			if (h.indexOf(x) < 0)
 				return 0;
@@ -66,9 +66,9 @@ public class TimeType {
 			o++;
 		}
 
-		if (s[o] == 0)
+		if (o == s.length)
 			return 0;
-		
+
 		if (s[o] == ':') {
 			o++;
 			if (!timeFraction(s,o))
@@ -83,12 +83,12 @@ public class TimeType {
 		}
 
 		int nn;
-		
+
 		if ((nn = CharArrayWithTypes.trim(s,o)) > 0) {
-		
+
 			int so = o + nn;
 			int m = s.length - so;
-			
+
 			CharArrayWithTypes.set(s,so,4);
 
 			if (m < 2 || !Character.isLetter(s[so]))
@@ -99,7 +99,7 @@ public class TimeType {
 				int sso = so + 2;
 				if (CharArrayWithTypes.end(s,sso))
 					o = sso;
-					
+
 			}
 			else if (m < 4)
 				;
@@ -109,13 +109,13 @@ public class TimeType {
 				int sso = so + 4;
 				if (CharArrayWithTypes.end(s,sso))
 					o = sso;
-					
+
 			}
-			
+
 		}
 
 		if ((nn = CharArrayWithTypes.trim(s,o)) > 0) {
-		
+
 			int so = o + nn;
 			if (s.length >= so + 2 && Character.isLetter(s[so])) {
 				CharArrayWithTypes.set(s,so,3);
@@ -123,7 +123,7 @@ public class TimeType {
 				for (; i < zone.length; i++)
 					if (CharArrayWithTypes.match(zone[i]))
 						break;
-						
+
 				if (i < zone.length) {
 					int sso = so + 3;
 					if (CharArrayWithTypes.end(s,sso))
@@ -136,10 +136,10 @@ public class TimeType {
 		if (Character.isWhitespace(s[o]))
 			if (s[o-1] == '.')
 				--n;
-		
+
 		return (n > 3) ? n : 0;
 	}
-	
+
 	private static boolean timeFraction (
 		char[] s,
 		int    o
@@ -150,5 +150,5 @@ public class TimeType {
 		else
 			return Character.isDigit(s[o]);
 	}
-	
+
 }
