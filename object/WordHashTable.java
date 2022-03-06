@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// WordHashTable.java : 24jan2022 CPM
+// WordHashTable.java : 04mar2022 CPM
 // for real-time applications using char[] instead of String
 
 package object;
@@ -38,9 +38,9 @@ public class WordHashTable extends HashTable {
 	) {
 		super(size);
 	}
-	
+
 	// lookup method
-	
+
 	public final int lookUp (
 		char[] a,
 		int    n
@@ -48,9 +48,9 @@ public class WordHashTable extends HashTable {
 		CharArray.set(a,0,n);
 		return hFind(code(a,n));
 	}
-	
+
 	// hashing on char[] instead of String
-	
+
 	private int code (
 		char[] a,
 		int    n
@@ -62,11 +62,11 @@ public class WordHashTable extends HashTable {
 
 		return hCode();
 	}
-	
+
 	////
 	//// override HashTable
 	////
-	
+
 	protected final boolean hCompare ( String p ) {
 		return CharArray.match(p);
 	}

@@ -22,39 +22,39 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file HashTable.java : 24Apr99 CPM
-// hash table for string keys
+// AW file HashTable.java : 04mar2022 CPM
+// hash table for string keys with values kept elsewhere
 
 package object;
 
-public class HashTable extends Hashing {
+public class HashTable {
 
 	public String[] array; // for saving hashed strings
-	
+
 	// initialize
-	
+
 	public HashTable (
-	
+
 		int n, // size of array (must be prime!)
 		int m  // hash modulus
-		
+
 	) {
-		super(m);
 		array = new String[n];
+		setModulus(m);
 	}
-	
+
 	// initialize with modulus same as size
-	
+
 	public HashTable (
-	
+
 		int n  // size of array (must be prime!)
-		
+
 	) {
 		this(n,n);
 	}
-	
+
 	// reinitialize hash table
-	
+
 	public final void clear (
 
 	) {
@@ -65,7 +65,7 @@ public class HashTable extends Hashing {
 	}
 
 	// look up a string in a hash table
-	
+
 	public final int lookUp (
 
 		String str // word to look up
@@ -75,23 +75,23 @@ public class HashTable extends Hashing {
 		this.str = str;
 		return hFind(hk);
 	}
-	
+
 	////
 	//// allow use with non-String key
 	////
-	
+
 	private String str; // key as String
-	
+
 	// shared hash lookup
-	
+
 	protected final int hFind ( int hk ) {
-	
+
 		// set inverval for reprobe
-		
+
 		int in = hk + hk%2;
 		if (in == 0)
 			in = 1;
-			
+
 		// compare key against table entries
  
  		int hs = array.length;
@@ -109,13 +109,86 @@ public class HashTable extends Hashing {
 		}
 		return 0; // table full
 	}
-	
+
 	// overrideable comparison of key against hash entry
-	
+
 	protected boolean hCompare ( String p ) {
 		return p.equals(str);
 	}
+
+	// 
+	//// for String as key, multiplicative hashing code from Knuth, v III
+
+	private static final int MLTPLR = 27479; // prime multiplier for hash
+	private static final int NSHIFT =    15; // shift for bit selection
+	private static final int KEYLEN =     6; // maximum key length
  
+	private static byte nc[] = {
+	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0,
+	  0,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
+	 25,20,26,27,28,29,30,31,20,19,27, 0, 0, 0, 0, 0,
+	  0,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
+	 25,20,26,27,28,29,30,31,20,19,27, 0, 0, 0, 0, 0
+	};
+
+	public int modulus;
+
+	// set modulus for hash code
+
+	public void setModulus (
+
+		int mod
+
+	) {
+		modulus = mod;
+	}
+ 
+ 	// actual hash function
+ 	
+	public int code (
+
+		String str   // string to be hashed
+ 
+	) {
+		int lm = hLimit(str.length());
+ 		
+		for (int i = 0; i < lm; i++)
+			hShift(str.charAt(i));
+
+		return hCode();
+	}
+
+	////
+	//// allow same hashing on individual chars not in a String
+	////
+
+	private static final char mask = 0177;
+
+	private long hk; // encoded key for hash
+
+	// how many chars to code
+
+	protected final int hLimit ( int ln ) {
+		hk = 0;
+		return (KEYLEN < ln) ? KEYLEN : ln;
+	}
+
+	// add char to coding
+
+	protected final void hShift ( char x ) {
+		int n = (x&mask);
+		hk = (hk<<5) + (nc[n]);
+	}
+
+	// compute actual code
+
+	protected final int hCode ( ) {
+		return ((int)((MLTPLR*hk)>>NSHIFT)%modulus);
+	}
+
 }
 
 
