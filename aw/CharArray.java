@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CharArray.java : 15feb2022 CPM
+// CharArray.java : 21jun2022 CPM
 // a less restrictive, memory-efficient equivalent to String class
 
 package aw;
@@ -33,9 +33,11 @@ import stem.Token;
 public class CharArray implements SortableObject {
 
 	private static final String ellipsis = "\u2026";
+	private static final String cursor   = "\u25B9";
+	private static final String bookend  = "\u25A1";
 
 	protected char[] array;  // string buffer
-	protected int    offset; // offset for start of string
+	protected int    offset; // offset for start of substring
 	protected int    length; // buffer data limit
 
 	// create from regular string class
@@ -54,7 +56,7 @@ public class CharArray implements SortableObject {
 		int leng
 	) {
 		offset = 0;
-		length = leng;
+		length = 0;
 		array = new char[leng];
 	}
 
@@ -75,14 +77,14 @@ public class CharArray implements SortableObject {
 		int leng
 	) {
 		if (offs < offset) offs = offset;
-		if (leng > length) leng = length;
+		if (leng + offs > length) leng = length - offs;
+
 		CharArray ca = new CharArray();
 
-		if (offs < leng && leng <= length) {
-			ca.array  = array;
-			ca.offset = offs;
-			ca.length = leng;
-		}
+		ca.array  = array;
+		ca.offset = offs;
+		ca.length = leng;
+
 		return ca;
 	}
 
@@ -202,7 +204,13 @@ public class CharArray implements SortableObject {
 	// move ahead in char array as buffer
 
 	public void skip ( int n ) {
-		offset += n;
+		int k = offset + n;
+		if (k > length) 
+			offset = length;
+		else if (k < 0)
+			offset = 0; 
+		else
+			offset = k;
 	}
 
 	// just like for String
@@ -226,13 +234,26 @@ public class CharArray implements SortableObject {
 
 	public final void putCharBack ( char x ) { array[--offset] = x; }
 
-	// format as String for printing out
+	// format CharArray as String for printing out
 
 	public final String toString (
 
 	) {
-		String pre = (offset > 0) ? ellipsis : "";
-		return pre + new String(array,offset,length - offset);
+		StringBuffer sb = new StringBuffer();
+		sb.append(bookend);
+		sb.append(new String(array,0,offset));
+		sb.append(cursor);
+		sb.append(getStringLeft());
+		sb.append(bookend);
+		return sb.toString();
+	}
+
+	// get remaining string in array
+
+	public final String getStringLeft (
+
+	) {
+		return new String(array,offset,length - offset);
 	}
 
 	// get portion as String without changes
@@ -241,18 +262,30 @@ public class CharArray implements SortableObject {
 		int os,
 		int ln
 	) {
+//		System.out.println("(" + os + "," + ln + ")");
 		if (ln <= 0)
 			return "";
 		int m = offset + os;
 		int k = m + ln;
-		if (m > length) m = length;
-		if (k > length) k = length;
+		if (m < 0)
+			m = 0;
+		else if (m > length)
+			m = length;
+		if (k > length)
+			k = length;
+//		System.out.println(m + "," + k);
 		if (m >= k)
 			return "";
 		else {
 			int n = k - m;
 			return new String(array,m,n);
 		}
+	}
+
+	public final String getSubstring (
+		int ln
+	) {
+		return getSubstring(offset,ln);
 	}
 
 	// identify text to match
@@ -278,6 +311,16 @@ public class CharArray implements SortableObject {
 				return -1;
 		}
 		return (n == a.length - a.offset) ? 0 : -1;
+	}
+
+	// trim initial whitespace
+
+	public int trim (
+	) {
+		int k = offset;
+		while (Character.isWhitespace(array[offset]))
+			offset++;
+		return offset - k;
 	}
 
 	// convert to ASCII upper case only
@@ -344,6 +387,26 @@ public class CharArray implements SortableObject {
 			if (ss[i] != p.charAt(i))
 				return false;
 		return true;
+	}
+
+	//// for debugging
+	////
+
+	public static void main ( String[] a ) {
+		CharArray ca = new CharArray("  This is a test.  ");
+		System.out.println("   " + ca);
+		int skp = ca.trim();
+		System.out.println("skp= " + skp);
+		System.out.println("-> " + ca);
+		int n =ca.trim();
+		System.out.println("trim " + n);
+		System.out.println("-> " + ca);
+		ca.skip(2);
+		System.out.println("-> " + ca);
+		ca.skip(100);
+		System.out.println("-> " + ca);
+		ca.skip(-99);
+		System.out.println("-> " + ca);
 	}
 
 }
