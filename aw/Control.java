@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Control.java : 10jul2021 CPM
+// AW file Control.java : 26jun2022 CPM
 // data base control class
 
 package aw;
@@ -221,7 +221,7 @@ public class Control {
 
 	public void dump ( ) {
 		System.out.println(String.format("nobs= %2d, cubn= %2d",nobs,cubn));
-		System.out.println(totb + " total batches processed");
+		System.out.println(totb + " fully processed batches so far");
 		System.out.print(ndel + " deleted");
 		for (int i = 0; i < NTB; i++) {
 			if (i%W == 0) System.out.println();
