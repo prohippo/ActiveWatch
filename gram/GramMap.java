@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramMap.java : 20jan2022 CPM
-// lookup for built-in 3-, 4-, and 5-grams
+// AW file GramMap.java : 21jun2022 CPM
+// lookup for built-in alphabetic 4- and 5-grams
 
 package gram;
 
@@ -270,7 +270,7 @@ public class GramMap {
 		"vehi", "veil", "vein", "velo", "vend", "vene", "veni", "vent", "verb", "verd",
 		"verh", "veri", "vern", "vers", "vert", "vest", "vice", "vici", "vict", "vide",
 		"view", "vile", "vill", "vinc", "vine", "viol", "virt", "visi", "vite", "vive",
-		"voca", "void", "voke", "volt", "volu", "vore", "vote", "voup", "vour", "wade",
+		"voca", "void", "voke", "volt", "volu", "vore", "vote", "vour", "wade", "wain",
 		"wait", "wake", "walk", "wall", "want", "ward", "ware", "warm", "warn", "warr",
 		"wart", "wash", "wast", "wave", "weal", "wear", "weed", "week", "weep", "well",
 		"west", "wher", "whip", "whis", "whiz", "whol", "whop", "wich", "wick", "wide",
