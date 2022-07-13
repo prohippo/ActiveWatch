@@ -22,35 +22,48 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file HashTable.java : 04mar2022 CPM
-// hash table for string keys with values kept elsewhere
+// AW file HashTable.java : 01jun2022 CPM
+// special hash table for string keys with
+// values for keys kept elsewhere
+//
+// (NOT the standard Java Hashtable class!!!)
 
 package object;
 
-public class HashTable {
+import aw.ByteTool;
+import java.util.Arrays;
 
-	public String[] array; // for saving hashed strings
+public class HashTable extends ByteTool {
+
+	//// saved string keys for hash search (must be a prime number)
+
+	public String[] array; // mapped into only ASCII chars for matching
+
+	//// default parameters for multiplicative hashing from Knuth, v III
+
+	protected static final int MLTPLR = 27479; // prime multiplier for hash
+	protected static final int NSHIFT =    15; // shift for bit selection
+	protected static final int ENCDLN =     6; // maximum encoding length
+	protected static final int FIVE   =     5;
+
+	//// only alphanumeric 32 codes are unique (Q->K, X->K , Y->J, Z->S),
+	//// allowing each code to be packed in only FIVE bits!
+
+	protected static final byte[] packing =
+		{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+		 10,11,12,13,14,15,16,17,18,19,
+		 20,21,22,23,24,25,19,26,27,28,29,
+		 30,31,19,18,27
+		};
 
 	// initialize
-
-	public HashTable (
-
-		int n, // size of array (must be prime!)
-		int m  // hash modulus
-
-	) {
-		array = new String[n];
-		setModulus(m);
-	}
-
-	// initialize with modulus same as size
 
 	public HashTable (
 
 		int n  // size of array (must be prime!)
 
 	) {
-		this(n,n);
+		array = new String[n];
 	}
 
 	// reinitialize hash table
@@ -64,43 +77,115 @@ public class HashTable {
 			array[i] = null;
 	}
 
+	// look up a char[] up to a limit in a hash table
+
+	public final int lookUp (
+
+		char[] txt,  // word in text to look up
+		int    lmt   // how may chars to take
+ 
+	) {
+		if (lmt <= 0) return 0;
+		if (lmt > txt.length) lmt = txt.length;
+		char[] t = new char[lmt];
+		System.arraycopy(txt,0,t,0,lmt);
+		return lookUp(t);
+	}
+
+	// look up a char[] in a hash table
+
+	public final int lookUp (
+
+		char[] txt // word to look up
+ 
+	) {
+		hNew(txt);
+		return hFind();
+	}
+
 	// look up a string in a hash table
 
 	public final int lookUp (
 
-		String str // word to look up
+		String strg // word to look up
  
 	) {
-		int hk = code(str);
-		this.str = str;
-		return hFind(hk);
+		hNew(strg.toCharArray());
+		return hFind();
 	}
 
 	////
-	//// allow use with non-String key
+	//// default hashing methods, which can be overridden
 	////
 
-	private String str; // key as String
+	//   work area for encoding numerical hash for alphanumeric string key
 
-	// shared hash lookup
+	protected long   numeric;  // buffer for 64-bit hash arithmetic
+	protected String key;      // canonic key form
+	protected int    slot;     // where key or first empty was found
 
-	protected final int hFind ( int hk ) {
+	// begin new hashing
 
-		// set inverval for reprobe
+	protected final boolean hNew ( char[] a ) {
+		numeric = 0;
+		StringBuffer sb = new StringBuffer();
+		int ln = a.length;
+		int j = 0, n = 0;
+		for (; j < ln; j++) {
+			char x = a[j];
+			if (x < nc.length) {
+				int cn = nc[x];
+				if (cn < 0)
+					sb.append('_');
+				else {
+					sb.append(unmapping[cn]);
+					if (n < ENCDLN) {
+						hShift(cn);
+						n++;
+					}
+				}
+			}
+		}
+		if (n == 0)
+			return false;
+		else {
+			key = sb.toString();
+			return true;
+		}
+	}
 
-		int in = hk + hk%2;
-		if (in == 0)
-			in = 1;
+	// add char to coding
+
+	protected final void hShift ( int cn ) {
+		numeric = (numeric<<FIVE) + (packing[cn]);
+	}
+
+	// compute actual starting hash code
+
+	protected final int hCode ( ) {
+		return ((int)((MLTPLR*numeric)>>NSHIFT)%(array.length));
+	}
+
+	// actual hash lookup
+
+	protected final int hFind ( ) {
+
+		int hk = hCode();  // initial probe
+		int in = 500;      // interval for reprobe
 
 		// compare key against table entries
  
  		int hs = array.length;
 		for (int i = 0; i < hs; i++) {
 			String p = array[hk];
-			if (p == null)
+			if (p == null) {
+				slot = hk;
 				return -(hk+1); // < 0, if not found
-			else if (hCompare(p))
+			}
+			else if (p.equals(key)) {
+				slot = hk;
 				return  (hk+1); // > 0, if found
+			}
 			else {
 				hk += in;
 				if (hk >= hs)
@@ -110,85 +195,12 @@ public class HashTable {
 		return 0; // table full
 	}
 
-	// overrideable comparison of key against hash entry
 
-	protected boolean hCompare ( String p ) {
-		return p.equals(str);
-	}
+	// store key in empty slot found
 
-	// 
-	//// for String as key, multiplicative hashing code from Knuth, v III
-
-	private static final int MLTPLR = 27479; // prime multiplier for hash
-	private static final int NSHIFT =    15; // shift for bit selection
-	private static final int KEYLEN =     6; // maximum key length
- 
-	private static byte nc[] = {
-	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0,
-	  0,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
-	 25,20,26,27,28,29,30,31,20,19,27, 0, 0, 0, 0, 0,
-	  0,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,
-	 25,20,26,27,28,29,30,31,20,19,27, 0, 0, 0, 0, 0
-	};
-
-	public int modulus;
-
-	// set modulus for hash code
-
-	public void setModulus (
-
-		int mod
-
-	) {
-		modulus = mod;
-	}
- 
- 	// actual hash function
- 	
-	public int code (
-
-		String str   // string to be hashed
- 
-	) {
-		int lm = hLimit(str.length());
- 		
-		for (int i = 0; i < lm; i++)
-			hShift(str.charAt(i));
-
-		return hCode();
-	}
-
-	////
-	//// allow same hashing on individual chars not in a String
-	////
-
-	private static final char mask = 0177;
-
-	private long hk; // encoded key for hash
-
-	// how many chars to code
-
-	protected final int hLimit ( int ln ) {
-		hk = 0;
-		return (KEYLEN < ln) ? KEYLEN : ln;
-	}
-
-	// add char to coding
-
-	protected final void hShift ( char x ) {
-		int n = (x&mask);
-		hk = (hk<<5) + (nc[n]);
-	}
-
-	// compute actual code
-
-	protected final int hCode ( ) {
-		return ((int)((MLTPLR*hk)>>NSHIFT)%modulus);
+	protected final void hStore ( ) {
+		if (array[slot] != null)
+			array[slot] = key;
 	}
 
 }
-
-
