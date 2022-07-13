@@ -21,8 +21,12 @@
 0 0 NIL + / 
 0 1 SOH . #*
 0 1 SOH . @*
+0 1 SOH . "*
 1 2 SBJ . @*
-1 2 SBJ ? #*
+1 2 SBJ . #*
+1 2 SBJ . "*
 2 3 SOT + ?*
 3 4 EOT . /
 4 0 EOM + /
+;
+; input text file to be delimited by these rules must end with an empty line!
