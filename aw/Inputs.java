@@ -22,9 +22,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Inputs.java : 31jan2022 CPM
+// AW file Inputs.java : 30may2022 CPM
 // special line buffering for reading UTF-8 text files
-// in DOS, Unix, or Macintosh formats on Internet
+// in DOS, Unix, or Macintosh text formats
 
 package aw;
 
@@ -75,7 +75,7 @@ public class Inputs implements Runnable {
 		try {
 			data = new InputStreamReader(in,"UTF8");
 		} catch (UnsupportedEncodingException e) {
-			System.err.println(e);
+			System.err.println(e + "??");
 			data = null;
 		}
 
@@ -260,12 +260,12 @@ public class Inputs implements Runnable {
 
 	//
 	// these methods use byte offsets into a UTF-8 text input file
-	// to make processing positions
+	// to allow positioning in input text file
 	//
 	// get line offset in text file
 
 	public int position (
-		int     set // side effects
+		int set // side effects
 	) {
 		int pos;
 
@@ -340,6 +340,8 @@ public class Inputs implements Runnable {
 		try {
 			FileInputStream in = new FileInputStream(file);
 			Inputs inp = new Inputs(in);
+			line = inp.input();
+			System.out.println("> " + line);
 			line = inp.input();
 			System.out.println("> " + line);
 			line = inp.input();
