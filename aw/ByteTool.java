@@ -22,12 +22,25 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW Source 30jul2021 : ByteTool.java
-// utility for UTF-8 data indexing
+// AW Source 03jul2022 : ByteTool.java
+// utility for UTF-8 data management and
+// mapping to ASCII for easier analysis
 
 package aw;
 
+//!! ActiveWatch (AW) was originally written in the C language to operate on ASCII
+//!! input data. The current Java version has to work with UTF-8 input data, a big
+//!! complication. To preserve the AW algorithms for stemming, entity recognition,
+//!! n-gram extraction, and other language processing, Unicode characters are mapped
+//!! into ASCII near-equivalents. This includes removal of diacritical marks from
+//!! letters, conversion of special punctuation, and replacement of other non-ASCII
+//!! characters by ASCII spaces. Random access to text in files must by a byte offset
+//!! into UTF-8 encoding where a character might ine represented by one or more bytes.
+//!! Byte counts are generally more than character counts for a text segment. Byte
+//!! counts for text segments in files are generally more than character counts.
+
 public class ByteTool {
+
 	public static int L1BYTE = 0x0080;
 	public static int L2BYTE = 0x0800;
 	public static int L3BYTE = 0xFFFF; // limit for original Java 16-bit Unicode
@@ -51,5 +64,120 @@ public class ByteTool {
 		}
 		return bytl;
 
+	}
+
+	// tables to convert Unicode to ASCII for simple text analysis
+
+	protected static final byte
+		x0= 0, x1= 1, x2= 2, x3= 3, x4= 4,
+		x5= 5, x6= 6, x7= 7, x8= 8, x9= 9;
+
+	protected static final byte
+		za=10, zb=11, zc=12, zd=13,
+		ze=14, zf=15, zg=16, zh=17,
+		zi=18, zj=19, zk=20, zl=21,
+		zm=22, zn=23, zo=24, zp=25,
+		zq=26, zr=27, zs=28, zt=29,
+		zu=30, zv=31, zw=32, zx=33,
+		zy=34, zz=35;
+
+	// mapping of Unicode Basic Latin, Latin-1 Supplement, and Latin Extended A blocks
+
+	protected static final byte nc[] = {
+		-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+		x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,-1,-1,-1,-1,-1,-1,
+
+		-1,za,zb,zc,zd,ze,zf,zg,zh,zi,zj,zk,zl,zm,zn,zo,
+		zp,zq,zr,zs,zt,zu,zv,zw,zx,zy,zz,-1,-1,-1,-1,-1,
+		-1,za,zb,zc,zd,ze,zf,zg,zh,zi,zj,zk,zl,zm,zn,zo,
+		zp,zq,zr,zs,zt,zu,zv,zw,zx,zy,zz,-1,-1,-1,-1,-1,
+
+		-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,zs,-1,zo,-1,zz,-1,
+		-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,zs,-1,zo,-1,zz,zy,
+		-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+		-1,-1,x2,x3,-1,-1,-1,-1,-1,x1,x0,-1,-1,-1,-1,-1,
+
+		za,za,za,za,za,za,za,zc,ze,ze,ze,ze,zi,zi,zi,zi,
+		zt,zn,zo,zo,zo,zo,zo,-1,zo,zu,zu,zu,zu,zy,zt,zs,
+		za,za,za,za,za,za,za,zc,ze,ze,ze,ze,zi,zi,zi,zi,
+		zt,zn,zo,zo,zo,zo,zo,-1,zo,zu,zu,zu,zu,zy,zt,zy,
+
+		za,za,za,za,za,za,zc,zc,zc,zc,zc,zc,zc,zc,zd,zd,
+		zd,zd,ze,ze,ze,ze,ze,ze,ze,ze,ze,ze,zg,zg,zg,zg,
+		zg,zg,zg,zg,zh,zh,zh,zh,zi,zi,zi,zi,zi,zi,zi,zi,
+		zi,zi,zi,zi,zj,zj,zk,zk,zk,zl,zl,zl,zl,zl,zl,zl,
+
+		zl,zl,zl,zn,zn,zn,zn,zn,zn,zn,zn,zn,zo,zo,zo,zo,
+		zo,zo,za,za,zr,zr,zr,zr,zr,zr,zs,zs,zs,zs,zs,zs,
+		zs,zs,zt,zt,zt,zt,zt,zt,zu,zu,zu,zu,zu,zu,zu,zu,
+		zu,zu,zu,zu,zw,zw,zy,zy,zy,zz,zz,zz,zz,zz,zz,zs,
+
+		zb,zb,zb,zb,-1,-1,zo,zo,zc,zd,zd,zd,zd,zd,ze,ze,
+		ze,zf,zf,zg,zg,zh,zi,zi,zk,zk,zl,zl,zm,zn,zn,zo,
+		zo,zo,zo,zo,zp,zp,zr,-1,-1,zs,zs,zt,zt,zt,zt,zu,
+		zu,zu,zv,zy,zy,zz,zz,zz,zz,zz,zz,zt,-1,-1,-1,-1,
+
+		-1,-1,-1,-1,zj,zj,zj,zl,zl,zl,zn,zn,zn,za,za,zi,
+		zi,zo,zo,zu,zu
+	};
+
+	// for normalization of key form
+
+	public static final char[] unmapping =
+		 "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
+	// Unicode punctuation
+
+	private static final char
+		RSQm = '\u2019',   // right single quote (same as APX)
+		LDQm = '\u201C',   // left  double quote
+		RDQm = '\u201D',   // right double quote
+		NDSh = '\u2013',   // en dash
+		MDSh = '\u2014';   // em dash
+
+	// map String to ASCII upper case
+
+	public static final String bytify ( String s ) {
+		StringBuffer sb = new StringBuffer();
+		char cn;
+		int ls = s.length();
+		for (int i = 0; i < ls; i++) {
+			char c = s.charAt(i);
+			boolean cap = Character.isUpperCase(c);
+			if (c < 128)
+				cn = Character.toLowerCase(c);
+			else if (c == RSQm)
+				cn = '\'';
+			else if (c == LDQm || c == RDQm)
+				cn = '"';
+			else if (c == NDSh || c == MDSh)
+				cn = '-';
+			else if (c >= nc.length)
+				cn = ' ';
+			else if (Character.isLetter(c) || Character.isDigit(c))	
+				cn = unmapping[nc[c]];
+			else
+				cn = ' ';
+
+			if (!cap) cn = Character.toLowerCase(cn);
+			sb.append(cn);
+		}
+		return sb.toString();
+	}
+
+	////
+	//// for debugging
+
+	private static final char[] data = {
+		'A' , 'a' , ' ' , '\u00D8' , LDQm, RDQm, '0', '1' ,
+		'\u00A5' , '\u00e9' , '\u00DD' , '\u00FE' , '\u00FF'
+	};
+
+	public static void main ( String[] a ) {
+
+		String s = (a.length > 0) ? a[0] : new String(data);
+		System.out.println('=' + bytify(s));
 	}
 }
