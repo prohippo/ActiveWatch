@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File TextSubsegment.java : 04aug2021 CPM
+// AW File TextSubsegment.java : 11jul2021 CPM
 // access subsegments in text files
 
 package object;
@@ -78,9 +78,11 @@ public class TextSubsegment {
 	) throws AWException {
 		int tln = tx.length() - ss.so; // available text in chars
 		
-		if (ss.ln > tln) {
-			System.err.print("@" + bns + "::" + sns + ". ");
+		if (ss.ln > tln) {             // check for bad subsegment record
+			System.err.println("tx= [" + tx + "]");
+			System.err.print("@" + bns + "::" + sns + " ");
 			System.err.println("text underflow: " + ss.ln + ">" + tln);
+			System.err.println("offset= " + ss.so + ", index= " + ss.sn);
 			if (tln < 0)
 				return "";
 			ss.ln = (short) tln;

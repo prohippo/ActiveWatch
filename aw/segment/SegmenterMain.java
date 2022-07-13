@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File SegmenterMain.java : 31jan2022 CPM
+// AW File SegmenterMain.java : 30jun2022 CPM
 // class for text segmenting application
 
 package aw.segment;
@@ -56,7 +56,7 @@ public class SegmenterMain {
 		Banner banner = new Banner("Segmenter");
 		banner.show();
 
-		System.out.println("delims= \"" + delims + "\"");
+		System.out.println("item delimiters= \"" + delims + "\"");
 			
 		try {
 		
@@ -85,7 +85,7 @@ public class SegmenterMain {
  				System.exit(1);
 			}
 
-			System.out.println(n + " items processed");
+			System.out.println(n + " new items processed");
 		
 		} catch (AWException e) {
 			e.printStackTrace();

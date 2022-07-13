@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Subsegmenter.java : 04aug2021 CPM
+// AW File Subsegmenter.java : 12jul2022 CPM
 // for subsegmentation of long text items for analysis
 
 package aw.segment;
@@ -45,35 +45,39 @@ public class Subsegmenter {
 	) throws AWException {
 	
 		int bl,ll,pl;
+		int skp;
 		int mxn;
 		int mln,mpl; // shortest line
 
-		int nl = lx.countAll();        // total line count in subsegment
+//		System.out.println("////////////////");
+//		System.out.println(lx);
+//		lx.dump();
+		int nl = lx.countAll();       // total line count in subsegment
+//		System.out.println("**** nl= " + nl);
 		if (nl == 0)
 			return;
-		int[] larry = lx.getCharX(0);  // full line index for subsegment
+		int[] larry = lx.textIndex(); // full line index for subsegment
 
 		start();
 		sxp = sxl = 0;
+		skp = lx.skip();              // ignore lines of any skipped text
 		
 		int n = 0;
-		for (bl = 0; bl < nl; n++) {
+		int base = larry[skp];        // starting char offset for next item in input text
+		for (bl = skp; bl < nl; n++) {
 
 			// get next chunk of text up to limit
 
 			for (ll = bl + 1; ll <= nl; ll++)
 				if (larry[ll] - larry[bl] > upper)
 					break;
+			if (ll > nl) ll = nl;
 
-			if (ll > nl)
+//			System.out.println("bl= " + bl + ", ll= "+ ll + ", nl= " + nl);
 
-				// if within limit, set break at end of last line
-				
-				ll = nl;
+			if (ll < nl) {
 
-			else {
-
-				// otherwise, break at shortest line preceding
+				// have to break at shortest preceding line
 				// without taking too little text 
 				
 				mln = M; mpl = -1;
@@ -85,22 +89,29 @@ public class Subsegmenter {
 						mln = ln; mpl = pl;
 					}
 				}
+//				System.out.println("bl= " + bl + ", mpl= " + mpl);
 				if (mpl >= 0)
 					ll = mpl;
 					
 			}
-
+//			System.out.println("n= " + n + ", ll= " + ll + ",bl= " + bl);
 			if (n == Nsx)
 				throw new aw.AWException("subsegment overflow");
 
 			// fill next subsegment record
 
-			sx[n].so = larry[bl];  // offset in chars, not bytes!!
+			sx[n].so = larry[bl] - base;  // offset in chars, not bytes!!
 
 			int k = larry[ll] - larry[bl];
+			if (k < 0 || k > lx.textLength()) {
+				System.err.println("**** ll= " + ll + ", bl= " + bl + ", k= " + k);
+				System.err.println("**** " + larry[ll] + "," + larry[bl]);
+				lx.dump();
+			}
 			sx[n].ln = (short) k;  // length in chars!!
 
 			bl = ll;
+//			System.out.println("Se " + lx);
 			
 		}
 		sxl = n;

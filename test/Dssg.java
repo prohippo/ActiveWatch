@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dssg.java : 05aug2021 CPM
+// Dssg.java : 11jul2022 CPM
 
 package test;
 
@@ -39,8 +39,8 @@ public class Dssg {
 
 	public static void main ( String[] av ) {
 	
-		int n = (av.length > 0) ? Integer.parseInt(av[0]) : 0;
-		int m = (av.length > 1) ? Integer.parseInt(av[1]) : M;
+		int n = (av.length > 0) ? Integer.parseInt(av[0]) : 0; // starting subsegment index
+		int m = (av.length > 1) ? Integer.parseInt(av[1]) : M; // how many to dump
 		boolean full = (av.length > 2);
 		System.out.println("dump up to " + m + " records");
 		
@@ -60,13 +60,16 @@ public class Dssg {
 			for (int i = 0; i < m; i++, n++) {
 				ts = new TextSubsegment(bn,n);
 				if (!full)
-					System.out.println(String.format(fm,ts.ss.it,ts.ss.sn,ts.ss.so,ts.ss.ln));
+					System.out.println(String.format(
+						fm,ts.ss.it,ts.ss.sn,ts.ss.so,ts.ss.ln
+					));
 				else {
 					tx = ts.getText();
 					int ln = tx.length();
 						System.out.print(bn + "::" + n);
 					System.out.print(" @" + ts.ss.so + " = ");
-					System.out.print(ln + " chars in item " + bn + ":" + ts.getItemNumber());
+					System.out.print(ln + " chars in item " +
+							bn + ":" + ts.getItemNumber());
 					System.out.println(", subsegment index= " + ts.getIndex());
 					int nn = (av.length > 2) ? ln : (ln < NN) ? ln : NN;
 					System.out.println("[" + tx.substring(0,nn) + "]");

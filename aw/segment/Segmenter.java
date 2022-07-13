@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Segmenter.java : 26jan2022 CPM
+// AW file Segmenter.java : 08ju12022 CPM
 // top-level class for text segmentation
 
 package aw.segment;
@@ -92,7 +92,7 @@ public class Segmenter {
 
 		// set up text input
 
-		System.out.println("adding " + textFile + " to batch " + control.cubn);
+		System.out.println("adding to batch " + control.cubn);
 
 		Subsegment ss = null;
 		Source     sr = null;
@@ -104,7 +104,7 @@ public class Segmenter {
 			TimedURL u = new TimedURL(textFile,wait);
 			text = u.openStream();
 			stream = new Inputs(text);
-			lining = new Lines(stream);
+			lining = new Lines();
 			
 			ss = new Subsegment(control.cubn,-1);
 		
@@ -135,16 +135,22 @@ public class Segmenter {
 
 		ix.sx = (short)ss.count(control.cubn);
 		
-		int k,m;
+		int k;  // index of new items for batch
+		int m;  // how many items already in batch
 
 		try {
 						
 			for (k = m = ix.count(control.cubn);; k++) {
 
+//				System.out.println("item number= " + k);
+
 				// match patterns for segment boundaries
 					
 				if (automaton.apply(k,stream,lining,ix) == 0)
 					break;
+
+//				System.out.println("Se x= " + lining);
+//				lining.dump();
 
 				// divide up long text segment into subsegments
 			
@@ -152,12 +158,16 @@ public class Segmenter {
 				
 				short n = (short) s.count();
 			
-				if (n > 0)
+//				System.out.println("subsegment count= " + n);
+
+				if (n > 0) {
 					for (int j = 0; j < n; j++) {
 						ss = s.get();
 						ss.it = k;
 						ss.save(control.cubn);
 					}
+					control.noms[control.cubn] += n;
+				}
 				else {
 					ssNul.it = k;
 					ssNul.sn = 1;
@@ -188,8 +198,8 @@ public class Segmenter {
 		System.out.println("updating batch " + control.cubn);
 
 		try {
-			control.dump();
 			control.save();
+//			control.dump();
 		} catch (IOException e) {
 			System.err.println(e);
 			System.exit(0);
@@ -197,7 +207,7 @@ public class Segmenter {
 
 		// item count returned
 		
-		return k - m;
+		return k - m;  // how many net new items
 	}
 	
 	// get subsegment count

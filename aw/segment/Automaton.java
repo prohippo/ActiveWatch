@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Automaton.java : 31jan2022 CPM
-// a finite-state automaton for text segmentation
+// AW File Automaton.java : 12jul2022 CPM
+// a finite-state automaton for text item segmentation
 
 package aw.segment;
 
@@ -178,19 +178,21 @@ public class Automaton {
 	static final int H=32760; // ( = 2**15 - 8 )
 
 	public int[] arcs = new int[Arc.NOS+1]; // arc index for states
+
 	public Arc[] arc  = new Arc[NOA];       // arc listing
 	
 	public int  narcs;   // current arc count
 	public int  where;   // save offset for backup
 	public byte state;   // automaton state
-	public short skip;   // offset of actual match in text data input
+
+	private String ellp = "\u2026"; // ellipsis
 	
-	private int level=0; // for tracking execution
+	private int level   = 0;        // for tracking execution
 	
 	public final void setLevel ( int lvl ) { level = lvl; } // for debugging output
 	
 	public Automaton (
-		BufferedReader in
+		BufferedReader in       // for delimiter file
 	) throws AWException {
 	
 		// load finite state automaton arcs from text file
@@ -202,6 +204,8 @@ public class Automaton {
 				// get next arc of automaton definition
 				
 				String buffer = in.readLine();
+				if (level > 1)
+					System.out.println("in[" + buffer + "]");
 				if (buffer == null)
 					break;
 				buffer = buffer.trim();
@@ -209,7 +213,7 @@ public class Automaton {
 				if (buffer.length() <= 1 || buffer.charAt(0) == ';')
 					continue;
 
-				System.out.println("[" + buffer + "]");
+//				System.out.println("[" + buffer + "]");
 
 				if (narcs == NOA)
 					throw new AWException("arc overflow");
@@ -271,7 +275,7 @@ public class Automaton {
 		
 			// scan all arcs from current state
 			
-			if ((skip = (short) arc[is].pat.matchUp(textline)) >= 0) {
+			if (arc[is].pat.matchUp(textline) >= 0) {
 				im = is;
 				break;
 			}
@@ -280,6 +284,8 @@ public class Automaton {
 		
 	}
 	
+	private static final int MX = 24;
+
 	// get next delimited item from input stream
 		
 	public int apply (
@@ -294,20 +300,25 @@ public class Automaton {
 		Arc    arcm;   // arc matched
 		int    actn;   // action for arc
 		int    event;  // last event seen
+		int    nline;  // track line count
 		int    m;
 
 		state = 0;
 		starts.reset();
 		event = Event.NIL;
+		ix.hs = ix.tl = 0;
+		nline = 0;
 
-		System.out.println("automaton: item " + idn);
-		if (level > 0)
+		System.out.println("automaton: next item " + idn);
+		if (level > 0) {
+			System.out.println("hs= " + ix.hs + ", tl= " + ix.tl);
 			System.out.println("debugging at level= " + level + "\n");
+		}
 
-	 	for (;;) {
+	 	while (event != Event.EOM) {  // main loop reading in lines for next text item
 
 			if (level > 2)
-				System.out.println("state= " + state);
+				System.out.println("state= " + state + " read more: " + (textline == null));
 
 			// get next line of input if needed
 		
@@ -322,23 +333,29 @@ public class Automaton {
 					break;
 				}
 				textline.remap();
-
+				if (level > 0)
+					System.out.println("remapped=" + textline);
+				nline++;
 			}
 
 			// find next delimiter line
 
-			if (level > 2)
-				System.out.println("line: [" + textline.getSubstring(0,24) + "]");
+			if (level > 2) {
+				String t = textline.getSubstring(0,MX);	
+				if (t.length() < textline.length())
+					t += ellp;
+//				System.out.println("line: [" + t + "]");
+			}
 			
-			skip = 0;
-
 			m = tryArcs();
+			if (level > 1)
+				System.out.println("match= " + m + ", state= " + state);
 
 			if (m < 0) {
-				if (event == Event.SOT)
+				if (level > 1)
+					System.out.println("unknown: " + textline);
+				if (event != Event.EOT && event != Event.EOM)
 					starts.record(textline,L);
-				if (level > 2)
-					System.out.println("    skipped it");
 				textline = null;
 				continue;
 			}
@@ -364,7 +381,7 @@ case Event.NIL:			// no event
 case Event.SOH:			// start of header
 				event = Event.SOH;
 
-				ix.os = stream.position(1) + skip;
+				ix.os = stream.position(1);
 				ix.hs = ix.sj = ix.tl = 0;
 				if (level > 2)
 					System.out.println(idn + " @" + ix.os);
@@ -373,7 +390,7 @@ case Event.SOH:			// start of header
 case Event.SBJ:			// subject line
 				event = Event.SBJ;
 
-				ix.sj = (short)(stream.position(0) - ix.os + skip);
+				ix.sj = (short)(stream.position(0) - ix.os);
 				if (ix.sj > ix.hs + ix.tl)
 					ix.sj = ix.hs;
 				break;
@@ -381,7 +398,7 @@ case Event.SBJ:			// subject line
 case Event.SOT:			// start of text to index
 				event = Event.SOT;
 
-				tos = stream.position(1) + skip;
+				tos = stream.position(1);
 				sl = tos - ix.os;
 				if (sl < 0)
 					sl = 0;
@@ -392,14 +409,15 @@ case Event.SOT:			// start of text to index
 					ix.hs = (short)H;
 				}
 				System.out.println("      header size= " + ix.hs);
+				starts.skipTo(nline - 1);
 
-				starts.record(textline,L);
 				break;
 
 case Event.EOT:			// end of text to index
                                 event = Event.EOT;
 
-				sl = stream.position(0) - tos + skip;
+				sl = stream.position(0) - tos;
+//				System.out.println("tos= " + tos + ", sl= " + sl);
 				if (sl <= H)
 					ix.tl = (short)sl;
 				else {
@@ -420,28 +438,35 @@ case Event.EOM:			// end of item
 			}
 
 			if (level > 1) {
-				System.out.println("sx= " + ix.se + ", sj= " + ix.sj);
-				System.out.println("hs= " + ix.hs + ", tl= " + ix.tl);
+				System.out.println("  sx= " + ix.se + ", sj= " + ix.sj);
+				System.out.println("  hs= " + ix.hs + ", tl= " + ix.tl);
 			}
 
 			state = arcm.end;
 			if (level > 2)
 				System.out.println("to state " + state);
-			if (arcm.act > 0)
+			if (arcm.act > 0) {
+				if (event != Event.EOT && event != Event.EOM)
+					starts.record(textline,L);
 				textline = null;
-			if (event == Event.EOM)
-				break;
-
+			}
 		}
 
-		int counting = starts.countAll();
+//		System.out.println("Au x= " + starts);
+
+		////
+		//   special check to avoid infinite loops
+
+//		System.out.println("Au x= " + starts);
+//		System.out.println("hs= " + ix.hs + ", tl= " + ix.tl);
+		int counting = (ix.hs > 0 || ix.tl > 0) ? starts.countAll() : 0;
+
+//		System.out.println("Au x= " + starts);
 		if (level > 0)
 			System.out.println(counting + " lines");
-		if (counting > 0 && !starts.register(ix.os + ix.hs,ix.tl))
-			throw new AWException("inconsistent line boundaries");
 
 		return counting; // how many lines in item
 		
 	}
 	
-} 
+}
