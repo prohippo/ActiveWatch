@@ -23,7 +23,7 @@ like THERMO- and -MOTHER; these can cover an entire word like MOTHER.
 Indexing with word fragments will always be noisier than with whole
 words. For example, if the word CONFABULATE is unrecognized, we must
 break it into overlapping fragments: CONF, NFA, FAB, ABU, ULAT, and
-LATE. Yet, by adding longer fragmentsi like ULATE to our indexing, we
+LATE. Yet, by adding longer fragments like ULATE to our indexing, we
 can achieve ever better finite approximations to full-word indexing.
 
 So, how big would our finite have to be to support some useful text
@@ -41,24 +41,24 @@ with and carry enough information for the purposes of users.
 The advantage of finite indexing is that it makes a statistically scaled
 similarity measure practical. This allows a text processing system to
 make many decisions on its own without a human always hovering around like
-a helicopter parent. A system then becomes much more manageable and also
-more resiliant when something unexpected happens.
+a helicopter parent. Real-time systems with dynamic data then become more
+manageable and also more resiliant when something unexpected happens.
 
-AW will score similarity by the the number of standard deviations that a
-raw inner product falls above or below the mean of a noise distribution.
-This noise will be roughly Gaussian; an AW scaled similarity of 3 standard
-deviations would be significant at about p = .003. With actual text data,
+AW will score similarity by the number of standard deviations that a raw
+inner product falls above or below the mean of a noise distribution. This
+noise will be roughly Gaussian; an AW scaled similarity of 3 standard
+deviations should be significant at about p = .003. With actual text data,
 We usually will expect AW scaled similarity above 5 standard deviations.
 
 Some index tuning is needed to achieve such performance. This will mainly
 involve adjustments of the index keys defined by a users for particular
-target text data and, to a lesser extent, to stemming and stopword deletion.
-One can also expect that AW will continue to expand its frequency-selected
-n-grams indexings over time.
+target text data. Automatic stemming and stopword deletion is built-in,
+but can be adjusted by users. One can also expect that AW will continue
+to expand its frequency-selected n-gram indicess over time.
 
 AW was first written in C around 1982 for information discovery in unfamiliar
 text data. The current Java version dates back to around 1999, but has some
-recent tweaks in its linguistic analysis and it addition of 4- and 5-letter
+recent tweaks in its linguistic analysis and addition of 4- and 5-letter
 word fragments for indexing. Only 2- and 3-letter fragments, plus user-defined
 indices, were employed previously. 
 
@@ -69,16 +69,16 @@ Apple home computers running versions 7.*, 8.*, or 9.* of the Macintosh OS.
 This was when Java was still a somewhat new programming language.
 
 Java AW eventually evolved to support many kinds of statistical natural
-processing, but this GitHub repository includes only a small subset of modules
-for automatic clustering of text items in particular. This software should
-give you a good overall idea of what you can do with AW finite indexing and
-statistically scaled similarity between pairs of text items.
+language processing, but this GitHub repository includes only a small subset of
+modules for automatic clustering of text items in particular. This software
+should give you a good overall idea of what you can do with AW finite indexing
+and with statistically scaled similarity between pairs of text items.
 
-The latest AW release includes fourteen prebuilt AW modules that combine to
+The latest AW release includes fifteen prebuilt AW modules that combine to
 demonstrate automatic clustering. These are found in separate runnable jar
-files in the subdirectory jars. Documentation is skimpy, but there is now
-a PDF file (HowToIndexText.pdf) that should provide essential information. If
-the creek don't rise, a user manual should be forthcoming.
+files in the subdirectory jars. Documentation is incomplete, but there is now
+a PDF file (HowToIndexText.pdf) provides background information about basic
+ststitical technology. A user guide (AWug.pdf) explains how to run AW.
 
 To build out our basic AW clustering capability, run the 'build' shell script
 included with the AW GitHub download. The script is for macOS Darwin Unix
@@ -163,28 +163,28 @@ Release History:
 	                   edit default literal to reduce indexing redundancy
 	                   update documentation
 	
-	v1.1    27oct2021  add WATCHR module to help monitor residuals
+	v1.1    27oct2021  expand WATCHR module to help monitor residuals
 	                   make index vector operations more transparent
 	                   update documentation
 	
-	v1.1.1  07nov2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.1  07nov2021  expand 4- and 5-grams to reduce indexing noise
 	                   clean up file defining default literal n-grams
 	                   fix problem with build file for WATCHR
 	                   update documentation
 	
-	v1.1.2  11nov2021  add 4-grams to reduce indexing noise
+	v1.1.2  11nov2021  expand 4-grams to reduce indexing noise
 	                   extend and clean up default literal n-grams
 	                   clean up various source files for readability
 	                   clean up clustering source code, add comments
-	                   update documentATION
+	                   update documentation
 	
-	v1.1.3  16nov2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.3  16nov2021  expand 4- and 5-grams to reduce indexing noise
 	                   extend and clean up default literal n-grams
 	                   add tools to identify where frequent n-grams come from
 	                   comment out diagnostic print statements in SQUEZR
 	                   update documentation
 	
-	v1.1.4  19nov2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.4  19nov2021  expand 4- and 5-grams to reduce indexing noise
 	                   clean up poorly formatted source files
 	                   update documentation
 	
@@ -193,67 +193,67 @@ Release History:
 	                   clean up source files
 	                   update documentation
 	
-	v1.1.6  24nov2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.6  24nov2021  expand 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   add diagnostic tools
 	                   add scripting to build AW tools
 	                   update documentation
 	
-	v1.1.7  26nov2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.7  26nov2021  expand 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   add diagnostic tools
 	                   add scripting to build AW tools
 	                   update documentation
 	
-	v1.1.8  01dec2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.8  01dec2021  expand 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   update documentation
 	
 	v1.1.9  10dec2021  fix bug on oriority of leading, trailing literals
-	                   add 4- and 5-grams to reduce indexing noise
+	                   expand 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   update documentation
 	                   add AW User Guide
 	
-	v1.1.10 20dec2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.10 20dec2021  expand 4- and 5-grams to reduce indexing noise
 	                   update documentation 
 	
-	v1.1.11 23dec2021  add 4- and 5-grams to reduce indexing noise
+	v1.1.11 23dec2021  expand 4- and 5-grams to reduce indexing noise
 	                   fix typo in AW banner
 	                   update documentation
 	
-	v1.1.12 30dec2021  add 4-grams to reduce indexing noise
+	v1.1.12 30dec2021  expand 4-grams to reduce indexing noise
 	                   update documentation
 	
-	v1.2    01jan2022  add 4- and 5-grams to reduce indexing noise
+	v1.2    01jan2022  expand 4- and 5-grams to reduce indexing noise
 	                   add diagnostic tools for profiles and match lists
 	                   update documentation
 	
-	v1.2.1  06jan2022  add 4- and 5-grams to reduce indexing noise
+	v1.2.1  06jan2022  expand 4- and 5-grams to reduce indexing noise
 	                   allow indexing to stop at 3- or 4-grams
 	                   update documentation
 	
-	v1.2.2  07jan2022  add 4- and 5-grams to reduce indexing noise
+	v1.2.2  07jan2022  expand 4- and 5-grams to reduce indexing noise
 	                   update documentation
 	
-	v1.3    11jan2022  add 4- and 5-grams to reduce indexing noise
+	v1.3    11jan2022  expand 4- and 5-grams to reduce indexing noise
 	                   add new AW modules PROFLR and EXMPLR
 	                   add missing source files
 	                   update documentation
 	
-	v1.3.1  15jan2022  add 4- and 5-grams to reduce indexing noise
+	v1.3.1  15jan2022  expand 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   clean up and extend stemming
 	                   update documentation, fix this file for MD formatting
 
-	v1.3.2  17jan2022  add 4- and 5-grams to reduce indexing noise
+	v1.3.2  17jan2022  expand 4- and 5-grams to reduce indexing noise
 	                   update documentation
 
-	v1.3.3  19jan2022  add 4-grams to reduce indexing noise
+	v1.3.3  19jan2022  expand 4-grams to reduce indexing noise
 	                   add literals to reduce noise
 	                   update documentation
 
-	v1.3.4  20jan2022  add 4-grams to reduce indexing noise
+	v1.3.4  20jan2022  expand 4-grams to reduce indexing noise
 	                   add literals to reduce noise
 	                   update documentation
 	
@@ -285,3 +285,12 @@ Release History:
 	                   rework ANALZR and PHRASR modules
 	                   add DXPH and DSPH tools
 	                   update documentation
+
+	v1.5    15jul2022  clean up AW CharArray classes
+	                   clean up text char normalization
+	                   clean up and simplify AW hash table code
+	                   debug text lining methods
+	                   improve source code commentary
+	                   replace typo in 4-gram index list
+	                   update documentation
+

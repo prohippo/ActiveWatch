@@ -212,6 +212,7 @@ aw/AWException.class \
 aw/Attribute.class \
 aw/Banner.class \
 aw/BatchFile.class \
+aw/ByteTool.class \
 aw/Control.class \
 aw/FileAccess.class \
 aw/FileName.class \
@@ -499,6 +500,7 @@ aw/CharArray.class \
 aw/Control.class \
 aw/FileAccess.class \
 aw/FileName.class \
+aw/Format.class \
 aw/Index.class \
 aw/Inputs.class \
 aw/Letter.class \
@@ -529,6 +531,7 @@ aw/phrase/Node.class \
 aw/phrase/NumberType.class \
 aw/phrase/Parse.class \
 aw/phrase/Parsing.class \
+aw/phrase/PhraseDump.class \
 aw/phrase/PhraseSyntax.class \
 aw/phrase/Reparser\$Rule.class \
 aw/phrase/Reparser\$RuleElement.class \
@@ -547,7 +550,6 @@ aw/phrase/WordType.class \
 object/HashTable.class \
 object/Text.class \
 object/TextItem.class \
-object/WordHashTable.class \
 stem/CodedLink.class \
 stem/Inflex.class \
 stem/Table.class \
@@ -738,7 +740,6 @@ object/Text.class \
 object/TextAnalysis.class \
 object/TextAnalysisBase.class \
 object/TextItem.class \
-object/WordHashTable.class \
 stem/CodedLink.class \
 stem/Extracter.class \
 stem/Inflex.class \
