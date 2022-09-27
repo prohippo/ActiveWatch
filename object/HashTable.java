@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file HashTable.java : 01jun2022 CPM
+// AW file HashTable.java : 25sep2022 CPM
 // special hash table for string keys with
 // values for keys kept elsewhere
 //
@@ -32,6 +32,7 @@ package object;
 
 import aw.ByteTool;
 import java.util.Arrays;
+import java.io.*;
 
 public class HashTable extends ByteTool {
 
@@ -138,7 +139,7 @@ public class HashTable extends ByteTool {
 				if (cn < 0)
 					sb.append('_');
 				else {
-					sb.append(unmapping[cn]);
+					sb.append(unmapping[cn]); // to uppercase!
 					if (n < ENCDLN) {
 						hShift(cn);
 						n++;
@@ -198,9 +199,50 @@ public class HashTable extends ByteTool {
 
 	// store key in empty slot found
 
+	public final void store ( ) {
+		hStore();
+	}
+
 	protected final void hStore ( ) {
-		if (array[slot] != null)
+		if (array[slot] == null)
 			array[slot] = key;
 	}
 
+	////
+	//// for debugging
+
+	// dump table
+
+	public void dump ( ) {
+		for (int i = 0; i < array.length; i++)
+			if (array[i] != null)
+				System.out.println((i+1) + ") [" + array[i] + "]");
+	}
+
+	public static void main ( String[] a ) {
+		String line,word,star;
+		HashTable ht = new HashTable(4999);
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			while ((line = br.readLine()) != null) {
+				word = line.trim();
+				star = "";
+				int n = ht.lookUp(word);
+				if (n == 0) {
+					System.out.println("table is full");
+					break;
+				}
+				else if (n < 0) {
+					n = -n;
+					ht.hStore();
+					star = " NEW";
+				}
+				System.out.println("[" + word + "] @" + n + star);
+			}
+			System.out.println("  !!!!");
+			ht.dump();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+	}
 }
