@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file AnalyzedToken.java : 17jul2021 CPM
+// AW file AnalyzedToken.java : 12sep2022 CPM
 // a token with an n-gram score
 
 package object;
@@ -62,47 +62,40 @@ public class AnalyzedToken extends Token {
 			length = 0;
 			return 0;
 		}
+//		System.out.println("pw= " + pw[0] + " " + pw[1] + "...");
+//		System.out.println("thr= " + thr + ", " + gm.length + " indices");
+		int sum   = 0; // accumulated weight
+		int hitn  = 0; // n-gram hits in stem
+		int missn = 0; //        misses
 
-		int sum =0; // accumulated weight
-		int hitn=0; // n-gram hits in stem
-		int lexm=0; // lexical misses
-		int phnm=0; // phonetic misses
-
-		short gram = -1;
+		short gram = -1; // so to count each n-gram only once
 
 		for (int i = 0; i < gm.length; i++) {
-			if (gm[i] == gram)
+			if (gram == gm[i])
 				continue;
+			gram = gm[i];
 
-			if (gram < 0)
-				;
-			else if (pw[gram] != 0) {
+			if (pw[gram] == 0)
+				missn++;
+			else {
 				hitn++;
 				sum += pw[gram];
 			}
-			else if (gram < Parameter.MXN)
-				lexm++;
-			else
-				phnm++;
-
-			gram = gm[i];
 		}
+//		System.out.println("sum= " + sum);
 
 		// extra conditions for accepting weight
 
-		if ((lexm == 0 && hitn > 0) ||
-			(phnm == 0 && hitn > 1) ||
-			(hitn >= thr))
- 
+		if ((missn == 0 && hitn > 0) || (hitn >= thr))
 			return sum;
-
 		else
-
 			return 0;
 	}
 
 	// get the n-gram analysis for this token
 
 	public final Short[] indices ( ) { return gm; }
+
+	public final int count ( ) { return gm.length; } // should not have to do this!
 
 }
