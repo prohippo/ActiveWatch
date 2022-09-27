@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Extracter.java : 13jul2021 CPM
+// AW File Extracter.java : 19sep2022 CPM
 // extract lexical segments from a segment of English text
 
 package stem;
@@ -138,5 +138,9 @@ public class Extracter {
 		
 		return t;
 	}
+
+	// where extraction will next start from
+
+	public final int getOffset ( ) { return os; }
 	
 }

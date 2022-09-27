@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Tokenizer.java : 06oct2021 CPM
+// AW File Tokenizer.java : 19sep2022 CPM
 // extract tokens from a segment of English text
 
 package stem;
@@ -149,7 +149,7 @@ public class Tokenizer {
 			if (!stopped(token))
 				break;
 
-//			System.out.println("stopped");/Users/clintonmah/Desktop/ActiveW/archive 
+//			System.out.println("stopped");
 
 		}
 
@@ -193,4 +193,7 @@ public class Tokenizer {
 
 	}
 
+	// get where to get next token from
+
+	public final int getOffset ( ) { return in.getOffset(); }
 }
