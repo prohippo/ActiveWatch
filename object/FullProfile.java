@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file FullProfile.java : 19Oct99 CPM
+// AW file FullProfile.java : 10sep2022 CPM
 // profile with expansion to full vector of weights
 
 package object;
@@ -34,9 +34,9 @@ import aw.*;
 
 public class FullProfile {
 
-	private static int[]  ps = new int[Profile.MXP]; // index nonzero weights
-	public  static int    psn; // nonzero weights count
-	public  static byte[] pv;  // all profile weights
+	private int[]  ps = new int[Profile.MXP]; // index nonzero weights
+	public  int    psn; // nonzero weights count
+	public  byte[] pv;  // all profile weights
 
 	private Profile pp;
 	
@@ -102,5 +102,13 @@ public class FullProfile {
 	public final byte[] vector ( ) { return pv; }
 	
 	public final Profile profile ( ) { return pp; }
+
+	public void dump ( ) {
+		System.out.println("full profile with " + psn + " non-zero weights");
+		for (int i = 0; i < psn; i++) {
+			int g = ps[i];
+			System.out.println(String.format(" %5d: %4d",g,pv[g]));
+		}
+	}
 
 }
