@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CombinedSymbolTable.java : 09feb2022 CPM
+// CombinedSymbolTable.java : 04sep2022 CPM
 // for defining syntactic types and features
 
 package aw.phrase;
@@ -37,18 +37,15 @@ public class CombinedSymbolTable extends SymbolTable {
 
 	private static final String SymbolFileName = "symbols";
 
-	private int syntaxCount;  // number of syntax  symbols
-	private int featureCount; // number of feature symbols
+	private int syntypCount;  // number of syntactic types
+	private int modfetCount;  // syntactic and semantic features
+	private int fullCount=0;  // total symbol count
 
 	public CombinedSymbolTable (
 
 	) throws IOException {
 		super();
-		try {
-			loadSymbols(ResourceInput.openReader(SymbolFileName));
-		} catch (IOException e) {
-			throw new IOException("no symbol file");
-		}
+		loadSymbols(ResourceInput.openReader(SymbolFileName));
 	}
 
 	public CombinedSymbolTable (
@@ -58,10 +55,12 @@ public class CombinedSymbolTable extends SymbolTable {
 	) throws IOException {
 		super();
 		loadSymbols(reader);
+		Syntax.initialize(this);
 	}
 
 	private static final char DEL = 255;
 	private static final char COM = ';';
+	private static final int NF = 8;
 
 	// read a line
 
@@ -93,11 +92,11 @@ public class CombinedSymbolTable extends SymbolTable {
 		String inBuff;
 		int n;
 
-		// read in symbol definitions until line starting with '.'
-
-		int mapping = 0;
+		// read in all symbol definitions
 
 		try {
+
+			// read in syntactic types up to break line
 
 			while ((inBuff = gets(reader)) != null) {
 				if (inBuff.length() == 0)
@@ -106,12 +105,17 @@ public class CombinedSymbolTable extends SymbolTable {
 				if (inBuff.charAt(0) == '.')
 					break;
 
-				if (syntaxCount++ >= TableSize)
+				if (fullCount >= TableSize)
 					throw new IOException("symbol overflow at " + inBuff);
 
 				n = insert(inBuff);
-				symbolMap[mapping++] = (byte) aCODING(inBuff.substring(n));
+//				System.out.println("inBuff= " + inBuff);
+//				System.out.println("n= " + n);
+				symbolCode[fullCount++] = typeCODING(inBuff.substring(n));
+				syntypCount++;
+//				dump();
 			}
+
 
 			// read and store feature definitions to end of input
 
@@ -119,45 +123,168 @@ public class CombinedSymbolTable extends SymbolTable {
 				if (inBuff.length() == 0)
 					continue;
 
-				if (syntaxCount + featureCount >= TableSize)
+				if (inBuff.charAt(0) == '.')
+					continue;
+
+				if (fullCount >= TableSize)
 					throw new IOException("feature overflow at " + inBuff);
 
 				n = insert(inBuff);
+//				System.out.println("> " + inBuff);
 
 				// fill in feature value
 
 				inBuff = inBuff.substring(n);
 				int m = inBuff.indexOf('=');
 				int x = (m < 0) ? 0 : Integer.parseInt(inBuff.substring(m + 1));
-				symbolMap[mapping++] = (byte) x;
-				featureCount++;
+				modfetCount++;
+				byte b = (byte)(1 << x);
+				symbolCode[fullCount++] = b;
+//				System.out.println("count= " + modfetCount);
+//				System.out.println("code = " + String.format("%02x",b));
 			}
 
 		} catch (AWException e) {
-			throw new IOException("cannot interpret symbols");
+			throw new IOException("cannot interpret symbol definitions");
 		}
 
 		reader.close();
 	}
 
-	// to override
+	// for print diagnostics
 
-	int scanForType (
-
-		String typ
-
-	) {
-		return scan(typ,0,syntaxCount);
+	public String toString ( ) {
+		return
+			"  typs= " + syntypCount +
+			", modf= " + modfetCount +
+			", full= " + fullCount + ": ";
 	}
 
-	// to override
+	////// to override SymbolTable stubs
 
-	int scanForFeature (
-
-		String fet
-
+	public byte syntacticType (
+		String symbol
 	) {
-		return scan(fet,syntaxCount,syntaxCount+featureCount);
+		int n = scan(symbol,0,syntypCount);
+//		System.out.println("n= " + n);
+		return (n < 0) ? (byte)(-1) : symbolCode[n]; 
 	}
 
+	public byte modifierFeature (
+		String symbol
+	) {
+//		System.out.println("symbol= " + symbol + ", range= " + syntypCount + ", " + fullCount);
+		int n = scan(symbol,syntypCount,fullCount);
+//		System.out.println("n= " + n + ", code= " + String.format("%02x",symbolCode[n]));
+		return (n < 0) ? (byte)(-1) : symbolCode[n]; 
+	}
+
+	public byte semanticFeature (
+		String symbol
+	) {
+		int n = scan(symbol,syntypCount,fullCount);
+		return (n < 0) ? (byte)(-1) : (byte)(1 << (symbolCode[n] - 8)); 
+	}
+
+
+	// encodes a symbol string as a syntax type plus features
+	// in pattern form
+
+	public void symbolToSyntax (
+	
+		String     symbolString,
+		SyntaxPatt Patt
+		
+	) throws AWException {
+		int m,n;
+		int featureString,featureStart;
+		char sense; // feature sense indicator
+
+		Patt.modifiermasks[0] = Patt.modifiermasks[1] = 0;
+		Patt.semanticmasks[0] = Patt.semanticmasks[1] = 0;
+		String symbol;
+	
+		// get bracketed syntactic features for symbol
+
+		if ((featureString = symbolString.indexOf('[')) < 0)
+		
+			symbol = symbolString;
+		
+		else {
+
+			symbol = symbolString.substring(0,featureString);
+			
+			featureString++;
+			while (symbolString.charAt(featureString) != ']') {
+
+				// feature sense (+,-) must be present
+
+				sense = symbolString.charAt(featureString++);
+				if (sense != '+' && sense != '-')
+					throw new AWException("bad syntactic feature: " + symbolString);
+
+				// get next feature and look up
+
+				featureStart = featureString;
+				while (Character.isLetterOrDigit(symbolString.charAt(featureString)))
+					featureString++;
+
+				String feature = symbolString.substring(featureStart,featureString);
+				n = modifierFeature(feature);
+				if (n < 0)
+					throw new AWException("unrecognized feature name: " + feature);
+
+				byte[] b;
+				m = symbolCode[n];
+				if (m > NF) {
+					b = Patt.semanticmasks;
+					m -= NF;
+				}
+				else
+					b = Patt.modifiermasks;
+
+				b[(sense == '-') ? 1 : 0] |= (1 << m);
+			}
+		}
+
+		// finally encode syntax type
+
+		Patt.type = (byte) Cv(syntacticType(symbol));
+	}
+
+	/////// for debugging
+	///////
+
+	public void dump ( ) {
+		System.out.println(toString());
+		super.dump();
+	}
+
+	public byte scan ( String symbol ) {
+		int n = scan(symbol,0,symbolCount);
+		if (n < 0)
+			return (byte)(-1);
+		else
+			return symbolCode[n];
+	}
+
+	public static void main ( String[] a ) {
+		try {
+			String[] ax = { "noun" };
+			if (a.length > 0)
+				ax = a;
+			CombinedSymbolTable cst = new CombinedSymbolTable();
+			cst.dump();
+			System.out.println("====");
+			if (a.length == 0) a = ax;
+			for (int j = 0; j < a.length; j++) {
+				String aj = a[j];
+				byte b = cst.scan(aj);
+//				System.out.print(aj + " | code=" + b + " = ");
+				System.out.println(SymbolTable.interp(b));
+			}
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
 }

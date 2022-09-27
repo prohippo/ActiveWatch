@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Start.java : 26feb2022 CPM
+// AW file Start.java : 08aug2022 CPM
 // parse start offset in separate file
 
 package aw.phrase;

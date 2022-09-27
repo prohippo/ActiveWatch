@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Phraser.java : 10Feb99 CPM
+// Phraser.java : 26sep2022 CPM
 // phrase summarization for clusters
 
 package aw.phrase;
@@ -35,42 +35,43 @@ public class Phraser {
 
 	private static final int MIN = 3; // minimum items per cluster to use
 	private static final int MAX = 6; // maximum
-	
+
 	private static final int N =  12; // maximum number of words per phrase
-	
+
+	private static final int M =   6; // maximum number of phrases to report
+
 	private Map map = new Map();
 	private KeyTextAnalysis  an;
 	private PhraseExtraction pe;
-	
+
 	public Phraser (
-	
+
 		int nph
-		
+
 	) throws AWException {
 		an = new KeyTextAnalysis();
 		pe = new PhraseExtraction(nph,N);
 		try {
 			PhraseSyntax.initialize();
 		} catch (IOException e) {
-			throw new AWException(e);
+			throw new AWException("syntax init failure");
 		}
 	}
-	
+
 	public void run (
-	
+
 	) throws AWException {
 		int nc = map.limit();
-		
+
 		GappedProfileList ls;     // profile match list
 		FullProfile profr = null; // profile expansion
 		byte[] pv;  // expanded vector of profile weights
-		int no = 0;
-		
+		int no = 0; // count of clusters summarized
+
 		for (int cn = 1; cn <= nc; cn++) {
 			if (!map.defined(cn) || map.userType(cn))
 				continue;
-				
-			System.out.print("------- cluster " + cn + ":");
+
 			no++;
 
 			// read in cluster list
@@ -82,7 +83,21 @@ public class Phraser {
 				continue;
 			}
 			Item[] its = ls.getList();
-			
+
+			int mlm = ls.gap;
+			if (mlm < MIN)
+				mlm = MIN;
+			if (mlm > nm)
+				mlm = nm;
+			if (mlm > MAX)
+				mlm = MAX;
+
+			System.out.print("------- cluster " + cn + "=");
+
+			for (int i = 0; i < mlm; i++) 
+				System.out.print(" " + its[i].bn + "::" + its[i].xn);
+			System.out.println();
+
 			// read in cluster profile and expand to full vector
 
 			profr = new FullProfile(cn);	
@@ -94,33 +109,23 @@ public class Phraser {
 
 			pv = profr.vector();
 			pe.reset(pv);
-			
+
 			// extract phrases from selected items
-			
-			int mlm = ls.gap;
-			if (mlm < MIN)
-				mlm = MIN;
-			if (mlm > nm)
-				mlm = nm;
-			if (mlm > MAX)
-				mlm = MAX;
-			
-			its = ls.getList();
-			
+
 			for (int i = 0; i < mlm; i++) {
-				System.out.print(" " + its[i].bn + "::" + its[i].xn);
 				pe.add(its[i]);
+//				System.out.println("  ----");
 			}
-			System.out.println();
-				
+
 			// show phrases obtained
-			
+
 			String[] phs = pe.get();
-			for (int i = 0; i < phs.length; i++)
+			int m = (phs.length < M) ? phs.length : M;
+			for (int i = 0; i < m; i++)
 				System.out.println(phs[i]);
  		}
  		
-		System.out.println("-------");
+		System.out.println("---------------");
 		System.out.println(no + " clusters summarized");
 	}
 

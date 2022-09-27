@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LiteralPatternBuilder.java : 09feb2022 CPM
+// LiteralPatternBuilder.java : 21jun2022 CPM
 // compile from input stream
 
 package aw.phrase;
@@ -47,7 +47,7 @@ public class LiteralPatternBuilder extends LiteralPattern {
 
 		// initialize
 
-		SymbolTable stb = new CombinedSymbolTable();
+		CombinedSymbolTable stb = new CombinedSymbolTable();
 		Syntax.initialize(stb);
 
 		// read literals and syntax
@@ -100,7 +100,7 @@ public class LiteralPatternBuilder extends LiteralPattern {
 				if (!r.equals("--")) {
 					System.out.println("r= " + r);
 					stb.symbolToSyntax(r,pat);
-					stb.patternToSpecification(pat,syn);
+					Syntax.patternToSpecification(pat,syn);
 				}
 				else {
 					syn.type = Syntax.unknownType;

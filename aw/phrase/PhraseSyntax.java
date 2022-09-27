@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseSyntax.java : 18Nov98 CPM
+// PhraseSyntax.java : 03jun2022 CPM
 // required initialization to be done only once
 
 package aw.phrase;
@@ -31,42 +31,43 @@ import java.io.*;
 
 public class PhraseSyntax {
 
-	private static SymbolTable stb;
-	
+	private static CombinedSymbolTable stb;
+
 	// load symbol symbol table and define syntax types
-	
+
 	public static void initialize (
-	
+
 	) throws IOException {
 		if (stb == null) {
 			stb = new CombinedSymbolTable();
 			Syntax.initialize(stb);
 		}
 	}
-	
+
 	// get saved symbol table
-	
-	public static SymbolTable getSymbolTable (
-	
+
+	public static CombinedSymbolTable getSymbolTable (
+
 	) throws IOException {
 		initialize();
 		return stb;
 	}
-	
+
 	// load language definitions
-	
+
 	private static boolean defined = false;
-	
+
 	public static void loadDefinitions (
-	
+
 	) throws IOException {
 		if (!defined) {
 			initialize();
 			WordType.load(stb);
+			EndingType.load();
 			defined = true;
 		}
 	}
-	
+
 }
-	
-	
+
+

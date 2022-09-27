@@ -22,8 +22,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Parsing.java : 23feb2022 CPM
-// basic phrase description with I/O
+// Parsing.java : 08sep2022 CPM
+// for reading and writing phrase analyses
+// from and to files
 
 package aw.phrase;
 
@@ -36,12 +37,10 @@ public class Parsing {
 	public static final byte Phrase    = -4; // component codes
 	public static final byte Sentence  = -3;
 	public static final byte Paragraph = -2;
-	public static final byte Overflow  = -1;
-	public static final int  OverflowValue = 127;
 
 	short  count;  // of phrases
-	short  length; // of buffer in bytes
-	byte[] buffer; // parse codes
+	int    length; // of analysis buffer in bytes
+	byte[] buffer; // analysis itself
 
 	// initialize from stream
 
@@ -57,13 +56,13 @@ public class Parsing {
 
 	public Parsing (
 
-		int count,
-		int length,
+		int     count,
+		int    length,
 		byte[] buffer
 
 	) {
 		this.count  = (short) count;
-		this.length = (short) length;
+		this.length = length;
 		this.buffer = buffer;
 	}
 
@@ -75,7 +74,7 @@ public class Parsing {
 
 	) throws IOException {
 		out.writeShort(count);
-		out.writeShort(length);
+		out.writeInt  (length);
 		out.write(buffer,0,length);
 	}
 
@@ -87,7 +86,8 @@ public class Parsing {
 
 	) throws IOException {
 		count  = in.readShort();
-		length = in.readShort();
+		length = in.readInt  ();
+//		System.out.println("load: count= " + count + ", length= " + length);
 		buffer = new byte[length];
 		in.readFully(buffer,0,length);
 	}
@@ -100,12 +100,21 @@ public class Parsing {
 
 	public final byte[] getBuffer ( ) { return buffer; }
 
+	private static final int L = 32; // how many initial parse bytes to show
+	private static final int M = 16; // how many final   parse bytes
+
 	public String toString ( ) {
-		String s = " " + count + " phrases in " + length + " bytes: ";
-		int ln = (length < 16) ? length : 16;
+		String s = " " + count + " phrases in " + length + " bytes:\n";
+		int ln = (length < L) ? length : L;
 		for (int i = 0; i < ln; i++)
 			s += String.format("%02x ",buffer[i]);
-		if (ln < length) s += " ...";
+		int ll = length - ln;
+		if (ll > 0) {
+			s += "...";
+			if (ll > M) ll = M;
+			for (int j = length - ll; j < length; j++)
+				s += String.format(" %02x",buffer[j]);
+		}
 		return s;
 	}
 }

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// EndingTable.java : 09feb2022 CPM
+// EndingTable.java : 21jun2022 CPM
 // encoded reversed word endings for syntax indentification
 
 package aw.phrase;
@@ -44,7 +44,7 @@ public class EndingTable extends EndingBase {
 
 	private int freeNode = 0;   // first free node
 
-	private SymbolTable stb;
+	private CombinedSymbolTable stb;
 
 	// initialize
 
@@ -217,7 +217,7 @@ public class EndingTable extends EndingBase {
 			node.setLeftEnd();
 			node.constraint = (x == '!') ? Syntax.capitalFeature : 0;
 			stb.symbolToSyntax(r.substring(rp+1).trim(),patt);
-			stb.patternToSpecification(patt,node.syntax);
+			Syntax.patternToSpecification(patt,node.syntax);
 		}
 
 

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseElement.java : 24jan2022 CPM
+// PhraseElement.java : 26sep2022 CPM
 // output for PhraseAnalysis
 
 package aw.phrase;
@@ -33,12 +33,12 @@ public class PhraseElement {
 
 	public static final int WL = 128;
 
-	public int offset;
-	public int length;
-	public char[] word;
-	public SyntaxSpec syntax;
+	public int offset;        // offset in source text segment
+	public int length;        // number of chars in phrase element
+	public char[] word;       // copied array of chars for element
+	public SyntaxSpec syntax; // syntactic description of element
 	
-	public PhraseElement (
+	public PhraseElement (    // make empty class instance
 	
 	) {
 		syntax = new SyntaxSpec();
@@ -49,6 +49,20 @@ public class PhraseElement {
 	public final byte modifiers ( ) { return syntax.modifiers; }
 	public final byte semantics ( ) { return syntax.semantics; }
 	
-	public final String word ( ) { return new String(word,0,length); }
+	public final String word ( ) {
+		int k = length - 1;
+		for (; k >= 0; --k) {
+			if (Character.isLetterOrDigit(word[k]))
+				break;
+		}
+		length = k + 1;
+		return new String(word,0,length);
+	}
+
+	public final void clear ( ) {
+		offset = length = 0;
+		syntax.clear();
+		word = new char[WL+1];
+	}
 
 }

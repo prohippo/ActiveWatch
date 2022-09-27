@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// NumberType.java : 23feb2022 CPM
+// NumberType.java : 01jun2022 CPM
 // test for number formats
 
 package aw.phrase;
@@ -36,10 +36,10 @@ public class NumberType {
 	public static boolean match (
 
 		char[] a,
-		int   ln,
 		SyntaxSpec x
 
 	) {
+		int ln = a.length;
 		int nd = 0, no = 0;
 
 		for (int i = 0; i < ln; i++) {

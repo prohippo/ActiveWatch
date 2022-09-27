@@ -22,12 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Reparser.java : 09feb2022 CPM
-// for joining or splitting of phrases
+// Reparser.java : 08sep2022 CPM
+// for joining or splitting of phrases in special cases
 
 package aw.phrase;
 
 import aw.AWException;
+import aw.ByteTool;
 import java.io.*;
 
 public class Reparser {
@@ -45,25 +46,25 @@ public class Reparser {
 
 	private static final String file = "rules";
 
-	private static final int PHBFLM = 8192; // buffer size
-
-	private static final int Nrules = 64;
+	private static final int Nrules    = 64;      // maximum rule count
 	private static final int Nelements = Nrules*4;
 
 	private Rule[] rule = new Rule[Nrules];
 	private RuleElement[] element = new RuleElement[Nelements];
+
+	private static final int PHBFLM = 9600;       // buffer size for reparsing
 
 	private int nr,ne; // rule and element counts
 	private int nn;    // join rule subcount
 
 	private int mw;    // minimum width for split
 
-	private SymbolTable stb;
+	private CombinedSymbolTable stb;
 
-	// initialization for file
+	// initialization to load rules from file
 
 	public Reparser (
-		SymbolTable stb
+		CombinedSymbolTable stb
 	) {
 
 		this.stb = stb;
@@ -83,6 +84,8 @@ public class Reparser {
 
 			while ((b = in.readLine()) != null) {
 				b = b.trim();
+				if (b.length() == 0)
+					continue;
 				if (b.charAt(0) == '.')
 					break;
 				processRule(b);
@@ -93,16 +96,21 @@ public class Reparser {
 
 			mw = 10000;
 			while ((b = in.readLine()) != null) {
-				int w = processRule(b.trim());
-				if (w > 0)
-					if (mw > w)
-						mw = w;
+				b = b.trim();
+				if (b.length() == 0)
+					continue;
+				if (b.charAt(0) == '.')
+					break;
+				int w = processRule(b);
+				if (w > 0 && mw > w)
+					mw = w;
 			}
 
 			in.close();
+//			System.out.println("rules: join= " + nn + ", split= " + (nr-nn));
 
 		} catch (IOException e) {
-			System.out.println("cannot read reparsing rules");
+			System.err.println("cannot read reparsing rules");
 		}
 
 	}
@@ -132,7 +140,7 @@ public class Reparser {
 		// split input line into syntactic patterns to match
 
 		int n = 0;
-		for (; ; n++) {
+		for (;; n++) {
 
 			b = b.trim();
 			if (b.length() == 0)
@@ -149,9 +157,8 @@ public class Reparser {
 			RuleElement e = element[ne + n];
 			if (b.charAt(0) != '~')
 				e.sense = true;
-			else {
+			else
 				e.sense = false; b = b.substring(1);
-			}
 
 			int k = b.length();
 			int j = 0;
@@ -186,7 +193,7 @@ public class Reparser {
 		return n;
 	}
 
-	// ---------------------------- SPECIAL SYNTAX CHECK
+	// ---------------------------- SYNTAX CHECKING
 
 	private SyntaxSpec ss = new SyntaxSpec();
 
@@ -197,7 +204,7 @@ public class Reparser {
 	) {
 		ss.type = a[n];
 		ss.modifiers = a[n+1];
-		ss.semantics = ((a[n+1] & Syntax.functionalFeature) != 0) ? 0 : a[n+2];
+		ss.semantics = a[n+2];
 
 		if (e.syntax.type != WILD && e.syntax.matchSyntaxType(ss) != e.sense)
 			return false;
@@ -213,77 +220,126 @@ public class Reparser {
 
 	private static final int NM =1000; // minimum phrase element count
 
-	private short[] phx; // temporary buffering of text analysis
-	private short[] elx;
-	private static byte[] pb = new byte[PHBFLM];
+	private short[] phx; // end of reparsed phrase elements for text
+	private short[] elx; //
+	private static byte[] pb = new byte[PHBFLM]; // for reparsed phrase analysis
 
 	private int mphx;    // phrase and phrase element limits
-	private int melx;
+	private int melx;    //
 
 	private int nphx;    // phrase and phrase element counts
-	private int nelx;
-	private int  pbk;
+	private int nelx;    //
+	private int  pbk;    // end of reparsed phrase buffer
 
-	private boolean nwf; // indicate start of new paragraph
+	private boolean nwB; // indicate start of new paragraph or sentence
+
+	private static final int MM = 40;
+
+	private short nskp = 0;  // total skip before phrase elements
 
 	private int scanPhrase (
-		byte[] a,
-		int   an,
-		int    n
+		byte[] a, // parsing buffer
+		int   an, // starting index
+		int    n  // how many to scan
 	) {
+//		System.out.println("scan buffer an= " + an + ", n= " + n);
 		if (n == 0)
 			return 0;
 
 		// look for next phrase element in analysis
 
-		nwf = false;
+		nskp = 0;
+		nwB = false;
 		int as = an;     // start of analysis
+		int ai = as;     //
 		int al = as + n; // end
-		int ai = as;
-		while (ai < al && a[ai] != Parsing.Phrase) {
-			if (a[ai++] == Parsing.Paragraph)
-				nwf = true;
-			ai++;
+		while (ai < al) {
+			if (a[ai] == Parsing.Pad)
+				ai++;
+			if (a[ai] < 0) {
+				byte mark = a[ai++];
+				pb[pbk++] = mark;
+				nskp += ByteTool.bytesToShort(a,ai);
+//				System.out.println("mark= " + mark + ", total skip= " + nskp);
+				pb[pbk++] = a[ai++];
+				pb[pbk++] = a[ai++];
+ 				if (mark == Parsing.Phrase)
+					break;
+				else
+					nwB = true;
+			}
+			else 
+				return 0;
+		}
+
+		// drop any empty phrase with no elements
+
+		while (ai < al) {
+			if (a[ai] == Parsing.Pad)           // ignore padding
+				ai++;
+			else if (a[ai] == Parsing.Phrase) { // drop any empty phrase
+//				System.out.println("drop empty phrase");
+				short sko = ByteTool.bytesToShort(a,ai+1);
+				nskp += sko;
+				sko += ByteTool.bytesToShort(pb,pbk-2);
+				ByteTool.shortToBytes(pb,pbk-2,sko);
+				ai += 3;
+			}
+			else if (a[ai] < 0) {               // either paragraph or sentence
+				System.err.println("unexpected marks");
+				pb[pbk-3] = a[ai++];        // put in place of previous marking
+				pb[pbk++] = Parsing.Phrase;
+				nskp += ByteTool.bytesToShort(a,ai);
+				pb[pbk++] = a[ai++];
+				pb[pbk++] = a[ai++];
+			}
+			else                                // should not happen
+				break;
 		}
 		if (ai >= al)
 			return 0;
 
-		ai++; ai++; // skip over phrase marker and offset
-
-		// copy analysis up to first element
-
-		int k = ai - as;
-		System.arraycopy(a,as,pb,pbk,k);
-		pbk += k;
-
 		// copy all phrase elements
 
+		int ais = ai;
 		while (ai < al && a[ai] >= 0) {
+//			System.out.println("type= " + a[ai]);
 			elx[nelx++] = (short) pbk;
-			pb[pbk++] = a[ai++];
-			pb[pbk++] = a[ai];
-			if ((a[ai++] & Syntax.functionalFeature) == 0) {
-				pb[pbk++] = a[ai++];
-				pb[pbk++] = a[ai++];
-				pb[pbk++] = a[ai++];
-			}
+			pb[pbk++] = a[ai++]; // syntax type
+			pb[pbk++] = a[ai++]; // syntactic features
+			pb[pbk++] = a[ai++]; // semantic
+			pb[pbk++] = a[ai++]; // a short skip before atom
+			pb[pbk++] = a[ai++]; //   (two bytes)
+			pb[pbk++] = a[ai++]; // atom length
 		}
+		int k = ai - ais;
+//		System.out.println("copy " + k + "bytes of parse"); 
+//		if (k > MM) {
+//			for (int j = 0; j < MM; j++) {
+//				if (j%20 == 0)
+//					System.out.println();
+//				System.out.print(String.format(" %2x",a[ais+j]));
+//			}
+//			System.out.println();
+//		}
 		pb[pbk] = Parsing.Pad; // for sentinel
+//		System.out.println("** sentinel n= " + pb[pbk-1]);
 
 		// count up phrase
 
 		phx[++nphx] = (short) nelx;
-		return ai - as;
+//		System.out.println("@" + as + ", element byte count= " + k + ", total bytes= " + (ai-as));
+		return ai - as;  // how many total bytes copied
 	}
 
 	// check rules for join at location
 
 	private boolean testJoin (
 		int where,
-		int left,
-		int right
+		int lft,
+		int rht
 	) {
-		if (where == 0 || left == 0 || right == 0)
+		if (where == 0 || lft == 0 || rht == 0)
 			return false;
 
 		int wb;
@@ -295,10 +351,10 @@ public class Reparser {
 
 			int ml = rule[i].left;
 			int mr = rule[i].right;
-			if (ml > left || mr > right)
+			if (ml > lft || mr > rht)
 				continue;
-			if (rule[i].afl && ml != left ||
-				rule[i].afr && mr != right)
+			if (rule[i].afl && ml != lft ||
+				rule[i].afr && mr != rht)
 				continue;
 
 			int en = rule[i].start + rule[i].left;
@@ -334,7 +390,7 @@ public class Reparser {
 		int   nb
 	) {
 		int n = 1;
-		for (; (b[nb+n] & Syntax.functionalFeature) != 0; n += 2);
+		for (; (b[nb+n] & Syntax.functionalFeature) != 0; n += 6);
 		return n + 2;
 	}
 
@@ -345,8 +401,11 @@ public class Reparser {
 		int   nb
 	) {
 		int n = 0;
-		while (b[nb++] < 0)
-			n += b[nb++];
+		while (b[nb++] < 0) {
+			n += ByteTool.bytesToShort(b,nb);
+			nb += 2;
+		}
+//		System.out.println("collect n= " + n);
 		return n;
 	}
 
@@ -355,25 +414,33 @@ public class Reparser {
 	private void doJoin (
 
 	) {
+		dumps(0);
+		System.out.println("JOINING @" + nphx);
 		int k = phx[--nphx];
 		int t = elx[k-1];
-		int a = t + (((pb[t+1] & Syntax.functionalFeature) != 0) ? 2 : 5);
+		int a = t + 6;
 		int b = elx[k];
+//		System.out.println("a= " + a + ", from b= " + b);
 
-		pb[b + firstOffset(pb,b)] += collectOffsets(pb,a);
+		int ib = b + firstOffset(pb,b);
+		short os = ByteTool.bytesToShort(pb,ib);
+		os += collectOffsets(pb,a);
+		ByteTool.shortToBytes(pb,ib,os);
 
 		int n = pbk - b;
+//		System.out.println("0 pbk= " + pbk);
 		System.arraycopy(pb,b,pb,a,n);
 		int m = b - a;
 		for (k++; k < nelx; k++)
 			elx[k-1] = (short)(elx[k] - m);
 		pbk -= m;
+//		System.out.println("1 pbk= " + pbk);
 		pb[pbk] = Parsing.Pad; // for sentinel
 
 		phx[nphx] = (short) --nelx;
 	}
 
-	// ------------------ CHECK FOR SPLITTING IN PHRASE 
+	// ------------------ CHECK FOR SPLITTING OF PHRASE 
 
 	// try rule patterns at each element in phrase
 
@@ -381,6 +448,7 @@ public class Reparser {
 		int where,
 		int n
 	) {
+//		System.out.println("split? where= " + where + ", n= " + n);
 		for (int i = 0; i < n; i++) {
 			if (mw > n - i)
 				break;
@@ -412,22 +480,25 @@ public class Reparser {
 
 	private int endPhrase (
 		byte[] b,
-		int   nb
+		int   nb,
+		int   nl
 	) {
 		int bs = nb;
-		while (b[nb] >= 0)
-			nb += ((b[nb+1] & Syntax.functionalFeature) != 0) ? 2 : 5;
+		while (nb < nl && b[nb] >= 0)
+			nb += 6;
 		return nb - bs;
 	}
 
+	//
 	// --- MODIFY AN ANALYSIS WITH SPLITTING AND JOINING
+	//
 
-	public void reparse (
+	public int reparse (
 		String  text,
 		Parsing parse
 	) {
 		if (nr == 0)
-			return;
+			return 0;
 
 		int length = parse.length;
 
@@ -436,38 +507,40 @@ public class Reparser {
 		if (melx < NM)
 			melx = NM;
 
-		phx = new short[mphx];
-		elx = new short[melx];
+		phx = new short[mphx]; // index into parse buffer
+		elx = new short[melx]; // index into element buffer
 
 		phx[0] = 0;
 
-		// copy analysis to buffer with possible phrase joining
+		// copy analysis to element buffer with possible phrase joining
 
 		int where = 0, last = 0;
 		nphx = nelx = pbk = 0;
 		int a = 0, b = 0;
 		int k = 0, n = 0;
 		for (; length > 0; b += k, length -= k) {
+//			System.out.println("reparser k= " + k + ", length= " + length);
 			n = nelx;
-			k = scanPhrase(parse.buffer,b,length);
+			k = scanPhrase(parse.buffer,b,length); // align to next phrase mark
+//			System.out.println("scanned elements= " + k);
 			if (k == 0)
 				break;
-			if (nwf)
+			if (nwB)
 				last = 0;
 			int next = nelx - n;
-			if (!testJoin(where,last,next))
-				last = next;
-			else {
+//			System.out.println("test: last= " + last + ", next= " + next);
+			if (nskp < 3 && testJoin(where,last,next))
 				doJoin();
-				last += next;
-			}
+			last = next;
 			where = phx[nphx];
 		}
+//		dumps(0);
 
 		// copy back analysis with possible phrase splitting
 
 		parse.count = 0;
 		a = b = 0;
+//		System.out.println("back: nphx= " + nphx);
 		for (int i = 0; i < nphx; i++) {
 			int t = a;
 			k = phx[i];
@@ -483,7 +556,7 @@ public class Reparser {
 			int count = phx[i + 1] - k;
 			int ns;
 			while ((ns = testSplit(k,count)) != 0) {
-
+				System.out.println("split: ns= " + ns);
 				n = elx[k + ns] - elx[k];
 				System.arraycopy(pb,a,parse.buffer,b,n);
 				a += n;
@@ -491,28 +564,110 @@ public class Reparser {
 				int no = firstOffset(pb,a);
 				parse.buffer[b++] = Parsing.Phrase;
 				parse.buffer[b++] = (byte) pb[a+no];
-				pb[a+no] = 0;
+				parse.buffer[b++] = (byte) pb[a+no+1];
+				pb[a+no]   = 0;
+				pb[a+no+1] = 0;
 				k += ns;
 				count -= ns;
 				parse.count++;
-
 			}
 
 			// copy back rest of phrase
 
-			n = endPhrase(pb,a);
+			n = endPhrase(pb,a,parse.length); // should be > 0 for split or no split
+			if (n%6 != 0) {
+				System.err.println("incomplete phrase element, n= " + n);
+				return -1;
+			}
+//			System.out.println("copy to buffer, b= " + b + ", n= " + n);
 			System.arraycopy(pb,a,parse.buffer,b,n);
 			a += n;
 			b += n;
 			parse.count++;
 		}
+//		dumps(0);
+//		System.out.println("b= " + b + ", last n= " + n + ", length= " + length);
 
-		parse.buffer[b] = Parsing.Pad;
 		if ((b & 1) != 0)
-			b++;
+			parse.buffer[b++] = Parsing.Pad;
+//		dumps(0);
 
 		parse.length = (short) b;
-		return;
+//		PhraseDump.showBytes(parse,System.out);
+		System.out.println("--------------------------------");
+		return b;
+	}
+
+	//// for debugging
+	////
+
+	private static final int C  = 100;
+	private static final int XX =  20;
+
+	private void dumps ( int n ) { // show final portion of scanned parsing
+		int bi = 0;
+		System.out.println("................");
+		if (n <= 0 || n >= pbk)
+			bi = pbk - C;
+		else
+			bi = pbk - n;
+		if (bi < 0) bi = 0;
+		for (int i = 0; bi < pbk; bi++, i++) {
+			if (i%XX == 0) System.out.println();
+			System.out.print(String.format(" %02x",pb[bi]));
+		}
+		System.out.println();
+		System.out.println("---- " + pbk);
+		System.out.println(String.format(" %02x %02x %02x",pb[pbk],pb[pbk+1],pb[pbk+2]));
+		System.out.println("---- ");
+		System.out.println("nphx= " + nphx + ", phx[nphx]= " + phx[nphx]);
+		System.out.print  ("nelx= " + nelx);
+		int elxm = (nelx > 0) ? elx[nelx-1] : 0;
+		System.out.println(", elx[nelx-1]= " + elxm);
+		System.out.println("================");
+	}
+
+	private static final String txn =             // sample text string for parse
+		"benefit high earners and corporations. still, middle-class earners would fare better";
+
+
+	private static final byte Bxfc = (byte) 0xfc; // definitions required for byte hex
+	private static final byte Bxfd = (byte) 0xfd;
+	private static final byte Bxfe = (byte) 0xfe;
+	private static final byte Bx80 = (byte) 0x80;
+	private static final byte Bx88 = (byte) 0x88;
+
+	private static int noP = 5, psL = 85;
+
+	private static byte[] pbn = { // sample parsing for test (cannot be final!)
+		Bxfe,0x00,0x00,Bxfd,0x00,0x00,Bxfc,0x00,0x00,0x18,0x00,0x00,0x00,0x00,0x07,0x00,0x00,0x00,0x00,0x01,
+		0x04,0x18,0x0c,0x00,0x00,0x01,0x07,Bxfc,0x00,0x05,0x17,0x0c,0x00,0x00,0x00,0x0c,Bxfd,0x00,0x02,Bxfc,
+		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x05,Bxfc,0x00,0x02,0x00,0x00,0x00,0x00,0x00,0x06,0x00,0x00,0x00,
+		0x00,0x01,0x05,0x18,0x0c,0x00,0x00,0x01,0x07,Bxfc,0x00,0x07,0x00,0x00,0x00,0x00,0x00,0x04,0x12,0x00,
+		0x00,0x00,0x01,0x06,Bx80,
+        	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0   // analysis expansion
+	};
+
+	public static void main (String[] a) {
+		try {
+			PhraseSyntax.loadDefinitions();
+			CombinedSymbolTable cst = PhraseSyntax.getSymbolTable();
+			Reparser rp = new Reparser(cst);
+			Parsing  ps = new Parsing(noP,psL,pbn);
+			System.out.println("sample text length= " + txn.length() + " chars");
+			PhraseDump.showBytes(ps,System.out);
+			PhraseDump.show(txn,ps,cst,System.out);
+			System.out.println("--------");
+			int n = rp.reparse(txn,ps);
+			if (n < 0) System.err.println("reparsing fails");
+			System.out.println(ps);
+			PhraseDump.showBytes(ps,System.out);
+			PhraseDump.show(txn,ps,cst,System.out);
+		} catch (IOException e) {
+			System.err.println(e);
+			System.exit(1);
+		}
 	}
 
 }
+

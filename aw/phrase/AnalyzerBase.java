@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AnalyzerBase.java : 10feb2022 CPM
-// functions broken up for analysis of one item at a time
+// AnalyzerBase.java : 08set2022 CPM
+// methods for phrase analysis of one text item at a time
 
 package aw.phrase;
 
@@ -34,13 +34,14 @@ import java.io.*;
 public class AnalyzerBase {
 
 	private static final int NL = 64; // maximum number of lines to process
+	private static final int RN = 20; // for length of debugging output
 
 	private LiteralType lty;
 	private Reparser    rps;
 
 	private byte[] analysis; // results of analysis
 
-	private int wlm; // word limit in phrase
+	private int wlm;         // word limit in phrase
 
 	// initialize language tables
 
@@ -53,6 +54,7 @@ public class AnalyzerBase {
 
 		try {
 			PhraseSyntax.loadDefinitions();
+			System.out.println(PhraseSyntax.getSymbolTable());
 			DataInputStream is = ResourceInput.openStream(LiteralPattern.file);
 			lty = new LiteralType(is);
 			is.close();
@@ -100,6 +102,12 @@ public class AnalyzerBase {
 		while ((n = ta.analyze(analysis,lAnalysis,wlm)) > 0) {
 			lAnalysis += n;
 			nPhrase += ta.countPhrases();
+//			System.out.println("lAnalysis= " + lAnalysis + ", nPhrase= " + nPhrase);
+			int j = lAnalysis - RN;
+			if (j < 0) j = 0;
+			for (; j < lAnalysis; j++)
+				System.out.print(String.format(" %02x",analysis[j]));
+			System.out.println(String.format(" | %02x %02x",analysis[j],analysis[j+1]));
 		}
 
 		// even out length of analysis by padding
@@ -108,7 +116,9 @@ public class AnalyzerBase {
 		if ((lAnalysis%2) > 0)
 			lAnalysis++;
 
-		return new Parsing(nPhrase,lAnalysis,analysis);
+		Parsing parsg = new Parsing(nPhrase,lAnalysis,analysis);
+//		System.out.println(parsg);
+		return parsg;
 	}
 
 	// special-case adjustments of analysis
@@ -122,4 +132,18 @@ public class AnalyzerBase {
 		rps.reparse(text,parse);
 	}
 
+	// show phrase analysis
+
+	public void showPhrases (
+
+		String text,
+		Parsing parse
+
+	) {
+		try {
+			PhraseDump.show(text,parse,PhraseSyntax.getSymbolTable(),System.out);
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	}
 }

@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseExtraction.java : 18Nov98 CPM
-// get phrases from sample items for profile weights
+// PhraseExtraction.java : 25sep2022 CPM
+// get selected scored phrases from specified items for profile
 
 package aw.phrase;
 
@@ -33,38 +33,34 @@ import java.io.*;
 
 public class PhraseExtraction {
 
-	PhraseSelector  ls;
-	PhraseExtractor ex;
-	
-	byte[] pv;
+	PhraseExtractor ex; // get all analyzed phrases from item text
+	PhraseSelector  ls; // select highest scoring unique phrases
+
+	byte[] pv; // n-gram weights for reference profile
 
 	// set up for number and size of phrases
-	
+
 	public PhraseExtraction (
-	
-		int nph,
-		int nwd
-	
+		int nph, // how manyl phrases to select
+		int nwd  // maximum phrase element count
 	) throws AWException {
 		ex = new PhraseExtractor(nwd);
 		ls = new PhraseSelector(nph,nwd);
 	}
-	
+
 	// set selection weights
-	
+
 	public void reset (
-	
 		byte[] pv
-		
 	) {
 		ls.reset();
 		this.pv = pv;
+		ex.reset(pv);
 	}
-	
+
 	// return all selected phrases
-	
+
 	public String[] get (
-	
 	) {
 		int n = ls.count;
 		String[] a = new String[n];
@@ -72,31 +68,35 @@ public class PhraseExtraction {
 			a[i] = ls.array[i].phrase;
 		return a;
 	}
-	
+
 	// process another item for phrases to select
-	
+
 	public void add (
-	
-		Item it
-		
+		Item it  // where to get phrases
 	) throws AWException {
 		IndexedItem itx = new IndexedItem(it);
 		TextItem ti = new TextItem(itx.bn,itx.index);
 		String tx = ti.getBody();
-		
+//		System.out.println(tx.substring(0,60));
+
 		Parse ps;
 		try {
 			ps = new Parse(itx.bn,itx.index);
-			ex.reset(tx,ps.analysis,pv);
+//			System.out.println(ps);
+			ex.reset(tx,ps.analysis);
 		} catch (IOException e) {
 			throw new AWException(e);
 		}
-		
-		
+
 		TaggedPhrase ph;
-		
-		while ((ph = ex.next()) != null)
-			ls.add(ph);
+
+		while ((ph = ex.next()) != null) {
+			if (ph.score > 0) {
+//				System.out.println(">> ph= [" + ph + "]");
+				ls.add(ph);
+			}
+		}
+//		ex.hashdump();
 	}
 
 }

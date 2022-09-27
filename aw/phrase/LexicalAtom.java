@@ -22,25 +22,26 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtom.java : 23feb2022 CPM
+// LexicalAtom.java : 02aug2022 CPM
 // unit of parsing for phrase analysis with associated data type
 
 package aw.phrase;
 
 import aw.phrase.Syntax;
 import java.util.Arrays;
+import java.io.*;
 
 public class LexicalAtom {
 
-	public static final int L = 128;
+	public static final int L = 128; // make array larger than any actual atom
 
 	public int        skip; // offset from current stream location
 	public int        span; // actual width within stream
 	public int      length; // atom length
-	public char[]     atom; // atom as normalized string
+	public char[]     atom; // atom as normalized chars
 	public SyntaxSpec spec; // syntax for atom
-	public boolean   stopp; // stop phrase
-	public boolean   stops; // stop sentence
+	public boolean   stopp; // flag to stop phrase
+	public boolean   stops; //         stop sentence
 
 	// initialize
 
@@ -63,7 +64,8 @@ public class LexicalAtom {
 
 	public String toString ( ) {
 		String sa = new String(Arrays.copyOfRange(atom,0,length));
-		return sa + "[[" + spec.type + "]] skip= " + skip + ", span= " + span;
+		return sa + " [[" + spec + " ]] skip= " + skip + ", span= " + span
+			+ ", length= " + length + ", stop s=" + stops + ", p=" + stopp;
 	}
 
 	// get syntax information by lookup or inference
@@ -74,41 +76,68 @@ public class LexicalAtom {
 
 	) {
 
+		// get exact char[] for lookup in various ways
+
+		char[] ax = new char[length];
+		System.arraycopy(atom,0,ax,0,length);
+//		System.out.println("getSyntax: " + this);
+//		System.out.println("length= " + length + ", atom= " + (new String(ax)));
+
 		// check for a number
 
-		if (NumberType.match(atom,span,spec))
+		if (NumberType.match(ax,spec)) {
+			prev = spec;
 			return;
+		}
+//		System.out.println("not number");
 
 		// look up the word or its ending for its syntactic type
 
-		if (WordType.match(atom,span,spec)   ||
-			EndingType.match(atom,span,spec) ||
-			NameType.match(atom,span,spec,prev))
+		if (WordType.match(ax,spec)   ||
+			EndingType.match(ax,spec) ||
+			NameType.match(ax,spec,prev)) {
+//			System.out.println("Word/Ending/Name Type=" + spec);
+			if ((spec.modifiers & Syntax.breakFeature) != 0)
+				stopp = true;
+			prev = spec;
 			return;
+		}
+//		System.out.println("not in dictionary or implied by ending or acronym ");
 
 		// if this fails, remove any inflectional ending and try again
 
-		if (InflectionType.match(atom,span,spec))
+		if (InflectionType.match(ax,spec,prev)) {
+//			System.out.println("inflection: " + (new String(ax)) + " : " + spec);
+			prev = spec;
 			return;
-
-		// if inflected, try lookup again
-
-		if ((spec.modifiers & Syntax.inflectedFeature) == 0)
-			;
-		else if (WordType.match(atom,span,spec) ||
-			EndingType.match(atom,span,spec))
- 			return;
-		else if (prev.type == Syntax.adverbType ||
-			prev.type == Syntax.auxiliaryType) {
-			spec.type = Syntax.verbType;
-			spec.modifiers |= Syntax.breakFeature;
 		}
-		else if (prev.type == Syntax.determinerType ||
-			prev.type == Syntax.adjectiveType   ||
-			prev.type == Syntax.prepositionType ||
-			prev.type == Syntax.unknownType)
-			spec.type = Syntax.nounType;
+//		System.out.println("default is unknown type");
+
+		spec.type = Syntax.unknownType;
+		prev = spec;
 
 	}
 
+	////
+	//// for debugging
+
+	private static final String ax = "stayed";
+
+	public static void main ( String[] a ) {
+		try {
+			PhraseSyntax.loadDefinitions();
+		} catch ( IOException e ) {
+			System.err.println(e);
+			System.exit(1);
+		}
+		String x = (a.length > 0) ? a[0] : ax;
+		char[] cx = x.toCharArray();
+		LexicalAtom atm = new LexicalAtom();
+		System.arraycopy(cx,0,atm.atom,0,cx.length);
+		atm.length = atm.span = cx.length;
+		System.out.println("   " + atm);
+		SyntaxSpec ss = new SyntaxSpec();
+		atm.getSyntax(ss);
+		System.out.println(">> " + atm);
+	}
 }

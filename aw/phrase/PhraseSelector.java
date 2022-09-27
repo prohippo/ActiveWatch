@@ -22,32 +22,37 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseSelector.java : 20Nov98 CPM
+// PhraseSelector.java : 26sep2022 CPM
 // maintain a selection list
 
 package aw.phrase;
 
+import aw.phrase.PhraseExtractor;
+
 public class PhraseSelector {
 
-	// intentional package access for selection array
+	// for phrase selection array
 	
-	int limit;
-	int count;
-	TaggedPhrase[] array;
+	int limit;  //
+	int bound;  //
+	int count;  // current phrase account
+	TaggedPhrase[] array; // for selection
 	
-	private int nwd; // phrase width in words
+	private int nwd; // maximum phrase width in words
 	
-	// initialize
+	// initialize selection array
 	
 	public PhraseSelector (
 	
-		int nph,
-		int nwd
+		int nph, // how many to select
+		int nwd  // limit on phrase elements
 		
 	) {
 		limit = nph;
-		array = new TaggedPhrase[limit+1];
+		array = new TaggedPhrase[limit*2];
+		bound = array.length - 1;
 		this.nwd = nwd;
+		count = 0;
 	}
 	
 	// set selection array to empty
@@ -65,80 +70,140 @@ public class PhraseSelector {
 		TaggedPhrase ph
 		
 	) {
+//		System.out.println("checking " + ph);
+
 		// check whether phrase has any significant content
 
-		if (ph.order == 0)
+		if (ph.score == 0)
 			return;
+//		System.out.println("adding " + ph);
 
-		// compare signature of new phrase against old ones
+		// select phrases with top scores
 
-		boolean squeeze = false;
-		
-		for (int i = 0; i < count; i++) {
-			if (subsume(array[i].signature,ph.signature)) {
-			
-				// found previous, possibly more specific, version of phrase
+		boolean squeeze = false; // for elimination of subsumed phrases
 
-				if (subsume(ph.signature,array[i].signature))
-					if (ph.phrase.length() > array[i].phrase.length())
-						array[i] = ph;
-				return;
-			}
-			else if (subsume(ph.signature,array[i].signature)) {
-
-				// found previous, but more general, version
-
-				array[i].score = 0; // tag for removal on insertion
+		int k = count - 1;       // at lowest scoring phrase
+		for (; k >= 0; --k) {
+			TaggedPhrase phk = array[k];
+			if (ph.score < phk.score)
+				break;
+			if (subsume(ph.signature,ph.order,phk.signature,phk.order)) {
+				phk.score = 0;
 				squeeze = true;
 			}
+			array[k+1] = phk;
 		}
-		
-		// remove any more general phrases
+//		System.out.println("insert at " + (k+1));
+		array[k+1] = ph;
+		if (count < bound)
+			count++;
+		for (int j = k; j >= 0; --j) {
+			TaggedPhrase phj = array[j];
+			if (subsume(phj.signature,phj.order,ph.signature,ph.order)) {
+				ph.score = 0;
+//				System.out.println("subsume from above @" + j + ") " + phj);
+				squeeze = true;
+				break;
+			}
+		}
+
+		// prune subsumed phrases with zeroed scores
 		
 		if (squeeze) {
-			int k = 0;
-			for (int i = 0; i < count; i++)
+//			System.out.print("squeezing " + count);
+			int ik = 0;
+			for (int i = k + 1; i < count; i++)
+				if (array[i].score == 0)
+					ik = i;
+			for (int i = ik + 1; i < count; i++)
 				if (array[i].score > 0)
-					array[k++] = array[i];
-			count = k;
+					array[ik++] = array[i];
+			count = ik;
+//			System.out.println(" to " + count);
 		}
-		
-		// insert new phrase
-		
-		int i = count;
-		for (; i > 0; --i) {
-			if (array[i-1].order > ph.order)
-				break;
-			if (array[i-1].order == ph.order)
-				if (array[i-1].score >= ph.score)
-					break;
-			array[i] = array[i-1];
-		}
-		array[i] = ph;
-		if (count < limit)
-			count++;
-		
+
+//		System.out.println("updated count= " + count);
 	}
 
 	// checks whether signature vector s includes vector t
 	
 	private boolean subsume (
-	
-		int[] s,
-		int[] t 
-
+		short[] s, // first signature
+		int    ls, // its actual length
+		short[] t, // second
+		int    lt  // its actual length
 	) {
-		int n;
-
-		for (int j = 0, k = 0; t[k] > 0;) {
-			if (j == nwd || (n = s[j]) == 0 || n < t[k])
-				return false;
-			if (n >= t[k]) j++;
-			if (n == t[k]) k++;
-			if (k == nwd)  break;
+		if (ls == 0 || lt == 0 || ls < lt)
+			return false;
+//		System.out.println("ls= " + ls + ", lt= " + lt);
+		if (ls == lt) { // bracketing needed here!
+			for (int i = 0; i < ls; i++) {
+				if (s[i] != t[i])
+					return false;
+			}
 		}
+		else if (ls < lt)
+			return false;
+		else {
+			int d = ls - lt + 1;
+//			System.out.println("d= " + d);
+			int nt = t[0];
+			int k = 0;
+			for (; k < d; k++) {
+				if (nt == s[k])
+					break;
+			}
+//			System.out.println("k= " + k);
+			if (k >= d)
+				return false;
+			for (int j = 1; j < lt; j++) {
+				if (s[k+j] != t[j])
+					return false;
+			}
+		}
+//		System.out.println("subsumed");
 		return true;
+	}
+
+	////
+	//// for debugging
+
+	public void dump ( ) {
+		for (int i = 0; i < count; i++)
+			System.out.println(i + ") " + array[i]);
+		System.out.println("--------");
+	}
+
+	static TaggedPhrase tpr = new TaggedPhrase("rrrrrr",new short[]{7}      ,1,5);
+	static TaggedPhrase tps = new TaggedPhrase("ssssss",new short[]{6}      ,1,7);
+	static TaggedPhrase tpt = new TaggedPhrase("tttttt",new short[]{6}      ,1,7);
+	static TaggedPhrase tpu = new TaggedPhrase("uuuuuu",new short[]{9,1}    ,2,4);
+	static TaggedPhrase tpv = new TaggedPhrase("vvvvvv",new short[]{8,9,1}  ,3,6);
+	static TaggedPhrase tpw = new TaggedPhrase("wwwwww",new short[]{2,3}    ,2,3);
+	static TaggedPhrase tpx = new TaggedPhrase("xxxxxx",new short[]{1,5,3}  ,3,4);
+	static TaggedPhrase tpy = new TaggedPhrase("yyyyyy",new short[]{1,2,3,4},4,0);
+	static TaggedPhrase tpz = new TaggedPhrase("zzzzzz",new short[]{1,3,4}  ,3,4);
+
+	public static void main ( String[] a ) {
+		PhraseSelector ps = new PhraseSelector(4,4); // select 4 phrases of up to 4 elements
+		ps.add(tpu);
+		ps.dump();
+		ps.add(tpv);
+		ps.dump();
+		ps.add(tpw);
+		ps.dump();
+		ps.add(tpx);
+		ps.dump();
+		ps.add(tpy);
+		ps.dump();
+		ps.add(tpz);
+		ps.dump();
+		ps.add(tpr);
+		ps.dump();
+		ps.add(tps);
+		ps.dump();
+		ps.add(tpt);
+		ps.dump();
 	}
 	
 }
-

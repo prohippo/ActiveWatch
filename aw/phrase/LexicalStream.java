@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalStream.java : 16feb2022 CPM
-// break text into lexical elements
+// LexicalStream.java : 26jul2022 CPM
+// break text into successive lexical elements
 
 package aw.phrase;
 
@@ -32,8 +32,8 @@ import aw.Letter;
 
 public class LexicalStream {
 
-	public static final char stp   = 0xA1; // phrase   stop
-	public static final char stpf  = 0xA2; // sentence stop
+	public static final char stp   = 0xA1; // phrase   stop (upside down exclamation point)
+	public static final char stpf  = 0xA2; // sentence stop (cent sign)
 	public static final char empty = 0x7F; // to be ignored
 	public static final char blank = 0x20; // ASCII space
 
@@ -52,13 +52,14 @@ public class LexicalStream {
 	private static final int N = 3; // maximum space count for no break
 	private static final int L = 4; // maximum abbreviation length
 
-	// initialize with 0 terminated buffer
+	// initialize with 0-terminated buffer
 
 	public LexicalStream (
 
 		CharArray text
 
 	) {
+//		System.out.println("LexicalStream: " + text);
 		this.text = text;
 	}
 
@@ -66,7 +67,9 @@ public class LexicalStream {
 
 	public final boolean end ( ) { return (text.length() == 0); }
 
-	// moves to the next word or major punctuation in text
+	private static final String skips = " \"()[]";
+
+	// advances to the next word or major punctuation in text
 	// and returns the number of characters moved
 
 	public int find (
@@ -81,10 +84,10 @@ public class LexicalStream {
 			if (c == stp || c == stpf) break;
 			if (c == empty) continue;
 
-			// skip over initial spaces
+			// skip over initial non-atomic chars
 
 			int itb = it;
-			while (c == blank)
+			while (skips.indexOf(c) >= 0)
 				c = text.charAt(++it);
 
 			int k = it - itb;
@@ -223,8 +226,36 @@ public class LexicalStream {
 
 	public final boolean notEmpty ( ) { return text.notEmpty(); }
 
-	// for access to token outside of package
+	// to export one token from stream
 
-	public final String collect ( int n ) { return text.getSubstring(-n,0); }
+	public final String collect ( int n ) { return text.getSubstring(-n,n); }
 
+	// show entire stream currently
+
+	public String toString ( ) {
+		return text.toString();
+	}
+
+	//// for debugging
+	////
+
+	public static void main ( String[] a ) {
+		String t = (a.length > 0) ? a[0] : " I am Sam. Who are you?";
+		LexicalStream lxs = new LexicalStream(new CharArray(t));
+		System.out.println(":::: " + lxs);
+		int bas = 0;
+		while (lxs.notEmpty()) {
+			int skp = lxs.find();
+			System.out.println("skip " + skp);
+			int len = lxs.get();
+			System.out.println("length= " + len);
+			bas += skp;
+			int n = bas + len;
+			System.out.println("[[" + t.substring(bas,n) + "]]");
+			System.out.println("  :: " + lxs);
+			System.out.println("[[" + lxs.collect(len) + "]]");
+			System.out.println("   : " + lxs);
+			bas = n;
+		}
+	}
 }

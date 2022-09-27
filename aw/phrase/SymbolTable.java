@@ -22,11 +22,12 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// SymbolTable.java : 08feb2022 CPM
-// for encoding syntax symbols
+// SymbolTable.java : 03sep2022 CPM
+// for encoding syntax symbols for phrase extraction rules
 
 package aw.phrase;
 
+import aw.Format;
 import aw.phrase.Syntax;
 import aw.AWException;
 
@@ -36,78 +37,98 @@ public class SymbolTable {
 	public static final int TableSize   =128;  // maximum number of all symbols
 
 	// 1-byte coding of syntax categories:
-	// upper 4 bits = general class
-	// lower 4 bits = four possible specializations
+	// upper 4 bits = general class (16 possible)
+	// lower 4 bits = four possible specializations, more than 1 allowed
+	//
+	// for example, a verb is a 0100 specialization of general class 1
+	//              a noun is a 1000 specialization of the same class
+	// a word that can be a noun or a verb has a specialization of 1100
 	//
 	// general classes will be compared by bitwise EXCLUSIVE OR
 	// and specializations will be compared by bitwise AND with
-	// analyses complemented; both must result in zero to match
+	// one set of bits complemented; both bitwise operations must
+	// result in zero for two type codes to match
 
-	private static final int nALT = 4; // possible specializations
-	
-	private static final int Cv (
+	protected static final byte Cv (
 		int x
 	) {
-		return (byte)(x ^ Syntax.x0F);
+		return (byte)(x & Syntax.x0F);
 	}
-	
-	// convert to symbol
-	
-	protected static int aCODING (
-	
+
+	// get coding for complex syntax type
+
+	private static final int nSPC = 4; // possible specializations of general type
+
+	protected static byte typeCODING (
+
 		String s
-		
+
 	) throws AWException {
 		byte x = 0;
-		while (s.length() > 0 && Character.isWhitespace(s.charAt(0)))
-			s = s.substring(1);
+
+		s = s.trim();
 		int k = s.indexOf(':');
+//		System.out.println("s= " + s + ", k= " + k);
 		if (k > 0) {
 			String t = s.substring(k+1);
 			s = s.substring(0,k);
-			for (int i = 0; i < nALT; i++) {
+//			System.out.println("s= " + s + ", t= " + t);
+			for (int i = 0; i < nSPC; i++) {
 				char c = t.charAt(i);
 				if (!Character.isDigit(c))
 					break;
 				x <<= 1;
 				x |= (c == '1') ? 1 : 0;
 			}
+//			System.out.println("x= " + x);
 		}
 		int n = Integer.parseInt(s);
 		if (n == 0)
 			System.err.println("syntax type UNKNOWN");
 		if (n >= 8)
 			throw new AWException("syntax type conflict with phrase markers");
-
-		x |= (byte) (n << nALT);
-		return Cv(x);
+ 
+//		System.out.println("n= " + n);
+		x |= (byte)(n << nSPC);
+//		System.out.println("full x= " + x);
+//		System.out.println("converted= " + (byte)(x));
+		return (byte)(x);
 	}
-	
-	protected String[] symbolTable = new String[TableSize]; // syntax and feature table
-	protected byte[]   symbolMap   = new byte[TableSize];   // symbol mappings
+
+	protected String[] symbolTable = new String[TableSize];  // types and features table
+	protected byte[]   symbolCode  = new byte[TableSize];    // associated code bytes
 	protected int      symbolCount = 0; // how many in table
-	
-	private static final int nH = 8; // bits in a byte
-	
+
+	public void dump ( ) {
+		for (int i = 0; i < symbolCount; i++) {
+			System.out.print(Format.it(i,2,' ') + ": ");
+			System.out.println(symbolTable[i] + " = " + interp(symbolCode[i]));
+		}
+		System.out.println("----");
+	}
+
 	// copy symbol into the table up to SymbolSize and return its full length 
 
 	protected int insert (
-	
+
 		String expression
-		
+
 	) {
 		int k,n;
 		int ll = expression.length();
 		int lm = (ll < SymbolSize) ? ll : SymbolSize;
-		StringBuffer b = new StringBuffer(SymbolSize);
+		StringBuffer sb = new StringBuffer(SymbolSize);
 
+//		System.out.println("expression= " + expression);
 		for (k = 0; k < lm && Character.isLetterOrDigit(expression.charAt(k)); k++)
-			b.append(expression.charAt(k));
-		symbolTable[symbolCount++] = b.toString().toUpperCase();
+			sb.append(expression.charAt(k));
+//		System.out.println("sb= " + sb);
+		symbolTable[symbolCount++] = sb.toString().toUpperCase();
 		for (; k < ll; k++)
 			if (!Character.isLetterOrDigit(expression.charAt(k)))
 				break;
 
+//		System.out.println("k= " + k);
 		return k;
 	}
 
@@ -115,182 +136,162 @@ public class SymbolTable {
 	//
 
 	protected int scan (
-	
+
 		String symbol,
 		int tableIndex,
 		int tableLimit
-		
+
 	) {
 		if (symbol.length() > SymbolSize)
 			symbol = symbol.substring(0,SymbolSize);
 		String sym = symbol.toUpperCase();
-		for (; tableIndex < tableLimit; tableIndex++)
-			if (sym.equals(symbolTable[tableIndex]))
-				return tableIndex;
+//		System.out.println("scan for " + sym + " from " + tableIndex + " to " + tableLimit);
+		for (int it = tableIndex; it < tableLimit; it++) {
+			if (sym.equals(symbolTable[it])) {
+//				System.out.println(">>> found at " + it);
+				return it;
+			}
+		}
 		return -1;
-	}
-	
-	// to be overridden
-	
-	int scanForType (
-	
-		String typ
-		
-	) {
-		return scan(typ,0,symbolCount);
-	}
-
-	// to be overridden
-	
-	int scanForFeature (
-	
-		String fet
-		
-	) {
-		return scan(fet,0,symbolCount);
-	}
-
-	// look up syntactic type
-
-	public int syntacticType (
-	
-		String symbolString
-		
-	) {
-		int k = scanForType(symbolString);
-		return (k < 0) ? 0 : symbolMap[k];
-	}
-
-	// look up syntactic feature
-
-	public int modifierFeature (
-	
-		String symbolString
-		
-	) {
-		int n = scanForFeature(symbolString);
-		if (n < 0)
-			return 0;
-		else {
-			int k = symbolMap[n];
-			return (k >= 0 && k < nH) ? (1 << k) : 0;
-		}
-	}
-
-	// look up semantic feature
-
-	public int semanticFeature (
-	
-		String symbolString
-		
-	) {
-		int n = scanForFeature(symbolString);
-		if (n < 0)
-			return 0;
-		else {
-			int k = symbolMap[n];
-			return (k >= nH) ? (1 << (k - nH)) : 0;
-		}
 	}
 
 	// encodes a symbol string as a syntax type plus features
-	// in pattern form
+	// in syntactic pattern form
 
-	public void symbolToSyntax (
-	
-		String     symbolString,
+	public void parseSyntax (
+
+		String     syntaxString,
 		SyntaxPatt Patt
-		
+
 	) throws AWException {
-		int m,n;
+		int m;
 		int featureBase,featureStart;
 		char sense; // feature sense indicator
 
 		Patt.modifiermasks[0] = Patt.modifiermasks[1] = 0;
 		Patt.semanticmasks[0] = Patt.semanticmasks[1] = 0;
 		String symbol;
-	
+
 		// get bracketed syntactic features for symbol
 
-		if ((featureBase = symbolString.indexOf('[')) < 0)
-		
-			symbol = symbolString;
-		
+		if ((featureBase = syntaxString.indexOf('[')) < 0)
+
+			symbol = syntaxString;
+
 		else {
 
-			symbol = symbolString.substring(0,featureBase);
-			
+			symbol = syntaxString.substring(0,featureBase);
+
 			featureBase++;
-			while (symbolString.charAt(featureBase) != ']') {
+			while (syntaxString.charAt(featureBase) != ']') {
 
 				// feature sense (+,-) must be present
 
-				sense = symbolString.charAt(featureBase++);
+				sense = syntaxString.charAt(featureBase++);
 				if (sense != '+' && sense != '-')
-					throw new AWException("bad syntactic feature: " + symbolString);
+					throw new AWException("bad syntactic feature: " + syntaxString);
 
 				// get next feature and look up
 
 				featureStart = featureBase;
-				while (Character.isLetterOrDigit(symbolString.charAt(featureBase)))
+				while (Character.isLetterOrDigit(syntaxString.charAt(featureBase)))
 					featureBase++;
-				String feature = symbolString.substring(featureStart,featureBase);
+				String feature = syntaxString.substring(featureStart,featureBase);
+//				System.out.println("feature= " + feature);
 
-//				System.out.println("start= " + featureBase + " in " + symbolString);;
+//				System.out.println("start= " + featureBase + " in " + syntaxString);;
 //				System.out.println(symbolCount + " symbols defined");
 
-				n = scanForFeature(feature);
-				if (n < 0)
+				byte nb = modifierFeature(feature);
+//				System.out.println("code= " + nb);
+				if (nb < 0)
 					throw new AWException("unrecognized feature name: " + feature);
 
-				byte[] b;
-				m = symbolMap[n];
-				if (m > nH) {
-					b = Patt.semanticmasks;
-					m -= nH;
-				}
-				else
-					b = Patt.modifiermasks;
+				byte[] b = Patt.modifiermasks;
 
-				b[(sense == '-') ? 1 : 0] |= (1 << m);
+				b[(sense == '-') ? 1 : 0] |= nb;
 			}
 		}
 
 		// finally encode syntax type
 
-		Patt.type = (byte) Cv(syntacticType(symbol));
+//		System.out.println("getting type for " + symbol);
+		Patt.type = (byte)(syntacticType(symbol));
 	}
 
-	// convert a pattern to syntax specification
-	
-	public void patternToSpecification (
-	
-		SyntaxPatt Patt,
-		SyntaxSpec Spec
-		
+	// qualifiers for syntax byte, encoded in 4 bits
+
+	private static final String[] bits = {
+		"0 0 0 0" , "0 0 0 1" , "0 0 1 0", "0 0 1 1",
+		"0 1 0 0" , "0 1 0 1" , "0 1 1 0", "0 1 1 1",
+		"1 0 0 0" , "1 0 0 1" , "1 0 1 0", "1 0 1 1",
+		"1 1 0 0" , "1 1 0 1" , "1 1 1 0", "1 1 1 1"
+	};
+
+	// interpret symbol table byte entry as syntax or as feature bit
+
+	public static final String interp ( byte b ) {
+//		System.out.println("b= " + b);
+		if (b == 0) return " 0 : 0 0 0 0";  // must be syntax
+		if (b <  0) return "????";          // error
+		int cls = b >> nSPC; // main syntactic category
+		int spc = b  & 0x0F; // specializations
+//		System.out.println("cls= " + cls + ", spc= " + spc);
+		if (cls > 0)
+			return Format.it(cls,2,' ') + " : " + bits[spc];
+		else if (spc <= 8)
+			return "(1 <<" + (spc-1) + ") syn";
+		else
+			return "(1 <<" + (spc-9) + ") sem";
+	}
+
+	//////// stub methods to get codes for a symbol string (all need to be overridden)
+	//
+
+	public byte syntacticType (
+		String symbol
 	) {
-		Spec.type = (byte) Cv(Patt.type);
-		Spec.modifiers = Patt.modifiermasks[SyntaxPatt.POSITIVE];
-		Spec.semantics = Patt.semanticmasks[SyntaxPatt.POSITIVE];
+		return (byte)(-1);
 	}
 
-	// get a symbol for syntax code
-	
+	public byte modifierFeature (
+		String symbol
+	) {
+		return (byte)(-1);
+	}
+
+	public byte semanticFeature (
+		String symbol
+	) {
+		return (byte)(-1);
+	}
+
+	////////
+
+	// get a symbol string for code
+
 	public String syntaxSymbol (
-	
-		int syntax
-		
+
+		int syntxn
+
 	) {
-		int i;
+		String s;
 
-		if (syntax == 0)
-			return "UNK";
+		if (syntxn < 0)
+			return "???";
 
-		for (i = 0; i < symbolCount; i++)
-			if (symbolMap[i] == syntax)
-				break;
+		int code = (syntxn >> 4); 
 
-		return (i == symbolCount) ? "" : symbolTable[i];
+		if (syntxn == 0)
+			s = "UNK";
+		else if (code == 1)
+			s = "XXX";
+		else if (code < 8)
+			s = String.format("%03d",code);
+		else
+			s = "!!!";
+
+		return s;
 	}
 
 }

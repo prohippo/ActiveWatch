@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Syntax.java : 04mar2022 CPM
+// Syntax.java : 04sep2022 CPM
 // define named syntactic categories for phrase analysis
 
 package aw.phrase;
@@ -69,8 +69,19 @@ class SyntaxSpec {
 		out.writeByte(semantics);
 	}
 
+	public void clear ( ) {
+		type = 0;
+		modifiers = 0;
+		semantics = 0;
+	}
+
 	public String toString ( ) {
-		return String.format(" %02x %02x %02x",type,modifiers, semantics);
+		String features = String.format("[%02x][%02x]",modifiers,semantics);
+		return Syntax.tb.interp(type) + ": " + features;
+	}
+
+	public int kind ( ) {
+		return (type >> 4); // general syntactic class
 	}
 
 }
@@ -114,83 +125,98 @@ class SyntaxPatt {
 		);
 	}
 
+	public String toString (
+
+	) {
+		byte[] bs;
+		bs = modifiermasks;
+		String fmm = String.format("[%02x%02x]",bs[1],bs[0]);
+		bs = semanticmasks;
+		String fsm = String.format("[%02x%02x]",bs[1],bs[0]);
+		return Syntax.tb.interp(type) + ": " + fmm + fsm;
+	}
 }
 
 public class Syntax {
 
-	public static final byte x0F = (byte) 0x0F; // for masking
+	public static final byte x0F = (byte) 0x0F; // for masking nibbles
 	public static final byte xF0 = (byte) 0xF0; //
 
-	// for named types
+	private static String[] typn;
 
-	public static byte 
-		adjectiveType,
-		adverbType,
-		auxiliaryType,
-		determinerType,
-		initialType,
-		nameType,
-		nounType,
-		numberType,
-		prepositionType,
-		timeType,
-		unknownType,
-		verbType;
+	public  static byte unknownType = 0;        // default predefined type
 
-	// for named features
+	public  static byte adjectiveType;          // defining syntactic types
+	public  static byte adverbType;
+	public  static byte auxiliaryType;
+	public  static byte determinerType;
+	public  static byte initialType;
+	public  static byte nameType;
+	public  static byte nounType;
+	public  static byte numberType;
+	public  static byte prepositionType;
+	public  static byte pronounType;
+	public  static byte timeType;
+	public  static byte verbType;
+	public  static byte breakFeature;
+	public  static byte capitalFeature;         // defining syntactic features
+	public  static byte functionalFeature;
+	public  static byte inflectedFeature;
+	public  static byte moreFeature;
+	public  static byte possessiveFeature;
 
-	public static byte
-		capitalFeature,
-		functionalFeature,
-		breakFeature,
-		inflectedFeature,
-		possessiveFeature,
-		moreFeature;
-
-	private static boolean done = false;
-
-	// define categories from symbol table
-
-	public static void initialize (
-
-		SymbolTable tb
-
-	) {
-		if (done) return;
-
-		// syntax types to be recognized explicitly for phrase extraction
-
-		adjectiveType   = (byte) tb.syntacticType("ADJective");
-		adverbType      = (byte) tb.syntacticType("ADVerb");
-		auxiliaryType   = (byte) tb.syntacticType("AUXiliary");
-		determinerType  = (byte) tb.syntacticType("DETerminer");
-		initialType     = (byte) tb.syntacticType("INItial");
-		nameType        = (byte) tb.syntacticType("NAMe");
-		nounType        = (byte) tb.syntacticType("NOUn");
-		numberType      = (byte) tb.syntacticType("NUMber");
-		prepositionType = (byte) tb.syntacticType("PREposition");
-		timeType        = (byte) tb.syntacticType("TIMe");
-		unknownType     = (byte) tb.syntacticType("UNKnown");
-		verbType        = (byte) tb.syntacticType("VERb");
-
-		// syntax features
-
-		capitalFeature    = (byte) tb.modifierFeature("CAPital");
-		functionalFeature = (byte) tb.modifierFeature("FUNctional");
-		breakFeature      = (byte) tb.modifierFeature("BREak");
-		inflectedFeature  = (byte) tb.modifierFeature("INFlected");
-		possessiveFeature = (byte) tb.modifierFeature("POSsessive");
-		moreFeature       = (byte) tb.modifierFeature("MORe");
-
-		done = true;
-	}
+	public  static CombinedSymbolTable tb;
 
 	// check for content constituent
 
-	public static final boolean positionalType (
+	public static final boolean functional (
 		SyntaxSpec ss
 	) {
-		return (ss.modifiers & functionalFeature) == 0;
+//		System.out.println("modf= " + ss.modifiers + ", func= " + functionalFeature);
+		return (ss.modifiers & functionalFeature) != 0;
+	}
+
+	public static byte feature (
+		String name
+	) {
+		return tb.modifierFeature(name);
+	}
+
+	public static void initialize (
+		CombinedSymbolTable tbl
+	) {
+		tb = tbl;
+		adverbType      = tb.syntacticType("ADV");
+		auxiliaryType   = tb.syntacticType("AUX");
+		determinerType  = tb.syntacticType("DET");
+		initialType     = tb.syntacticType("INI");
+		nameType        = tb.syntacticType("NAM");
+		nounType        = tb.syntacticType("NOU");
+		numberType      = tb.syntacticType("NUM");
+		prepositionType = tb.syntacticType("PRE");
+		pronounType     = tb.syntacticType("PRO");
+		timeType        = tb.syntacticType("TIM");
+		verbType        = tb.syntacticType("VER");
+		breakFeature      = feature("BREA");
+		capitalFeature    = feature("CAPI");
+		inflectedFeature  = feature("INFL");
+		functionalFeature = feature("FUNC");
+		moreFeature       = feature("MORE");
+	}
+
+	// map pattern string into syntax specification
+
+	public static void patternToSpecification (
+
+		SyntaxPatt patt,
+		SyntaxSpec spec
+
+	) {
+//		System.out.println("**from " + patt);
+		spec.type = (byte)(patt.type);
+		spec.modifiers = patt.modifiermasks[SyntaxPatt.POSITIVE];
+		spec.semantics = patt.semanticmasks[SyntaxPatt.POSITIVE];
+//		System.out.println("**to   " + spec);
 	}
 
 }

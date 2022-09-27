@@ -22,66 +22,69 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Analyzer.java : 08sep2022 CPM
-// phrase analysis update module
+// ExtractPhrases.java : 22sep2022 CPM
+// dump all phrases for batch
 
 package aw.phrase;
 
-import aw.*;
+import aw.AWException;
+import aw.Format;
+import aw.Item;
+import aw.Reference;
+import aw.phrase.Parse;
+import object.FullProfile;
+import object.IndexedItem;
 import object.TextItem;
 import java.io.*;
 
-public class Analyzer extends AnalyzerBase {
+public class ExtractPhrases {
 
-	private int batch; // which to analyze
-	private int count; // how many items
+	private static final int LN = 32;
+	private static final int NW = 12;
+	
+	public static void main ( String[] a ) {
+		int pn = (a.length > 1) ? Integer.parseInt(a[1]) : 1;
+		System.out.println("top phrases for saved profile " + pn);
 
-	private static final int W = 80; // line width
-
-	// data base initializations
-
-	public Analyzer (
-
-		int nb, // byte limit on output for single item
-		int wl  // word limit for single phrase
-
-	) throws AWException {
-		super(nb,wl);
-		Control c = new Control();
-		batch = c.cubn;
-		count = Index.count(batch);
-		if (count == 0) {
-			batch = c.previous(batch);
-			count = Index.count(batch);
+		IndexedItem itm;
+		byte[] pv;
+		PhraseExtractor pe;
+		
+		try {
+			FullProfile fp = new FullProfile(pn);
+			pv = fp.vector();
+			Item it;
+			if (a.length == 0)
+				it = new Item(0,0,0);
+			else
+				it = Reference.to(a[0]);
+			itm = new IndexedItem(it);
+			pe = new PhraseExtractor(NW);
+		} catch (AWException e) {
+			e.printStackTrace();
+			return;
+		}
+		int n = itm.index;
+		int b = itm.bn;
+		System.out.println("extract phrases for " + b + ":" + n);
+		
+		try {
+			TextItem ti = new TextItem(b,n);
+			String tx = ti.getBody();
+			int ln = tx.length();
+			int ll = (ln < LN) ? ln : LN;
+			System.out.println("=" + tx.substring(0,ll) + " : " + ln + " chars");
+			Parse ps = new Parse(b,n);
+			Parsing pp = ps.analysis;
+			pe.reset(tx,pp);
+			pe.reset(pv);
+			TaggedPhrase ph;
+			while ((ph = pe.next()) != null)
+				System.out.println("(" + Format.it(ph.score,4) + ") " + ph.phrase);
+			System.out.println("DONE");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
-
-	// process or reprocess every item in last batch
-
-	public void run (
-
-	) throws AWException {
-		Parse pp = null;
-		System.out.println("batch count= " + count);
-		for (int n = 0; n < count; n++) {
-			System.out.print(batch + ":" + n);
-			TextItem it = new TextItem(batch,n);
-			String ts = it.getBody();
-			System.out.println(" " + ts.length() + " chars");
-			LinedText lt = new LinedText(ts,W);
-			Parsing ps = analyze(lt);
-			System.out.println("*  parsing= " + ps);
-			reparse(ts,ps);
-			System.out.println("*reparsing= " + ps);
-			try {
-				pp = new Parse(ps);
-				pp.save(batch);
-			} catch (IOException e) {
-				throw new AWException(e);
-			}
-		}
-		if (pp != null)
-			pp.close();
-	}
-
+	
 }

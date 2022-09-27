@@ -22,46 +22,47 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// WordType.java : 04mar2022 CPM
+// WordType.java : 08sep2022 CPM
 // to determine syntactic type from mini-dictionary
 
 package aw.phrase;
 
+import aw.Format;
 import aw.AWException;
 import aw.ResourceInput;
 import aw.phrase.Syntax;
-import object.WordHashTable;
+import object.HashTable;
 import java.io.*;
 
 public class WordType {
 
 	public static String wordFileName = "words";
 
-	private static final int TableSize = 2053; // hash table size
+	private static final int TableSize = 4001; // hash table size
 
-	private static WordHashTable wordTable = new WordHashTable(TableSize); // for word lookup
-	private static SyntaxSpec[]  wordType  = new SyntaxSpec[TableSize];    // syntax for words
+	private static HashTable    wordTable = new HashTable(TableSize);  // for word lookup
+	private static SyntaxSpec[] wordType  = new SyntaxSpec[TableSize]; // syntax for words
 	private static boolean wordsLoaded = false;
-	private static int     wordCount = 0;
+	private static int     wordCount   = 0;
 
 	// looks for word as char[] in table
 
 	public static boolean match (
 
 		char[] a,
-		int    n,
 		SyntaxSpec x
 
 	) {
 		if (!wordsLoaded)
 			return false;
 
-		int hash = wordTable.lookUp(a,n);
-
+		int hash = wordTable.lookUp(a);
+//		System.out.println(new String(a) + " -> " + hash);
 		if (hash <= 0)
 			return false;
 		else {
-			x.copy(wordType[--hash]);
+//			System.out.println(wordType[hash-1]);
+			x.copy(wordType[hash-1]);
 			return true;
 		}
 	}
@@ -73,15 +74,14 @@ public class WordType {
 		SymbolTable stb
 
 	) throws IOException {
-		String line;
+		String     line;       // for word definition
+		SyntaxPatt wordSyntax; // encode its syntax
 
 		if (wordsLoaded)
 			return wordCount;
 
-		SyntaxPatt wordSyntax = new SyntaxPatt();
-
-		for (int i = 0; i < TableSize; i++)
-			wordType[i] = new SyntaxSpec();
+//		System.out.println("symbols: " + stb);
+		System.out.println("loading words");
 
 		BufferedReader in = ResourceInput.openReader(wordFileName);
 
@@ -99,13 +99,17 @@ public class WordType {
 
 			// process last part of entry as syntax specification
 
-			String ss = line.substring(k+1);
+			String ss = line.substring(k+1);;
+//			System.out.println("ss= " + ss);
 			try {
-				stb.symbolToSyntax(ss,wordSyntax);
+				wordSyntax = new SyntaxPatt();
+				stb.parseSyntax(ss,wordSyntax);
 			} catch (AWException e) {
-				System.err.println("cannot interpret " + ss);
+				System.err.println(e);
+				System.err.println("cannot interpret " + ss + "i: " + ss);
 				continue;
 			}
+//			System.out.println("to " + wordSyntax);
 
 			// interpret start of entry as one or more words
 
@@ -115,12 +119,16 @@ public class WordType {
 			if (hash == 0)
 				throw new IOException("hash table overflow");
 
-			if (hash > 0)
+			if (hash > 0) {
 				System.err.println("duplicate in word file: " + w);
+			}
 			else {
 				hash = -(++hash);
+//				System.out.println("hash= " + hash);
 				wordTable.array[hash] = w;
-				stb.patternToSpecification(wordSyntax,wordType[hash]);
+				wordType[hash] = new SyntaxSpec();
+				Syntax.patternToSpecification(wordSyntax,wordType[hash]);
+//				System.out.println("= " + wordType[hash]);
 				wordCount++;
 			}
 
@@ -131,28 +139,59 @@ public class WordType {
 		return wordCount;
 	}
 
+	// show hash keys and word definitions
+
+	public static void dumpKeys ( ) {
+		for (int i = 0; i < TableSize; i++) 
+			if (wordTable.array[i] != null) {
+				System.out.print(i + ": " + wordTable.array[i] + " = ");
+				System.out.println(wordType[i]);
+			}
+		System.out.println("--------");
+	}
+
 //
 ////	for debugging
 
-	private static int test ( String x ) {
+	private static void test ( String x ) {
 		int nh = wordTable.lookUp(x);
-		System.out.println("[[" + x + "]] -> " + nh);
-		return nh;
+		System.out.print("[[" + x + "]] -> ");
+		if (nh > 0) {
+			SyntaxSpec ss = wordType[--nh];
+			System.out.print("found @" + nh + " = ");
+			if (ss == null) {
+				System.out.println("no definition");	
+			}
+			else {
+				System.out.println(ss);
+			}
+		}
+		else {
+			System.out.println("NOT found");
+		}
 	}
 
 	public static void main ( String[] a ) {
 		int n;
 		try {
-			System.out.println("testing WordType");
+			System.out.println("testing Word definitions");
 			CombinedSymbolTable stb = new CombinedSymbolTable();
-			System.out.println("symbol count= " + stb.symbolCount);
+			stb.dump();
 			WordType.load(stb);
-			System.out.println("word   count= " + wordCount);
-			test("the");
-			n = test("and");
-			if (n < 0)
-				System.out.println(wordType[-n]);
-		} catch ( IOException e ) {
+			System.out.println("word count= " + wordCount);
+
+			String[] ax = {
+				"the" , "AND" , "to" , "THAT" , "after" , "Then" , "xxxx",
+				"russia" , "captain" , "secretary" , "had" , "man's"
+			};
+
+			if (a.length == 0) a = ax;
+			System.out.println();
+			for (int i = 0; i < a.length; i++)
+				test(a[i]);
+			System.out.println();
+//			dumpKeys();
+		} catch ( Exception e ) {
 			System.err.println(e);
 		}
 	}

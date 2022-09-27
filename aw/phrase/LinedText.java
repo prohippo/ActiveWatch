@@ -22,15 +22,18 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LinedText.java : 27jan2022 CPM
-// text with lining out
+// LinedText.java : 19jul2022 CPM
+// to line out big chunks of Unicode text after converting to reduced AW ASCII
+// for figuring out paragraph boundaries
 
 package aw.phrase;
 
 import aw.*;
-import aw.Lines;
-import aw.Inputs;
+import aw.ByteTool;
+import aw.Lines;                // actual lining algorithms
+import aw.Inputs;               // for handling different text line terminators
 import aw.CharArray;
+import java.util.stream.Stream; // for creating a char input stream
 import java.io.*;
 
 public class LinedText {
@@ -41,22 +44,58 @@ public class LinedText {
 
 	public LinedText (
 	
-		String ts,
+		String tx,  // chunk of text 
 		int    lw
 		
 	) throws AWException {
-		this.ts = ts;
-		byte[] b = ts.getBytes();
-		DataInputStream s = new DataInputStream(new ByteArrayInputStream(b));
-		Inputs in = new Inputs(s);
-		Lines ls = new Lines(in);
-		
+		ts = ByteTool.bytify(tx);                        // reduce to ASCII only
+		ByteArrayInputStream bs = new ByteArrayInputStream(ts.getBytes()); 
+		Inputs in = new Inputs(new DataInputStream(bs)); // need char conversion
+		Lines  ls = new Lines();                         // 
+
 		CharArray lb;
-		while ((lb = in.input()) != null)
+		while ((lb = in.input()) != null) {
+//			System.out.println("record: " + lb);
 			ls.record(lb,lw);
+		}
 			
-		lx = ls.getCharX(0);
+		lx = ls.textIndex();
+		ts = ls.textString();
 		nl = ls.countAll();
+//		ls.dump();
 	}
 
+	public String toString ( ) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(ts);
+		sb.append("\n: ");
+		for (int i = 0; i <= nl; i++){
+			sb.append(" ");
+			sb.append(lx[i]);
+		}
+		return sb.toString();
+	}
+
+	//// for debugging
+	////
+
+	public static final int NL = 10;
+
+	public void dump ( ) {
+		System.out.println("nl= " + nl);
+		int n = nl > NL	? NL : nl;
+		for (int i = 0; i < n; i++) {
+			System.out.println(String.format("%3d: %4d",i,lx[i]));
+		}
+	}
+
+	public static void main ( char[] a ) {
+		String ts = "this is a text!";
+		try {
+			LinedText lt = new LinedText(ts,100);
+//			lt.dump();
+		} catch ( AWException e ) {
+			System.err.println(e);
+		}
+	}
 }

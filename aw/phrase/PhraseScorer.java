@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseScorer.java : 19Jun00 CPM
+// PhraseScorer.java : 26sep2022 CPM
 // compute composite n-gram score for phrase
 
 package aw.phrase;
@@ -33,163 +33,111 @@ import gram.SortedList;
 import object.HashTable;
 import object.AnalyzedToken;
 import object.KeyTextAnalysis;
+import java.util.List;
+
+// to computer aggregate phrase score from element contributions
 
 public class PhraseScorer {
 
-	private static final int htSZ = 997;
+	private static final int htSZ = 4999;  // prime number
 
 	private byte[] wv; // n-gram weights for scoring
 	private HashTable ht;  // to keep track of distinct words
 	private KeyTextAnalysis an; // to analyze phrase elements
 
 	private SortedList list;
-	
+
 	// initialize
-	
+
 	public PhraseScorer (
-	
+
 		KeyTextAnalysis an
-		
+
 	) {
 		this.an = an;
 		ht = new HashTable(htSZ);
 		list = new SortedList(Token.MXW+4);
 	}
-	
-	// set new weights for scoring
-	
-	public void set (
-	
+
+	// set new profile weights for scoring
+
+	public void setWeighting (
+
 		byte[] wv
-	
+
 	) {
+//		System.out.println("new weighting");
 		this.wv = wv;
 		ht.clear();
 	}
-	
-	// for signature building
-	
-	private static final int nR = 16;
-	
-	private Record[] sl = new Record[nR+1];
-	private int     nsl;
-	
-	// score a phrase string
+
+	// building up phrase signatures
+
+	private static short[] siga = new short[12];
+	private static int sigx;
+
+	// score a phrase bu itss elements and set a signature
 
 	public TaggedPhrase score (
-	
-		PhraseElement[] pe,
-		int             ne,
-		TaggedPhrase    phs
-		
+
+		PhraseElement[] pe,  // elements of new phrase
+		int             ne,  // element count
+		TaggedPhrase    phs  // where to put scoring
+
 	) {
-		int lm = phs.signature.length;
-		if (lm >= sl.length)
-			sl = new Record[lm + 1];
-			
-		nsl = 0;
-		
-		// compile score from tokens and get hash those with non-zero scores
-		
-		phs.score = 0;
-		
-		for (int i = 0; i < ne; i++) {
+//		System.out.println("scoring " + ne + " elements");
+
+		// compile phrase score from its tokens and get hash codes for contribulting tokens
+
+		sigx = 0;      // initialize for tagging
+		phs.score = 0; //
+
+		for (int i = 0; i < ne; i++) {          // look at each phrase element
 			PhraseElement phe = pe[i];
+//			System.out.println(i + ")) " + phe.word());
 			if (phe.length > 0) {
-				an.setText(phe.word());
-				
-				// analyzed each phrase element separately
-				
-				int n = 0;
-				AnalyzedToken to;
-				for (; (to = an.next()) != null; n++) {
+				an.setText(phe.word()); // parse its text into tokens
+				AnalyzedToken to;       // for receiving next token
+				while ((to = an.next()) != null) {
 					int score = to.score(1,wv);
+//					System.out.println("token [" + to + "]= " + score);
+//					Short[] gm = to.indices();
+//					System.out.print("grams= ");
+//					int gml = to.count();
+//					for (int j = 0; j < gml; j++)
+//						System.out.print(" " + gm[j]);
+//					System.out.println();
 					if (score > 0) {
 						phs.score += score;
-						
-						// get hash for word in data set
-						
-						String w = to.toString();
+
+						// look for word in current text item hash table
+
+						String w = to.toString().trim();
 						int k = ht.lookUp(w);
 						if (k == 0)
-							continue;
+							continue;   // hash table full!
 						else if (k < 0) {
 							k = -k;
-							ht.array[k-1] = w;
+							ht.store(); // put canonical key into table
 						}
-						
-						// save unique key for signature
-						
-						int j = nsl;
-						for (; j > 0; --j)
-							if (sl[j-1].hash >= k)
-								break;
-								
-						if (j == 0 || sl[j-1].hash != k) {
-							if (j < nsl)
-								System.arraycopy(sl,j,sl,j+1,nsl-j);
-							Record r = new Record();
-							r.hash  = k;
-							r.score = score;
-							sl[j] = r;
-							if (nsl < nR)
-								nsl++;
-						}
+//						System.out.println("## " + w + " , hash= " + k);
+//						System.out.println("ne= " + ne);
+						siga[sigx++] = (short) k;
+//						System.out.println("signature size= " + sigx);
 					}
 				}
-				if (n == 0)
-					pe[i].length = 0;
+				phs.signature = new short[sigx];
+				System.arraycopy(siga,0,phs.signature,0,sigx);
 			}
 		}
-		
-		// sort keys by score
-		
-		Record r;
-		
-		for (int i = 1; i < nsl; i++) {
-			r = sl[i];
-			int j = i;
-			for (; j > 0; --j) {
-				if (sl[j-1].score >= r.score)
-					break;
-				sl[j] = sl[j-1];
-			}
-			sl[j] = r;
-		}
-		
-		// resort by weight
-		
-		if (lm > nsl)
-			lm = nsl;
-			
-		for (int i = 1; i < lm; i++) {
-			r = sl[i];
-			int j = i;
-			for (; j > 0; --j) {
-				if (sl[j-1].hash < r.hash)
-					break;
-				sl[j] = sl[j-1];
-			}
-			sl[j] = r;
-		}
-		
-		// copy phrase signature
-		
-		for (int i = 0; i < lm; i++)
-			phs.signature[i] = sl[i].hash;
-			
-		phs.order = lm;
-			
+
+		phs.order = phs.signature.length;
+//		System.out.println("tag: " + phs);
 		return phs;
 	}
-	
-}
 
-// for selecting signature words
+	public void hashdump () {
+		ht.dump();
+	}
 
-class Record {
-
-	int hash;
-	int score;
-	
 }

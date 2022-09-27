@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Parse.java : 28feb2022 CPM
+// AW file Parse.java : 08sep2022 CPM
 // phrase analysis access class
 
 package aw.phrase;
@@ -33,7 +33,7 @@ import java.io.*;
 public class Parse extends BatchFile {
 
 	public static final String root = "parse"; // for file name
-	public static final int    size = 1;       // byte
+	public static final int    size = 1;       // seek by byte count
 
 	private static RandomAccessFile ios = null;
 
@@ -70,7 +70,7 @@ public class Parse extends BatchFile {
 
 	public Parse (
 		int bn, // batch number
-		int n   // index
+		int n   // subsegment index
 	) throws IOException {
 		if (bns == bn && ns == n) {
 			analysis = save;
@@ -80,7 +80,11 @@ public class Parse extends BatchFile {
 			bns = bn;
 			ios = null;
 		}
-		access(n);
+		Start sr = new Start(bn,n);
+		int   os = sr.offsetsF();
+//		System.out.println("os= " + os);
+		access(os); // go to start of parse at byte offset
+
 		if (n >= 0) {
 			ns = n;
 			save = analysis = new Parsing(ios);
@@ -95,18 +99,26 @@ public class Parse extends BatchFile {
 		bns = bn;
 		access(unSPECIFIED);
 		analysis.save(ios);
-		Start sr = new Start(position());
+		int pos = position(); 
+		Start sr = new Start(pos);
+//		System.out.println("end pos= " + pos);
 		sr.save(bn);
 	}
 
 	// file position for I/O
-	
+
 	public static int position (
-	
+
 	) throws IOException {
 		return (ios == null) ? 0 : (int) ios.getFilePointer();
 	}
-	
+
+	// for printing
+
+	public String toString ( ) {
+		return analysis.toString();
+	}
+
 	// accessors
 
 	protected final String rootF ( ) { return root; }

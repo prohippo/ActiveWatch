@@ -22,66 +22,41 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Analyzer.java : 08sep2022 CPM
-// phrase analysis update module
+// TestText.java : 21jun2022 CPM
+// get text data from file to test AW
 
-package aw.phrase;
+package test;
 
-import aw.*;
-import object.TextItem;
 import java.io.*;
 
-public class Analyzer extends AnalyzerBase {
+public class TestText {
 
-	private int batch; // which to analyze
-	private int count; // how many items
+	private static final int LM = 2000;
 
-	private static final int W = 80; // line width
+	private StringBuffer sb = new StringBuffer(LM);
 
-	// data base initializations
+	public TestText (
 
-	public Analyzer (
-
-		int nb, // byte limit on output for single item
-		int wl  // word limit for single phrase
-
-	) throws AWException {
-		super(nb,wl);
-		Control c = new Control();
-		batch = c.cubn;
-		count = Index.count(batch);
-		if (count == 0) {
-			batch = c.previous(batch);
-			count = Index.count(batch);
-		}
+	) throws IOException {
+		this("text");
 	}
 
-	// process or reprocess every item in last batch
+	public TestText (
+		String file
+	) throws IOException {
+		FileReader in = new FileReader(file);
 
-	public void run (
+		int nextChar;
+		while ((nextChar = in.read()) != -1)
+			sb.append((char) nextChar);
 
-	) throws AWException {
-		Parse pp = null;
-		System.out.println("batch count= " + count);
-		for (int n = 0; n < count; n++) {
-			System.out.print(batch + ":" + n);
-			TextItem it = new TextItem(batch,n);
-			String ts = it.getBody();
-			System.out.println(" " + ts.length() + " chars");
-			LinedText lt = new LinedText(ts,W);
-			Parsing ps = analyze(lt);
-			System.out.println("*  parsing= " + ps);
-			reparse(ts,ps);
-			System.out.println("*reparsing= " + ps);
-			try {
-				pp = new Parse(ps);
-				pp.save(batch);
-			} catch (IOException e) {
-				throw new AWException(e);
-			}
-		}
-		if (pp != null)
-			pp.close();
+		in.close();
+//		System.out.println("........");
+//		System.out.println(sb);
 	}
+
+	public final char[] getArray  ( ) { return sb.toString().toCharArray(); }
+
+	public final String getString ( ) { return sb.toString(); }
 
 }

@@ -22,66 +22,47 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Analyzer.java : 08sep2022 CPM
-// phrase analysis update module
+// CompoundPhraseAnalysis.java : 06aug2022 CPM
+// for subsegmented text
 
 package aw.phrase;
 
-import aw.*;
-import object.TextItem;
+import aw.AWException;
 import java.io.*;
 
-public class Analyzer extends AnalyzerBase {
+public class CompoundPhraseAnalysis extends PhraseAnalysis {
 
-	private int batch; // which to analyze
-	private int count; // how many items
+	int limit; // limit of subsegment in text
 
-	private static final int W = 80; // line width
+	// start with alignment to first phrase within subsegment
 
-	// data base initializations
+	public CompoundPhraseAnalysis (
 
-	public Analyzer (
+		String  tx, // full text of item
+		Parsing an, // full analysis
+		int     os, // offset of subsegment
+		int     ln  // length
 
-		int nb, // byte limit on output for single item
-		int wl  // word limit for single phrase
-
-	) throws AWException {
-		super(nb,wl);
-		Control c = new Control();
-		batch = c.cubn;
-		count = Index.count(batch);
-		if (count == 0) {
-			batch = c.previous(batch);
-			count = Index.count(batch);
+	) throws IOException, AWException {
+		super(tx,an);
+		limit = os + ln;
+		int n = count();
+		for (int k = 0; k < n; k++) {
+			initialize(k);
+			if (getPhraseOffset() >= os)
+				break;
 		}
 	}
 
-	// process or reprocess every item in last batch
+	// for phrases in subsegment
 
-	public void run (
+	public int getNextPhrase (
+
+		PhraseElement[] phe
 
 	) throws AWException {
-		Parse pp = null;
-		System.out.println("batch count= " + count);
-		for (int n = 0; n < count; n++) {
-			System.out.print(batch + ":" + n);
-			TextItem it = new TextItem(batch,n);
-			String ts = it.getBody();
-			System.out.println(" " + ts.length() + " chars");
-			LinedText lt = new LinedText(ts,W);
-			Parsing ps = analyze(lt);
-			System.out.println("*  parsing= " + ps);
-			reparse(ts,ps);
-			System.out.println("*reparsing= " + ps);
-			try {
-				pp = new Parse(ps);
-				pp.save(batch);
-			} catch (IOException e) {
-				throw new AWException(e);
-			}
-		}
-		if (pp != null)
-			pp.close();
+		int n = super.getNextPhrase(phe);
+		return (getPhraseOffset() > limit) ? 0 : n;
 	}
 
 }

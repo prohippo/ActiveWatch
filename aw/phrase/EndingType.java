@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// EndingType.java : 23feb2022 CPM
+// EndingType.java : 03jun2022 CPM
 // to determine syntactic type
 
 package aw.phrase;
@@ -41,12 +41,13 @@ public class EndingType {
 	public static boolean match (
 
 		char[] a,
-		int   ln,
 		SyntaxSpec x
 
 	) {
 		if (etb == null)
 			load();
+
+		int ln = a.length;
 
 		// ending cannot include first vowel in token
 
@@ -116,7 +117,7 @@ public class EndingType {
 
 	// read in ending table
 
-	private static void load (
+	public static void load (
 
 	) {
 		try {
