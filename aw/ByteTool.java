@@ -22,9 +22,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW Source 03jul2022 : ByteTool.java
-// utility for UTF-8 data management and
-// mapping to ASCII for easier analysis
+// AW Source 21jul2022 : ByteTool.java
+// utility to work with byte streams for UTF-8 data management,
+// mapping to ASCII for simpler analysis, and data conversion
 
 package aw;
 
@@ -151,7 +151,7 @@ public class ByteTool {
 			else if (c == RSQm)
 				cn = '\'';
 			else if (c == LDQm || c == RDQm)
-				cn = '"';
+				cn = ' ';
 			else if (c == NDSh || c == MDSh)
 				cn = '-';
 			else if (c >= nc.length)
@@ -167,6 +167,21 @@ public class ByteTool {
 		return sb.toString();
 	}
 
+	// encoding and decoding short integers in a binary byte stream
+
+	private static final short Mask=0x00FF;
+
+	public static void  shortToBytes ( byte[] b , int p , short n ) {
+		b[p++] = (byte)((n>>8)&Mask);      // no check for array overflow!
+		b[p  ] = (byte)(n&Mask);           //
+	}
+
+	public static short bytesToShort ( byte[] b , int p ) {
+		short m = b[p];
+		short n = b[p+1];
+		return (short)((m<<8) | (n&Mask)); // no check for array overflow!
+	}
+
 	////
 	//// for debugging
 
@@ -179,5 +194,12 @@ public class ByteTool {
 
 		String s = (a.length > 0) ? a[0] : new String(data);
 		System.out.println('=' + bytify(s));
+
+		short n = 32767;
+		byte[] b = new byte[2];
+		String f = "%2x, %2x";
+		shortToBytes(b,0,n);
+		System.out.println(String.format(f,b[0],b[1]));
+		System.out.println("=" + bytesToShort(b,0));
 	}
 }
