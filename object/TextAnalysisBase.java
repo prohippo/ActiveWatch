@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file TextAnalysisBase.java : 09Aug99 CPM
+// AW file TextAnalysisBase.java : 19sep2022  CPM
 // class for basic tokenization
 
 package object;
@@ -33,38 +33,42 @@ import stem.*;
 public class TextAnalysisBase extends TextAnalysisFile {
 
 	protected Tokenizer tokenizer; // produce stemmed tokens from text
-	
+
 	// initialize for lexical text analysis
-		
+
 	public TextAnalysisBase (
 
 	) throws AWException{
-	
+
 		StemStart.load(suffixFile,stopFile,stopPatternFile);
 		setTokenizer();
-				
+
 	}
-	
+
 	// allow for override
-	
+
 	protected void setTokenizer (
 
 	) {
-	
+
 		tokenizer = new Tokenizer(StemStart.tree,StemStart.table,StemStart.list);
-		
+
 	}
-	
+
 	// specify input text
-	
+
 	public final void setText ( String text ) { tokenizer.set(text); }
-	
+
 	// get next token
-	
+
 	public final Token getToken ( ) { return tokenizer.get(); }
-	
+
 	// allow access to morphological stemming
 	 
 	public final Stem stem ( ) { return StemStart.tree; }
-		
+
+	// get current position in analyzing a text segment
+
+	public final int getNextPosition ( ) { return tokenizer.getOffset(); }
+
 }
