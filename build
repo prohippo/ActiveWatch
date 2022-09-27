@@ -207,7 +207,7 @@ stem/Translation.class \
 web/ThreadTimer.class \
 web/TimedURL.class
 
-jar cfe KEYWDR aw/keyword/KeyworderMain \
+jar cfe KEYWDR aw.keyword.KeyworderMain \
 aw/AWException.class \
 aw/Attribute.class \
 aw/Banner.class \
@@ -346,7 +346,7 @@ stem/Translation.class \
 stem/TokenForm.class   \
 stem/Token.class
 
-jar cfe SEQNCR aw/sequence/SequencerMain \
+jar cfe SEQNCR aw.sequence.SequencerMain \
 aw/AWException.class \
 aw/Banner.class \
 aw/BatchFile.class \
@@ -442,7 +442,7 @@ object/ProfileModel.class \
 object/RunIndex.class \
 object/SimpleIndexVector.class
 
-jar cfe UPDATR aw.update/UpdaterMain \
+jar cfe UPDATR aw.update.UpdaterMain \
 aw/AWException.class \
 aw/Banner.class \
 aw/BatchFile.class \
@@ -673,7 +673,7 @@ jar cfe PHRASR aw.phrase.PhraserMain \
 aw/AWException.class \
 aw/Banner.class \
 aw/BatchFile.class \
-aw/CharArray.class \
+aw/ByteTool.class \
 aw/Control.class \
 aw/FileAccess.class \
 aw/FileName.class \
@@ -686,11 +686,9 @@ aw/Parameter.class \
 aw/Profile.class \
 aw/ProfileFile.class \
 aw/ResourceInput.class \
-aw/SortableObject.class \
 aw/Source.class \
 aw/Subsegment.class \
 aw/TextAnalysisFile.class \
-aw/Transform.class \
 aw/phrase/CombinedSymbolTable.class \
 aw/phrase/Parse.class \
 aw/phrase/Parsing.class \
@@ -703,7 +701,6 @@ aw/phrase/PhraseSelector.class \
 aw/phrase/PhraseSyntax.class \
 aw/phrase/Phraser.class \
 aw/phrase/PhraserMain.class \
-aw/phrase/Record.class \
 aw/phrase/Start.class \
 aw/phrase/SymbolTable.class \
 aw/phrase/Syntax.class \
@@ -730,6 +727,7 @@ object/FullProfile.class \
 object/GappedProfileList.class \
 object/Gapping.class \
 object/HashTable.class \
+object/IndexedItem.class \
 object/ISAMData.class \
 object/KeyTextAnalysis.class \
 object/ListHead.class \

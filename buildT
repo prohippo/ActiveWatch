@@ -15,6 +15,7 @@ javac test/Dsqv.java
 javac test/Dtxt.java
 javac test/Dvec.java
 javac test/TG.java
+javac test/TestPh.java
 
 ####
 
@@ -319,7 +320,7 @@ jar cfe TGx test.TG \
 ./object/TextAnalysisBase.class \
 ./object/TextAnalysis.class
 
-jar cfe DPRO test/Dpro \
+jar cfe DPRO test.Dpro \
 ./gram/Gram.class \
 ./gram/GramStart.class \
 ./gram/TokenBuffer.class \
@@ -352,7 +353,7 @@ jar cfe DPRO test/Dpro \
 ./object/ProfileChecker.class \
 ./object/ProfileToUse.class
 
-jar cfe DLST test/Dlst \
+jar cfe DLST test.Dlst \
 ./test/Dlst.class \
 ./aw/Control.class \
 ./aw/Format.class \
@@ -372,3 +373,34 @@ jar cfe DLST test/Dlst \
 ./object/ProfileList.class \
 ./object/GappedProfileList.class \
 ./object/SortedProfileList.class
+
+jar cfe TPH test.TestPh \
+aw/AWException.class \
+aw/BatchFile.class \
+aw/ByteTool.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Format.class \
+aw/Index.class \
+aw/OffsetBase.class \
+aw/ResourceInput.class \
+aw/Source.class \
+aw/Subsegment.class \
+aw/phrase/CombinedSymbolTable.class \
+aw/phrase/CompoundPhraseAnalysis.class \
+aw/phrase/Parse.class \
+aw/phrase/Parsing.class \
+aw/phrase/PhraseAnalysis.class \
+aw/phrase/PhraseDump.class \
+aw/phrase/PhraseElement.class \
+aw/phrase/Start.class \
+aw/phrase/SymbolTable.class \
+aw/phrase/Syntax.class \
+aw/phrase/SyntaxPatt.class \
+aw/phrase/SyntaxSpec.class \
+object/Text.class \
+object/TextItem.class \
+test/TestPh.class \
+web/ThreadTimer.class \
+web/TimedURL.class

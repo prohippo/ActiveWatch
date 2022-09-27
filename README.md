@@ -1,15 +1,15 @@
 ActiveWatch (AW) is a set of Java software modules for building various
-statistical text processing capabilities. It is unusual in its being based
-on indexing text according to only a finite set of selected lexical
-features instead of whole words. It represents text items as M-dimensional
-numerical vectors, where M will be on the order of 10⁴.
+statistical text processing capabilities. It is unusual in its indexing
+of text according to a finite set of selected lexical features instead
+of whole words. It represents individual text items as N-dimensional
+numerical vectors, where N will be on the order of 10⁴.
 
-For an AW User Guide, see the file AWug.pdf in this repository. For a
-general description of finite and other kinds of indexing see the
-repository file HowtoIndex.pdf.
+For a full AW User Guide, see the file AWug.pdf in this GitHub repository.
+For a mathematical and historical description of finite and other kinds of
+text indexing in general, see the repository file HowtoIndex.pdf.
 
 Finite indexing lets us reliably estimate the probability that a given
-lexical feature occurs in a text item of given length. A multinomial
+lexical feature occurs in a text item of a given length. A multinomial
 model can then be applied to compute a statistically scaled inner-product
 similarity measure between pairs of vectors. This offers an alternative
 to the normalized, but unscaled, cosine similarity of Gerard Salton.
@@ -18,73 +18,76 @@ AW lexical features for indexing text currently fall into three types:
 (1) all alphanumeric 2-grams, like TH, F1, 2X, or 00; (2) selected
 alphabetic n-grams (for n > 2), like QUE, REVE, and CLASS; and (3) a
 fixed number of user-defined alphanumeric word beginnings and endings,
-like THERMO- and -MOTHER; these can cover an entire word like MOTHER.
+like THERMO- and -MOTHER.
 
-Indexing with word fragments will always be noisier than with whole
-words. For example, if the word CONFABULATE is unrecognized, we must
-break it into overlapping fragments: CONF, NFA, FAB, ABU, ULAT, and
-LATE. Yet, by adding longer fragments like ULATE to our indexing, we
-can achieve ever better finite approximations to full-word indexing.
+Indexing with word fragments will tend to be noisier than with whole
+words. For example, if text item has a long word like CONFABULATE that
+is missing as a indexing feature, AW will break it into overlapping
+fragments like CONF, NFA, FAB, ABU, ULAT, and LATE to represent the
+word in a finite indexing vector. This may seem outrageous, but any
+crossword puzzle fan knows that word fragments do carry ihformation.
 
-So, how big would our finite have to be to support some useful text
+So, how big would our finite index set have to be to support useful text
 analysis? The ActiveWatch demonstration makes the case that 10⁴ should
-be enough for automatic clustering of text items by content or for
-other processing done with vectors. You should look elsewhere, however,
-if you just want to find all documents containing a specific word.
+be enough in English for automatic clustering of text items by content
+or for detecting highly unusual content in a dynamic text stream. You
+should look elsewhere, however, if you just want to find all documents
+containing a specific word.
 
-In any case, the big advantage of a vector representation of text is
-that it lets us organize its processing at a higher level of
-abstraction. Once we have text as vectors, it should not really matter
+The big advantage of a finite vector representation of text is
+that it lets us organize system processing at a higher level of
+abstraction. Once we encode text as vectors, it should not matter
 where these vectors came from. We care only that they are easy to work
-with and carry enough information for the purposes of users.
+with and carry enough information for the purposes of our users.
 
-The advantage of finite indexing is that it makes a statistically scaled
-similarity measure practical. This allows a text processing system to
-make many decisions on its own without a human always hovering around like
-a helicopter parent. Real-time systems with dynamic data then become more
-manageable and also more resiliant when something unexpected happens.
+Vector data of finite dimensionality makes a statistically scaled
+similarity measure possible. This is easy to interpret and allows a text
+processing system to make decisions on its own without a human always
+hovering around like a helicopter parent. Real-time systems with dynamic
+data become more manageable and more resiliant in unexpected situations.
 
 AW will score similarity by the number of standard deviations that a raw
-inner product falls above or below the mean of a noise distribution. This
-noise will be roughly Gaussian; an AW scaled similarity of 3 standard
+inner product similarity score falls within a theoretical noise distribution.
+This noise will be roughly Gaussian; an AW scaled similarity of 3 standard
 deviations should be significant at about p = .003. With actual text data,
-We usually will expect AW scaled similarity above 5 standard deviations.
+we can expect AW scaled similarity above 6 standard deviations.
 
 Some index tuning is needed to achieve such performance. This will mainly
-involve adjustments of the index keys defined by a users for particular
-target text data. Automatic stemming and stopword deletion is built-in,
-but can be adjusted by users. One can also expect that AW will continue
-to expand its frequency-selected n-gram indicess over time.
+involve adjustments of the indexing features defined by a users for particular
+target text data. Automatic stemming and stopword deletion also allows AW
+users to exclude purely grammatical instances of n-grams like ING, MENT,
+or ATION when indexing text content.
 
 AW was first written in C around 1982 for information discovery in unfamiliar
 text data. The current Java version dates back to around 1999, but has some
 recent tweaks in its linguistic analysis and addition of 4- and 5-letter
 word fragments for indexing. Only 2- and 3-letter fragments, plus user-defined
-indices, were employed previously. 
+indices, were built into AW previously. 
 
 The modules included in the AW GitHub repository mainly provide support for
-simple clustering of text items by content. These are organized functionally
-by their Java package identifications. The Java code was originally written on
-Apple home computers running versions 7.*, 8.*, or 9.* of the Macintosh OS.
-This was when Java was still a somewhat new programming language.
+simple clustering of text items by content. The code is organized functionally
+Java packages. It was originally written on Apple home computers running
+versions 7.*, 8.*, or 9.* of the Macintosh OS.  This was when Java was still
+a somewhat new programming language.
 
 Java AW eventually evolved to support many kinds of statistical natural
 language processing, but this GitHub repository includes only a small subset of
 modules for automatic clustering of text items in particular. This software
 should give you a good overall idea of what you can do with AW finite indexing
-and with statistically scaled similarity between pairs of text items.
+and statistically scaled similarity between pairs of item vectors.
 
-The latest AW release includes fifteen prebuilt AW modules that combine to
-demonstrate automatic clustering. These are found in separate runnable jar
-files in the subdirectory jars. Documentation is incomplete, but there is now
-a PDF file (HowToIndexText.pdf) provides background information about basic
-ststitical technology. A user guide (AWug.pdf) explains how to run AW.
+The latest AW release includes fifteen prebuilt AW modules. These might support
+military intelligence operations or the tagging of news streams for resale
+to commercial businesses or the organization of text documents obtained by
+legal discovery. The modules are in separate runnable jar files in the jars
+subdireectory of this repository.
 
-To build out our basic AW clustering capability, run the 'build' shell script
-included with the AW GitHub download. The script is for macOS Darwin Unix
-and should be edited for your computing platform. You will have to install a
-Java JDK if you do not have one already. Everything in the AW demonstration
-still has to run from a command line.
+All Java source code is included in the GitHub repository. You can build out
+all the AW modules by running the 'build' shell script included with the AW
+GitHub download. The script is for macOS Darwin Unix and should be edited for
+your iown computing platform. You will have to install a Java JDK if you do
+not have one already. Everything in the AW demonstration still has to run
+from a command line.
 
 AW software is free for all uses and is released under BSD licensing.
 
@@ -294,3 +297,12 @@ Release History:
 	                   replace typo in 4-gram index list
 	                   update documentation
 
+	v2.0    26sep2022  change parsing data structures for longer text
+	                   clean up reparsing for phrase extraction
+	                   simplify signatures for phrase selection
+	                   rework code and comments in ANALZR and PHRASR
+	                   add diagnostic tools to check AW phrase analysis
+	                   fix bug in token scoring for KEYWDR and PHRASR
+	                   fix bug in word hash table for KEYWDR and PHRASR
+	                   fix bugs for phrase scoring
+	                   update documentation
