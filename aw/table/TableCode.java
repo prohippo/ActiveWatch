@@ -22,8 +22,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file TableCode.java : 30aug2021 CPM
-// for building external AW literal index tables
+// AW file TableCode.java : 21oct2021 CPM
+// for building external AW literal tables
+// (do not use for stpword tables)
 
 package aw.table;
 
