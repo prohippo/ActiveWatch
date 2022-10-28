@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Stop.java : 10Nov97 CPM
+// AW file Stop.java : 21oct2022 CPM
 // stopword support
 
 package stem;
@@ -56,7 +56,7 @@ public class Stop extends StopBase {
 	}
 	
 	// returns a non-zero index number if
-	// token is in stop table; 0, otherwise > 0
+	// token is in stop table; otherwise 0
 
 	public int stop (
 	
@@ -69,6 +69,8 @@ public class Stop extends StopBase {
 		int lo,hi,md; // binary search indices
 		int p;        // table index
 
+//		System.out.println("= " + token);
+
 		// obtain initial bounds of search for words
 		// of length leng in table and get separation
 		// between characters of individual words
@@ -78,8 +80,15 @@ public class Stop extends StopBase {
 		if (leng == 0)
 			return index[MXSW+1];
 
+//		System.out.println("length to match= " + leng);
+
 		if ((n = index[leng+1] - index[leng]) == 0)
 			return 0;
+
+//		System.out.println(n + " chars to check");
+//		for (int j = 0; j < n; j++)
+//			System.out.print("<" + table[j] + ">");
+//		System.out.println();
 
 		// separation between chars of stops in table
 
@@ -96,6 +105,7 @@ public class Stop extends StopBase {
 			p = md = lo + ((hi - lo) >> 1);
 			for (i = 0; i < leng; i++) {
 
+//				System.out.println(i + ") check <" + token.array[i] + ">:<" + table[p] + ">");
 				if (token.array[i] != table[p])
 					break;
 				else
