@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Syntax.java : 04sep2022 CPM
+// Syntax.java : 27oct2022 CPM
 // define named syntactic categories for phrase analysis
 
 package aw.phrase;
@@ -84,6 +84,10 @@ class SyntaxSpec {
 		return (type >> 4); // general syntactic class
 	}
 
+	public String hex ( ) {
+		return String.format("%02x %02x %02x",type,modifiers,semantics);
+	}
+
 }
 
 // for rules
@@ -104,10 +108,11 @@ class SyntaxPatt {
 		SyntaxSpec spec
 
 	) {
-		return (
-			((type & spec.type) & Syntax.x0F) == 0 &&
-			((type ^ spec.type) & Syntax.xF0) == 0
-		);
+		if (((type & Syntax.xF0) ^ (spec.type & Syntax.xF0)) != 0)
+			return false;
+		byte tt = (byte)(type & Syntax.x0F);
+		byte st = (byte)(spec.type & tt);
+		return ((tt ^ st) == 0);
 	}
 
 	// compare features with pattern
@@ -202,6 +207,9 @@ public class Syntax {
 		inflectedFeature  = feature("INFL");
 		functionalFeature = feature("FUNC");
 		moreFeature       = feature("MORE");
+//		System.out.println("features= " + breakFeature + " " + capitalFeature + " " +
+//			inflectedFeature + " " + functionalFeature + " " + moreFeature);
+//		tb.dump();
 	}
 
 	// map pattern string into syntax specification

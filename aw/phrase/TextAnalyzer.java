@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TextAnalyzer.java : 08sep2022 CPM
+// TextAnalyzer.java : 25oct2022 CPM
 // process an entire text item by paragraphs, sentences, and phrases
 
 package aw.phrase;
@@ -54,7 +54,7 @@ public class TextAnalyzer {
 	) throws IOException {
 		if (!defined) {
 			System.out.println("define symbols and words");
-			SymbolTable stb = PhraseSyntax.getSymbolTable();
+			CombinedSymbolTable stb = PhraseSyntax.getSymbolTable();
 //			stb.dump();
 			WordType.load(stb);
 			defined = true;

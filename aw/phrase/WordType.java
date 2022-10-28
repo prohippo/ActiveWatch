@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// WordType.java : 08sep2022 CPM
+// WordType.java : 16oct2022 CPM
 // to determine syntactic type from mini-dictionary
 
 package aw.phrase;
@@ -45,6 +45,8 @@ public class WordType {
 	private static boolean wordsLoaded = false;
 	private static int     wordCount   = 0;
 
+	private static int hash; // saved hash coding
+
 	// looks for word as char[] in table
 
 	public static boolean match (
@@ -56,13 +58,16 @@ public class WordType {
 		if (!wordsLoaded)
 			return false;
 
-		int hash = wordTable.lookUp(a);
+		hash = wordTable.lookUp(a);
 //		System.out.println(new String(a) + " -> " + hash);
 		if (hash <= 0)
 			return false;
 		else {
 //			System.out.println(wordType[hash-1]);
 			x.copy(wordType[hash-1]);
+			if (Character.isUpperCase(a[0]))
+				x.modifiers |= Syntax.capitalFeature;
+//			System.out.println(x + " !!!!");
 			return true;
 		}
 	}
@@ -71,7 +76,7 @@ public class WordType {
 
 	static public int load (
 
-		SymbolTable stb
+		CombinedSymbolTable stb
 
 	) throws IOException {
 		String     line;       // for word definition
@@ -114,7 +119,7 @@ public class WordType {
 			// interpret start of entry as one or more words
 
 			String w = line.substring(0,k).trim().toUpperCase();
-			int hash = wordTable.lookUp(w);
+			hash = wordTable.lookUp(w);
 
 			if (hash == 0)
 				throw new IOException("hash table overflow");
@@ -142,10 +147,11 @@ public class WordType {
 	// show hash keys and word definitions
 
 	public static void dumpKeys ( ) {
+		System.out.println("--------");
 		for (int i = 0; i < TableSize; i++) 
 			if (wordTable.array[i] != null) {
 				System.out.print(i + ": " + wordTable.array[i] + " = ");
-				System.out.println(wordType[i]);
+				System.out.println(wordType[i] + " (" + wordType[i].hex() + ")");
 			}
 		System.out.println("--------");
 	}
@@ -153,18 +159,12 @@ public class WordType {
 //
 ////	for debugging
 
+	private static SyntaxSpec ss = new SyntaxSpec();
+
 	private static void test ( String x ) {
-		int nh = wordTable.lookUp(x);
 		System.out.print("[[" + x + "]] -> ");
-		if (nh > 0) {
-			SyntaxSpec ss = wordType[--nh];
-			System.out.print("found @" + nh + " = ");
-			if (ss == null) {
-				System.out.println("no definition");	
-			}
-			else {
-				System.out.println(ss);
-			}
+		if (match(x.toCharArray(),ss)) {
+			System.out.println("found @" + hash + " = " + ss);
 		}
 		else {
 			System.out.println("NOT found");
@@ -178,11 +178,15 @@ public class WordType {
 			CombinedSymbolTable stb = new CombinedSymbolTable();
 			stb.dump();
 			WordType.load(stb);
+			WordType.dumpKeys();
 			System.out.println("word count= " + wordCount);
+			Syntax.initialize(stb);
+			System.out.println("CAP= " + Syntax.capitalFeature);
 
 			String[] ax = {
 				"the" , "AND" , "to" , "THAT" , "after" , "Then" , "xxxx",
-				"russia" , "captain" , "secretary" , "had" , "man's"
+				"russia" , "captain" , "secretary" , "had" , "man's" ,
+				"Mr" , "T"
 			};
 
 			if (a.length == 0) a = ax;

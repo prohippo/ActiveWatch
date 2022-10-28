@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LiteralPatternBuilder.java : 21jun2022 CPM
+// LiteralPatternBuilder.java : 24oct2022 CPM
 // compile from input stream
 
 package aw.phrase;
@@ -99,7 +99,7 @@ public class LiteralPatternBuilder extends LiteralPattern {
 				syn = new SyntaxSpec();
 				if (!r.equals("--")) {
 					System.out.println("r= " + r);
-					stb.symbolToSyntax(r,pat);
+					stb.parseSyntax(r,pat);
 					Syntax.patternToSpecification(pat,syn);
 				}
 				else {

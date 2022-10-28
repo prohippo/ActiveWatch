@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// SymbolTable.java : 03sep2022 CPM
+// SymbolTable.java : 27oct2022 CPM
 // for encoding syntax symbols for phrase extraction rules
 
 package aw.phrase;
@@ -74,7 +74,7 @@ public class SymbolTable {
 			s = s.substring(0,k);
 //			System.out.println("s= " + s + ", t= " + t);
 			for (int i = 0; i < nSPC; i++) {
-				char c = t.charAt(i);
+				char c = t.charAt(nSPC-i-1);
 				if (!Character.isDigit(c))
 					break;
 				x <<= 1;
@@ -102,7 +102,8 @@ public class SymbolTable {
 	public void dump ( ) {
 		for (int i = 0; i < symbolCount; i++) {
 			System.out.print(Format.it(i,2,' ') + ": ");
-			System.out.println(symbolTable[i] + " = " + interp(symbolCode[i]));
+			System.out.print(symbolTable[i] + " = ");
+			System.out.println(interp(symbolCode[i]) + "  (" + symbolCode[i] + ") ");;
 		}
 		System.out.println("----");
 	}
@@ -132,14 +133,14 @@ public class SymbolTable {
 		return k;
 	}
 
-	// returns index of table entry matching a given symbol or < 0 if not found
+	// returns code for given symbol or < 0 if not found
 	//
 
-	protected int scan (
+	protected byte scan (
 
-		String symbol,
-		int tableIndex,
-		int tableLimit
+		String symbol,  // the symbol
+		int tableIndex, // where to start searching in table
+		int tableLimit  // where to stop
 
 	) {
 		if (symbol.length() > SymbolSize)
@@ -148,75 +149,12 @@ public class SymbolTable {
 //		System.out.println("scan for " + sym + " from " + tableIndex + " to " + tableLimit);
 		for (int it = tableIndex; it < tableLimit; it++) {
 			if (sym.equals(symbolTable[it])) {
-//				System.out.println(">>> found at " + it);
-				return it;
+//				System.out.print  (">>> found at " + it);
+//				System.out.println(String.format(" (%02x)",symbolCode[it]));
+				return symbolCode[it];
 			}
 		}
-		return -1;
-	}
-
-	// encodes a symbol string as a syntax type plus features
-	// in syntactic pattern form
-
-	public void parseSyntax (
-
-		String     syntaxString,
-		SyntaxPatt Patt
-
-	) throws AWException {
-		int m;
-		int featureBase,featureStart;
-		char sense; // feature sense indicator
-
-		Patt.modifiermasks[0] = Patt.modifiermasks[1] = 0;
-		Patt.semanticmasks[0] = Patt.semanticmasks[1] = 0;
-		String symbol;
-
-		// get bracketed syntactic features for symbol
-
-		if ((featureBase = syntaxString.indexOf('[')) < 0)
-
-			symbol = syntaxString;
-
-		else {
-
-			symbol = syntaxString.substring(0,featureBase);
-
-			featureBase++;
-			while (syntaxString.charAt(featureBase) != ']') {
-
-				// feature sense (+,-) must be present
-
-				sense = syntaxString.charAt(featureBase++);
-				if (sense != '+' && sense != '-')
-					throw new AWException("bad syntactic feature: " + syntaxString);
-
-				// get next feature and look up
-
-				featureStart = featureBase;
-				while (Character.isLetterOrDigit(syntaxString.charAt(featureBase)))
-					featureBase++;
-				String feature = syntaxString.substring(featureStart,featureBase);
-//				System.out.println("feature= " + feature);
-
-//				System.out.println("start= " + featureBase + " in " + syntaxString);;
-//				System.out.println(symbolCount + " symbols defined");
-
-				byte nb = modifierFeature(feature);
-//				System.out.println("code= " + nb);
-				if (nb < 0)
-					throw new AWException("unrecognized feature name: " + feature);
-
-				byte[] b = Patt.modifiermasks;
-
-				b[(sense == '-') ? 1 : 0] |= nb;
-			}
-		}
-
-		// finally encode syntax type
-
-//		System.out.println("getting type for " + symbol);
-		Patt.type = (byte)(syntacticType(symbol));
+		return (byte) -1;
 	}
 
 	// qualifiers for syntax byte, encoded in 4 bits
@@ -238,32 +176,11 @@ public class SymbolTable {
 		int spc = b  & 0x0F; // specializations
 //		System.out.println("cls= " + cls + ", spc= " + spc);
 		if (cls > 0)
-			return Format.it(cls,2,' ') + " : " + bits[spc];
+			return String.format("%2d : %s",cls,bits[spc]);
 		else if (spc <= 8)
 			return "(1 <<" + (spc-1) + ") syn";
 		else
 			return "(1 <<" + (spc-9) + ") sem";
-	}
-
-	//////// stub methods to get codes for a symbol string (all need to be overridden)
-	//
-
-	public byte syntacticType (
-		String symbol
-	) {
-		return (byte)(-1);
-	}
-
-	public byte modifierFeature (
-		String symbol
-	) {
-		return (byte)(-1);
-	}
-
-	public byte semanticFeature (
-		String symbol
-	) {
-		return (byte)(-1);
 	}
 
 	////////

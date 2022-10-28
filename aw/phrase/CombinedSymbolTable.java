@@ -22,8 +22,25 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// CombinedSymbolTable.java : 04sep2022 CPM
-// for defining syntactic types and features
+// CombinedSymbolTable.java : 27oct2022 CPM
+// for defining AW syntactic types and features
+
+// Types and features are in a single lookup table since they are so few.
+// This requires, however, that type and feature names all be different.
+// Their definitions are encoded into a single byte with distinguishable
+// 2-nibble formats. In hexadecimal representation, these are
+//  0X00 = unknown syntactic type
+//  0X0k = syntactic or semantic feature, where hexadecimal digit k > 0
+//  0Xmn = syntactic main type, where 0 < m < 8 and 0 <= n <= F in hex.
+//  0XFF = error (= -1 byte)
+// Feature definitions have to be decoded into 1 of 15 actual bit masks
+// for a byte representation of a feature.
+//  1 = 00000001
+//  2 = 00000010
+//  ...
+//  D = 00100000
+//  E = 01000000
+// Note: No F! Up to 8 syntactic features can be defined; only 7 semantic.
 
 package aw.phrase;
 
@@ -137,8 +154,9 @@ public class CombinedSymbolTable extends SymbolTable {
 				inBuff = inBuff.substring(n);
 				int m = inBuff.indexOf('=');
 				int x = (m < 0) ? 0 : Integer.parseInt(inBuff.substring(m + 1));
-				modfetCount++;
-				byte b = (byte)(1 << x);
+				if (x < 15)
+					modfetCount++;
+				byte b = (byte)(x + 1);
 				symbolCode[fullCount++] = b;
 //				System.out.println("count= " + modfetCount);
 //				System.out.println("code = " + String.format("%02x",b));
@@ -165,9 +183,9 @@ public class CombinedSymbolTable extends SymbolTable {
 	public byte syntacticType (
 		String symbol
 	) {
-		int n = scan(symbol,0,syntypCount);
+		byte n = super.scan(symbol,0,syntypCount);
 //		System.out.println("n= " + n);
-		return (n < 0) ? (byte)(-1) : symbolCode[n]; 
+		return n; 
 	}
 
 	public byte modifierFeature (
@@ -175,8 +193,12 @@ public class CombinedSymbolTable extends SymbolTable {
 	) {
 //		System.out.println("symbol= " + symbol + ", range= " + syntypCount + ", " + fullCount);
 		int n = scan(symbol,syntypCount,fullCount);
-//		System.out.println("n= " + n + ", code= " + String.format("%02x",symbolCode[n]));
-		return (n < 0) ? (byte)(-1) : symbolCode[n]; 
+//		System.out.println("n= " + n);
+		if (n < 0)
+			return (byte)(-1);
+		byte m = (byte)(1 << (n - 1));
+//		System.out.println("code= " + n + ", bit mask=" + String.format("%02x",m));
+		return (byte) m; 
 	}
 
 	public byte semanticFeature (
@@ -186,70 +208,103 @@ public class CombinedSymbolTable extends SymbolTable {
 		return (n < 0) ? (byte)(-1) : (byte)(1 << (symbolCode[n] - 8)); 
 	}
 
+	public static final byte WILD = (byte) 0xF0;
 
 	// encodes a symbol string as a syntax type plus features
-	// in pattern form
+	// as syntactic pattern
 
-	public void symbolToSyntax (
-	
-		String     symbolString,
+	public void parseSyntax (
+
+		String     syntaxString,
 		SyntaxPatt Patt
-		
+
 	) throws AWException {
-		int m,n;
-		int featureString,featureStart;
+		int featureBase,featureStart;
 		char sense; // feature sense indicator
 
 		Patt.modifiermasks[0] = Patt.modifiermasks[1] = 0;
 		Patt.semanticmasks[0] = Patt.semanticmasks[1] = 0;
 		String symbol;
-	
+
 		// get bracketed syntactic features for symbol
 
-		if ((featureString = symbolString.indexOf('[')) < 0)
-		
-			symbol = symbolString;
-		
-		else {
+		if ((featureBase = syntaxString.indexOf('[')) < 0)
 
-			symbol = symbolString.substring(0,featureString);
-			
-			featureString++;
-			while (symbolString.charAt(featureString) != ']') {
+			symbol = syntaxString;
 
-				// feature sense (+,-) must be present
+		else {   // encode syntactic features
 
-				sense = symbolString.charAt(featureString++);
-				if (sense != '+' && sense != '-')
-					throw new AWException("bad syntactic feature: " + symbolString);
+			symbol = syntaxString.substring(0,featureBase);
 
-				// get next feature and look up
-
-				featureStart = featureString;
-				while (Character.isLetterOrDigit(symbolString.charAt(featureString)))
-					featureString++;
-
-				String feature = symbolString.substring(featureStart,featureString);
-				n = modifierFeature(feature);
-				if (n < 0)
-					throw new AWException("unrecognized feature name: " + feature);
-
-				byte[] b;
-				m = symbolCode[n];
-				if (m > NF) {
-					b = Patt.semanticmasks;
-					m -= NF;
-				}
-				else
-					b = Patt.modifiermasks;
-
-				b[(sense == '-') ? 1 : 0] |= (1 << m);
-			}
+			int ssl = syntaxString.length();
+			if (featureBase < ssl)
+				featureBase = parseFeatures(syntaxString,featureBase,true ,Patt);
+			featureBase++;
+			if (featureBase < ssl) 
+				featureBase = parseFeatures(syntaxString,featureBase,false,Patt);
 		}
 
 		// finally encode syntax type
 
-		Patt.type = (byte) Cv(syntacticType(symbol));
+//		System.out.println("getting type for " + symbol);
+		Patt.type = (symbol.equals("?")) ? WILD : (byte)(syntacticType(symbol));
+	}
+
+	// interpret bracketed modifier or semantic feature specifications
+
+	private int parseFeatures (
+
+		String  syntaxString, // syntax+semantic definition string
+		int     featureBase,  // starting bracket in string
+		boolean    syn,       // modifier or semantic
+		SyntaxPatt patt       // where to put results
+
+	) throws AWException {
+		char sense;  // for feature checking
+
+		if (syntaxString.charAt(featureBase) != '[')
+			return featureBase; // no bracketing
+		featureBase++;              // skip left bracket for first feature
+
+		while (syntaxString.charAt(featureBase) != ']') {
+
+			// feature sense (+,-) must be explicit
+
+			sense = syntaxString.charAt(featureBase++);
+			if (sense != '+' && sense != '-')
+				throw new AWException("bad syntactic feature: " + syntaxString);
+
+			// get next feature and look it up
+
+			int featureStart = featureBase;
+			while (Character.isLetterOrDigit(syntaxString.charAt(featureBase)))
+				featureBase++;
+			String feature = syntaxString.substring(featureStart,featureBase);
+//			System.out.println("feature= " + feature);
+
+//			System.out.println("start= " + featureBase + " in " + syntaxString);
+//			System.out.println(symbolCount + " symbols defined");
+
+			byte nb  = (syn) ? modifierFeature(feature) : semanticFeature(feature);
+
+//			System.out.println("code= " + nb);
+			if (nb == -1)  // cannot just test < 0!
+				throw new AWException("unrecognized feature name: " + feature);
+
+			byte[] b = (syn) ? patt.modifiermasks : patt.semanticmasks;
+
+			b[(sense == '-') ? 1 : 0] |= nb; // add feature test to syntax pattern
+		}
+
+		return featureBase;
+	}
+
+	// type or feature symbol lookup
+
+	public byte scan ( String symbol ) {
+		byte bn = super.scan(symbol,0,symbolCount);
+//		System.out.print(String.format("bn= %02x",bn));
+		return bn;
 	}
 
 	/////// for debugging
@@ -258,14 +313,6 @@ public class CombinedSymbolTable extends SymbolTable {
 	public void dump ( ) {
 		System.out.println(toString());
 		super.dump();
-	}
-
-	public byte scan ( String symbol ) {
-		int n = scan(symbol,0,symbolCount);
-		if (n < 0)
-			return (byte)(-1);
-		else
-			return symbolCode[n];
 	}
 
 	public static void main ( String[] a ) {

@@ -1,6 +1,6 @@
 ; AW Core Text Processing
 ; revised basic syntax definitions
-; SYMBOLS : 03sep2022 CPM
+; symbols : 17oct2022 CPM
 ;
 ; syntactic types and defining codes
 ADJective    1:0010
@@ -27,7 +27,6 @@ FUNctional=1
 BREak     =2
 INFlected =3
 POSsessive=4
-;
 DEFinite=5
 PARticle=6
 FIRst   =7
@@ -36,7 +35,7 @@ MORe    =7
 FOUr    =7
 ;
 ; semantic features at bits 0 through 3 of second byte,
-; but encoded as bits 8 through 11 of first byte
+; but encoded as bits 8 through 11 of extension to first byte
 ACTor    =8
 CORporate=9
 ABStract =10

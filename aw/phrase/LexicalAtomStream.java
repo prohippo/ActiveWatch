@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtomStream.java : 08sep2022 CPM
-// produce a sequence of syntactically tagged atoms from text
+// LexicalAtomStream.java : 27oct2022 CPM
+// produce a sequence of syntactically tagged atoms from text stream
 
 package aw.phrase;
 
@@ -32,8 +32,54 @@ import aw.phrase.Syntax;
 
 public class LexicalAtomStream extends LexicalStream {
 
-	// inherits
-	// CharArray text;
+	// preallocate lexical atoms for reuse
+
+	private static final int nR = 4; // how many in rotation
+
+	private class AtomRotation {
+
+		private LexicalAtom[] ring = new LexicalAtom[nR];
+		private int ringK = 0;
+
+		// constructor
+
+		public AtomRotation ( ) {
+
+			for (int i = 0; i < nR; i++) {
+				ring[i] = new LexicalAtom();
+//				System.out.println(i + ") " + ring[i]);
+			}
+		}
+
+		// get next atom in rotation
+
+		public LexicalAtom next ( ) {
+			LexicalAtom a = ring[ringK++];
+			a.skip = a.span = a.length = 0;
+			a.stops = a.stopp = false;
+//			System.out.println(a.spec);
+			a.spec.clear();
+			if (ringK == nR) ringK = 0;
+			return a;
+		}
+
+		// show rotation for debugging
+
+		public void dump ( ) {
+			int n = ringK;
+			for (int i = 0; i < nR; i++) {
+				System.out.println(n + ") " + ring[n]);
+				if (--n < 0) n += nR;
+			}
+		}
+
+	}
+
+	// source of reusable atoms
+
+	private AtomRotation rotation = new AtomRotation();
+
+	// CharArray text is inherited from super class
 
 	private LiteralType   lt; // for parsing multi-word atoms
 
@@ -59,8 +105,8 @@ public class LexicalAtomStream extends LexicalStream {
 	) {
 		super(tx);
 //		System.out.println(this);
-		this.lt = lt; // recognize literals
-		atom = null;  // no saved previous atom
+		this.lt = lt; // to recognize literals
+		atom = null;  // forget any saved previous atom
 		resetPreviousSyntax();
 	}
 
@@ -72,9 +118,9 @@ public class LexicalAtomStream extends LexicalStream {
 		prev = new SyntaxSpec();
 	}
 
-	// put back an atom
+	// put an atom back at the front of stream
 
-	public void backUp (
+	public void putBack (
 		LexicalAtom a
 	) {
 		atom = a;
@@ -97,7 +143,6 @@ public class LexicalAtomStream extends LexicalStream {
 		if (atom != null) {
 //			System.out.println("putBack= " + atom); 
 			LexicalAtom as = atom;
-			prev = atom.spec;
 			atom = null;
 			return as;
 		}
@@ -105,29 +150,26 @@ public class LexicalAtomStream extends LexicalStream {
 //		System.out.println("next: " + text);
 		CharArrayWithTypes text = (CharArrayWithTypes) this.text;
 
-		LexicalAtom a = new LexicalAtom();
+		LexicalAtom a = rotation.next();
 
-		// check for special case of null atom
+		// check for special case of no text input
 
 //		System.out.println("length= " + text.length());
 		if (text.isEmpty())
 			return null;
 
-		a.skip = find();
+		a.skip = find();   // advance in text to next atom
 
 //		System.out.println("skip= " + a.skip + " in " + this);
 
 		char x = text.charAt(0);
 //		System.out.println("x= " + x + " : " + a);
-		if (stop(x,a)) {   // look for single stop character
+		if (stopping(x,a)) {   // look for single stop character
 			return a;
 		}
 
 //		System.out.println("set atom feature bits");
 		// set feature bits for any capitalization
-
-		if (Character.isUpperCase(x))
-			a.spec.modifiers |= Syntax.capitalFeature;
 
 		for (int i = 1; Character.isLetterOrDigit(text.charAt(i)); i++)
 			if (Character.isUpperCase(text.charAt(i))) {
@@ -159,6 +201,7 @@ public class LexicalAtomStream extends LexicalStream {
 				}
 			}
 			a.span = kl;
+//			System.out.println("by pattern: " + a);
 
 		}
 		else {
@@ -168,7 +211,7 @@ public class LexicalAtomStream extends LexicalStream {
 			kl = get();
 //			System.out.println("got kl= " + kl + " chars");
 //			System.out.println("new input=[" + text + "]");
-			if (kl == 1 && stop(text.charAt(-1),a)) {
+			if (kl == 1 && stopping(text.charAt(-1),a)) {
 				text.skip(-1);
 				return a;
 			}
@@ -197,15 +240,22 @@ public class LexicalAtomStream extends LexicalStream {
 			}
 			kl = text.position() - its;
 			a.span = kl;
+//			System.out.println("by other: " + a);
 
 		}
 
+//		System.out.println("1st char= " + x + String.format(", cap= %02x",Syntax.capitalFeature));
+		if (Character.isUpperCase(x))
+			a.spec.modifiers |= Syntax.capitalFeature;
+
+//		System.out.println("prev= " + prev);
 //		System.out.println("1: " + a);
 		text.copyChars(a.atom,kl,a.span);  // fill current atom for return
 		a.length = a.span;
 //		System.out.println("2: " + a);
 //		System.out.println("text= [" + text + "]");
 		a.getSyntax(prev);
+//		System.out.println("3: " + a);
 		prev = a.spec;
 		return a;
 
@@ -213,7 +263,7 @@ public class LexicalAtomStream extends LexicalStream {
 
 	// set a phrase or sentence stop atom
 
-	private boolean stop (
+	private boolean stopping (
 		char x,
 		LexicalAtom a
 	) {
@@ -253,19 +303,20 @@ public class LexicalAtomStream extends LexicalStream {
 		}
 		try {
 			PhraseSyntax.loadDefinitions();
+//			System.out.println(String.format("cap= %02x",Syntax.capitalFeature));
 			CharArrayWithTypes chwt = new CharArrayWithTypes(a[0]);
-			System.out.println("input buffer= " + chwt);
+//			System.out.println("input buffer= " + chwt);
 			LexicalAtomStream las = new LexicalAtomStream(chwt);
 			for (int i = 0; las.notEmpty(); i++) {
-				System.out.println(" -------- " + i);
-				System.out.println(las);
+//				System.out.println(" -------- " + i);
+//				System.out.println(las);
 				LexicalAtom atom = las.next();
-				System.out.println(">> " + atom);
-				System.out.println("(" + i + ") " + chwt);
+//				System.out.println(">> " + atom);
+//				System.out.println("(" + i + ") " + chwt);
 			}			
 		} catch (Exception e) {
 			System.err.println(e);
-			System.exit(1);
+			e.printStackTrace();
 		}
 
 	}

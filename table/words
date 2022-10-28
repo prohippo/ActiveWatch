@@ -418,6 +418,8 @@ sir         TITl
 dame        TITl
 administrator  TITl
 representative TITl
+mr          TITl
+dr          TITl
 ;
 captain  TITl
 colonel  TITl
@@ -622,10 +624,10 @@ small  ADJ
 strong ADJ
 weak   ADJ
 ;
-factory NOUN[+SITe]
-park    NOUN[+SITe]
-plant   NOUN[+SITe]
-site    NOUN[+SITe]
+factory NOUN[][+SITe]
+park    NOUN[][+SITe]
+plant   NOUN[][+SITe]
+site    NOUN[][+SITe]
 ;
 benefit NOUn
 citizen NOUn
@@ -661,16 +663,16 @@ share   NOUn
 speed   NOUn
 story   NOUn
 struggle VERb[+BRE]
-support VERb[+BRE]
+support  VERb[+BRE]
 war     NOUn
 way     NOUn
 ;
 de      NAMe[+PARt+FUN]
 di      NAMe[+PARt+FUN]
 ;
-att     NAMe[+CORp]
-dec     NAMe[+CORp]
-ibm     NAMe[+CORp]
-intel   NAMe[+CORp]
+att     NAMe[][+CORp]
+dec     NAMe[][+CORp]
+ibm     NAMe[][+CORp]
+intel   NAMe[][+CORp]
 
 

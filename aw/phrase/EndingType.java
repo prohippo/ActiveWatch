@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// EndingType.java : 03jun2022 CPM
+// EndingType.java : 27oct2022 CPM
 // to determine syntactic type
 
 package aw.phrase;
@@ -105,6 +105,7 @@ public class EndingType {
 
 		// show best match
 
+//		System.out.println(new String(a) + ">>ending= " + save);
 		if (save == null)
 			return false;
 		else {

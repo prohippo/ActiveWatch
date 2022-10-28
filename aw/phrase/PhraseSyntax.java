@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseSyntax.java : 03jun2022 CPM
+// PhraseSyntax.java : 27oct2022 CPM
 // required initialization to be done only once
 
 package aw.phrase;

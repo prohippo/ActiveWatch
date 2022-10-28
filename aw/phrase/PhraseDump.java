@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// PhraseDump.java : 15sep2022 CPM
+// PhraseDump.java : 10oct2022 CPM
 // dump phrase analyses for all current items
 
 package aw.phrase;
@@ -149,7 +149,7 @@ default:
 		int Pc = ps.getCount();
 		int Pp = ps.getLength();
 		byte[] Pb = ps.getBuffer();
-		out.print("phrase count= " + Pc + ", length= " + Pp);
+		out.print("phrase count= " + Pc + ", byte length= " + Pp);
 		for (int i = 0; i < Pp; i++) {
 			if (i%20 == 0)
 				out.println();

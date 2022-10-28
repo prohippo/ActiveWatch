@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// NameType.java : 01jun2022 CPM
+// NameType.java : 23oct2022 CPM
 // recognize acronyms as names
 
 package aw.phrase;
@@ -38,7 +38,7 @@ public class NameType {
 	public static boolean match (
 
 		char[] a,
-		SyntaxSpec x, // for current atom
+		SyntaxSpec x, // to fill for current atom
 		SyntaxSpec p  // for previous
 
 	) {
@@ -54,6 +54,7 @@ public class NameType {
 		else if (p.type != Syntax.numberType &&
 			(p.modifiers & Syntax.moreFeature) == 0) {
 			x.type = Syntax.nameType;
+			System.out.println("1 name syntax= " + x);
 			return true;
 		}
 
@@ -65,6 +66,7 @@ public class NameType {
 		}
 		if (k == 0 || k == n) {
 			x.type = Syntax.nameType;
+			System.out.println("2 name syntax= " + x);
 			return true;
 		}
 

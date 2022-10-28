@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LexicalAtom.java : 02aug2022 CPM
+// LexicalAtom.java : 27oct2022 CPM
 // unit of parsing for phrase analysis with associated data type
 
 package aw.phrase;
