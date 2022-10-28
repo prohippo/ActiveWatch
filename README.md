@@ -18,7 +18,7 @@ AW lexical features for indexing text currently fall into three types:
 (1) all alphanumeric 2-grams, like TH, F1, 2X, or 00; (2) selected
 alphabetic n-grams (for n > 2), like QUE, REVE, and CLASS; and (3) a
 fixed number of user-defined alphanumeric word beginnings and endings,
-like THERMO- and -MOTHER.
+like -000000000, THERMO-, and -MOTHER.
 
 Indexing with word fragments will tend to be noisier than with whole
 words. For example, if text item has a long word like CONFABULATE that
@@ -29,40 +29,43 @@ crossword puzzle fan knows that word fragments do carry ihformation.
 
 So, how big would our finite index set have to be to support useful text
 analysis? The ActiveWatch demonstration makes the case that 10⁴ should
-be enough in English for automatic clustering of text items by content
-or for detecting highly unusual content in a dynamic text stream. You
-should look elsewhere, however, if you just want to find all documents
+be enough in English for automatic clustering of short text items by
+content or for detecting highly unusual content in a dynamic text stream.
+You should look elsewhere, however, if you just want to find all documents
 containing a specific word.
 
-The big advantage of a finite vector representation of text is
-that it lets us organize system processing at a higher level of
-abstraction. Once we encode text as vectors, it should not matter
-where these vectors came from. We care only that they are easy to work
-with and carry enough information for the purposes of our users.
+The advantage of a finite vector representation of text is that it lets us
+organize information processing at a level of abstraction that simplifies
+the computations cwa system must carry out. Once we encode text as vectors,
+it should not matter where these vectors came from. We care only that they
+are convenient to work with and carry enough information for the needs and
+purposes of information users.
 
-Vector data of finite dimensionality makes a statistically scaled
-similarity measure possible. This is easy to interpret and allows a text
-processing system to make decisions on its own without a human always
-hovering around like a helicopter parent. Real-time systems with dynamic
-data become more manageable and more resiliant in unexpected situations.
+Vector data of finite dimensionality makes a statistically scaled measure
+of similarity possible. Such scaling makes a measure easier to interpret
+and allows a text processing system to make decisions reliably on its own.
+Human users must otherwise hover around like a helicopter parent for quality
+control. This is especiallly critical in real-time systems with dynamic data;
+they become more manageable and more resiliant in unexpected situations.
 
 AW will score similarity by the number of standard deviations that a raw
-inner product similarity score falls within a theoretical noise distribution.
-This noise will be roughly Gaussian; an AW scaled similarity of 3 standard
-deviations should be significant at about p = .003. With actual text data,
-we can expect AW scaled similarity above 6 standard deviations.
+vector inner product similarity score falls above the mean of a theoretical
+noise distribution. This noise will be roughly Gaussian, so that an AW scaled
+similarity of 3 standard deviations should be significant at about p = .003.
+With actual text data, AW should typically work with scaled similarity well
+above 6 standard deviations.
 
 Some index tuning is needed to achieve such performance. This will mainly
 involve adjustments of the indexing features defined by a users for particular
 target text data. Automatic stemming and stopword deletion also allows AW
 users to exclude purely grammatical instances of n-grams like ING, MENT,
-or ATION when indexing text content.
+or ATION when indexing text for content.
 
 AW was first written in C around 1982 for information discovery in unfamiliar
 text data. The current Java version dates back to around 1999, but has some
-recent tweaks in its linguistic analysis and addition of 4- and 5-letter
-word fragments for indexing. Only 2- and 3-letter fragments, plus user-defined
-indices, were built into AW previously. 
+recent tweaks in its linguistic analysis and addition of 4- and 5-letter word
+fragments for more precise indexing. Only 2- and 3-letter fragments, plus
+user-defined indices, were built into AW previously. 
 
 The modules included in the AW GitHub repository mainly provide support for
 simple clustering of text items by content. The code is organized functionally
@@ -72,9 +75,9 @@ a somewhat new programming language.
 
 Java AW eventually evolved to support many kinds of statistical natural
 language processing, but this GitHub repository includes only a small subset of
-modules for automatic clustering of text items in particular. This software
-should give you a good overall idea of what you can do with AW finite indexing
-and statistically scaled similarity between pairs of item vectors.
+modules to demonstrate automatic clustering of text items in particular. This
+software should give you a good overall idea of what you can do with AW finite
+indexing and statistically scaled similarity between pairs of finite item vectors.
 
 The latest AW release includes fifteen prebuilt AW modules. These might support
 military intelligence operations or the tagging of news streams for resale
@@ -85,7 +88,7 @@ subdireectory of this repository.
 All Java source code is included in the GitHub repository. You can build out
 all the AW modules by running the 'build' shell script included with the AW
 GitHub download. The script is for macOS Darwin Unix and should be edited for
-your iown computing platform. You will have to install a Java JDK if you do
+your own computing platform. You will have to install a Java JDK if you do
 not have one already. Everything in the AW demonstration still has to run
 from a command line.
 
@@ -133,7 +136,7 @@ Release History:
 	                   update Dprb for v0.7 changes in n-gram initialization
 	                   update documentation
 	
-	v0,7.2  30aug2021  fix integration of AW-defined and user-defined indices
+	v0.7.2  30aug2021  fix integration of AW-defined and user-defined indices
 	                   update documentation
 	
 	v0.7.3  04sep2021  add suffix rule to fix stemming glitch
@@ -305,4 +308,18 @@ Release History:
 	                   fix bug in token scoring for KEYWDR and PHRASR
 	                   fix bug in word hash table for KEYWDR and PHRASR
 	                   fix bugs for phrase scoring
+	                   update documentation
+
+	v2.1	28oct2022  expand builtin 4-grams to 2,500
+	                   remove POLY- and MONO- from default literals
+	                   fix bug in building stopword table
+	                   fix bug in reading in syntactic type definitions
+	                   fix bugs in loading rewriting rules
+	                   fix ByteTool bug not keeping upper and lower case
+	                   fix bug in syntax symbol lookup
+	                   debug, clean up, and simplify syntax symbol table
+	                   clean up DPRO output for content profiles
+	                   fix problems in feature coding for phrase analysis
+	                   clean up and test joining and splitting in Reparser
+	                   make rules file for Reparser self-documenting
 	                   update documentation

@@ -521,6 +521,7 @@ aw/phrase/EndingType.class \
 aw/phrase/InflectionType.class \
 aw/phrase/LexicalAtom.class \
 aw/phrase/LexicalAtomStream.class \
+aw/phrase/LexicalAtomStream\$AtomRotation.class \
 aw/phrase/LexicalStream.class \
 aw/phrase/LinedText.class \
 aw/phrase/LiteralPattern.class \
