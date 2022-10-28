@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW Source 21jul2022 : ByteTool.java
+// AW Source 19oct2022 : ByteTool.java
 // utility to work with byte streams for UTF-8 data management,
 // mapping to ASCII for simpler analysis, and data conversion
 
@@ -161,7 +161,7 @@ public class ByteTool {
 			else
 				cn = ' ';
 
-			if (!cap) cn = Character.toLowerCase(cn);
+			if (cap) cn = Character.toUpperCase(cn);
 			sb.append(cn);
 		}
 		return sb.toString();
