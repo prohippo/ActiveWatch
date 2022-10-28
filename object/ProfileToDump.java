@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// ProfileToDump.java : 30dec2021 CPM
+// ProfileToDump.java : 08oct2022 CPM
 // with special methods for display
 
 package object;
@@ -78,8 +78,7 @@ public class ProfileToDump extends ProfileToUse {
 
 	public void showMatching ( ) {
 	
-		out.println("lexical  threshold= " + nhth);
-		out.println("phonetic threshold= " + shth);
+		out.println("lexical      threshold= " + nhth);
 		out.println("significance threshold= " + sgth);
 		out.println("expected value= " + Format.it(uexp,8,6));
 		out.println("variance      = " + Format.it(uvar,8,6));

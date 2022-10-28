@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TestText.java : 21jun2022 CPM
+// TestText.java : 19oct2022 CPM
 // get text data from file to test AW
 
 package test;
@@ -52,7 +52,7 @@ public class TestText {
 
 		in.close();
 //		System.out.println("........");
-//		System.out.println(sb);
+		System.out.println(sb);
 	}
 
 	public final char[] getArray  ( ) { return sb.toString().toCharArray(); }
