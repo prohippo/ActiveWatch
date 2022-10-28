@@ -1,7 +1,31 @@
+;;;;
+; the AW rules file allows for editing phrase analyses
+; either by joining two consecutive phrases to become one
+; or by splitting a single phrase into two
+;
+; a rule consists of a sequence of pattern elements to
+; match against a phrase analysis. Each element consists
+; of a syntax type X plus syntactic features in brackets
+;     X[+F-G+H]
+; where X, F, G, H are defined in the AW symbols file.
+; Each feature names are preceded by a + if they must appear
+; or by - if it must not in a phrase element.
+;
+; A pattern sequence must have a single ^ sign it. In a
+; joining rule, this will match a phrase start marker in
+; a phrase analysis; in a splitting rule, this will indicate
+; where a cut should be made if a rule matches.
+;
+; A rule beginning with a | sign means that it must apply to
+; the leftmost elements in a phrase. A rule ending with a | sign
+; means it must apply to the rightmost elements.
+;;
+
 ?[+CAP] ^ PRE[+PARt] DET ?[+CAP-PARt] |
 TITle[+CAP+PARt] ^ ?[+CAP-PARt-FUN]
 INItial[+CAP] ^ ?[+CAP-PARt-FUN]
 ADJective ^ VERb[+INFl]
+TITle[+CAP] ^ ?[+CAP]
 .
-
-
+NOUn ^ VERb[+INFl] |
+.
