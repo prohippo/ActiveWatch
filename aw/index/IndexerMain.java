@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file IndexerMain.java : 05jan2022 CPM
+// AW file IndexerMain.java : 01nov2022 CPM
 // main method n-gram indexing
 
 package aw.index;
@@ -40,8 +40,10 @@ public class IndexerMain {
 		Banner banner = new Banner("Indexer");
 		banner.show();
 
-		if (av.length > 1 && av[0].equals("-n"))
+		if (av.length > 1 && av[0].equals("-n")) {
 			LexicalGram.set(Integer.parseInt(av[1]));
+			System.out.println("maximum n for builtin indices= " + n);
+		}
 
 		try {
 		

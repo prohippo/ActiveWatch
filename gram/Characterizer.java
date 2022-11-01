@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Characterizer.java : 30aug2021 CPM
+// AW file Characterizer.java : 01nov2022 CPM
 // encapsulated n-gram extraction
 
 package gram;
@@ -118,6 +118,11 @@ public class Characterizer {
 
 	public static final void main ( String[] as ) {
 
+		if (as.length > 1 && as[0].equals("-n")) {
+			int n = Integer.parseInt(as[1]);
+			LexicalGram.set(n);	
+			as = Arrays.copyOfRange(as,2,as.length);
+		}
 		String s = (as.length > 0) ? as[0] : "clapdoodle";
 
 		try {

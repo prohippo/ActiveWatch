@@ -36,7 +36,7 @@ public class LexicalGram {
 //	limit n in n-grams
 
 	public static void set ( int n ) {
-		if (n < 5 && n > 2)
+		if (n < 5 && n > 1)
 			MXn = n;
 	}
 
@@ -99,7 +99,7 @@ public class LexicalGram {
 
 //				System.out.println(tb);
  
-				if  (tb.end - to >= 2 && tb.fwrd - to < 2) {
+				if  (MXn >= 3 && tb.end - to >= 2 && tb.fwrd - to < 2) {
 //					System.out.println("3-grams, to= " + to);
  
 					// seed for alphabetic 3-gram?
@@ -176,7 +176,7 @@ public class LexicalGram {
 	public static int find (
 
 		char ax, // letters as Unicode chars
-		char bx
+		char bx  //
 
 	) {
  
