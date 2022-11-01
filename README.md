@@ -323,3 +323,6 @@ Release History:
 	                   clean up and test joining and splitting in Reparser
 	                   make rules file for Reparser self-documenting
 	                   update documentation
+
+	v2.1.1  01oct2022  let users to try n-gram index sets with different n
+	                   update documentation
