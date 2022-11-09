@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Tokenizer.java : 19sep2022 CPM
+// AW File Tokenizer.java : 08nov2022 CPM
 // extract tokens from a segment of English text
 
 package stem;

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Stop.java : 21oct2022 CPM
+// AW file Stop.java : 08nov2022 CPM
 // stopword support
 
 package stem;
@@ -54,7 +54,7 @@ public class Stop extends StopBase {
 		load(in);
 		
 	}
-	
+
 	// returns a non-zero index number if
 	// token is in stop table; otherwise 0
 
@@ -65,7 +65,7 @@ public class Stop extends StopBase {
 	) {
 		int i,n;
 		int leng;     // word length
-		int offset;   // character separation
+		int offset;   // character separation in table blocks
 		int lo,hi,md; // binary search indices
 		int p;        // table index
 
@@ -85,14 +85,21 @@ public class Stop extends StopBase {
 		if ((n = index[leng+1] - index[leng]) == 0)
 			return 0;
 
-//		System.out.println(n + " chars to check");
-//		for (int j = 0; j < n; j++)
-//			System.out.print("<" + table[j] + ">");
-//		System.out.println();
-
-		// separation between chars of stops in table
+		// separation between chars of each stop entry in this block
 
 		offset = n/leng;
+
+		//// for debugging
+		//
+//		int k = index[leng];
+//		System.out.println(n + " chars to check, starting at " + k);
+//		for (int j = 0; j < n; j++, k++) {
+//			if (j%offset == 0) System.out.println();
+//			System.out.print(Letter.toChar(table[k]));
+//		}
+//		System.out.println();
+		//
+		////
 
 		// binary search of table
 
@@ -101,11 +108,14 @@ public class Stop extends StopBase {
 
 		while (lo <= hi) {
 
+//			System.out.println("lo= " + lo + ", hi= " + hi);
+
 			// get next probe
 			p = md = lo + ((hi - lo) >> 1);
 			for (i = 0; i < leng; i++) {
 
-//				System.out.println(i + ") check <" + token.array[i] + ">:<" + table[p] + ">");
+//				System.out.print  (i + ") check " + Letter.toChar(token.array[i]) + ":");
+//				System.out.println(Letter.toChar(table[p]) + " (" + table[p] + ") @ " + p);
 				if (token.array[i] != table[p])
 					break;
 				else
@@ -120,6 +130,7 @@ public class Stop extends StopBase {
 			else
 				lo = md + 1;
 		}
+//		System.out.println("** no match");
 		return 0;
 	}
 
