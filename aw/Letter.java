@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Letter.java : 16aug2021 CPM
+// AW File Letter.java : 07nov2022 CPM
 // letter definitions for AW analyses
 
 package aw;
@@ -102,7 +102,7 @@ public class Letter {
 	// convert inner code to character
 
 	public final static char toChar ( int b ) {
-		return (b >= 0 && b < from.length) ? from[b] : DOT;
+		return (b >= 0 && b < from.length) ? from[b] : ' ';
 	}
 
 	// check if alphabetic
