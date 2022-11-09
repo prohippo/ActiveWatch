@@ -324,5 +324,8 @@ Release History:
 	                   make rules file for Reparser self-documenting
 	                   update documentation
 
-	v2.1.1  01oct2022  let users to try n-gram index sets with different n
+	v2.1.1  01nov2022  let users to try n-gram index sets with different n
+	                   update documentation
+
+	v2.2    08nov2022  fix bug with stopwords having periods and apostrophes 
 	                   update documentation
