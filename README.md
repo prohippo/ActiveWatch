@@ -329,3 +329,8 @@ Release History:
 
 	v2.2    08nov2022  fix bug with stopwords having periods and apostrophes 
 	                   update documentation
+
+	v2.3    20nov2022  expand builtin 4-grams past previous upper limit
+	                   change numbering of n-gram indices to be more logical
+	                   fix bug in squeezing of index vectors for clustering
+	                   update documentation
