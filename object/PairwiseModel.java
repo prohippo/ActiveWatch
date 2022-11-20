@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File PairwiseModel.java : 18Aug99 CPM
-// squeeze vectors for inner product computation
+// AW File PairwiseModel.java : 19nov2022 CPM
+// squeeze vectors for pairwise inner product computation
 
 package object;
 
@@ -33,17 +33,10 @@ import java.io.*;
 
 public class PairwiseModel {
 
-	public  static final int size = 24;
-
-	// maximum n-gram index kept
-	
-	private static final int NAN = Letter.NAN;
-	private static final int MXL = Parameter.MXN - NAN*NAN + Letter.NA*NAN;
-	
-	protected int getMXL ( ) { return MXL; }
+	public static final int size = 24;
 
 	// model components
-	
+
 	public float sumps;  // weighted sum of probabilities squared
 	public float sump2;  // doubly weighted probabilities squared
 	public float sump3;  // doubly weighted probabilities cubed
@@ -52,13 +45,13 @@ public class PairwiseModel {
 	public float w1n;    // n-gram weight normalization
 
 	// initialize
-	
+
 	public PairwiseModel (
 		float  minimum, // for probabilities of interest
 		float  maximum, // for probabilities of interest
 		boolean[] keep  // which n-gram indices to retain in vectors
 	) throws AWException {
-	
+
 		int lim = 0; // number of accepted n-grams
 		float app;   // weighted product of p's
 		float smp;   // summed probabilities
@@ -72,14 +65,16 @@ public class PairwiseModel {
 		Range         rg = new Range();
 
 		// set probability limits
-		
+
 		float lo = rg.low*minimum;
 		float hi = rg.high*maximum;
 
 		System.out.println("probability thresholds: low= " + lo + ", high= " + hi);
-		
-		int mxl = getMXL();
-		
+
+		int mxl = pb.array.length;
+
+		System.out.println("maximum n-gram index= " + mxl);
+
 		float[] a = new float[mxl];
 		float[] p = new float[mxl];
 
@@ -88,12 +83,15 @@ public class PairwiseModel {
 		// pack probabilities and associated
 		// weights for text n-grams kept
 
+		double tot = 0;
 		smp = 0F;
 		int n = 0;
-		
+
 		for (int i = 1; i < mxl; i++) {
-			if (pb.array[i] > 0.)
+			if (pb.array[i] > 0.) {
 				n++;
+				tot += pb.array[i];
+			}
 			if (lo <= pb.array[i] && pb.array[i] < hi) {
 				smp += pb.array[i];
 				p[lim] = pb.array[i];
@@ -104,12 +102,13 @@ public class PairwiseModel {
 				keep[i] = true; // mark n-gram for retention
 			}
 		}
-		
+
 		if (lim == 0)
 			throw new AWException("no significant indices");
  
 		System.out.print(lim + " text indices kept out of " + n);
 		System.out.println(" with sum of probabilities = " + smp);
+		System.out.println("check= " + tot);
 
 		// compute factors to condition probabilities
 		// and normalize weights
@@ -143,17 +142,17 @@ public class PairwiseModel {
 		sump22*= 2.*w2*f2*f2;
 
 	}
-	
+
 	// load model from file
-	
+
 	public PairwiseModel (
 		DataInputStream in
 	) throws AWException {
 		load(in);
 	}
-	
+
 	// I/O methods
-	
+
 	public void load (
 		DataInputStream in
 	) throws AWException {
@@ -168,7 +167,7 @@ public class PairwiseModel {
 			throw new AWException("cannot load model");
 		}
 	}
-		
+
 	public void save (
 		DataOutputStream out
 	) throws AWException {
