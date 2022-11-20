@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dngm.java : 25nov2021 CPM
+// AW file Dngm.java : 19nov2022 CPM
 // sjow sum of probabilities for each class of n-grams
 
 package test;
@@ -33,7 +33,7 @@ import java.io.*;
 
 public class Dngm {
 
-	private static void slice ( int ns , int lm , float[] p , String s ) {
+	private static int slice ( int ns , int lm , float[] p , String s ) {
 		double sum = 0;
 		double min = 1;
 		double max = 0;
@@ -51,10 +51,11 @@ public class Dngm {
 		System.out.println("total prob=" + Format.it(sum,8,6) + " for " + nz + " indices");
 		System.out.println("min=" + Format.it(min,8,6) + ", max=" + Format.it(max,8,6));
 		System.out.println("--");
+		return nz;
 	}
 
 	public static void main ( String[] a ) {
-	
+
 		System.out.println("analysis of n-gram contributions");
 		System.out.println();
 
@@ -66,13 +67,16 @@ public class Dngm {
 			e.show();
 			return;
 		}
-		
+
+		int no = 0; // total count of non-zero n-grams
 		float[] p = pb.array;
-		slice(1,Gram.IB3,p,"Literal N-Grams");
-		slice(Gram.IB2,Gram.IB4,p,"Alphanumeric 2-grams");
-		slice(Gram.IB3,Gram.IB2,p,"Alphabetic 3-grams");
-		slice(Gram.IB4,Gram.IB5,p,"Alphabetic 4-grams");
-		slice(Gram.IB5,p.length,p,"alphabetic 5-grams");
+		no += slice(1,Gram.IB2,p,"Literal N-Grams");
+		no += slice(Gram.IB2,Gram.IB3,p,"Alphanumeric 2-grams");
+		no += slice(Gram.IB3,Gram.IB4,p,"Alphabetic 3-grams");
+		no += slice(Gram.IB4,Gram.IB5,p,"Alphabetic 4-grams");
+		no += slice(Gram.IB5,p.length,p,"alphabetic 5-grams");
+
+		System.out.println(no + " total non-zero n-gram indices");
 	}
-	
+
 }

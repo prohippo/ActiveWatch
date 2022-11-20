@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file GramDecode.java : 21aug2021 CPM
-// show the string representation of ani n-gram index
+// AW file GramDecode.java : 18nov2022 CPM
+// show the string representation of an n-gram index
 
 package gram;
 
@@ -104,22 +104,22 @@ public class GramDecode extends Gram {
 
 		StringBuffer s = new StringBuffer();
 
-		// alphanumeric 2-gram?
-
-		if (ng >= IB2) {
-			ng -= IB2;
-			s.append(Letter.from[ng/Letter.NAN]);
-			s.append(Letter.from[ng%Letter.NAN]);
-		}
- 
 		// alphabetic 3-gram?
 
-		else if (ng >= IB3) {
+		if (ng >= IB3) {
 			ng -= IB3;
 			s.append(lexicalSeed[ng/Letter.NA]);
 			s.append(Letter.from[ng%Letter.NA]);
 		}
 
+		// alphanumeric 2-gram?
+
+		else if (ng >= IB2) {
+			ng -= IB2;
+			s.append(Letter.from[ng/Letter.NAN]);
+			s.append(Letter.from[ng%Letter.NAN]);
+		}
+ 
 		// literal n-gram?
 
 		else if (ng >= IBL)

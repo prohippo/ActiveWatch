@@ -1,4 +1,4 @@
-// Copyright (c) 2021, C. P. Mah
+// Copyright (c) 2022, C. P. Mah
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Gram.java : 22dec2021 CPM
+// AW file Gram.java : 18nov2022 CPM
 // basic lexical n-gram definitions
 
 package gram;
@@ -33,11 +33,11 @@ public class Gram {
 
 	public static final short NLIT= 2000; // upper limit on literals
 		
-	public static final short IB2 = 7701; // base for 2-grams
-	public static final short IB3 = 2001; // base for 3-grams
-	public static final short IB4 = 9001; // base for 4-grams
-	public static final short IB5 =11501; // base for 5-grams
 	public static final short IBL =    1; // literal indices
+	public static final short IB2 = 2001; // base for 2-grams
+	public static final short IB3 = 3301; // base for 3-grams
+	public static final short IB4 = 9001; // base for 4-grams
+	public static final short IB5 =11751; // base for 5-grams
 
 	// bit table defining 2-letter seeds for 3-grams
 		
