@@ -334,3 +334,8 @@ Release History:
 	                   change numbering of n-gram indices to be more logical
 	                   fix bug in squeezing of index vectors for clustering
 	                   update documentation
+
+	v2.4    06dec2022  fix bugs in buffering UTF-8 text input
+	                   clean up and simplify Unicode conversion of UTF-8
+	                   clean up AW segmentation code
+	                   update documentation
