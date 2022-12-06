@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file BatchFile.java : 21Aug01 CPM
+// AW file BatchFile.java : 27nov2022 CPM
 // shared code for random-access AW batch files
 
 package aw;
@@ -32,12 +32,12 @@ import java.io.*;
 public abstract class BatchFile {
 
 	// saved ID constants < 0
-	
+
 	public static final int unDEFINED   = -32768; // no ID yet saved
 	public static final int unSPECIFIED = -1;     // must differ from unDEFINED
 
 	// go to specific record
-	
+
 	protected static void seekIt (
 		RandomAccessFile ios, // file
 		int size, // record size
@@ -54,7 +54,7 @@ public abstract class BatchFile {
 	}
 
 	// open batch file for random access
-	
+
 	protected static RandomAccessFile openIt (
 		String root, // file name basis
 		int batch,   // batch number
@@ -63,9 +63,9 @@ public abstract class BatchFile {
 		String fn = FileName.make(root,batch);
 		return new RandomAccessFile(fn,(n < 0) ? "rw" : "r");
 	}
-	
+
 	// close I/O for entire class
-	
+
 	protected static void closeIt (
 		RandomAccessFile ios
 	) {
@@ -77,25 +77,26 @@ public abstract class BatchFile {
 		} catch (IOException ignore) {
 		}
 	}
-		
+
 	// count records already in file
-	
+
 	protected static int countIt (
 		String root, // file name basis
 		int batch,   // batch number
 		int size     // record size
 	) {
 		File f = new File(FileName.make(root,batch));
-		return (int)f.length()/size;
+		int n = (int)f.length()/size;
+		return n;
 	}
-	
+
 	//////
 	//////
-	
+
 	protected RandomAccessFile io; // for reading and writing records
-	
+
 	// access to record in file
-	
+
 	protected void access (
 		int n // record number may be >= 0 or unSPECIFIED
 	) throws IOException {
@@ -106,16 +107,16 @@ public abstract class BatchFile {
 		}
 		seekItX(sizeF(),n);
 	}
-	
+
 	// to allow class methods to be overridden in effect
-	
+
 	protected void seekItX (
 		int sz, // size of record
 		int n   // record number may be >= 0 or unSPECIFIED
 	) throws IOException {
 		seekIt(io,sz,n);
 	}
-	
+
 	protected RandomAccessFile createItX (
 		String r, // file name root
 		int b     // batch number
@@ -124,14 +125,14 @@ public abstract class BatchFile {
 	}
 
 	// must be defined by subclasses
-		
+
 	public abstract void save ( int bn ) throws IOException;
-	
+
 	protected abstract String rootF ( ); // root for subclass file name
 	protected abstract int sizeF    ( ); // size of record for subclass
 	protected abstract int bnsF     ( ); // saved batch number for subclass
-	
+
 	protected abstract RandomAccessFile iosF ( );
 	protected abstract void iosF ( RandomAccessFile io );
-	
+
 }

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Index.java : 21Aug01 CPM
+// AW file Index.java : 05dec2022 CPM
 // text index record class
 
 package aw;
@@ -33,19 +33,19 @@ public class Index extends BatchFile {
 
 	public  static final String root = "index"; // for file names
 	public  static final int    size = 20;      // of index record
-	
+
 	private static RandomAccessFile ios = null;
-	
+
 	private static int bns = unDEFINED; // saved batch number
 	private static int ins = unDEFINED; // last item number referenced
-	
+
 	private static Index save;
 
 	public  static void close ( ) {
 		closeIt(ios);
 		ios = null;
 	}
-	
+
 	public int   os; // offset in text file
 	public short si; // text file source ID
 	public short se; // segment number for divided text
@@ -56,12 +56,12 @@ public class Index extends BatchFile {
 	public short tl; // text length
 
 	// empty constructor
-	
+
 	public Index (
-	
+
 	) {
 	}
-	
+
 	// get nth record from index file
 
 	public Index (
@@ -90,9 +90,9 @@ public class Index extends BatchFile {
 			save = this;
 		}
 	}
-	
+
 	// read record fields
-	
+
 	public void load (
 		DataInput in
 	) throws IOException {
@@ -115,9 +115,9 @@ public class Index extends BatchFile {
 		access(unSPECIFIED);
 		save(ios);
 	}
-	
+
 	// write record fields
-	
+
 	public void save (
 		DataOutput out
 	) throws IOException {
@@ -130,9 +130,9 @@ public class Index extends BatchFile {
 		out.writeShort(hs);
 		out.writeShort(tl);
 	}
-	
+
 	// get record count
-	
+
 	public static int count (
 		int bn // batch number
 	) {
@@ -140,12 +140,12 @@ public class Index extends BatchFile {
 	}
 
 	// accessors
-	
+
 	protected final String rootF ( ) { return root; }
 	protected final int  sizeF ( ) { return size; }
 	protected final int  bnsF ( ) { return bns; }
-	
+
 	protected final RandomAccessFile iosF ( ) { return ios; }
 	protected final void iosF ( RandomAccessFile io ) { ios = io; }
-	
+
 } 
