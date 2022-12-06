@@ -22,9 +22,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Inputs.java : 30may2022 CPM
+// AW file Inputs.java : 05dec2022 CPM
 // special line buffering for reading UTF-8 text files
-// in DOS, Unix, or Macintosh text formats
+// in DOS, Unix, or pre-Darwin Macintosh text formats
 
 package aw;
 
@@ -34,37 +34,39 @@ import web.*;
 import java.io.*;
 import java.util.*;
 
-public class Inputs implements Runnable {
+public class Inputs {
 
 	// the Inputs class is needed because a line read by standard I/O may omit
 	// characters like the \r at the end of lines in DOS text files
 
 	private static boolean track = false;
 
-	private static final byte HT =  9;   // ASCII horizontal tab
-	private static final byte LF = 10;   // ASCII linefeed
-	private static final byte CR = 13;   // ASCII carriage return
-	private static final byte SP = 32;   // ASCII space
+	private static final byte HT =  9;   // horizontal tab
+	private static final byte LF = 10;   // linefeed
+	private static final byte CR = 13;   // carriage return
+	private static final byte SP = 32;   // space
 
-	private static final int LL= 2048;   // maximum line length
-	private static final int BL= 3*LL;   // maximum amount in buffer
+	private static final int LL= 2048;   // maximum line buffer length
 
-	private InputStreamReader data; // the text source to read
+	private BufferedInputStream data;    // the text source to read
 
-	protected char[] buffer = new char[BL + LL + 2];
-	protected int bl; // where data ends in buffer
-	protected int bb; // saved beginning of next line
+	private byte[] bb = new byte[LL + 2];
+	private int bp;           // buffer pointer
+	private int bl;           // where data ends in buffer
 
-	private int saveposition; // record start of a segment
+	// text file is assumed to be UTF-8 with at most 2**31 bytes
+
+	private int saveposition; // record start of a segment in text file
 	private int backposition; // for backing up on match
-	private int byteposition; // current byte offset in text file
+	private int byteposition; // current byte offset
 	private boolean backup;
 
-	private int charlength;   // line length in chars
+	private int charlength;   // line length in Unicode chars
 	private int bytelength;   //             in UTF-8 bytes originally
 
-	protected int ll=LL;      // maximum line length to get, also E-O-F flag
+	private byte saved;       // leftover char from last getting last line
 
+	private String  string;   // input line as String
 	private CharArray line;   // input line as object to return
 
 	// constructor
@@ -72,147 +74,112 @@ public class Inputs implements Runnable {
 	public Inputs (
 		InputStream in // text file for line buffering
 	) {
-		try {
-			data = new InputStreamReader(in,"UTF8");
-		} catch (UnsupportedEncodingException e) {
-			System.err.println(e + "??");
-			data = null;
-		}
+		data = new BufferedInputStream(in);
+		line = new CharArray(LL);
 
 		byteposition = 0;
 		bytelength   = 0;
 		charlength   = 0;
 		backup = false;
-		line = new CharArray(LL);
-
-		bb = bl = 0;  // buffer starts empty
+		saved = 0;
+		string = "";
+		bp = 0;  // line buffer starts empty
+		bl = LL;
 	}
 
-	// required for Runnable, executes a read in separate thread
-
-	private int length; // how many bytes to read
-
-	public void run (
-
-	) {
-		try {
-			length = data.read(buffer,bl,length);
-		} catch (IOException e) {
-			length = -1;
-		}
-	}
-
-	// load buffer from text input
-
-	private static final int delay = 10; // seconds to wait
-
-	private void refill (
-
-	) {
-		// is buffer of chars getting low?
-
-		int k  = bl - bb;
-		if (k >= ll)
-			return;
-		if (track)
-			System.out.println("refill k=" + k + ", ll=" + ll);
-
-		// if so, move any remaining text to front of buffer
-
-		if (k > 0) {
-			System.arraycopy(buffer,bb,buffer,0,k);
-			if (track) {
-				int nc = (k < 36) ? k : 36;
-				String bcs = new String(buffer,0,nc);
-				System.out.println("refilled: buffer= [" + bcs + "]");
-				System.out.println(k + " chars");
-			}
-		}
-		bb = 0;
-		bl = k;
-
-		// fill out buffer with fresh text
-
-		int nb = BL + LL - bl;
-
-		int count = nb;
-		do {
-			length = count;
-			ThreadTimer tmr = new ThreadTimer(this,delay);
-			tmr.run();
-			if (length > 0) {
-				bl += length;
-				count -= length;
-			}
-		} while (count > 0 && length > 0);
-
-		// add sentinel
-
-		buffer[bl] = '\0';
-
-		if (track)
-			System.out.println("bb=" + bb + ", bl=" + bl);
-
-		// note end of file if buffer not full
-
-		if (bl < BL + LL)
-			ll = -1;
-	}
-
-	// find next line in buffer
+	// collect next line in buffer
 
 	private int markLine (
 
 	) {
-		int bp; // index of last char in line
-		int bs = bb;
+		if (string == null) // end of stream flag
+			return 0;
 
-		// reset start and scan to first LF or CR
+		if (track)
+			System.out.println("markLine: + " + bytelength);
 
-		for (bp = bb; bs < bl; bs++) {
-			if (buffer[bs] == LF) {
-				bp = bs;
-				break;
+		byteposition += bytelength;
+		bytelength = 0;
+		int skips = 0;      // count of bytes not returned in input line
+
+		bp = 0;             // set up line buffer for next input
+		if (saved != 0) {
+			bb[bp++] = saved;  // initialize with any byte left from last line
+			saved = 0;
+		}
+
+		// scan data stream to first LF or CR, and skip extra CRs
+
+		int nb = 0;         // for next byte from stream (returned as int)
+		for (; bp < bl; bp++) {
+//			System.out.println("bp= " + bp);
+			try {
+				nb = data.read();
+			} catch (IOException e) {
+				System.err.println(e);
+				System.exit(1);
 			}
+//			System.out.println("loop nb= [" + nb + "]");
+			if (nb == -1 || nb == LF)
+				break;
 
-			if (buffer[bs] == CR) {
-				buffer[bs] =  LF;
+			if (nb == CR) {
+				skips++;
+				nb = LF;     // handles old pre-DARWIN text files
 
-				// handle possible DOS text file with multiple CR's followed by LF
+				// DOS text file may have multiple CR's followed by LF
 
-				for (bp = bs + 1;; bp++) {
-					if (buffer[bp] == LF) {
-						int sp = bs; bs = bp; bp = sp;
+				int nnb = 0; // next byte in stream
+				for (; bp < bl; bp++) {
+					try {
+						nnb = data.read();
+					} catch (IOException e) {
+						System.err.println(e);
+						System.exit(1);
+					}
+					if (nnb == LF)
+						break;
+					else if (nnb != CR) {
+						saved = (byte) nnb;
 						break;
 					}
-					else if (buffer[bp] != CR) {
-						bp = bs;
-						break;
-					}
+					skips++; // count up skipped CRs
 				}
 				break;
 			}
 
-			// convert any embedded nulls to spaces
-
-			if (buffer[bs] == '\0')
-				buffer[bs] = SP;
+			if (nb == 0)
+				nb = SP;      // convert any embedded null to space
+			bb[bp] = (byte) nb;   // store byte in line buffer
+//			System.out.println("add nb=[" + nb + "]");
 		}
 
-		// number of chars scanned for line plus any final LF
-		// (often less that number of UTF-8 bytes scanned!)
+		if (track)
+			System.out.println("nb= " + nb);
 
-		int n = (bs < bl) ? 1 : 0;
-		int nscan = bs - bb + n;
+		if (nb != 0 && nb != -1)
+			bb[bp++] = (byte) nb; // line terminater
 
-		// easiest way to find UTF-8 byte count for line
-		char[] cs = Arrays.copyOfRange(buffer,bb,bb+nscan);
-		bytelength = ByteTool.utf8length(cs);  // in original UTF-8 input bytes
+		if (bp == 0) {                // end of stream?
+			string = null;
+			return 0;
+		}
+
+		try {
+			string = new String(bb,0,bp,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			System.err.println(e);
+			System.exit(1);
+		}
+
+		if (track)
+			System.out.println("string=" + string);
+
+		bytelength = bp + skips;
+		charlength = string.length();
 
 		if (track)
 			System.out.println("charl=" + charlength + ", bytel=" + bytelength); 
-
-		charlength = nscan;
 
 		return charlength;
 	}
@@ -222,41 +189,23 @@ public class Inputs implements Runnable {
 	public CharArray input (
 
 	) {
-		int k = 0;
-
-		byteposition += bytelength;
-
-		refill();
-
-		// skip over initial NULs
-
-		for (; bb < bl; bb++, k++)
-			if (buffer[bb] != '\0')
-				break;
-
-		// if buffer is exhausted, return nothing
-
-		if (bb >= bl) {
-			charlength = 0;
-			bytelength = 0;
-			return null;
-		}
-
-		// return a line of text as a Line object
-
-		int n = markLine();
-		int bs = bb;
-		bb += charlength;
-		if (track) {
+		if (track)
 			System.out.println("READ position=" + byteposition);
-			System.out.println("k=" + k);
-		}
-		bytelength += k;
-		line.fillChars(buffer,bs,n);
+
+		// return a line of text as a CharArray object
+
+		int n = markLine(); // collect next line of input text
+
+		if (string == null) // check for end of input stream
+			return null;
+
+		line.fillChars(string.toCharArray(),0,n);
 		return line;
 	}
 
 	public int getCharLength ( ) { return charlength; }
+
+	// get line offset in text file
 
 	//
 	// these methods use byte offsets into a UTF-8 text input file
@@ -305,11 +254,13 @@ public class Inputs implements Runnable {
 
 	// start of next line
 
-	public final int nextPosition (
+	public final int nextposition (
 
 	) {
-		if (track)
-			System.out.println("NEXT position=" + byteposition);
+		if (track) {
+			System.out.print  ("NEXT position=" + byteposition);
+			System.out.println(" + " + bytelength);
+		}
 		return byteposition + bytelength;
 	}
 
@@ -337,6 +288,8 @@ public class Inputs implements Runnable {
 
 		CharArray line;
 		String file = (a.length > 0) ? a[0] : "text";
+		track = true;
+		System.out.println("testing Inputs");
 		try {
 			FileInputStream in = new FileInputStream(file);
 			Inputs inp = new Inputs(in);
@@ -349,8 +302,9 @@ public class Inputs implements Runnable {
 			line = inp.input();
 			System.out.println("> " + line);
 			in.close();
+			System.out.println("@" + inp.nextposition());
 		} catch ( Exception e ) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 	}
 
