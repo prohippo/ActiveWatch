@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Segmenter.java : 08ju12022 CPM
+// AW file Segmenter.java : 14dec2022 CPM
 // top-level class for text segmentation
 
 package aw.segment;
@@ -37,11 +37,11 @@ public class Segmenter {
 
 	private static final short L = 78;
 	private static final short H = 32760;
-	
+
 	private static final int wait = 60; // seconds
-	
+
 	private static Subsegment ssNul = new Subsegment();
-	
+
 	private int upper = 2500;    // subsegmentation limits
 	private int lower = 1000;    //
 
@@ -52,7 +52,7 @@ public class Segmenter {
 
 	private Index ix;
 	private int   ns = 0;    // subsegment count
-	
+
 	private Control control; // for current batch and counts
 
 	// initialize input and finite-state automaton for it
@@ -62,7 +62,7 @@ public class Segmenter {
         ) throws AWException {
 		this(delimiter,0);
 	}
-		
+
 	public Segmenter (
 		BufferedReader delimiter,  // pattern file
 		int level                  // for diagmostic output
@@ -71,21 +71,23 @@ public class Segmenter {
 		automaton.setLevel(level);
 		control = new Control();
 	}
-	
-	// initialize and set subsegmentation
-	
-	public Segmenter (
-		BufferedReader delimiter, // pattern file
-		int upper,
+
+	// set subsegmentation
+
+	public void setLowerSubsegmentLimit (
 		int lower
-	) throws AWException {
-		this(delimiter);
-		this.upper = upper;
+	) {
 		this.lower = lower;
 	}
-	
+
+	public void setUpperSubsegmentLimit (
+		int upper
+	) {
+		this.upper = upper;
+	}
+
 	// process all items in a file
-		
+
 	public int run (
 		String textFile  // text URL
 	) throws AWException {
@@ -98,25 +100,25 @@ public class Segmenter {
 		Source     sr = null;
 		ix   = null;
 		text = null;
-		
+
 		try {
-		
+
 			TimedURL u = new TimedURL(textFile,wait);
 			text = u.openStream();
 			stream = new Inputs(text);
 			lining = new Lines();
-			
+
 			ss = new Subsegment(control.cubn,-1);
-		
+
 			sr = new Source(textFile);
-		
+
 			ix = new Index(control.cubn,-1);
 			ix.si = (short)Source.count(control.cubn);
-		
+
 			sr.save(control.cubn);
-			
+
 			Source.close();
-		
+
 		} catch (FileNotFoundException e) {
 			throw new AWException("no input text",e);
 		} catch (IOException e) {
@@ -134,18 +136,18 @@ public class Segmenter {
 		// append items to those already in batch
 
 		ix.sx = (short)ss.count(control.cubn);
-		
+
 		int k;  // index of new items for batch
 		int m;  // how many items already in batch
 
 		try {
-						
+
 			for (k = m = ix.count(control.cubn);; k++) {
 
 //				System.out.println("item number= " + k);
 
 				// match patterns for segment boundaries
-					
+
 				if (automaton.apply(k,stream,lining,ix) == 0)
 					break;
 
@@ -153,11 +155,11 @@ public class Segmenter {
 //				lining.dump();
 
 				// divide up long text segment into subsegments
-			
+
 				Subsegmenter s = new Subsegmenter(lining,upper,lower);
-				
+
 				short n = (short) s.count();
-			
+
 //				System.out.println("subsegment count= " + n);
 
 				if (n > 0) {
@@ -174,13 +176,13 @@ public class Segmenter {
 					ssNul.save(control.cubn);
 					n++;
 				}
-				
+
 				ns += n;
 				ix.ns  = n;
 				ix.save(control.cubn);
 				ix.sx += n;
 			}
-			
+
 		} catch (IOException e) {
 			throw new AWException("I/O error",e);			
 		} finally {
@@ -192,7 +194,7 @@ public class Segmenter {
 			} catch (IOException e) {
 			}
 		}
-		
+
 		// save updated control
 
 		System.out.println("updating batch " + control.cubn);
@@ -206,15 +208,15 @@ public class Segmenter {
 		}
 
 		// item count returned
-		
+
 		return k - m;  // how many net new items
 	}
-	
+
 	// get subsegment count
-	
+
 	public final int count (
 	) {
 		return ns;
 	}
-	
+
 }

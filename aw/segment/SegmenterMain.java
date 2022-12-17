@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File SegmenterMain.java : 30jun2022 CPM
+// AW File SegmenterMain.java : 14dec2022 CPM
 // class for text segmenting application
 
 package aw.segment;
@@ -33,40 +33,53 @@ import java.net.*;
 import java.util.Arrays;
 
 public class SegmenterMain {
-	
+
 	// initialize and process
-	
+
 	public static void main (
 		String[] a
 	) {
 
+		int lvl = 0;    // debugging level
+		int lssl = -1;  // lower subsegment limit
+		int ussl = -1;  // upper
 		String delims = "delims";
+
 		if (a.length > 1 && a[0].equals("-d")) {
 			delims = a[1];
 			a = Arrays.copyOfRange(a,2,a.length);
 		}
-		int lvl = 0;
 		if (a.length > 1 && a[0].equals("-l")) {
 			lvl = Integer.parseInt(a[1]);
 			a = Arrays.copyOfRange(a,2,a.length);
 		}
+		if (a.length > 1 && a[0].equals("-ll")) {
+			lssl = Integer.parseInt(a[1]);
+			a = Arrays.copyOfRange(a,2,a.length);
+		}
+		if (a.length > 1 && a[0].equals("-ul")) {
+			ussl = Integer.parseInt(a[1]);
+			a = Arrays.copyOfRange(a,2,a.length);
+		}
 
 		String[] items = (a.length > 0) ? a : new String[] { "text" };
-		
+
 		Banner banner = new Banner("Segmenter");
 		banner.show();
 
 		System.out.println("item delimiters= \"" + delims + "\"");
-			
+
 		try {
-		
+
 			Segmenter x;
 			int n = 0;
 			try {
 				BufferedReader r = new BufferedReader(new FileReader(delims));
 				x = new Segmenter(r,lvl);
+				if (lssl > 0) x.setLowerSubsegmentLimit(lssl);
+				if (ussl > 0) x.setUpperSubsegmentLimit(ussl);
 				r.close();
-			
+
 				for (int i = 0; i < items.length; i++) {
 					String file = items[i];
 					String u = null;
@@ -86,7 +99,7 @@ public class SegmenterMain {
 			}
 
 			System.out.println(n + " new items processed");
-		
+
 		} catch (AWException e) {
 			e.printStackTrace();
 		}
