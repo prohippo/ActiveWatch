@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ClusterProfileBase.java : 17nov2021 CPM
+// AW file ClusterProfileBase.java : 09dec2022 CPM
 // cluster profile generation
 
 package object;
@@ -63,7 +63,7 @@ public class ClusterProfileBase extends ProfileMaker {
 
 		SimpleIndexVector[] item, // item list
 		int[]   weight, // item weights
-		int     multpl, // multiple for acceptance threshold
+		int     multpl, // multiple of minimum probability for n-grams
 		int     minlng  // minimum profile length
 
 	) throws AWException {

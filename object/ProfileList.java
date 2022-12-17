@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ProfileList.java : 04Feb99 CPM
+// AW file ProfileList.java : 08decf2022 CPM
 // profile assignment list class
 
 package object;
@@ -46,7 +46,7 @@ class ListHead {
 	int snod; // starting node
 
 	// read list head
-	
+
 	public void load (
 		RandomAccessFile in,
 		int               n
@@ -55,9 +55,9 @@ class ListHead {
 		alln = in.readInt();
 		snod = in.readInt();
 	}
-	
+
 	// write list head
-	
+
 	public void save (
 		RandomAccessFile out,
 		int                n
@@ -66,7 +66,7 @@ class ListHead {
 		out.writeInt(alln);
 		out.writeInt(snod);
 	}
-	
+
 }
 
 // for list entries in file
@@ -80,15 +80,15 @@ class ListNode {
 	Item[] list = new Item[NI]; // partial item list
 
 	// constructor for empty node
-	
+
 	public ListNode (
 	) {
 		for (int i = 0; i < NI; i++)
 			list[i] = new Item(0,0,0.0);
 	}
-	
+
 	// read node
-	
+
 	public void load (
 		RandomAccessFile in,
 		int               n
@@ -98,9 +98,9 @@ class ListNode {
 		for (int i = 0; i < NI; i++)
 			list[i] = new Item(in);
 	}
-	
+
 	// write node
-	
+
 	public void save (
 		RandomAccessFile out,
 		int                n
@@ -110,17 +110,17 @@ class ListNode {
 		for (int i = 0; i < NI; i++)
 			list[i].save(out);
 	}
-	
+
 	// index of next node after last
-	
+
 	public static int last (
 		RandomAccessFile out
 	) throws IOException {
 		return (int)(out.length()/size) + 1;
 	}
-	
+
 	// read overflow link of nth node
-	
+
 	public static int link (
 		RandomAccessFile in,
 		int               n
@@ -128,9 +128,9 @@ class ListNode {
 		in.seek((n-1)*size);
 		return in.readInt();
 	}
-	
+
 	// write overflow link of nth node
-	
+
 	public static void link (
 		RandomAccessFile out,
 		int                n,
@@ -139,7 +139,7 @@ class ListNode {
 		out.seek((n-1)*size);
 		out.writeInt(k);
 	}
-	
+
 }
 
 public class ProfileList {
@@ -148,16 +148,16 @@ public class ProfileList {
 
 	public  static final String headFile = "heads";
 	public  static final String nodeFile = "lists";
-	
+
 	private RandomAccessFile io; // list node file
 	private ListNode node = new ListNode(); // current node in memory
 	private ListHead head = new ListHead(); // list head for all nodes
-	
+
 	protected Item[] list; // actual list as single array
 	protected int   count; // number of items in list
 
 	// get index for empty list node
-	
+
 	private int allocateNode (
 		int n  // index of node to continue
 	) throws IOException {
@@ -179,12 +179,12 @@ public class ProfileList {
 		int k  // index of first node to release
 	) throws IOException {
 		int kn,ko;
-		
+
 		if (k == 0)
 			return;
 		ko = free.snod;
 		free.snod = k;
-		
+
 		for (;;) {
 			kn = ListNode.link(io,k);
 			if (kn == 0)
@@ -195,9 +195,9 @@ public class ProfileList {
 	}
 
 	// allocate Item array for list and load it from file
-	
+
 	public ProfileList (
-	
+
 		int n  // list number
 
 	) throws AWException {
@@ -210,16 +210,16 @@ public class ProfileList {
 		// get head of free list and of list n
 
 		try {
-		
+
 			hin = new RandomAccessFile(FileAccess.to(headFile),"r");
-			
+
 			if (free.alln == 0)
 				free.load(hin,0);
 
 			head.load(hin,n);
 
 			hin.close();
-			
+
 		} catch (IOException e) {
 			throw new AWException("no list head: ",e);
 		}
@@ -231,7 +231,7 @@ public class ProfileList {
 			list  = null;
 			count = 0;
 			return;
-			
+
 		}
 		else {
 
@@ -240,32 +240,32 @@ public class ProfileList {
 			list = new Item[head.alln];
 
 			try {
-			
+
 				io = new RandomAccessFile(FileAccess.to(nodeFile),"r");			
 
 				ne = head.alln%ListNode.NI;
 				if (ne == 0)
 					ne = ListNode.NI;
 				m = head.alln - ne;
-				
+
 				for (int next = head.snod; next > 0; ) {
 					node.load(io,next);
 					next = node.ovfl;
-					
+
 					// reverse ordering of nodes
-					
+
 					for (int i = 0; i < ne; i++)
 						list[m+i] = node.list[i];
 					m -= ListNode.NI;
 					ne = ListNode.NI;
 				}
-				
+
 				io.close();
-				
+
 			} catch (IOException e) {
 				throw new AWException("list " + n + " read failure");
 			}
-			
+
 		}
 
 		count = head.alln;
@@ -273,7 +273,7 @@ public class ProfileList {
 	}
 
 	// create a list from compiled items
-	
+
 	public ProfileList (
 
 		Item[]  l, // list array
@@ -285,12 +285,12 @@ public class ProfileList {
 	}
 
 	// save listed items in files
-		
+
 	public void save (
-	
+
 		int          n, // list number
 		boolean append  // logical flag for adding to list
-	
+
 	) throws AWException {
 
 		RandomAccessFile hio = null;
@@ -304,7 +304,7 @@ public class ProfileList {
 			return;
 
 		try {
-		
+
 			// get free list head and list head n
 
 			hio = new RandomAccessFile(FileAccess.to(headFile),"rw");
@@ -328,7 +328,7 @@ public class ProfileList {
 			// empty list is special case
 
 			if (count == 0) {
-			
+
 				deallocateNodes(head.snod);
 				free.save(hio,0);
 				head.alln = head.snod = 0;
@@ -336,7 +336,7 @@ public class ProfileList {
 				hio.close();
 				io.close();
 				return;
-				
+
 			}
 
 			// get last node of list
@@ -350,7 +350,7 @@ public class ProfileList {
 			}
 
 			if (!append) {
-			
+
 				// free current list and create new one
 
 				m = 0;
@@ -359,19 +359,19 @@ public class ProfileList {
 					head.snod = next = allocateNode(0);
 				}
 				head.alln = count;
-				
+
 			}
 			else {
-			
+
 				// append to current list
 
 				m = head.alln%ListNode.NI;
 				if (m == 0 && head.alln > 0)
 					m = ListNode.NI;
 				head.alln += count;
-				
+
 			}
-			
+
 			// fill in list nodes
 
 			for (int i = 0; i < count; i++) {
@@ -389,15 +389,15 @@ public class ProfileList {
 
 			free.save(hio,0);
 			head.save(hio,n);
-			
+
 		} catch (IOException e) {
-		
+
 			throw new AWException("cannot save list: " + n,e);
-			
+
 		} finally {
-		
+
 			// clean up
-		
+
 			try {
 				if (io != null)
 					io.close();
@@ -405,18 +405,18 @@ public class ProfileList {
 					hio.close();
 			} catch (IOException e) {
 			}
-				
+
 		}
 	}
-	
+
 	// needed to handle clearing of files
-	
+
 	public final void reset ( ) { free.alln = free.snod = 0; }
-	
+
 	// accessors
-	
+
 	public final int getCount ( ) { return count; }
-	
+
 	public final Item[] getList ( ) { return list; }
-	
+
 }

@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ClusterProfile.java : 22jul2021 CPM
-// cluster profile generation
+// AW file ClusterProfile.java : 09dec2022 CPM
+// cluster profile generation from examples
 
 package object;
 
@@ -36,11 +36,11 @@ public class ClusterProfile extends ClusterProfileBase {
 
 	private static final int MULTPL = 10; // for setting minimum probability threshold
 	private static final int MXM    =  9; // maximum number of items to consider
-	
+
 	private static final int MINLNG = 11; // minimum profile index count
 
 	public ClusterProfile (
-	
+
 		int      count, // how many items
 		Item[]    item, // item list
 		int[]   weight  // item weights
@@ -48,15 +48,15 @@ public class ClusterProfile extends ClusterProfileBase {
 	) throws AWException {
 		this(count,item,weight,MULTPL,MINLNG);
 	}
-	
+
 	// build profile from list of items
-	
+
 	public ClusterProfile (
 
 		int      count, // how many items
 		Item[]    item, // item list
 		int[]   weight, // item weights
-		int     multpl, // multiple for acceptance threshold
+		int     multpl, // multiple for minimum n-gram probability
 		int     minlng  // minimum profile length
 
 	) throws AWException {
@@ -68,7 +68,7 @@ public class ClusterProfile extends ClusterProfileBase {
 		int[] ord = new int[count];
 
 		// get indices from selected items
-		
+
 		int nselect = select(count,weight,ord);
 
 		ClusterIndexVector[] vs = new ClusterIndexVector[nselect];
@@ -86,11 +86,11 @@ public class ClusterProfile extends ClusterProfileBase {
 	}
 
 	private IndexVector iv;
-	
+
 	// close out objects no longer needed
-	
+
 	public void close (
-	
+
 	) {
 		super.close();
 		if (iv != null)
@@ -98,13 +98,13 @@ public class ClusterProfile extends ClusterProfileBase {
 	}
 
 	// choose subset of items to process by setting weights
-		
+
 	private int select (
-	
+
 		int    count, // how many items
 		int[] weight, // item weights
 		int[] order   // ranking of items
-		
+
 	) {
 		// normalize weights
 
@@ -141,5 +141,5 @@ public class ClusterProfile extends ClusterProfileBase {
 
 		return MXM;
 	}
-	
+
 }
