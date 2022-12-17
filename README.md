@@ -339,3 +339,13 @@ Release History:
 	                   clean up and simplify Unicode conversion of UTF-8
 	                   clean up AW segmentation code
 	                   update documentation
+
+	v2.5    17dec2022  fix display of match lists to indicate text subsegments
+	                   improve reporting on cluster analysis
+	                   add command line control of subsegmentation
+	                   document command line control of cluster profile generation
+	                   clean up and extend default literal n-grams for English
+	                   add 4-grams to round up total to 2,600
+	                   clean up indentation in source code
+	                   update documentation
+
