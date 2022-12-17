@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Summarizer.java : 11aug2021 CPM
+// AW file Summarizer.java : 09dec2022 CPM
 // derive n-gram profiles from cluster seeds
 
 package aw.summarize;
@@ -38,15 +38,15 @@ public class Summarizer {
 	private Control     ctl;
 
 	// initialization
-		
+
 	public Summarizer (
-	
+
 	) throws AWException {
-	
+
 		map = new ProfileMap();
 		lkm = new LinkMapping();
 		ctl = new Control();
-		
+
 		map.update(); // turn former NEW indications
 	}
 
@@ -54,36 +54,36 @@ public class Summarizer {
 	private static final byte TYPE = (byte)(Map.bN | Map.bA | Map.bD);
 
 	// set up sequence file
-		
+
 	public void run (
-	
-		float thr,
-		int   mlp,
-		int   lpm
-		
+
+		float thr, // minimum significance for match
+		int   mlp, // minimum n-gram probability as multiple of least
+		int   lpm  //
+
 	) throws AWException {
-	
+
 		int   mm; // link index number
 		int nitm; // item count
 		Item[] its = new Item[MX]; // items of cluster seed
 		int [] vw  = new int[MX];  // vector weights
-		
+
 		Member cm = null; // cluster member record
-		
+
 		Attribute   at = new Attribute();
 		ProfileList ls = new ProfileList(null,0);
 		ClusterProfile cp = null;
-		
+
 		ls.reset(); // to avoid problems after clearing files
-		
+
 		String x; // for formatting
 		short pn; // profile number
 		int   lp; // profile length
 		int   nn;
 		int   no = 0;
-		
+
 		long  tm = System.currentTimeMillis();
-				
+
 		int left = lkm.countLinkIndex(); 
 		System.out.println(left + " items originally to be clustered");
 
@@ -96,19 +96,19 @@ public class Summarizer {
 				// collect items in cluster
 
 				System.out.print("\ncollect");
-	
+
 				for (nitm = 0; mm > 0; nitm++) {
 					if (nitm == MX)
 						throw new AWException("cluster overflow");
-						
+
 					its[nitm] = lkm.fromLinkIndex(mm);
-					
+
 					if (its[nitm].bn == Control.BADBatch)
 						throw new AWException("bad item for index " + mm);
-					
+
 					vw[nitm] = cm.strength;
 					--left;
-					
+
 					try {
 						cm = new Member();
 						mm = cm.index;
@@ -116,9 +116,9 @@ public class Summarizer {
 						mm = -1;
 					}
 				}
-				
+
 				// show cluster seed members
-					
+
 				System.out.print(" cluster:");
 				for (int j = 0; j < nitm; j++) {
 					if (j%9 == 0)
@@ -134,20 +134,20 @@ public class Summarizer {
 						System.out.print(" ");
 				}
 				System.out.print("\n\n");
-					
+
 				// make profile from accumulated vectors
 
 				System.out.println("make profile from " + nitm + " items");
 				cp = new ClusterProfile(nitm,its,vw,mlp,lpm);
 				lp = cp.length;
-				
+
 				// check for thin profile
-				
+
 				if (lp < lpm) {
-					System.out.println("-- too thin to keep: " + lp);
+					System.out.println("-- too thin to keep: " + lp + " < " + lpm);
 					continue;
 				}
-				
+
 				// allocate new slot for cluster
 
 				pn = map.allocate(TYPE);
@@ -157,13 +157,13 @@ public class Summarizer {
 				at.stm.genum = (short) ctl.totb;
 				System.out.println("allocate as number " + pn);
 				no++;
-				
+
 				// write out empty cluster list
 
 				ls.save(pn,false);
  
 				// set hit thresholds
-				
+
 				if ((nn = lp/10) == 0)
 					nn++;
 				if (nn > 10)
@@ -181,15 +181,15 @@ public class Summarizer {
 				at.save(pn);
 
 			}
-			
+
 		} catch (EOFException e) {
-		
+
 		} catch (IOException e) {
 			throw new AWException(e);
 		}
-		
+
 		System.out.println("\n" + no + " new profiles");
-		
+
 		try {
 			map.save();
 			if (cm != null) {
