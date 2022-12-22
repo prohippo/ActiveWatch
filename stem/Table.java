@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Table.java : 14jan2022 CPM
+// AW file Table.java : 19dec2022 CPM
 // inflectional stemming table definitions for English
 
 package stem;
@@ -53,7 +53,7 @@ class Table {
 
 		z1= 1, z2= 2, z3= 3, z4=  4, z5=  5,
 
- 		g1 = 222, g2 = 478, g3 = 117, g4 = 165, g5 = 139, g6 = 209,
+ 		g1 = 229, g2 = 485, g3 = 117, g4 = 165, g5 = 139, g6 = 209,
 
 		is=8,
 
@@ -81,34 +81,34 @@ class Table {
 		  9,xn,xa,z1, 4,xc,y8,zz,y0,z2, 4,xr,xh,y0,z1,10,xh,is, 6, 2,xa,xc,
 		 y8,zz,y0,z1,12,xt,is, 8, 4,xa,xi,xs,xt,y8,zz,y0,y8,zz,z1,g1,xs,z2,
 		  5,xa,xg,y8,zz,z1,16,xs,z2, 5,xa,xg,y7,zz,z2, 5,xu,xb,y7,zz,y8,zz,
-		 z2, 5,xa,xi,y8,zz,z4, 7,xi,xn,xe,xp,y8,zz,z1,57,xu,z1,11,xc,is, 7,
+		 z2, 5,xa,xi,y8,zz,z4, 7,xi,xn,xe,xp,y8,zz,z1,64,xu,z1,11,xc,is, 7,
 		  3,xo,xr,xu,y8,zz,y0,z1,10,xr,is, 6, 2,xi,xo,y8,zz,y0,z2, 5,xl,xp,
-		 y8,zz,is, 7, 3,xi,xp,xt,y8,zz,z2, 8,xn,xa,eq, 6, 3,y8,zz,eq, 5, 6,
-		 z1, 4,xb,y8,zz,y0,z2, 4,xe,xe,y0,is, 8, 2,xe,xy,y8,p2,xi,xs,is, 6,
-		  2,xs,xd,y8,zz,z3, 8,xi,xr,xc,y8,p2,xi,xs,z1,27,xa,z2, 7,xt,xs,y8,
-		 p2,xi,xs,z1, 6,xo,y8,p2,xi,xs,z3, 8,xh,xp,xm,y8,p2,xi,xs,y0,z3, 6,
-		 xn,xe,xl,y8,zz,z1,31,xo,z1,12,xh,is, 8, 2,xc,xp,y8,p2,xi,xs,y0,z2,
-		  7,xr,xu,y8,p2,xi,xs,z2, 7,xe,xh,y8,p2,xi,xs,z1,18,xp,z2, 7,xo,xn,
-		 y8,p2,xi,xs,z2, 7,xa,xn,y8,p2,xi,xs,z4, 7,xi,xl,xo,xp,y8,zz,y0,z1,
-		 57,xh,is, 4, 1,xt,y0,z1,47,xc,eq, 5, 2,y0,eq, 6,16,z2, 5,xi,xr,y8,
-		 zz,is, 7, 3,xn,xr,xt,y8,zz,y0,eq, 7,11,z2, 4,xi,xl,y0,z2, 4,xe,xr,
-		 y0,z1, 9,xa,is, 6, 3,xd,xh,xr,y0,y8,zz,is, 5, 1,xx,y8,zz,z1,28,xz,
-		 z1, 4,xt,y8,zz,z1,20,xz,z2, 5,xe,xf,y7,zz,z2, 5,xi,xu,y7,zz,z2, 5,
-		 xi,xh,y7,zz,z1,96,xv,z3, 7,xo,xo,xh,y7,p1,xf,z1,35,xl,z2, 6,xo,xw,
-		 y7,p1,xf,z1, 3,xo,y0,z1,10,xa,is, 7, 2,xc,xh,y7,p1,xf,z1, 9,xe,z1,
-		  3,xd,no,y7,p1,xf,no,z2, 7,xi,xw,y7,p2,xf,xe,z2,24,xr,xa,z2, 6,xc,
-		 xs,y7,p1,xf,z2, 6,xh,xw,y7,p1,xf,z2, 6,xw,xd,y7,p1,xf,z1,16,xa,z2,
-		  6,xo,xl,y7,p1,xf,z2, 6,xe,xh,y7,p1,xf,y0,z1,89,xi,z2, 4,xn,xn,no,
-		 z2, 4,xm,xe,y0,z3, 5,xm,xa,xn,y0,z2, 4,xs,xt,y0,z2, 4,xh,xc,y0,z2,
-		  4,xj,xo,y0,is, 6, 3,xn,xz,xq,y0,z3, 5,xl,xa,xk,y0,z3, 5,xd,xa,xh,
-		 y0,z3, 5,xd,xu,xa,y0,z3, 5,xl,xe,xa,y0,z3, 5,xt,xa,xr,y0,z1,17,xx,
-		 z2, 4,xe,xh,no,z1, 8,xa,is, 5, 2,xl,xr,no,y0,no,z1,70,xu,z1, 8,xn,
-		 z2, 4,xe,xm,y0,no,z2, 4,xa,xe,y0,z1,11,xt,is, 7, 4,xa,xc,xi,xo,no,
-		 y0,z2, 4,xd,xn,y0,z2,11,xl,xu,is, 6, 3,xl,xt,xz,y0,no,z2, 4,xm,xu,
-		 y0,z3, 5,xr,xu,xg,y0,z1,12,xa,z2, 4,xl,xu,y0,z1, 3,xu,y0,no,no,is,
-		  5, 2,xs,xu,no,z1,39,xa,is, 5, 2,xv,xx,no,z2, 4,xs,xn,no,z2, 4,xi,
-		 xl,no,z2, 4,xl,xg,no,z1,14,xm,is, 4, 1,xo,y0,is, 5, 2,xm,xe,y0,no,
-		 y0,z3, 5,xp,xe,xc,no,z2, 4,xr,xm,no,y0
+		 y8,zz,is, 7, 3,xi,xp,xt,y8,zz,z1,15,xn,z1, 4,xo,y8,zz,z1, 7,xa,eq,
+		  6, 3,y8,zz,eq, 5, 6,z1, 4,xb,y8,zz,y0,z2, 4,xe,xe,y0,is, 8, 2,xe,
+		 xy,y8,p2,xi,xs,is, 6, 2,xs,xd,y8,zz,z3, 8,xi,xr,xc,y8,p2,xi,xs,z1,
+		 27,xa,z2, 7,xt,xs,y8,p2,xi,xs,z1, 6,xo,y8,p2,xi,xs,z3, 8,xh,xp,xm,
+		 y8,p2,xi,xs,y0,z3, 6,xn,xe,xl,y8,zz,z1,31,xo,z1,12,xh,is, 8, 2,xc,
+		 xp,y8,p2,xi,xs,y0,z2, 7,xr,xu,y8,p2,xi,xs,z2, 7,xe,xh,y8,p2,xi,xs,
+		 z1,18,xp,z2, 7,xo,xn,y8,p2,xi,xs,z2, 7,xa,xn,y8,p2,xi,xs,z4, 7,xi,
+		 xl,xo,xp,y8,zz,y0,z1,57,xh,is, 4, 1,xt,y0,z1,47,xc,eq, 5, 2,y0,eq,
+		  6,16,z2, 5,xi,xr,y8,zz,is, 7, 3,xn,xr,xt,y8,zz,y0,eq, 7,11,z2, 4,
+		 xi,xl,y0,z2, 4,xe,xr,y0,z1, 9,xa,is, 6, 3,xd,xh,xr,y0,y8,zz,is, 5,
+		  1,xx,y8,zz,z1,28,xz,z1, 4,xt,y8,zz,z1,20,xz,z2, 5,xe,xf,y7,zz,z2,
+		  5,xi,xu,y7,zz,z2, 5,xi,xh,y7,zz,z1,96,xv,z3, 7,xo,xo,xh,y7,p1,xf,
+		 z1,35,xl,z2, 6,xo,xw,y7,p1,xf,z1, 3,xo,y0,z1,10,xa,is, 7, 2,xc,xh,
+		 y7,p1,xf,z1, 9,xe,z1, 3,xd,no,y7,p1,xf,no,z2, 7,xi,xw,y7,p2,xf,xe,
+		 z2,24,xr,xa,z2, 6,xc,xs,y7,p1,xf,z2, 6,xh,xw,y7,p1,xf,z2, 6,xw,xd,
+		 y7,p1,xf,z1,16,xa,z2, 6,xo,xl,y7,p1,xf,z2, 6,xe,xh,y7,p1,xf,y0,z1,
+		 89,xi,z2, 4,xn,xn,no,z2, 4,xm,xe,y0,z3, 5,xm,xa,xn,y0,z2, 4,xs,xt,
+		 y0,z2, 4,xh,xc,y0,z2, 4,xj,xo,y0,is, 6, 3,xn,xz,xq,y0,z3, 5,xl,xa,
+		 xk,y0,z3, 5,xd,xa,xh,y0,z3, 5,xd,xu,xa,y0,z3, 5,xl,xe,xa,y0,z3, 5,
+		 xt,xa,xr,y0,z1,17,xx,z2, 4,xe,xh,no,z1, 8,xa,is, 5, 2,xl,xr,no,y0,
+		 no,z1,70,xu,z1, 8,xn,z2, 4,xe,xm,y0,no,z2, 4,xa,xe,y0,z1,11,xt,is,
+		  7, 4,xa,xc,xi,xo,no,y0,z2, 4,xd,xn,y0,z2,11,xl,xu,is, 6, 3,xl,xt,
+		 xz,y0,no,z2, 4,xm,xu,y0,z3, 5,xr,xu,xg,y0,z1,12,xa,z2, 4,xl,xu,y0,
+		 z1, 3,xu,y0,no,no,is, 5, 2,xs,xu,no,z1,39,xa,is, 5, 2,xv,xx,no,z2,
+		  4,xs,xn,no,z2, 4,xi,xl,no,z2, 4,xl,xg,no,z1,14,xm,is, 4, 1,xo,y0,
+		 is, 5, 2,xm,xe,y0,no,y0,z3, 5,xp,xe,xc,no,z2, 4,xr,xm,no,y0
 	};
 
 	static final short[] dropED = {
