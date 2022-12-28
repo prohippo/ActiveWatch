@@ -349,3 +349,8 @@ Release History:
 	                   clean up indentation in source code
 	                   update documentation
 
+	v2.6	28dec2022  allow up to 16,384 vectors to be clustered in a batch
+	                   allow for more clusters
+	                   clean up indentation in source code
+	                   fix subsegment designations in tools output
+	                   update documentation 
