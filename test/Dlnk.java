@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dlnk.java : 03Mar99 CPM
+// Dlnk.java : 26dec2022 CPM
 // dump saved links from similarity measures computed for pairs of squeezed vectors
 
 package test;
@@ -39,12 +39,12 @@ public class Dlnk {
 		float v;
 		String x;
 		Subsegment ss;
-		
+
 		float minv = (av.length > 0) ? Float.valueOf(av[0]).floatValue() : 0;
-		
+
 		try {
 			LinkMapping lm = new LinkMapping();
-			
+
 			DataInputStream in;
 			File f = new File("links");
 			int nlm = (int)(f.length()/Link.size);
@@ -57,18 +57,18 @@ public class Dlnk {
 					break;
 				Item itm = lm.fromLinkIndex(m);
 				Item itn = lm.fromLinkIndex(n);
-				
+
 				v = in.readFloat();
 				if (v < minv)
 					continue;
-					
+
 				ss = new Subsegment(itm.bn,itm.xn);
-				x = " " + itm.bn + ":" + ss.it;
+				x = " " + itm.bn + "::" + ss.it;
 				for (int k = x.length(); k < 7; k++)
 					System.out.print(" ");
 				System.out.print(x + " x");
 				ss = new Subsegment(itn.bn,itn.xn);
-				x = " " + itn.bn + ":" + ss.it;
+				x = " " + itn.bn + "::" + ss.it;
 				for (int k = x.length(); k < 7; k++)
 					System.out.print(" ");
 				System.out.print(x);
@@ -76,7 +76,7 @@ public class Dlnk {
 			}
 			System.out.println(nl + " links");
 		} catch (EOFException e) {
-		
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (AWException e) {

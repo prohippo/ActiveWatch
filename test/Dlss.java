@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dlss.java : 17jul2021 CPM
+// Dlss.java : 26dec2022 CPM
 // dump AW profile match lists with selection of information
 
 package test;
@@ -34,12 +34,12 @@ import java.io.*;
 public class Dlss {
 
 	static private int N = 10;
-	
+
 	static public void main ( String[] a ) {
 		Map m = new Map();  // map of current profiles
 		ProfileList ls;     // profile records
 		Attribute   at;     // associated profile attributes
-		
+
 		char   mod = (a.length > 0) ? Character.toUpperCase(a[0].charAt(0)) : 'N';
 		double thr = (a.length > 1) ? Float.valueOf(a[1]).floatValue() : 3.0;
 
@@ -79,7 +79,7 @@ public class Dlss {
 				return;
 			}
 		}
-		
+
 		System.out.println();
 		int un = tally.uniqueCount();
 		double r = (100.*total)/un;
@@ -87,7 +87,7 @@ public class Dlss {
 		System.out.println("redundancy = " + Format.it(r-100,5,1) + " percent");
 		if (mod != 'A' || thr > 0)
 			return;
-		
+
 		System.out.println();
 		System.out.println("dumping residuals");
 		Residual rs;
@@ -115,7 +115,7 @@ public class Dlss {
 			}
 		}
 	}
-	
+
 	private static void print (
 		int  k,
 		int bn,
@@ -131,7 +131,7 @@ public class Dlss {
 			System.err.println("cannot get subsegments: " + e);
 			return;
 		}
-		System.out.print("| " + bn + ":" + ss.it);
+		System.out.print("| " + bn + "::" + ss.it);
 		System.out.print(" = " + Format.it(score,6,2));
 		System.out.println("  (::" + xn + " =" + ss.sn + ")");
 		if (showText) {
@@ -142,5 +142,5 @@ public class Dlss {
 			System.out.println("==== ==== ==== ====");
 		}
 	}
-	
+
 }
