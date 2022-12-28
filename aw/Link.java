@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Link.java : 08Jan04 CPM
+// AW file Link.java : 26dec2022 CPM
 // class for cluster links with I/O
 
 package aw;
@@ -33,30 +33,30 @@ public class Link {
 
 	public static final String file      = "links";      // default file name
 	public static final String duplicate = "duplicates"; // for any duplicates
-	
+
 	public static final int size = 8; // link record size
-	
+
 	private static DataInputStream    in;
 	private static DataOutputStream  out;
     
-    private static InputStream  inputs;
-    private static OutputStream outputs;
+	private static InputStream  inputs;
+	private static OutputStream outputs;
     
-    public static void setInput  ( InputStream  input  ) { inputs  = input; }
-    public static void setOutput ( OutputStream output ) { outputs = output; }
-	
-	public static final short MXTC = 8192;   // maximum number of items to cluster
-	
-	public static final int   MXML = 125000; // maximum link count
+	public static void setInput  ( InputStream  input  ) { inputs  = input; }
+	public static void setOutput ( OutputStream output ) { outputs = output; }
+
+	public static final short MXTC =  16384; // maximum number of items to cluster
+
+	public static final int   MXML = 250000; // maximum link count
 
 	public short  from; // start of link
 	public short    to; // end   of link
 	public float value; // link significance score
-	
+
 	// close all files (redundant for robustness)
-	
+
 	public static void close (
-	
+
 	) throws AWException {
 		try {
 			if (in  != null)
@@ -71,7 +71,7 @@ public class Link {
 	}
 
 	// create a new link with specified entries
-		
+
 	public Link (
 		short from,
 		short to,
@@ -79,9 +79,9 @@ public class Link {
 	) {
 		set(from,to,value);
 	}
-	
+
 	// set fields of link
-	
+
 	public void set (
 		short from,
 		short to,
@@ -91,19 +91,19 @@ public class Link {
 		this.to    = to;
 		this.value = value;
 	}
-	
+
 	// create empty link
-	
+
 	public Link (
-	
+
 	) throws AWException {
 
 	}
 
 	// read link record
-		
+
 	public void load (
-	
+
 	) throws AWException {
 		try {
 			if (in == null)
@@ -119,9 +119,9 @@ public class Link {
 			throw new AWException("no links",e);
 		}
 	}
-	
+
 	// read link record from stream with automatic closing
-	
+
 	public boolean load (
 		DataInput input
 	) throws AWException {
@@ -134,11 +134,11 @@ public class Link {
 			throw new AWException("link read",e);
 		}
 	}
-	
+
 	// write link record with automatic closing
 
 	public void save (
-	
+
 	) throws AWException {
 		try {
 			if (out == null)
@@ -154,9 +154,9 @@ public class Link {
 			throw new AWException("cannot save links",e);
 		}
 	}
-	
+
 	// write link record to stream
-	
+
 	public boolean save (
 		DataOutput output
 	) throws AWException {
@@ -169,6 +169,6 @@ public class Link {
 			throw new AWException("cannot write link",e);
 		}
 	}
-	
+
 }
 

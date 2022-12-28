@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Map.java : 20nov2021 CPM
+// AW file Map.java : 26dec2022 CPM
 // profile allocation map
 
 package aw;
@@ -31,7 +31,7 @@ import java.io.*;
 
 public class Map {
 
-	public  static final int MXSP = 720; // maximum number of profiles
+	public  static final int MXSP = 960; // maximum number of profiles
 
 	private static final String file = "maps";
 

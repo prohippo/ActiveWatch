@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Sequencer.java : 10aug2021 CPM
+// AW file Sequencer.java : 26dec2022 CPM
 // create run sequence file for clustering
 
 package aw.sequence;
@@ -32,7 +32,7 @@ import java.io.*;
 
 public class Sequencer {
 
-	private static final int M = 8192; // default maximum to cluster in a batch
+	private static final int M = Link.MXTC; // default maximum to cluster in a batch
 
 	public Sequence sq = new Sequence(1);
 
