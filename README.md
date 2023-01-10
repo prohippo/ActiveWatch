@@ -354,3 +354,9 @@ Release History:
 	                   clean up indentation in source code
 	                   fix subsegment designations in tools output
 	                   update documentation 
+
+	v2.6.1  10jan2023  fix bugs in inflectional stemming and test
+	                   fix bug  in token substitution rule file name
+	                   add TKNZR and DINF tools to AW repository
+	                   clean build file for tools
+	                   update documentation
