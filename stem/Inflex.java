@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Inflex.java : 20sep2021 CPM
+// AW File Inflex.java : 09jan2023 CPM
 // standard inflectional stemmer for English
 
 package stem;
@@ -36,9 +36,9 @@ public class Inflex {
 
  	private static final short
 		nfai= 0, nsuc=-10,
-		nbeg= 8, 
-		nisa=16, 
-		nlen=24, 
+		nisa=10, 
+		nbeg=16,
+		nlen=20, 
 		ndbl=32;
 
 	// return codes for deflex and reflex
@@ -51,7 +51,7 @@ public class Inflex {
 
 	// for communicating between methods
 
-	private static byte last = 0;
+	private static byte last = (byte) 0xFF;
 
 	// apply logic of inflectional stemming table against word
 	
@@ -69,9 +69,8 @@ public class Inflex {
  		boolean match; // length comparison flag
  		
 		it = 0;
-		m = end;
-		n = table[it++];
-//		System.out.println("m= " + m + ", n= " + n);
+		m = end;          // length of word to stem
+		n = table[it++];  // length of candidate ending
     	
 		if (n >= end)
 			return isNOTP;
@@ -81,67 +80,51 @@ public class Inflex {
 		for (i = 0; i < n; i++)
 			if (word.array[--end] != (byte) table[it++])
 				return isNOTP;
+//		System.out.println("\nm= " + m + ", n= " + n);
+//		System.out.println("word= " + word + ", last= " + last);
 
 		// scan table logic
  
 		while ((opcode = table[it++]) != 0) {
  
 //			System.out.println("opcode= " + opcode + ", end= " + end);
+//			System.out.println("it= " + it);
 			if (opcode < 0) {
  
 				// word satisfies conditions for removing ending
 
-//				System.out.println("opcode= " + opcode + ", end= " + end);
 //				System.out.println("word= [" + word + "]");
-				ne = opcode - nsuc;   // more length adjustment
-//				System.out.println("old end= " + end);
+				ne = nsuc - opcode;   // more length adjustment
 //				System.out.println("ne= " + ne);
 
 				end = m - n;
-				if (ne <= 0) {
-//					System.out.println("new end= " + end);
+//				System.out.println("opcode= " + opcode + ", end= " + end);
+				if (n == 0) {
+//					System.out.println("alt new end= " + end);
 					word.setLength(end);
-					if (ne < 0)
-						word.append(last);
+					word.array[end] = last;
 //					System.out.println("word= [" + word + "]");
-					return isSUCC;
 				}
 	
-				end -= ne - 1;
-
-//				System.out.println("new end= " + end);
+				end += ne;
+//				System.out.println("reg new end= " + end);
 				word.setLength(end);
 //				System.out.println("root word= [" + word + "]");
-				k = table[it++];	
-//				System.out.println("k= " + k);
-				for (i = 0; i < k; i++)
-					word.append((byte)table[it++]);
+				k = table[it];	
+				if (0 < k & k < 4) {
+//					System.out.println("add k= " + k);
+					it++;
+					for (i = 0; i < k; i++)
+						word.append((byte)table[it++]);
 
-//				System.out.println("extended word= [" + word + "]");
-
-				return isSUCC;
-			}
- 
-			else if (opcode < nbeg) {
- 
-				// conditionally enter logic block on matching a character sequence
-
-				if (end - opcode < 0)
-					it += table[it];
-				else {
-					for (i = 1; i <= opcode && word.array[end - i] == table[it + i]; i++) ;
-					if (i > opcode) {
-						it  += opcode + 1;
-						end -= opcode;
-					}
-					else
-						it += table[it];
+//					System.out.println("extended word= [" + word + "]");
 				}
+				return isSUCC;
 			}
  
 			else if (opcode < nisa) {
  
-				// check whether next character is in a specified set
+				// check whether next character is in a specified subset
 
 				if (end > 0) {
 					base = it + 1;
@@ -155,6 +138,24 @@ public class Inflex {
 				}
 				else
 					it += table[it];
+			}
+ 
+			else if (opcode < nbeg) {
+ 
+				// conditionally enter logic block on matching a character sequence
+
+				int lm = opcode - nisa;
+				if (end - lm < 0)
+					it += table[it];
+				else {
+					for (i = 1; i <= lm && word.array[end - i] == table[it + i]; i++) ;
+					if (i > lm) {
+						it  += lm + 1;
+						end -= lm;
+					}
+					else
+						it += table[it];
+				}
 			}
  
 			else if (opcode < nlen) {
@@ -265,7 +266,7 @@ public class Inflex {
 				word.setLength(--len);
 				last = w[len];
 				deflexen(word,len,Table.undouble);
-				last = 0;
+				last = (byte) 0xFF;
 			}
 			else
 				deflexen(word,word.length(),Table.special);
