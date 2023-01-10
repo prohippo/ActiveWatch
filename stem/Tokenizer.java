@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW File Tokenizer.java : 08nov2022 CPM
+// AW File Tokenizer.java : 10jan2023 CPM
 // extract tokens from a segment of English text
 
 package stem;
@@ -80,6 +80,8 @@ public class Tokenizer {
 
 	// put token into stemmed form and indicate stopping
 
+	private static boolean check = false;
+
 	protected boolean stopped (
 
 		Token token
@@ -88,12 +90,13 @@ public class Tokenizer {
 		if (token.length() <= 0)
 			return true;
 
+		System.out.println("0 token: " + token);
 		Inflex.inflex(token);
-//		System.out.println("token: " + token);
+		System.out.println("1 token: " + token);
 		suffix.stem(token);
-//		System.out.println("token: " + token);
+//		System.out.println("2 token: " + token);
 		ts.substitute(token);
-//		System.out.println("token: " + token);
+//		System.out.println("3 token: " + token);
 
 		int start = offset - length;
 		char left,right;
@@ -104,7 +107,11 @@ public class Tokenizer {
 			right = (offset == text.length()) ? NL : text.charAt(offset);
 		}
 
-		return (table.stop(token) > 0 || pattern.stopat(token,left,right));
+		if (table.stop(token) > 0 || pattern.stopat(token,left,right)) {
+			System.out.println("4 token: " + token);
+			return true;
+		}
+		return false;
 	}
 
 	public int offset; // position of token
@@ -144,7 +151,7 @@ public class Tokenizer {
 
 			token.set(s);
 
-//			System.out.println("token= " + token);
+			System.out.println("token= " + token);
 
 			if (!stopped(token))
 				break;
@@ -153,8 +160,13 @@ public class Tokenizer {
 
 		}
 
+		System.out.println("return token= " + token);
 		return token;
 	}
+
+	// get where to get next token from
+
+	public final int getOffset ( ) { return in.getOffset(); }
 
 	// unit test
 
@@ -164,6 +176,7 @@ public class Tokenizer {
 		int ip = (as.length > 1) ? Integer.parseInt(as[1]) : -1;
 		int nn = (as.length > 2) ? Integer.parseInt(as[2]) : 10;
 //		System.out.println("ip= " + ip + ", nn= " + nn);
+		check = true;
 		try {
 			Stem   mor = new Stem(new DataInputStream(new FileInputStream("sufs")));
 			Stop   stp = new Stop(new DataInputStream(new FileInputStream("stps")));
@@ -183,17 +196,11 @@ public class Tokenizer {
 			}
 //			System.out.println("ip= " + ip + ", nn= " + nn);
 			mor.dump(ip,ip+nn-1);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.err.println(e);
 			System.exit(1);
-		} catch (AWException e) {
-			System.err.println(e);
-                        System.exit(2);
 		}
 
 	}
 
-	// get where to get next token from
-
-	public final int getOffset ( ) { return in.getOffset(); }
 }

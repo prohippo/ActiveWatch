@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TokenSubstitution.java : 27May00 CPM
+// TokenSubstitution.java : 30dec2022 CPM
 // pre-analysis substitution from a table of patterns
 
 package stem;
@@ -34,13 +34,13 @@ class SubstitutionEntry {
 
 	private static final String ditto = "\"";
 	private static       Token  last  = new Token();
-	
+
 	private TokenPattern cx; // pattern to match
 	private TokenPattern fm; // pattern to match
 	private Token  to;       // its substitution
-	
+
 	// create table entry
-	
+
 	public SubstitutionEntry (
 		String fms,
 		String tos
@@ -55,47 +55,47 @@ class SubstitutionEntry {
 		fm = new TokenPattern(fms);
 		to = last = (tos.equals(ditto)) ? last : new Token(tos);
 	}
-	
+
 	public final Token token (
 	) {
 		return to;
 	}
-	
+
 	public final boolean matchable (
 		int n
 	) {
 		return fm.matchable(n);
 	}
-	
+
 	public final boolean comparePattern (
 		Token tk
 	) {
 		return fm.match(tk);
 	}
-	
+
 	public final boolean compareContext (
 		Token tk
 	) {
 		return (cx == null) ? true : cx.match(tk);
 	}
-	
+
 }
 
 public class TokenSubstitution {
 
 	private static final int M = 64;
-	
+
 	private static SubstitutionEntry[] table = new SubstitutionEntry[M];
 	private static int count;
-	
+
 	// load table from file
-	
+
 	public TokenSubstitution (
 		String file
 	) {
 		count = 0;
 		try {
-		
+
 			Token fm;
 			String entry;
 			BufferedReader in = new BufferedReader(new FileReader(file));
@@ -112,23 +112,28 @@ public class TokenSubstitution {
 				table[count++] = new SubstitutionEntry(pat,sub);
 			}
 			in.close();
-			
+
 		} catch (IOException e) {
+			System.err.println(e);
+			count = 0;
 		}
 	}
-	
+
 	// make substitution
-	
+
 	public final void substitute (
 		Token t
 	) {
+		System.out.println("substitute " + t);
 		int n = t.length();
 		for (int i = 0; i < count; i++) {
 			SubstitutionEntry se = table[i];
 			if (se.matchable(n))
-				if (se.comparePattern(t) && se.compareContext(t))
+				if (se.comparePattern(t) && se.compareContext(t)) {
+					System.out.println("done: " + t);
 					t.set(se.token());
+				}
 		}
 	}
-	
+
 }
