@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TokenSubstitution.java : 30dec2022 CPM
+// TokenSubstitution.java : 10jan2023 CPM
 // pre-analysis substitution from a table of patterns
 
 package stem;
@@ -124,13 +124,13 @@ public class TokenSubstitution {
 	public final void substitute (
 		Token t
 	) {
-		System.out.println("substitute " + t);
+//		System.out.println("substitute " + t);
 		int n = t.length();
 		for (int i = 0; i < count; i++) {
 			SubstitutionEntry se = table[i];
 			if (se.matchable(n))
 				if (se.comparePattern(t) && se.compareContext(t)) {
-					System.out.println("done: " + t);
+//					System.out.println("done: " + t);
 					t.set(se.token());
 				}
 		}

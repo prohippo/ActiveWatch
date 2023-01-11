@@ -90,9 +90,9 @@ public class Tokenizer {
 		if (token.length() <= 0)
 			return true;
 
-		System.out.println("0 token: " + token);
+//		System.out.println("0 token: " + token);
 		Inflex.inflex(token);
-		System.out.println("1 token: " + token);
+//		System.out.println("1 token: " + token);
 		suffix.stem(token);
 //		System.out.println("2 token: " + token);
 		ts.substitute(token);
@@ -108,7 +108,7 @@ public class Tokenizer {
 		}
 
 		if (table.stop(token) > 0 || pattern.stopat(token,left,right)) {
-			System.out.println("4 token: " + token);
+//			System.out.println("4 token: " + token);
 			return true;
 		}
 		return false;
@@ -151,7 +151,7 @@ public class Tokenizer {
 
 			token.set(s);
 
-			System.out.println("token= " + token);
+//			System.out.println("token= " + token);
 
 			if (!stopped(token))
 				break;
@@ -160,7 +160,7 @@ public class Tokenizer {
 
 		}
 
-		System.out.println("return token= " + token);
+//		System.out.println("return token= " + token);
 		return token;
 	}
 
