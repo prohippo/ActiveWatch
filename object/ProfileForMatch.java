@@ -22,63 +22,37 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// ProfileToUse.java : 13jan2023 CPM
-// support alternate I/O
+// ProfileForMatch.java : 13jan2023 CPM
+// set for fast sequential scanning of index vectors
 
 package object;
 
-import aw.AWException;
-import aw.Profile;
-import java.io.*;
+import aw.*;
 
-public class ProfileToUse extends Profile {
+public class ProfileForMatch extends Profile {
 
-	public static final String name = "profile";
+	public int     xl;
+	public short[] xs = new short[MXP]; // extents for indices
 
-	public ProfileToUse ( ) { }
+	public ProfileForMatch ( Profile pro ) {
+		nhth = pro.nhth;
+		shth = pro.shth;
+		sgth = pro.sgth;
+		uexp = pro.uexp;
+		uvar = pro.uvar;
+		gms  = pro.gms;
+		wts  = pro.wts;
+		trc  = pro.trc;
 
-	public ProfileToUse ( String file ) throws AWException {
-		load(file);
-	}
-
-	public ProfileToUse ( int n ) throws AWException {
-		super();
-		if (n == 0)
-			load(name);
-		else
-			load(n);
-	}
-
-	public ProfileToUse ( Profile pp ) {
-		super();
-		nhth = pp.nhth;
-		shth = pp.shth;
-		sgth = pp.sgth;
-		uexp = pp.uexp;
-		uvar = pp.uvar;
-		gms  = pp.gms;
-		wts  = pp.wts;
-		trc  = pp.trc;
-	}
-
-	public final void save ( String file ) throws AWException {
-		try {
-			io = new RandomAccessFile(file,"rw");
-			saveF();
-			io.close();
-		} catch (IOException ioe) {
-			throw new AWException(ioe);
-		}
-	}
-
-	public final void load ( String file ) throws AWException {
-		try {
-			io = new RandomAccessFile(file,"r");
-			loadF();
-			io.close();
-		} catch (IOException ioe) {
-			throw new AWException(ioe);
-		}
+		short en = 0;
+		for (xl = 0; xl < MXP; xl++) {
+			int ng = gms[xl];
+			if (ng > Parameter.MXI)
+				break;
+			while (Parameter.EB[en + 1] <= ng)
+				en++;
+			xs[xl] = en;
+		} 
 	}
 
 }

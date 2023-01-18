@@ -22,63 +22,63 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// ProfileToUse.java : 13jan2023 CPM
-// support alternate I/O
+// AW file SequentialScan.java : 13jan2023 CPM
+// compute similarity for each vector in batch
 
 package object;
 
-import aw.AWException;
-import aw.Profile;
+import aw.*;
 import java.io.*;
 
-public class ProfileToUse extends Profile {
+public class SequentialScan {
 
-	public static final String name = "profile";
+	private int bno = 0; // batch
+	private int ssn = 0; // subsegment
 
-	public ProfileToUse ( ) { }
+	private boolean fss = false;
 
-	public ProfileToUse ( String file ) throws AWException {
-		load(file);
+	private ProfileForMatch  ps; // profile to search with
+	private double           th; // squared search threshold
+
+	// constructor
+
+	public SequentialScan (
+		int              bn, // batch to search
+		ProfileForMatch  ps  // profile
+	) {
+
+		bno = bn;
+		ssn = 0;
+		this.ps = ps;
+		th = ps.sgth*ps.sgth;
+
 	}
 
-	public ProfileToUse ( int n ) throws AWException {
-		super();
-		if (n == 0)
-			load(name);
-		else
-			load(n);
+	// compute next scaled similarity score
+
+	private IndexVectorForMatch sv;
+
+	public double next (
+
+	) throws AWException {
+
+		sv = new IndexVectorForMatch(new IndexVector(bno,ssn++));
+		fss = (sv.subsegmentIndex() == 1);
+        if (sv.match(ps,th))
+            return sv.scaledSimilarity();
+        else
+            return -1;
+
 	}
 
-	public ProfileToUse ( Profile pp ) {
-		super();
-		nhth = pp.nhth;
-		shth = pp.shth;
-		sgth = pp.sgth;
-		uexp = pp.uexp;
-		uvar = pp.uvar;
-		gms  = pp.gms;
-		wts  = pp.wts;
-		trc  = pp.trc;
-	}
+	// was last score for first subsegment in item?
 
-	public final void save ( String file ) throws AWException {
-		try {
-			io = new RandomAccessFile(file,"rw");
-			saveF();
-			io.close();
-		} catch (IOException ioe) {
-			throw new AWException(ioe);
-		}
-	}
+	public final boolean firstSubsegment ( ) { return fss; }
 
-	public final void load ( String file ) throws AWException {
-		try {
-			io = new RandomAccessFile(file,"r");
-			loadF();
-			io.close();
-		} catch (IOException ioe) {
-			throw new AWException(ioe);
-		}
-	}
+	// get scan statistics
+
+	public final int actualSum ( ) { return sv.sum(); }
+
+	public final int fullSum ( ) { return sv.decodeSum(); }
 
 }
