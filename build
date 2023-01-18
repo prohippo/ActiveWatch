@@ -20,6 +20,9 @@ javac aw/phrase/LiteralPatternBuilder.java
 javac aw/phrase/EndingBuilder.java
 javac aw/phrase/AnalyzerMain.java
 javac aw/phrase/PhraserMain.java
+javac aw/plot/PlotterMain.java
+javac aw/rank/RankerMain.java
+javac aw/hub/HubberMain.java
 
 jar cfe ENDBLD aw.phrase.EndingBuilder \
 aw/LimitedString.class \
@@ -143,7 +146,7 @@ aw/Member.class \
 aw/cluster/Clusterer.class \
 aw/cluster/ClustererMain.class \
 aw/cluster/Clustering.class \
-aw/cluster/LinkMatrix.class
+object/LinkMatrix.class
 
 jar cfe INDEXR aw.index.IndexerMain   \
 aw/AWException.class \
@@ -762,3 +765,67 @@ stem/Translation.class \
 web/ThreadTimer.class \
 web/TimedURL.class
 
+jar cfe PLOTTR aw.plot.PlotterMain \
+aw/AWException.class \
+aw/Banner.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Filter.class \
+aw/Offset.class \
+aw/OffsetBase.class \
+aw/Parameter.class \
+aw/Profile.class \
+aw/ProfileFile.class \
+aw/Vector.class \
+aw/plot/Plotter.class \
+aw/plot/PlotterMain.class \
+object/CodedVector.class \
+object/CodedVectorBase.class \
+object/IndexVector.class \
+object/IndexVectorForMatch.class \
+object/ProfileForMatch.class \
+object/ProfileToUse.class \
+object/SequentialScan.class \
+object/SimpleIndexVector.class
+
+jar cfe RANKER aw.rank.RankerMain \
+aw/AWException.class \
+aw/Banner.class \
+aw/FileAccess.class \
+aw/Item.class \
+aw/Map.class \
+aw/rank/Ranker.class \
+aw/rank/RankerMain.class \
+object/ItemCounter.class \
+object/ItemCounter\$Entry.class \
+object/ItemCounter\$Record.class \
+object/ListHead.class \
+object/ListNode.class \
+object/ProfileList.class
+
+jar cfe HUBBER aw.hub.HubberMain \
+aw/AWException.class \
+aw/Banner.class \
+aw/BatchFile.class \
+aw/Control.class \
+aw/FileAccess.class \
+aw/FileName.class \
+aw/Format.class \
+aw/Item.class \
+aw/Link.class \
+aw/Offset.class \
+aw/OffsetBase.class \
+aw/Run.class \
+aw/Sequence.class \
+aw/Subsegment.class \
+aw/hub/Hubber.class \
+aw/hub/HubberMain.class \
+object/ItemCounter\$Entry.class \
+object/ItemCounter\$Record.class \
+object/ItemCounter.class \
+object/ItemRun.class \
+object/LinkMapping.class \
+object/LinkMatrix.class \
+object/RunIndex.class

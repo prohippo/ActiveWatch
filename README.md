@@ -360,3 +360,9 @@ Release History:
 	                   add TKNZR and DINF tools to AW repository
 	                   clean build file for tools
 	                   update documentation
+
+	v2.7    18jan2023  add PLOTTR, RANKER, HUBBER analysis modules
+	                   add general class to select items by degree of linkage
+	                   move LinkMatrix to object package
+	                   clean up clustering source file formatting
+	                   update documentation
