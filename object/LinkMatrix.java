@@ -22,10 +22,10 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// LinkMatrix.java : 04Oct02 CPM
+// LinkMatrix.java : 16jan2023 CPM
 // full link matrix for computations
 
-package aw.cluster;
+package object;
 
 import aw.*;
 
@@ -45,41 +45,41 @@ public class LinkMatrix {
 	public short[] lvU; // value of link
 	public int []  lrL; // link row index lower triangle
 	public short[] lkL; // item linked to
-	
-	public int nrow;    // last row in link matrix
-    public int nent;    // number of distinct link entries
 
-    private double vm = 0; // maximum link value
-    
+	public int nrow;    // last row in link matrix
+	public int nent;    // number of distinct link entries
+
+	private double vm = 0; // maximum link value
+
 	// start with empty matrix
-	
+
 	public LinkMatrix (
-	
+
 		int liml   // link array limit
-		
+
 	) throws AWException {
-	
+
 		lrU = new int[Link.MXTC + 2];
 		lkU = new short[liml];
 		lvU = new short[liml];
 		lrL = new int[Link.MXTC + 2];
 		lkL = new short[liml];
-		
+
 		Link.close();
-		
+
 		int[] nn = new int[Link.MXTC]; // source row numbers for backfill
 		int[] np = new int[Link.MXTC]; // indices of next element in each row
 
 		// initialize column backfill limits and allocation indices        
-        
-    	int  neU = 0; //
-    	int  neL = 0; // allocation pointer for links        
+
+		int  neU = 0; //
+		int  neL = 0; // allocation pointer for links        
 		short no = 0; // number of saved rows for backfill
 		short nno;    // value of no for next iteration
 		short mx = 0;     // highest column referenced
 		short mn = LKLMT; // lowest  column referenced yet to do
-        short rw = 0; // row index
-		
+		short rw = 0; // row index
+
 
 		// iterate on links from file
 
@@ -88,20 +88,20 @@ public class LinkMatrix {
 		short m = lk.from;    // linkage
 		short n = lk.to;      //
 		float v = lk.value;   // link strength
-		
+
 		for (short prw = 0;;) {
-		
+
 			// fill lower triangle to next row referenced, if any;
 			// otherwise fill out remaining column entries from old rows
 
 			rw = (m < Link.MXTC) ? m : mx; // (< IS the correct comparison)
-			
+
 			for (int i = prw + 1; i <= rw; i++) {
 				lrL[i] = neL;
 				lrU[i] = neU;
 
 				// check whether row occurs as column in previous row
-				
+
 				if (i == mn) {
 
 					nno = 0;
@@ -109,7 +109,7 @@ public class LinkMatrix {
 
 					// fill in lower triangle row from upper
 					// triangle links of previous rows
-					
+
 					for (int j = 0; j < no; j++) {
 						int nnj = nn[j];
 						int npj = np[j];
@@ -131,13 +131,13 @@ public class LinkMatrix {
 					no = nno;
 				}
 			}
-			
+
 			if (m > Link.MXTC)
 				break;
 
 			// put in upper triangle entries for next row,
 			// saving offset to start of allocation
-			
+
 			nn[no  ] = rw;
 			np[no++] = neU;
 
@@ -150,51 +150,51 @@ public class LinkMatrix {
 					vm = v;
 				if (v > UPPRL)
 					v = UPPRL;
-					
+
 				lvU[neU++] = (short) Math.round(SCALF*v);
-				
+
 				lk.load();
 				m = lk.from;
 				n = lk.to;
 				v = lk.value;
-				
+
 				if (m > Link.MXTC)
 					m = n = LKLMT;
-				
+
 			}
-			
+
 			if (mx < lkU[neU-1])
 				mx = lkU[neU-1];
 			prw = rw;
-			
+
 		}
-		
+
 		// fill in limits for last row (this is a dummy)
-			
+
 		lrL[rw+1] = neL;
 		lrU[rw+1] = neU;
-		
+
 		nrow = rw;
-        nent = neU;
-		
+		nent = neU;
+
 	}
-    
-    // print statistics
-    
-    public void show ( ) {
-    
+
+	// print statistics
+
+	public void show ( ) {
+
 		System.out.println("2 x " + nent + " matrix entries in all");
 		System.out.println("strongest link=" + vm);
-		
-    }
+
+	}
 
  	// reduces a row of similarity links by eliminating those
 	// between items without an alternate path of length 2
-	
+
 	public int prune (
-	
+
 		int row  // row to prune
-		
+
 	) {
  
  		int i,j,k,m;
@@ -237,7 +237,7 @@ public class LinkMatrix {
 				if (i < lrU[m+1])
 					break;
 			}
-			
+
 			if (j < jU)
 				continue;
 
@@ -255,7 +255,7 @@ public class LinkMatrix {
 				else
 					break;
 			}
-			
+
 			if (j < lrU[row+1] && i < lrU[k+1])
 				continue;
 
@@ -268,16 +268,16 @@ public class LinkMatrix {
 		return np;
 
 	}
-	
+
 	// drop links below threshold in a row
-	
+
 	public int drop (
-	
+
 		int  i, // row index
 		int th  // fixed-point threshold
-	
+
 	) {
-	
+
 		int nd = 0;
 		for (int j = lrU[i]; j < lrU[i+1]; j++) {
 			if (lkU[j] > 0 && lvU[j] < th) {
@@ -293,18 +293,18 @@ public class LinkMatrix {
 			}
 		}
 		return nd;
-		
+
 	}
-	
+
 	// set links used in clusters to zero and restore
 	// pruned and dropped links between residuals
 
 	public void narrow (
-		
+
 		boolean[] wh // which items are clustered
-		
+
 	) {
-	
+
 		for (short i = 1; i < wh.length; i++)
 			for (int j = lrU[i]; j < lrU[i+1]; j++) {
 				if (lkU[j] > 0) {
@@ -325,7 +325,7 @@ public class LinkMatrix {
 						}
 				}
 			}
-	
+
 	}
-	
+
 } 
