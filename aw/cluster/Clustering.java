@@ -22,12 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Clustering.java : 09nov2021 CPM
+// Clustering.java : 16jan2023 CPM
 // basic clustering with minimal spanning tree method
 
 package aw.cluster;
 
 import aw.*;
+import object.LinkMatrix;
 
 public class Clustering {
 
@@ -40,55 +41,55 @@ public class Clustering {
 	public short  count; // current number of clusters
 	public short  limit; // highest cluster number used
 	public short[] clsh; // cluster list heads
-	
+
 	private LinkMatrix matrix;
 
 	// allocate data structures for minimal spanning tree
-	
+
 	public Clustering (
-	
+
 		LinkMatrix x
-		
+
 	) {
 		int n = x.nrow + 1;
 
 		// allocate
-			
+
 		ncls = new short[n];
 		nlnk = new short[n];
 		hiz  = new short[n];
 		loz  = new short[n];
 		vcnt = new short[n];
 		clsh = new short[n];
-		
+
 		// initialize cluster lists
 
 		count = 0;
 		limit = 0;
-		
+
 		for (int i = 0; i < n; i++) {
 			ncls[i] = -1;
 			clsh[i] = -1;
 		}
-		
+
 		matrix = x;
-		
+
 	}
 
 	// produces a set of clusters from a set of links with
 	// a variation of the minimal spanning tree algorithm
 	// and returns the number of items clustered
-	
+
 	public int cluster (
-	
+
 		int row  // row to process
-		
+
 	) throws AWException {
-	
+
 		short first;  // in link
 		short second; // in link
 		short p,q;    // cluster list indices
-		
+
 		int no = 0;   // number of new clusters formed
 
 		for (int j = matrix.lrU[row]; j < matrix.lrU[row+1]; j++) {
@@ -103,16 +104,16 @@ public class Clustering {
 			first = matrix.lkU[j];
 			p = ncls[first];
 			if (p < 0) {
-			
+
 				// new clustered for unclustered item
-				
+
 				no++;
 				p = allocate();
 				insert(first,p);
 				vcnt[first] = 0;
 				hiz[p] = 0;
 				loz[p] = 10000;
-				
+
 			}
 			else if (clsh[p] < 0)
 				System.err.println("item " + first + " in null cluster " + p);
@@ -124,9 +125,9 @@ public class Clustering {
 
 			second = (short) row;
 			q = ncls[second];
-			
+
 			// merge clusters, if necessary
-			
+
 			if (q < 0) {
 				no++;
 				insert(second,p);
@@ -150,14 +151,14 @@ public class Clustering {
 			vcnt[second]++;
 
 		}
-		
+
 		return no;
 	}
 
 	// gets the index of the first free cluster list
 
 	private short allocate (
-	
+
 	) throws AWException {
 		for (short k = 0; k < clsh.length; k++)
 			if (clsh[k] < 0) {
@@ -187,7 +188,7 @@ public class Clustering {
 			nb = n;
 			n = nlnk[n];
 		}
-		
+
 		nlnk[item] = n;
 		if (nb < 0)
 			clsh[clsn] = (short) item;

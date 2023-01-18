@@ -22,12 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Clusterer.java : 08nov2021 CPM
+// Clusterer.java : 16jqn2023 CPM
 // derive cluster seeds
 
 package aw.cluster;
 
 import aw.*;
+import object.LinkMatrix;
 import java.io.*;
 
 public class Clusterer {
