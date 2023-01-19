@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Plotter.java : 15jan2013 CPM
+// AW file Plotter.java : 19jan2013 CPM
 // plot cluster profile matches along a time line
 // by producing a .csv file for input to a spreadsheet app
 
@@ -45,6 +45,8 @@ public class Plotter {
 
 	private int count = 0;           // how many vectors to scan;
 
+	private String fn;               // output .csv file name
+
 	public Plotter (
 		int bn,     // batch number
 		int cn,     // cluster number
@@ -59,6 +61,8 @@ public class Plotter {
 
 		Control ctl = new Control();
 		count = ctl.getBatchCount(bn);
+
+		fn = "PL" + String.valueOf(cn) + ".csv";
 	}
 
 	public void setThreshold ( double thr ) { minimumThreshold = thr; }
@@ -71,32 +75,42 @@ public class Plotter {
 
 	) throws AWException {
 		if (count == 0) return 0;
-		int[] rec = { 0 , 0 , 0 }; // bin width, hit count, maximum score
-		int j  = 0;
-		int k  = 0;
-		int kl = 0;
-		int lstkl = bins[j];
-		for (int i = 0; i < count; i++) {
-			if (k == kl) {
-				System.out.print(rec[0] + "," + rec[1] + ",");
-				System.out.printf("%.2f\n",rec[2]/100.);
-				rec[0] = rec[1] = rec[2] =  0;
-				k  = 0;
-				kl = (j < bins.length) ? bins[j++] : lstkl;
-				lstkl = kl;
+
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream(fn));
+
+			out.println("wd,ct,sg");
+			int[] rec = { 0 , 0 , 0 }; // bin width, hit count, maximum score
+			int j  = 0;
+			int k  = 0;
+			int kl = 0;
+			int lstkl = bins[j];
+			for (int i = 0; i < count; i++) {
+				if (k == kl) {
+					out.print(rec[0] + "," + rec[1] + ",");
+					out.printf("%.2f\n",rec[2]/100.);
+					rec[0] = rec[1] = rec[2] =  0;
+					k  = 0;
+					kl = (j < bins.length) ? bins[j++] : lstkl;
+					lstkl = kl;
+				}
+				k++;
+				rec[0]++;
+				double ss = scn.next();
+				if (ss >= pro.sgth) {
+//					System.out.println("ss= " + ss);
+					rec[1]++;
+				}
+				int ssn = (int)(100*ss);
+				if (rec[2] < ssn) rec[2] = ssn;
 			}
-			k++;
-			rec[0]++;
-			double ss = scn.next();
-			if (ss >= pro.sgth) {
-//				System.out.println("ss= " + ss);
-				rec[1]++;
-			}
-			int ssn = (int)(100*ss);
-			if (rec[2] < ssn) rec[2] = ssn;
+			out.print(rec[0] + "," + rec[1] + ",");
+			out.printf("%.2f\n",rec[2]/100.);
+			out.close();
+		} catch (IOException e) {
+			System.err.println(e);
+			return 0;
 		}
-		System.out.print(rec[0] + "," + rec[1] + ",");
-		System.out.printf("%.2f\n",rec[2]/100.);
 		return count;
 	}
 
