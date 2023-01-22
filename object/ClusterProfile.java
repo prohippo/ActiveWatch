@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ClusterProfile.java : 09dec2022 CPM
+// AW file ClusterProfile.java : 19jqn2023 CPM
 // cluster profile generation from examples
 
 package object;
