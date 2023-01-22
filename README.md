@@ -366,3 +366,7 @@ Release History:
 	                   move LinkMatrix to object package
 	                   clean up clustering source file formatting
 	                   update documentation
+
+	v2.7.1  22jan2023  add DSRV, DQBK, DQBE tools for command line search
+	                   clean up source code
+		           update documentation
