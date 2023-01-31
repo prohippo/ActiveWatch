@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TGbase.java : 12nov2121 CPM
+// TGbase.java : 29jan2023 CPM
 // diagnostic tool showing n-gram indexing
 
 package test;
@@ -34,7 +34,7 @@ import object.AnalyzedToken;
 import java.io.*;
 
 public class TGbase extends TextAnalysisFile {
-	
+
 	private FastProbabilities pb=null;
 	private GramDecode gd=null;
 
