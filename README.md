@@ -370,3 +370,7 @@ Release History:
 	v2.7.1  22jan2023  add DSRV, DQBK, DQBE tools for command line search
 	                   clean up source code
 		           update documentation
+
+	v2.7.2  31jan2023  improve DSRV output
+	                   clean up source code
+	                   add DSMX and DSIM tools for testing
