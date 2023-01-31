@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dsrv.java : 20jan2023 CPM
+// Dsrv.java : 29jan2023 CPM
 
 package test;
 
@@ -71,7 +71,7 @@ class InstrumentedScan extends SequentialScan {
 			float thr = (a.length > 2) ? Double.valueOf(a[2]).floatValue() : 6.0F;
 			int   bno = (a.length > 3) ? Integer.parseInt(a[3]) :   0;
 
-			System.out.print("statistical scan of up to " + lim + " vectors with ");
+			System.out.print("scan up to " + lim + " vectors in batch " + bno + " with ");
 			if (pno == 0)
 				System.out.println("current profile");
 			else
@@ -102,7 +102,8 @@ class InstrumentedScan extends SequentialScan {
 					}
 				}
 
-				System.out.println(n + " vectors matched above threshold out of " + lim);
+				System.out.print  (n + " vectors matched out of " + lim + " at min threshold = ");
+				System.out.println(Format.it(thr,4,1));
 				System.out.print  ("scanned " + sc.actual + "/" + sc.full);
 				double percent = (100.*sc.actual)/sc.full;
 				System.out.println(" = " + Format.it(percent,5,1) + " percent of vector indices");
