@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dqbe.java : 19jan2023 CPM
+// Dqbe.java : 17feb2023 CPM
 // create profile from given items
 
 package test;
@@ -59,8 +59,8 @@ public class Dqbe {
 		}
 
 		int n = a.length;
-		if (n < B + 1 - ns) {
-			System.out.println("usage: do DQBE [-r] minCount proLength X [...]");
+		if (n < B + 1 - ns || a[0].length() > 2) {
+			System.out.println("usage: do DQBE [-r] minCount proLength b::n [...]");
 			return;
 		}
 
