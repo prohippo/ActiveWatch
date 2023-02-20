@@ -374,3 +374,8 @@ Release History:
 	v2.7.2  31jan2023  improve DSRV output
 	                   clean up source code
 	                   add DSMX and DSIM tools for testing
+	                   update documentation
+
+	v2.7.3  20feb2023  add DKYW tool to aid profile building
+	                   add command line check for DQBE
+	                   update documentation
