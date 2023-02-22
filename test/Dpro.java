@@ -22,7 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dpro.java : 08oct2022 CPM
+// Dpro.java : 22feb2023 CPM
+// display AW profile
 
 package test;
 
@@ -31,6 +32,7 @@ import gram.*;
 import object.ProfileChecker;
 import object.ProfileToDump;
 import java.io.*;
+import java.util.*;
 
 public class Dpro {
 
@@ -38,11 +40,16 @@ public class Dpro {
 	private static ProfileChecker chk;
 	private static float[] pb;
 	private static float   ph;
+	private static boolean narrow = false; // option for show short profiles
 
 	public static void main ( String[] a ) {
-		
+
 		try {
-		
+
+			if (a.length > 0 && a[0].equals("-s")) {
+				narrow = true;
+				a = Arrays.copyOfRange(a,1,a.length);
+			}
 			System.out.print("profile ");
 			int pn = (a.length > 0) ? Integer.parseInt(a[0]) : 0;
 			if (pn > 0) {
@@ -53,36 +60,43 @@ public class Dpro {
 				pro = new ProfileToDump();
 				System.out.println(" from saved file");
 			}
-				
+
 			pro.showMatching();
 			pro.showFiltering();
 			pro.showWeighting(true);
-			
+
 			chk = new ProfileChecker(pro,Profile.MXP,ProfileChecker.MWT);
 			FastProbabilities fp = new FastProbabilities();
 			Range rg = new Range();
 			pb = fp.array();
 			ph = rg.high/4;
 			System.out.println("nominal vector matches");
-			check( 250);
-			check( 500);
-			check(1000);
-			
+			if (narrow) {
+				check(25);
+				check(50);
+				check(75);
+			}
+			else {
+				check( 250);
+				check( 500);
+				check(1000);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	private static void check (
 		int ln
 	) {
-	
+
 		System.out.print(Format.it(ln,4) + ": ");
 		double x = chk.check(pro,ln,pb,ph);
 		System.out.println(Format.it(x,5,1) + " standard deviations");
-		
+
 	}
-		
-	
+
+
 }

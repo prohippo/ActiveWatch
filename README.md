@@ -376,6 +376,8 @@ Release History:
 	                   add DSMX and DSIM tools for testing
 	                   update documentation
 
-	v2.7.3  20feb2023  add DKYW tool to aid profile building
+	v2.7.3  22feb2023  add DKYW tool to aid profile building
 	                   add command line check for DQBE
+	                   add command line option for DPRO
+	                   clean up indentation of DQBK and DLST source
 	                   update documentation

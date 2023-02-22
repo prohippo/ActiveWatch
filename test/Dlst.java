@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dlst.java : 08dec2022 CPM
+// AW file Dlst.java : 22feb2022 CPM
 
 package test;
 
@@ -30,13 +30,13 @@ import aw.*;
 import object.*;
 
 public class Dlst {
-	
+
 	public static void main ( String[] av ) {
-		
+
 		if (av.length == 0)
 			return;
 		int n = Integer.parseInt(av[0]);
-		
+
 		try {
 			GappedProfileList ls = new GappedProfileList(n);
 			int nit = ls.getCount();
@@ -54,7 +54,7 @@ public class Dlst {
 		} catch (AWException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 }

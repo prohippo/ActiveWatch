@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dqbk.java : 21jan2023 CPM
+// Dqbk.java : 22feb2023 CPM
 // profile from keywords
 
 package test;
@@ -34,7 +34,7 @@ import object.KeyProfile;
 public class Dqbk {
 
 	public static void main ( String[] a ) {
-	
+
 		System.out.println("create profile from a set of keys");
 		if (a.length == 0) {
 			System.out.println("usage: Do DQBK key [...]");
@@ -54,7 +54,7 @@ public class Dqbk {
 		} catch (AWException e) {
 			e.printStackTrace();
 		}
-	
+
 	}
 
 }
