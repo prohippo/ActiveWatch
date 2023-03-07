@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// ProfileToDump.java : 08oct2022 CPM
+// ProfileToDump.java : 06mar2023 CPM
 // with special methods for display
 
 package object;
@@ -35,21 +35,21 @@ import java.io.*;
 public class ProfileToDump extends ProfileToUse {
 
 	private static GramDecode gd;
-	
+
 	public ProfileToDump ( String file ) throws AWException {
 		super(file);
 		initialize();
 	}
-	
+
 	public ProfileToDump ( int n ) throws AWException {
 		super(n);
 		initialize();
 	}
-	
+
 	public ProfileToDump ( ) throws AWException {
 		this("profile");
 	}
-	
+
 	public ProfileToDump ( Profile pp ) throws AWException {
 		nhth = pp.nhth;
 		shth = pp.shth;
@@ -59,9 +59,9 @@ public class ProfileToDump extends ProfileToUse {
 		gms  = pp.gms;
 		wts  = pp.wts;
 		trc  = pp.trc;
-        initialize();
+	        initialize();
 	}
-	
+
 	private void initialize ( ) throws AWException {
 		if (gd == null) {
                         GramStart gs = new GramStart();
@@ -69,62 +69,61 @@ public class ProfileToDump extends ProfileToUse {
 			gd = new GramDecode(gs.map,ld);
 		}
 	}
-	
+
 	private PrintStream out = System.out;
-	
+
 	public void setOutput ( PrintStream out ) {
 		this.out = out;
 	}
 
 	public void showMatching ( ) {
-	
-		out.println("lexical      threshold= " + nhth);
+
 		out.println("significance threshold= " + sgth);
 		out.println("expected value= " + Format.it(uexp,8,6));
 		out.println("variance      = " + Format.it(uvar,8,6));
-			
+
 	}
-	
+
 	public void showFiltering ( ) {
 
-		int tn = 0;
-		int k = trc[tn++];		
+//		int tn = 0;
+//		int k = trc[tn++];		
 
-		if (k == 0)
-			out.println("\nno filters");
-		else {
-			out.print("\n" + k + " filter");
-			if (k != 1)
-				out.print("s");
-			out.print(" active ");
-			out.println("(type=" + trc[tn++] + ")");
-		}
+//		if (k == 0)
+//			out.println("\nno filters");
+//		else {
+//			out.print("\n" + k + " filter");
+//			if (k != 1)
+//				out.print("s");
+//			out.print(" active ");
+//			out.println("(type=" + trc[tn++] + ")");
+//		}
 
-		int n;
-				
-		for (int i = 0; i < k; i++) {
-			out.print(Format.it(i,2) + ") thr=" + trc[tn++] + " :");
-			for (int j = 0; (n = trc[tn++]) < Profile.MXP; j++) {
-				if (j%6 == 0)
-					out.print("\n        ");
-				int g = gms[n];
-				out.print("[" + g + " " + gd.toString(g) + "]");
-			}
-			out.println();
-		}
+//		int n;
+
+//		for (int i = 0; i < k; i++) {
+//			out.print(Format.it(i,2) + ") thr=" + trc[tn++] + " :");
+//			for (int j = 0; (n = trc[tn++]) < Profile.MXP; j++) {
+//				if (j%6 == 0)
+//					out.print("\n        ");
+//				int g = gms[n];
+//				out.print("[" + g + " " + gd.toString(g) + "]");
+//			}
+//			out.println();
+//		}
 
 	}
 
 	public void showWeighting ( boolean full ) throws IOException {
-	
+
 		int[]   cta = null;
 		float[] pba = null;
 		double upper = 0;
-		
+
 		FastProbabilities pbs = null;
 		Counts cts = null;
 		Range  rng = null;
-		
+
 		if (full) {
 			try {		
 				cts = new Counts();
@@ -139,7 +138,7 @@ public class ProfileToDump extends ProfileToUse {
 					upper = 0;
 			}
 		}
-		
+
 		out.println("\nweights");
 
 		for (int i = 0; i < Profile.MXP; i++) {
@@ -160,7 +159,7 @@ public class ProfileToDump extends ProfileToUse {
 			}
 			out.println();
 		}
-			
+
 	}
 
 }
