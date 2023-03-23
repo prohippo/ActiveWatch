@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Parameter.java : 18nov2022 CPM
+// AW file Parameter.java : 21mar2023 CPM
 // basic indexing definitions
 
 package aw;
@@ -33,8 +33,8 @@ public class Parameter {
 
 	// n-gram indexing parameters
 	
-	public static final int MXN =12500; // limit on lexical n-grams
-	public static final int MXI =12500; // limit on all n-gram indices
+	public static final int MXN =12700; // limit on lexical n-grams
+	public static final int MXI =12700; // limit on all n-gram indices
 	public static final int MXV = 8192; // limit on compressed vector size
 
 	// parameters for compressing index vector
