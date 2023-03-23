@@ -382,3 +382,5 @@ Release History:
 	                   simplify profile output
 	                   clean up indentation of DQBK and DLST source
 	                   update documentation
+	v2.8    21mar2023  add  100 alphabetic 4-grams to built-in index featkures
+	                   update documentation
