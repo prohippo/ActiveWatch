@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 javac test/Dclu.java
+javac test/Dcms.java
 javac test/Dinf.java
 javac test/Dixs.java
 javac test/Dkyw.java
@@ -714,3 +715,16 @@ stem/Translation.class \
 test/Dkyw.class \
 web/ThreadTimer.class \
 web/TimedURL.class \
+
+jar -cfe DCMS test/Dcms  \
+test/Dcms.class \
+aw/Stamp.class \
+aw/FileAccess.class \
+aw/Item.class \
+aw/AWException.class \
+aw/ProfileFile.class \
+aw/Map.class \
+aw/Attribute.class \
+object/ListHead.class \
+object/ListNode.class \
+object/ProfileList.class

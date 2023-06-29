@@ -22,61 +22,61 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dngm.java : 28jun2022 CPM
-// sjow sum of probabilities for each class of n-grams
+// Dcms.java : 26jun2023 CPM
+// show cluster memberships for given item
 
 package test;
 
 import aw.*;
-import gram.*;
+import object.*;
 import java.io.*;
 
-public class Dngm {
+public class Dcms {
 
-	private static int slice ( int ns , int lm , float[] p , String s ) {
-		double sum = 0;
-		double min = 1;
-		double max = 0;
-		int nz = 0;
-		for (int i = ns; i < lm; i++) {
-			float dp = p[i];
-			if (dp > 0.0) {
-				nz++;
-				sum += dp;
-				if (min > dp) min = dp;
-				if (max < dp) max = dp;
+	static String fm = "%2d) in %3d @%2d : %4.1f\n";
+
+	static public void main ( String[] a ) {
+		Map m = new Map();  // map of current profiles
+		ProfileList ls;     // profile records
+
+		if (a.length == 0) {
+			System.out.println("usage: X segmentID");
+			System.exit(0);
+		}
+		String as = a[0];
+		int nc = as.indexOf(':');
+		if (nc < 0 || (nc + 1) == as.length() || as.charAt(nc+1) != ':') {
+			System.err.print("invalid text segmentID");
+			System.exit(1);
+		}
+		int bn = Integer.valueOf(as.substring(0,nc));
+		int xn = Integer.valueOf(as.substring(nc+2));
+
+		int tot = 0;  // how cluster assignments
+
+		System.out.println("showing profile match list entries for " + a[0]);
+		for (int i = 1; i <= Map.MXSP; i++) {
+			if (!m.defined(i))
+				continue;
+			try {
+				ls = new ProfileList(i);
+				int n = ls.getCount();
+
+				Item[] it = ls.getList();
+				for (int j = 0; j < n; j++) {
+					if (it[j].bn == bn && it[j].xn == xn) {
+						double ss = it[j].score();
+						System.out.printf(fm,tot,i,j,ss);
+						tot++;
+						break;
+					}
+				}
+			} catch (AWException e) {
+				e.printStackTrace();
+				System.exit(1);;
 			}
 		}
-		System.out.println(s);
-		System.out.println("total prob=" + Format.it(sum,8,6) + " for " + nz + " indices");
-		System.out.println("min=" + Format.it(min,8,6) + ", max=" + Format.it(max,8,6));
-		System.out.println("--");
-		return nz;
+		System.out.print("profile matches = ");
+		System.out.println(tot);
 	}
-
-	public static void main ( String[] a ) {
-
-		System.out.println("analysis of n-gram contributions");
-		System.out.println();
-
-		Probabilities pb;
-
-		try {
-			pb = new Probabilities();
-		} catch (AWException e) {
-			e.show();
-			return;
-		}
-
-		int no = 0; // total count of non-zero n-grams
-		float[] p = pb.array;
-		no += slice(1,Gram.IB2,p,"User-defined n-grams");
-		no += slice(Gram.IB2,Gram.IB3,p,"Alphanumeric 2-grams");
-		no += slice(Gram.IB3,Gram.IB4,p,"Alphabetic 3-grams");
-		no += slice(Gram.IB4,Gram.IB5,p,"Alphabetic 4-grams");
-		no += slice(Gram.IB5,p.length,p,"alphabetic 5-grams");
-
-		System.out.println(no + " total non-zero n-gram indices");
-	}
-
 }
