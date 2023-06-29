@@ -382,5 +382,11 @@ Release History:
 	                   simplify profile output
 	                   clean up indentation of DQBK and DLST source
 	                   update documentation
-	v2.8    21mar2023  add  100 alphabetic 4-grams to built-in index featkures
+	v2.8    21mar2023  add 100 alphabetic 4-grams to built-in index featkures
 	                   update documentation
+
+	v.2.8.1 28jun2023  add 60 alphabetic 4-grams
+	                   add DCMS tool to get cluster assignments
+	                   change DNGM tool for user-defined n-grams
+	                   update documentation
+ 
