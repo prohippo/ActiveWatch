@@ -121,13 +121,25 @@ aw/Map.class
 
 jar cfe DNGM test/Dngm \
 gram/Gram.class \
+gram/GramStart.class \
+gram/TokenBuffer.class \
+gram/LiteralExtension.class \
+gram/GramMap.class \
+gram/LiteralBase.class \
+gram/LiteralDecoding.class \
+gram/Literal.class \
+gram/GramDecode.class \
 test/Dngm.class \
+test/Dngm\$Pair.class \
+aw/TextAnalysisFile.class \
 aw/Format.class \
+aw/ResourceInput.class \
 aw/Probabilities.class \
 aw/FileAccess.class \
 aw/Parameter.class \
 aw/AWException.class \
-aw/StatisticsFile.class
+aw/StatisticsFile.class \
+aw/Letter.class
 
 jar cfe DPRB test/Dprb \
 aw/AWException.class \
