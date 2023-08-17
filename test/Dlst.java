@@ -22,14 +22,18 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dlst.java : 22feb2022 CPM
+// AW file Dlst.java : 08aug2023 CPM
 
 package test;
 
 import aw.*;
 import object.*;
-
+import gram.GramDecode;
+import gram.GramMap;
+import gram.LiteralDecoding;
 public class Dlst {
+
+	private final static String sigma = "\u03C3";
 
 	public static void main ( String[] av ) {
 
@@ -39,6 +43,7 @@ public class Dlst {
 
 		try {
 			GappedProfileList ls = new GappedProfileList(n);
+
 			int nit = ls.getCount();
 			Item[] it = ls.getList();
 			for (int i = 0; i < nit; i++) {
@@ -48,8 +53,8 @@ public class Dlst {
 				System.out.print(Format.it(i+1,3) + ") ");
 				System.out.print(Format.it(x.bn,2) + "::");
 				String t = "" +  x.index;
-				System.out.print(Format.it(t,6) + " ");
-				System.out.println(Format.it(x.score(),6,2));
+				System.out.print(Format.it(t,4));
+				System.out.println(Format.it(x.score(),6,2) + sigma);
 			}
 		} catch (AWException e) {
 			e.printStackTrace();

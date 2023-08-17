@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dlss.java : 26dec2022 CPM
+// Dlss.java : 04aug2023 CPM
 // dump AW profile match lists with selection of information
 
 package test;
@@ -32,6 +32,8 @@ import object.*;
 import java.io.*;
 
 public class Dlss {
+
+	private final static String sigma = "\u03C3";
 
 	static private int N = 10;
 
@@ -132,7 +134,7 @@ public class Dlss {
 			return;
 		}
 		System.out.print("| " + bn + "::" + ss.it);
-		System.out.print(" = " + Format.it(score,6,2));
+		System.out.print(" = " + Format.it(score,6,2) + sigma);
 		System.out.println("  (::" + xn + " =" + ss.sn + ")");
 		if (showText) {
 			TextItem ti = new TextItem(bn,ss.it);
