@@ -131,7 +131,7 @@ Release History:
 	v0.7.1  25aug2021  fix bug in LexicalGram in breaking out of extraction loop
 	                   replace incorrect 4- and 5-grams in GramMap lists
 	                   clean up literal file to align with current 4- and 5-grams
-	                   fix inconsistent stemming rules in suffix filw
+	                   fix inconsistent stemming rules in suffix file
 	                   simply Updater command line arguments
 	                   update Dprb for v0.7 changes in n-gram initialization
 	                   update documentation
@@ -215,7 +215,7 @@ Release History:
 	                   clean up literals
 	                   update documentation
 	
-	v1.1.9  10dec2021  fix bug on oriority of leading, trailing literals
+	v1.1.9  10dec2021  fix bug on prioriority of leading, trailing literals
 	                   expand 4- and 5-grams to reduce indexing noise
 	                   clean up literals
 	                   update documentation
@@ -270,7 +270,7 @@ Release History:
 
 	v1.4.2  02feb2022  add ANALZR module to AW complement
 	                   clean up CharArray source code
-                           clean up phrase exrracrion source code
+	                   clean up phrase exrracrion source code
 	                   update documentation
 
 	v1.4.3  10feb2022  add PATBLD and ENDBLD support modules for phrase analysis
@@ -324,7 +324,7 @@ Release History:
 	                   make rules file for Reparser self-documenting
 	                   update documentation
 
-	v2.1.1  01nov2022  let users to try n-gram index sets with different n
+	v2.1.1  01nov2022  let users try n-gram index sets with different n
 	                   update documentation
 
 	v2.2    08nov2022  fix bug with stopwords having periods and apostrophes 
@@ -385,8 +385,12 @@ Release History:
 	v2.8    21mar2023  add 100 alphabetic 4-grams to built-in index featkures
 	                   update documentation
 
-	v.2.8.1 28jun2023  add 60 alphabetic 4-grams
+	v2.8.1  28jun2023  add 60 alphabetic 4-grams
 	                   add DCMS tool to get cluster assignments
 	                   change DNGM tool for user-defined n-grams
 	                   update documentation
- 
+
+	v2.8.2  19aug2023  add 40 alphabetic 4-grqms
+	                   fix bug with n-gram ranges for types
+	                   upgrade DNGM, DLST, DLSS tools
+	                   add and update documentation	 
