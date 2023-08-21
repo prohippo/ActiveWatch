@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dlnk.java : 26dec2022 CPM
+// Dlnk.java : 20aug2003 CPM
 // dump saved links from similarity measures computed for pairs of squeezed vectors
 
 package test;
@@ -32,6 +32,8 @@ import object.LinkMapping;
 import java.io.*;
 
 public class Dlnk {
+
+	private final static String sigma = "\u03C3";
 
 	public static void main ( String[] av ) {
 		int m,n;
@@ -72,7 +74,8 @@ public class Dlnk {
 				for (int k = x.length(); k < 7; k++)
 					System.out.print(" ");
 				System.out.print(x);
-				System.out.println(" = " + Format.it(v,5,2));
+				System.out.print(" = " + Format.it(v,5,2));
+				System.out.println(sigma);
 			}
 			System.out.println(nl + " links");
 		} catch (EOFException e) {
@@ -85,5 +88,3 @@ public class Dlnk {
 	}
 
 }
-
-
