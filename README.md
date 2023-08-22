@@ -392,5 +392,5 @@ Release History:
 
 	v2.8.2  19aug2023  add 40 alphabetic 4-grqms
 	                   fix bug with n-gram ranges for types
-	                   upgrade DNGM, DLST, DLSS tools
+	                   upgrade DNGM, DLST, DLSS, DLNK tools
 	                   add and update documentation	 
