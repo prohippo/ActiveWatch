@@ -62,55 +62,58 @@ class InstrumentedScan extends SequentialScan {
 
 }
 
-	public class Dsrv {
+public class Dsrv {
 
-		public static void main ( String[] a ) {
+	private final static String sigma = "\u03C3";
 
-			int   pno = (a.length > 0) ? Integer.parseInt(a[0]) :   0;
-			int   lim = (a.length > 1) ? Integer.parseInt(a[1]) : 100;
-			float thr = (a.length > 2) ? Double.valueOf(a[2]).floatValue() : 6.0F;
-			int   bno = (a.length > 3) ? Integer.parseInt(a[3]) :   0;
+	public static void main ( String[] a ) {
 
-			System.out.print("scan up to " + lim + " vectors in batch " + bno + " with ");
-			if (pno == 0)
-				System.out.println("current profile");
-			else
-				System.out.println("profile " + pno);
+		int   pno = (a.length > 0) ? Integer.parseInt(a[0]) :   0;
+		int   lim = (a.length > 1) ? Integer.parseInt(a[1]) : 100;
+		float thr = (a.length > 2) ? Double.valueOf(a[2]).floatValue() : 6.0F;
+		int   bno = (a.length > 3) ? Integer.parseInt(a[3]) :   0;
 
-			try {
-				ProfileForMatch top = new ProfileForMatch(new ProfileToUse(pno));
+		System.out.print("scan up to " + lim + " vectors in batch " + bno + " with ");
+		if (pno == 0)
+			System.out.println("current profile");
+		else
+			System.out.println("profile " + pno);
 
-				Control ctl = new Control();
-				int count = ctl.getBatchCount(bno);
-				if (lim > count)
-					lim = count;
+		try {
+			ProfileForMatch top = new ProfileForMatch(new ProfileToUse(pno));
 
-				InstrumentedScan sc = new InstrumentedScan(bno,top);
+			Control ctl = new Control();
+			int count = ctl.getBatchCount(bno);
+			if (lim > count)
+				lim = count;
 
-				int n = 0;
+			InstrumentedScan sc = new InstrumentedScan(bno,top);
 
-				for (int i = 0; i < lim; i++) {
-					double sm = sc.next();
-					if (sm >= thr) {
-						String s = bno + "::" + i;
-						System.out.print(Format.it(s,8));
-						Subsegment ss = new Subsegment(bno,i);
-						System.out.print(" (subsegment " + ss.sn + " in");
-						System.out.print(" " + Format.it(ss.it,4) + ")");
-						System.out.println(" @ " + Format.it(sm,4,1));
-						n++;
-					}
+			int n = 0;
+
+			for (int i = 0; i < lim; i++) {
+				double sm = sc.next();
+				if (sm >= thr) {
+					String s = bno + "::" + i;
+					System.out.print(Format.it(s,8));
+					Subsegment ss = new Subsegment(bno,i);
+					System.out.print(" (subsegment " + ss.sn + " in");
+					System.out.print(" " + Format.it(ss.it,4) + ")");
+					System.out.print(" @ " + Format.it(sm,4,1));
+					System.out.println(sigma);
+					n++;
 				}
-
-				System.out.print  (n + " vectors matched out of " + lim + " at min threshold = ");
-				System.out.println(Format.it(thr,4,1));
-				System.out.print  ("scanned " + sc.actual + "/" + sc.full);
-				double percent = (100.*sc.actual)/sc.full;
-				System.out.println(" = " + Format.it(percent,5,1) + " percent of vector indices");
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
+			System.out.print  (n + " vectors matched out of " + lim + " at min threshold = ");
+			System.out.println(Format.it(thr,4,1));
+			System.out.print  ("scanned " + sc.actual + "/" + sc.full);
+			double percent = (100.*sc.actual)/sc.full;
+			System.out.println(" = " + Format.it(percent,5,1) + " percent of vector indices");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
+
+}

@@ -22,13 +22,15 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dssg.java : 11jul2022 CPM
+// Dssg.java : 05sep2023 CPM
+// show texr of subsegment
 
 package test;
 
 import aw.*;
 import object.*;
 import java.io.*;
+import java.util.Arrays;
 
 public class Dssg {
 
@@ -38,16 +40,22 @@ public class Dssg {
 	static final int NN = 72;  // subsegment text display char limit
 
 	public static void main ( String[] av ) {
-	
+
+		int bn = -1;	
+		if (av.length > 1 && av[0].equals("-b")) {
+			bn = Integer.parseInt(av[1]);
+			av = Arrays.copyOfRange(av,2,av.length);
+		}
 		int n = (av.length > 0) ? Integer.parseInt(av[0]) : 0; // starting subsegment index
 		int m = (av.length > 1) ? Integer.parseInt(av[1]) : M; // how many to dump
 		boolean full = (av.length > 2);
 		System.out.println("dump up to " + m + " records");
 		
 		try {
-
-			Control ctl = new Control();
-			int bn = ctl.last();
+			if (bn < 0) {
+				Control ctl = new Control();
+				bn = ctl.last();
+			}
 		
 			Subsegment ss = new Subsegment(bn,-1);
 			System.out.print("batch " + bn + ": ");
