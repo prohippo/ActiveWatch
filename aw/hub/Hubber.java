@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Hubber.java : 16jan2023 CPM
+// AW file Hubber.java : 06sep2023 CPM
 // report on link hubs
 
 package aw.hub;
@@ -45,7 +45,7 @@ public class Hubber {
 	private int th;          // threshold as scaled
 	
 	public Hubber (
-		double thr  // link threshold
+		double thr       // link threshold
 	) throws AWException {
 		ma = new LinkMatrix(Link.MXML);
 		lm = new LinkMapping();
@@ -54,7 +54,7 @@ public class Hubber {
 	}
 	
 	public void run (
-		int minL    // minimum link count for hub
+		int minL         // minimum link count for hub
 	) throws AWException {
 				
 		for (int r = 1; r <= ma.nrow; r++) {
@@ -62,7 +62,7 @@ public class Hubber {
 			for (int is = ma.lrU[r], ie = ma.lrU[r+1]; is < ie; is++) {
 				Item itr = lm.fromLinkIndex(r);
 				int sg = ma.lvU[is];
-				if (sg >= th) {
+				if (sg >= th) {  // cpunt only links above threshold
 					Item it = lm.fromLinkIndex(ma.lkU[is]);
 					double w = ((double) sg)/LinkMatrix.SCALF;
 					x.tally(itr.bn,itr.xn,sg);

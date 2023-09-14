@@ -31,10 +31,10 @@ import aw.*;
 
 public class WatcherMain {
 
-	static int    nSel =  24;        // number of segments to select
-	static int    minL =  50;        // minimum vector length
-	static String filn = "residual"; // sequence file to work from
-	static double maxS = 0.5;        // maximum sum of probabilities
+	static int    nSelL =  12;        // number of segments to select
+	static int    nSelH =   0;        // number of segments to select
+	static int    minL  =  50;        // minimum vector length
+	static String filn  = "residual"; // sequence file to work from
 
 	public static void main (
 		String[] av
@@ -43,13 +43,13 @@ public class WatcherMain {
 		// convert any arguments
 
 		if (av.length > 0)
-			nSel = Integer.parseInt(av[0]);
+			nSelL = Integer.parseInt(av[0]);
 		if (av.length > 1)
-			minL = Integer.parseInt(av[1]);
+			nSelH = Integer.parseInt(av[1]);
 		if (av.length > 2)
-			filn = av[2];
+			minL  = Integer.parseInt(av[2]);
 		if (av.length > 3)
-			maxS = Double.valueOf(av[3]).doubleValue();
+			filn  = av[3];
 
 		Banner banner = new Banner("Watcher");
 		banner.show();
@@ -59,10 +59,9 @@ public class WatcherMain {
 		try {
 			System.out.println("scanning segments in " + filn + " file");
 			Watcher x = new Watcher(filn);
-			int n = x.run(minL,nSel,maxS);
+			x.run(minL,nSelL,nSelH);
 //			System.out.print(String.format("%d segments to show\n",n));
-			if (n > 0)
-				x.showSelection();
+			x.showSelection();
 		} catch (AWException e) {
 			e.printStackTrace();
 		}

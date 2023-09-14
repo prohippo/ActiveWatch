@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Watcher.java : 20nov2021 CPM
-// find statistical standouts in AW sequence of items
+// AW file Watcher.java : 08sep2023 CPM
+// find statistical standouts in AW residual items
 
 package aw.watch;
 
@@ -31,13 +31,15 @@ import aw.*;
 import object.*;
 import java.io.*;
 
-// scan sequenced vectors for low-probability indices
+// select vectors with low- or high-probability indices
 
 public class Watcher {
 
 	private Probabilities pbs;
-	private int  nsel;
-	private Rec[] sel;
+	private int  nselL;  // low-probability
+	private Rec[] selL;
+	private int  nselH;  // high-
+	private Rec[] selH;
 	private int  nssg;
 	private Sequence seq;
 
@@ -71,19 +73,18 @@ public class Watcher {
 
 	// get m text segments with lowest sums of probablities
 
-	public int run (
+	public void run (
 		int    ml,     // minimum vector length
-		int    mx,     // maximum number to select
-		double maxsum  // maximum sum of probabilities for selection
+		int    nlo,    // low -probability count
+		int    nhi     // high-
 	) throws AWException { 
 
 		// allocate selection array
 
-		nsel = 0;
-		sel  = new Rec[mx+1];
-
-		for (int i = 0; i <= mx; i++)
-			sel[i] = new Rec();
+		nselL = 0;              // initialize empty sorting arrays
+		selL  = new Rec[nlo+1]; //
+		nselH = 0;              //
+		selH  = new Rec[nhi+1]; //
 
 		// scan each run in sequence
 
@@ -109,8 +110,8 @@ public class Watcher {
 
 					// compute sum of probabilities
 
-					double smp = 0;
 					int    lvc = 0;
+					double smp = 0;
 					while (siv.next()) {
 						int tu[] = siv.getVectorTuple();
 //						System.out.print(String.format("%d|%d\n",tu[0],tu[1]));
@@ -118,26 +119,40 @@ public class Watcher {
 						lvc += tu[1];
 					}
 
-					if (lvc < ml || smp > maxsum) continue;
+					if (lvc < ml) continue;
 
 //					System.out.print(String.format("lvc=%d smp=%10.8f\n",lvc,smp));
 					ncnd += 1; 
 
-					// select mx lowest sums
+					Rec nr = new Rec();  // new record for sorting
+					nr.bn = bn;          //
+					nr.sn = sn;          //
+					nr.len = (short)lvc; //
+					nr.smp = (float)smp; //
 
-					Rec r = sel[nsel];
-					int k = nsel;
+					int k; // shared sorting index
+
+					// select lowest sums
+
+					k = nselL;
 					for (; k > 0; --k) {
-						if (sel[k-1].smp <= smp)
+						if (selL[k-1].smp <= smp)
 							break;
-						sel[k] = sel[k-1];
+						selL[k] = selL[k-1];
 					}
-					r.bn = bn;
-					r.sn = sn;
-					r.len = (short)lvc;
-					r.smp = (float)smp;
-					sel[k] = r;
-					if (nsel < mx) nsel++;
+					selL[k] = nr;
+					if (nselL < nlo) nselL++;
+
+					// select highest sums
+
+					k = nselH;
+					for (; k > 0; --k) {
+						if (selH[k-1].smp >= smp)
+							break;
+						selH[k] = selH[k-1];
+					}
+					selH[k] = nr;
+					if (nselH < nhi) nselH++;
 
 				}
 
@@ -148,9 +163,7 @@ public class Watcher {
 			}
   
 		}
-		System.out.print(String.format("%d segments selected from %d candidates\n",nsel,ncnd));
 
-		return nsel;
 	}
 
 	// show selected standouts in standard output
@@ -158,11 +171,22 @@ public class Watcher {
 	public void showSelection (
 
 	) {
-		String fmt = "%3d) %2d::%-5d %10.8f (%4d)\n";
-		for (int k = 0; k < nsel; k++) {
-			Rec r = sel[k];
+
+		System.out.printf("low probabilities=%d, high probabilities=%d\n",nselL,nselH);
+		int k;
+		String fmt = "%3d) %2d::%-5d %8.6f (%4d)\n";
+		for (k = 0; k < nselL; k++) {
+			Rec r = selL[k];
 			System.out.print(String.format(fmt,k+1,r.bn,r.sn,r.smp,r.len));
 		}
+		if (nselL > 0 && nselH > 0)
+			System.out.println("      ...");
+		for (k = nselH - 1; k >= 0; --k) {
+			Rec r = selH[k];
+			System.out.print(String.format(fmt,nselL+nselH-k,r.bn,r.sn,r.smp,r.len));
+		}
+
 	}
 
 }
+
