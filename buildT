@@ -4,7 +4,9 @@ javac test/Dclu.java
 javac test/Dcms.java
 javac test/Dinf.java
 javac test/Dixs.java
+javac test/Dktg.java
 javac test/Dkyw.java
+javac test/Dkys.java
 javac test/Dlnk.java
 javac test/Dlss.java
 javac test/Dlst.java
@@ -20,6 +22,7 @@ javac test/Dsim.java
 javac test/Dsmx.java
 javac test/Dsqv.java
 javac test/Dsrv.java
+javac test/Dtop.java
 javac test/Dtxt.java
 javac test/Dvec.java
 javac test/TG.java
@@ -119,7 +122,7 @@ test/Dmap.class \
 aw/FileAccess.class \
 aw/Map.class
 
-jar cfe DNGM test/Dngm \
+jar cfe DNGM test.Dngm \
 gram/Gram.class \
 gram/GramStart.class \
 gram/TokenBuffer.class \
@@ -141,7 +144,7 @@ aw/AWException.class \
 aw/StatisticsFile.class \
 aw/Letter.class
 
-jar cfe DPRB test/Dprb \
+jar cfe DPRB test.Dprb \
 aw/AWException.class \
 aw/FileAccess.class \
 aw/Format.class \
@@ -233,6 +236,20 @@ object/SimpleIndexVector.class \
 object/VectorsForInnerProducts.class \
 test/Dsqv.class \
 test/DsqvIndexVectors.class
+
+jar cfe DTOP test.Dtop \
+test/Dtop.class \
+test/Dtop\$Rec.class \
+aw/FileAccess.class \
+aw/Item.class \
+aw/AWException.class \
+aw/Map.class \
+object/Gapping.class \
+object/ListHead.class \
+object/ListNode.class \
+object/ProfileList.class \
+object/GappedProfileList.class \
+object/SortedProfileList.class 
 
 jar cfe DTXT test.Dtxt \
 aw/AWException.class \
@@ -655,6 +672,52 @@ stem/TokenForm.class \
 test/Dsmx.class \
 test/IV.class \
 
+jar cfe DKYS test.Dkys \
+test/Dkys$\Rec.class \
+test/Dkys.class \
+aw/Stamp.class \
+aw/FileAccess.class \
+aw/AWException.class \
+aw/ProfileFile.class \
+aw/Map.class \
+aw/Attribute.class
+
+jar cfe DKTG test.Dktg \
+./test/Dktg\$Rec.class \
+./test/Dktg.class \
+./aw/Control.class \
+./aw/Source.class \
+./aw/Index.class \
+./aw/FileAccess.class \
+./aw/BatchFile.class \
+./aw/Subsegment.class \
+./aw/AWException.class \
+./aw/FileName.class \
+./aw/Letter.class \
+./web/TimedURL.class \
+./web/ThreadTimer.class \
+./stem/CodedLink.class \
+./stem/Translation.class \
+./stem/TokenForm.class \
+./stem/StemFrame.class \
+./stem/TokenPattern.class \
+./stem/StemBase.class \
+./stem/Tokenizer.class \
+./stem/Table.class \
+./stem/TokenSubstitution.class \
+./stem/Extracter.class \
+./stem/Inflex.class \
+./stem/Stopat.class \
+./stem/PatternQualify.class \
+./stem/Stem.class \
+./stem/Stop.class \
+./stem/Token.class \
+./stem/StopBase.class \
+./stem/Node.class \
+./stem/SubstitutionEntry.class \
+./object/TextSubsegment.class \
+./object/TextItem.class \
+./object/Text.class
 jar cfe DKYW test.Dkyw \
 aw/AWException.class \
 aw/BatchFile.class \
@@ -728,7 +791,7 @@ test/Dkyw.class \
 web/ThreadTimer.class \
 web/TimedURL.class \
 
-jar -cfe DCMS test/Dcms  \
+jar -cfe DCMS test.Dcms  \
 test/Dcms.class \
 aw/Stamp.class \
 aw/FileAccess.class \

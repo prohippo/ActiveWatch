@@ -382,6 +382,7 @@ Release History:
 	                   simplify profile output
 	                   clean up indentation of DQBK and DLST source
 	                   update documentation
+
 	v2.8    21mar2023  add 100 alphabetic 4-grams to built-in index featkures
 	                   update documentation
 
@@ -390,7 +391,22 @@ Release History:
 	                   change DNGM tool for user-defined n-grams
 	                   update documentation
 
+<<<<<<< HEAD
 	v2.8.2  19aug2023  add 40 alphabetic 4-grqms
 	                   fix bug with n-gram ranges for types
 	                   upgrade DNGM, DLST, DLSS, DLNK tools
 	                   add and update documentation	 
+=======
+	v2.8.2  19aug2023  add 40 alphabetic 4-grams
+	                   fix bug with n-gram ranges for types
+	                   upgrade DNGM, DLST, DLSS, DLNK tools
+	                   add and update documentation	 
+
+	v2.8.3  15sep2023  add 20 4-grams, 50 r-grams
+	                   enlarge LinkMatrix link buffer
+	                   upgrade DSSG for multiple batches
+	                   upgrade DSRV output, clean up code
+	                   add DKYS, DKTG, DTOP tools
+	                   upgrade WATCHR module
+	                   update documentation
+>>>>>>> 6e3797c (for release v2.8.3)

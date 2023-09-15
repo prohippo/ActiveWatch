@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Link.java : 26dec2022 CPM
+// AW file Link.java : 02sep2023 CPM
 // class for cluster links with I/O
 
 package aw;
@@ -47,7 +47,7 @@ public class Link {
 
 	public static final short MXTC =  16384; // maximum number of items to cluster
 
-	public static final int   MXML = 250000; // maximum link count
+	public static final int   MXML = 350000; // maximum link count
 
 	public short  from; // start of link
 	public short    to; // end   of link
