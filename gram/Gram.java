@@ -22,8 +22,13 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
+<<<<<<< HEAD
 // AW file Gram.java : 19aug2023 CPM
 // basic lexical n-gram definitions
+=======
+// AW file Gram.java : 31aug2023 CPM
+// basic lexical 2- and 3-gram definitions
+>>>>>>> ce787a7 (for release v2.8.3)
 
 package gram;
 
@@ -31,13 +36,19 @@ public class Gram {
 
 	// for lexical indices, including literals
 
-	public static final short NLIT= 2000; // upper limit on literals
+	public static final short NLIT= 2001; // upper limit on literals
 		
-	public static final short IBL =    1; // literal indices
+	public static final short IBL =    1; // user-defined literal indices
 	public static final short IB2 = 2001; // base for 2-grams
+<<<<<<< HEAD
 	public static final short IB3 = 3301; // base for 3-grams
 	public static final short IB4 = 9001; // base for 4-grams
 	public static final short IB5 =12001; // base for 5-grams
+=======
+	public static final short IB3 = 3351; // base for 3-grams
+	public static final short IB4 = 9051; // base for 4-grams
+	public static final short IB5 =12051; // base for 5-grams
+>>>>>>> ce787a7 (for release v2.8.3)
 
 	// bit table defining 2-letter seeds for 3-grams
 		
