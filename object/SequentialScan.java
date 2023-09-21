@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SequentialScan.java : 13jan2023 CPM
+// AW file SequentialScan.java : 18sep2023 CPM
 // compute similarity for each vector in batch
 
 package object;
@@ -40,15 +40,18 @@ public class SequentialScan {
 	private ProfileForMatch  ps; // profile to search with
 	private double           th; // squared search threshold
 
+	public static final double ZERO = 0.0; // default low similarity
+
 	// constructor
 
 	public SequentialScan (
 		int              bn, // batch to search
+		int              sn, // atarting subsegment
 		ProfileForMatch  ps  // profile
 	) {
 
 		bno = bn;
-		ssn = 0;
+		ssn = sn;
 		this.ps = ps;
 		th = ps.sgth*ps.sgth;
 
@@ -56,18 +59,17 @@ public class SequentialScan {
 
 	// compute next scaled similarity score
 
-	private IndexVectorForMatch sv;
+	private IndexVectorForMatch iv;
 
 	public double next (
 
 	) throws AWException {
 
-		sv = new IndexVectorForMatch(new IndexVector(bno,ssn++));
-		fss = (sv.subsegmentIndex() == 1);
-        if (sv.match(ps,th))
-            return sv.scaledSimilarity();
-        else
-            return -1;
+		iv = new IndexVectorForMatch(new IndexVector(bno,ssn++));
+		fss = (iv.subsegmentIndex() == 1);
+		iv.match(ps,th);
+		double ssm = iv.scaledSimilarity();
+        	return (ssm < 0) ? ZERO : ssm;
 
 	}
 
@@ -77,8 +79,8 @@ public class SequentialScan {
 
 	// get scan statistics
 
-	public final int actualSum ( ) { return sv.sum(); }
+	public final int actualSum ( ) { return iv.sum(); }
 
-	public final int fullSum ( ) { return sv.decodeSum(); }
+	public final int fullSum ( ) { return iv.decodeSum(); }
 
 }

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Plotter.java : 19jan2013 CPM
+// AW file Plotter.java : 20sep2013 CPM
 // plot cluster profile matches along a time line
 // by producing a .csv file for input to a spreadsheet app
 
@@ -55,7 +55,7 @@ public class Plotter {
 		bins = bwd;
 		pro = new ProfileToUse(cn);
 		mpr = new ProfileForMatch(pro);
-		scn = new SequentialScan(bn,mpr);
+		scn = new SequentialScan(bn,0,mpr);
 
 		minimumThreshold = pro.sgth; // by default
 
