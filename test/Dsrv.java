@@ -22,7 +22,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dsrv.java : 29jan2023 CPM
+// Dsrv.java : 18sep2023 CPM
+// scans a sequence of segments in a batch and returns those above a threshold
+// with ranking of results 
 
 package test;
 
@@ -36,7 +38,6 @@ import object.SequentialScan;
 import object.FullProfile;
 import object.ProfileToUse;
 import object.ProfileForMatch;
-import java.awt.*;
 import java.io.*;
 
 class InstrumentedScan extends SequentialScan {
@@ -46,9 +47,10 @@ class InstrumentedScan extends SequentialScan {
 
 	public InstrumentedScan (
 		int              bn, // batch to search
+		int              sn, // starting subsegment`
 		ProfileForMatch  ps  // profile
 	) {
-		super(bn,ps);
+		super(bn,sn,ps);
 	}
 
 	public double next (
@@ -62,8 +64,20 @@ class InstrumentedScan extends SequentialScan {
 
 }
 
+class Rec {
+	int    bn;  // for item batch
+	int    sn;  //          segment number
+	double ss;  // its significance of match
+	Rec (int bns, int sns, double sss) {
+		bn = bns;
+		sn = sns;
+		ss = sss;
+	}
+}
+
 public class Dsrv {
 
+	private final static int Nr = 250;
 	private final static String sigma = "\u03C3";
 
 	public static void main ( String[] a ) {
@@ -79,6 +93,9 @@ public class Dsrv {
 		else
 			System.out.println("profile " + pno);
 
+		Rec[] recs = new Rec[Nr + 1]; // for sorting results
+		int   recn = 0;               //
+
 		try {
 			ProfileForMatch top = new ProfileForMatch(new ProfileToUse(pno));
 
@@ -87,26 +104,41 @@ public class Dsrv {
 			if (lim > count)
 				lim = count;
 
-			InstrumentedScan sc = new InstrumentedScan(bno,top);
-
-			int n = 0;
+			InstrumentedScan sc = new InstrumentedScan(bno,0,top);
 
 			for (int i = 0; i < lim; i++) {
 				double sm = sc.next();
 				if (sm >= thr) {
-					String s = bno + "::" + i;
-					System.out.print(Format.it(s,8));
-					Subsegment ss = new Subsegment(bno,i);
-					System.out.print(" (subsegment " + ss.sn + " in");
-					System.out.print(" " + Format.it(ss.it,4) + ")");
-					System.out.print(" @ " + Format.it(sm,4,1));
-					System.out.println(sigma);
-					n++;
+					Rec nr = new Rec(bno,i,sm);
+					int is;
+					for (is = recn; is > 0; --is) {
+						Rec or = recs[is - 1];
+						if (or.ss >= nr.ss)
+							break;
+						recs[is] = or;
+					}
+					recs[is] = nr;
+					if (recn < Nr)
+						recn++;
 				}
 			}
 
-			System.out.print  (n + " vectors matched out of " + lim + " at min threshold = ");
-			System.out.println(Format.it(thr,4,1));
+			System.out.println(recn + " matches sorted");
+
+			for (int j = 0; j < recn; j++) {
+				Rec r = recs[j];
+				String s = r.bn + "::" + r.sn;
+				System.out.print(Format.it(s,8));
+				Subsegment ss = new Subsegment(bno,r.sn);
+				System.out.print(" (subsegment " + ss.sn + " in");
+				System.out.print(" " + Format.it(ss.it,4) + ")");
+				System.out.print(" @ " + Format.it(r.ss,4,1));
+				System.out.println(sigma);
+			}
+
+			System.out.print  (recn + " vectors retrieved out of " + lim + " at ≥ ");
+			System.out.print  (Format.it(thr,4,1));
+			System.out.println(sigma);
 			System.out.print  ("scanned " + sc.actual + "/" + sc.full);
 			double percent = (100.*sc.actual)/sc.full;
 			System.out.println(" = " + Format.it(percent,5,1) + " percent of vector indices");

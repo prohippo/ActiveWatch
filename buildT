@@ -12,6 +12,7 @@ javac test/Dlss.java
 javac test/Dlst.java
 javac test/Dmap.java
 javac test/Dngm.java
+javac test/Dplt.java
 javac test/Dprb.java
 javac test/Dpro.java
 javac test/Dqbe.java
@@ -683,41 +684,42 @@ aw/Map.class \
 aw/Attribute.class
 
 jar cfe DKTG test.Dktg \
-./test/Dktg\$Rec.class \
-./test/Dktg.class \
-./aw/Control.class \
-./aw/Source.class \
-./aw/Index.class \
-./aw/FileAccess.class \
-./aw/BatchFile.class \
-./aw/Subsegment.class \
-./aw/AWException.class \
-./aw/FileName.class \
-./aw/Letter.class \
-./web/TimedURL.class \
-./web/ThreadTimer.class \
-./stem/CodedLink.class \
-./stem/Translation.class \
-./stem/TokenForm.class \
-./stem/StemFrame.class \
-./stem/TokenPattern.class \
-./stem/StemBase.class \
-./stem/Tokenizer.class \
-./stem/Table.class \
-./stem/TokenSubstitution.class \
-./stem/Extracter.class \
-./stem/Inflex.class \
-./stem/Stopat.class \
-./stem/PatternQualify.class \
-./stem/Stem.class \
-./stem/Stop.class \
-./stem/Token.class \
-./stem/StopBase.class \
-./stem/Node.class \
-./stem/SubstitutionEntry.class \
-./object/TextSubsegment.class \
-./object/TextItem.class \
-./object/Text.class
+test/Dktg\$Rec.class \
+test/Dktg.class \
+aw/Control.class \
+aw/Source.class \
+aw/Index.class \
+aw/FileAccess.class \
+aw/BatchFile.class \
+aw/Subsegment.class \
+aw/AWException.class \
+aw/FileName.class \
+aw/Letter.class \
+web/TimedURL.class \
+web/ThreadTimer.class \
+stem/CodedLink.class \
+stem/Translation.class \
+stem/TokenForm.class \
+stem/StemFrame.class \
+stem/TokenPattern.class \
+stem/StemBase.class \
+stem/Tokenizer.class \
+stem/Table.class \
+stem/TokenSubstitution.class \
+stem/Extracter.class \
+stem/Inflex.class \
+stem/Stopat.class \
+stem/PatternQualify.class \
+stem/Stem.class \
+stem/Stop.class \
+stem/Token.class \
+stem/StopBase.class \
+stem/Node.class \
+stem/SubstitutionEntry.class \
+object/TextSubsegment.class \
+object/TextItem.class \
+object/Text.class
+
 jar cfe DKYW test.Dkyw \
 aw/AWException.class \
 aw/BatchFile.class \
@@ -790,6 +792,32 @@ stem/Translation.class \
 test/Dkyw.class \
 web/ThreadTimer.class \
 web/TimedURL.class \
+
+jar cfe DPLT test.Dplt \
+test/Dplt.class \
+aw/Control.class \
+aw/Format.class \
+aw/Offset.class \
+aw/FileAccess.class \
+aw/Parameter.class \
+aw/BatchFile.class \
+aw/Subsegment.class \
+aw/Profile.class \
+aw/OffsetBase.class \
+aw/AWException.class \
+aw/Vector.class \
+aw/Filter.class \
+aw/FileName.class \
+aw/ProfileFile.class \
+object/ProfileForMatch.class \
+object/CodedVectorBase.class \
+object/IndexVectorForMatch.class \
+object/FullProfile.class \
+object/IndexVector.class \
+object/SimpleIndexVector.class \
+object/SequentialScan.class \
+object/CodedVector.class \
+object/ProfileToUse.class
 
 jar -cfe DCMS test.Dcms  \
 test/Dcms.class \
