@@ -391,12 +391,6 @@ Release History:
 	                   change DNGM tool for user-defined n-grams
 	                   update documentation
 
-<<<<<<< HEAD
-	v2.8.2  19aug2023  add 40 alphabetic 4-grqms
-	                   fix bug with n-gram ranges for types
-	                   upgrade DNGM, DLST, DLSS, DLNK tools
-	                   add and update documentation	 
-=======
 	v2.8.2  19aug2023  add 40 alphabetic 4-grams
 	                   fix bug with n-gram ranges for types
 	                   upgrade DNGM, DLST, DLSS, DLNK tools
@@ -409,4 +403,9 @@ Release History:
 	                   add DKYS, DKTG, DTOP tools
 	                   upgrade WATCHR module
 	                   update documentation
->>>>>>> 6e3797c (for release v2.8.3)
+
+	v2.8.4  20sep2003  add 40 4-grqmw, 10 5-grqmw
+	                   add DPLT tool
+	                   upgrqde DSRV tool
+	                   clean up test source code
+	                   update documentation
