@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file Dlst.java : 08aug2023 CPM
+// AW file Dlst.java : l24sep2023 CPM
 
 package test;
 
@@ -53,7 +53,7 @@ public class Dlst {
 				System.out.print(Format.it(i+1,3) + ") ");
 				System.out.print(Format.it(x.bn,2) + "::");
 				String t = "" +  x.index;
-				System.out.print(Format.it(t,4));
+				System.out.print(Format.it(t,6));
 				System.out.println(Format.it(x.score(),6,2) + sigma);
 			}
 		} catch (AWException e) {
