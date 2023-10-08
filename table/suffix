@@ -22,7 +22,8 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; suffix : 15jan2022 CPM
+; suffix : 09oct2023 CPM
+; AW morphological stemming logic
 ;
 ;  0:keep, 1:any, 2:consonant, 3:consonant or U
 ;
@@ -421,18 +422,17 @@ eamer      2  3 =dream
 eamy       2  3 =dream
 eancy      2 30
 eaner      2  3 =mean
-eantry     2  4 =peasant
 eapen      2  3 =cheap
 eaper      2  3 =reap
 eapest     2  3 =cheap
-earest     2  3 =near
-earish     1  3 =bear
-earticulate  0 2
 easy       1 10 =ease
 eater      1  3 =heat
+earest     2  3 =near
+earish     1  3 =bear
 eatest     2  3 =great
 eathe      1  4 =breath
 eation     2 10
+eatify     0  2
 eator      2 10 =create
 eavage     2 10 =cleave
 eaze       2 35
@@ -576,6 +576,7 @@ errent     2  2 =deter
 erter      2  3 =convert
 ertial     2  5 =inertia
 ertice     2 76
+ertify     0  2
 *ery       2  2 =discover
 ese        2  0 =vietnam
 eservate   2 12 =preserve
@@ -648,7 +649,7 @@ filter     1 45
 final      0  2
 finic      1  3 =olefin
 fitable    1  3 =profit
-flew 1 34  =
+flew       1 34 =fly
 flown      1 34 =fly
 focus      1 80
 forage 0 2  =
@@ -861,6 +862,7 @@ iever      2  4 =believe
 iewer      2  3
 *ifier     2 34
 iful       2 32
+ify        2  0
 igacy      2  9 =proflige
 igate      2  9 =litige
 igatory    2  9 =oblige
@@ -1381,7 +1383,6 @@ ntical     1  2 =ident
 nticate    1  4 =authentic
 nticism    1  2 =romant
 *nticular  1 13 =lenticule
-ntify      1  2 =ident
 ntize      1  2 =quant
 ntmen 1 120 =stuntman
 ntor       1  2 =invent
@@ -1539,7 +1540,6 @@ orian      2 34
 oric       2 34
 orical     2 34
 orifer     2  1 =odor
-*orily     2 34 =summary
 *orise     1 93
 orite      2  2 =favor
 ority      1  2 =major
@@ -1575,6 +1575,7 @@ otee       2  3 =devote
 otence     2 31
 otian      1  1 =lao
 otic       1  2 =idiot
+otify      0  2 =notify
 otion      0  2 =notion
 otist      2  1 =ego
 *otistic   2  5
@@ -1715,6 +1716,7 @@ ranule     2 55
 rapacious 1 10  =
 rasitic    1 89
 rasper     2  4 =grasp
+ratify     2  3
 rasure     1 10
 rational   0  2
 ratize     2  3 =democrat
@@ -2002,6 +2004,7 @@ sterious   2 36
 *stern     1  2 =west
 stery      1  4 =master
 sticate    1  4 =domestic
+stify      0  2 =testify
 stition    2  4
 stitious   2  4
 stival     1  2 =fest
@@ -2071,6 +2074,7 @@ ticule     2 21 =lenticle
 *tier 2 33  =
 tiest      2 33
 tific      2  1 =scient
+tificate   2  1
 tigant     1 10 =litige
 tigious    1 10
 tilate     2  1 =vent
@@ -2442,6 +2446,7 @@ zzy        1  2 =jazz
 |quality   0  2
 |rally     0  2
 |random 0 2  =
+|ratify   0 2
 |ration    0  2
 |reckless 0 2  =
 |redden 1 3  =
@@ -2492,3 +2497,4 @@ zzy        1  2 =jazz
 |worship 0 2  =
 |wrist 0 2  =
 |yuan      0  2
+

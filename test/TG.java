@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// TG.java : 14nov2021 CPM
+// TG.java : 03oct2023 CPM
 // test n-gram text analysis
 
 package test;
@@ -50,7 +50,8 @@ public class TG extends TGbase {
 				text = "";
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 				while ((line = in.readLine()) != null)
-					text += line;
+					text += " " + line;
+				System.out.println(">> " + text);
 			} catch (IOException e) {
 				System.err.println("input error: " + e);
 				return;
@@ -62,8 +63,10 @@ public class TG extends TGbase {
 			KeyTextAnalysis an = new KeyTextAnalysis();
 			an.setText(text);
 			TG tg = new TG();
-			while ((tok = an.next()) != null)
+			while ((tok = an.next()) != null) {
+				System.out.println(tok);
 				tg.show(tok);
+			}
 		} catch (Exception x) {
 			x.printStackTrace();
 		}

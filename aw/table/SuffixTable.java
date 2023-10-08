@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file SuffixTable.java : 30sep2021 CPM
+// AW file SuffixTable.java : 07oct2023 CPM
 // compile suffix table from listing of patterns
 
 package aw.table;
@@ -36,7 +36,7 @@ public class SuffixTable extends StemExtension {
 
 	private static final int SFXLEN = 16;      // maximum suffix length
 	private static final int NSFXND = 6500;    // maximum number of nodes
-	private static final int NSFX   = 2500;    // maximum suffix count
+	private static final int NSFX   = 3000;    // maximum suffix count
 
 	private int free; // next free node
 
@@ -102,13 +102,15 @@ public class SuffixTable extends StemExtension {
 			acts[k++] = (x == '!') ? StemBase.ENDR : StemBase.ENDS;
 		}
 
-		// pad out rest of actions
 
 		acts[k]   = 0;
 		acts[k+1] = StemBase.ENDS;
 		while (i < NASQ)
 			actp[i++] = (short) k;
  
+		System.out.println(i + " actions");
+
+		// pad out rest of actions
 		// load suffixes
 
 		StringBuffer suf;
