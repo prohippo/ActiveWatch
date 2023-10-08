@@ -409,3 +409,10 @@ Release History:
 	                   upgrqde DSRV tool
 	                   clean up test source code
 	                   update documentation
+
+	v2.9    09oct2023  add 40 4-grams, 10 5-grams
+	                   simplify and clean up profile generation
+	                   make DCMS work with sorted item lists
+	                   improve output or TGx
+	                   edit and expand suffix table
+	                   update documentation
