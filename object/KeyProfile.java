@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// KeyProfile.java : 10jan2022 CPM
+// KeyProfile.java : 02oct2022 CPM
 // profile generation from keys
 
 package object;
@@ -44,14 +44,13 @@ public class KeyProfile extends ProfileMaker {
 
 		an = new KeyTextAnalysis();
 		int lp = extract(s);
-	
+
 		if (lp > 0) {
 
 			// standard profile
-			
+
 			lp = compress(lp,MLTP);
 			lp = rebalance(lp);
-			lp = weight(lp);
 
 			for (int i = 0; i < lp; i++)
 				if (pbs[i] == 0.)
@@ -62,18 +61,18 @@ public class KeyProfile extends ProfileMaker {
 		fill(lp);
 
 	}
-	
+
 	// get n-gram counts for keys to be analyzed
-		
+
 	private int extract (
 		String s
 	) {
-	
+
 		int n = 0;
-		
+
 		an.setText(s);
 		AnalyzedToken at;
-		
+
 		while ((at = an.next()) != null) {
 			Short[] x = at.indices();
 			for (int i = 0; i < x.length; i++) {
@@ -88,19 +87,19 @@ public class KeyProfile extends ProfileMaker {
 			}
 		}
 		return n;
-		
+
 	}
 
 	// smooth out n-gram frequencies
-	
+
 	private int rebalance (
 		int no
 	) {
-	
+
 		for (int i = 0; i < no; i++)
 			vf[i] = (short) Parameter.transform(vf[i]);
 		return no;
-		
+
 	}
 
 }

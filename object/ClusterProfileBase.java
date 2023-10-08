@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ClusterProfileBase.java : 09dec2022 CPM
+// AW file ClusterProfileBase.java : 05oct2023 CPM
 // cluster profile generation
 
 package object;
@@ -37,8 +37,6 @@ public class ClusterProfileBase extends ProfileMaker {
 
 	private static final int MULTPL = 10; // for setting minimum probability threshold
 	private static final int MXM    =  9; // maximum number of items to consider
-
-	private static final int MINLNG = 11; // minimum profile index count
 
 	// build profile from list of items
 

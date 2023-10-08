@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file FillerProfile.java : 12Jun00 CPM
+// AW file FillerProfile.java : 07oct2023 CPM
 // profile class with methods to store indices and weights
 
 package object;
@@ -32,37 +32,37 @@ import gram.Gram;
 
 public class FillerProfile extends Profile {
 
-	public  static final short HWGT =  1000; // infinite weight
-	
-	public  static final short NHGM = 29999; // sentinel values for profile
-	public  static final byte  NHWT =    -1;
-	
-	private static final double sMX =   127; // for normalizing weights
-	
+	public static final short  HWGT =  1000; // infinite weight
+
+	public static final short  NHGM = 29999; // sentinel values for profile
+	public static final byte   NHWT =    -1;
+
+	public static final double MXWT =   127; // for normalizing weights
+
 	public int literalCount = 0; // for fill
 
 	// initialize as empty
-	
+
 	public FillerProfile (
-	
+
 	) {
 		super();
 	}
-	
+
 	// initialize from stored profile
-	
+
 	public FillerProfile (
-	
+
 		int n
-		
+
 	) throws AWException {
 		super(n);
 	}
-	
+
 	// store selected indices and weights and compute noise model
-	
+
 	public int fill (
-	
+
 		int     no,  // n-gram count
 		short[] vg,  // n-gram indices
 		short[] vf,  // n-gram weights
@@ -75,7 +75,7 @@ public class FillerProfile extends Profile {
 		byte  wt;    // profile weight
 
 		// get maximum for normalizing
-		
+
 		short mx = 0;
 		short mn = HWGT;
 		for (k = 0; k < no; k++) {
@@ -84,8 +84,8 @@ public class FillerProfile extends Profile {
 			if (mn > vf[k])
 				mn = vf[k];
 		}
-		double f = (mx > 0) ? sMX/mx : 0;
-		
+		double f = (mx > 0) ? MXWT/mx : 0;
+
 		// reduce index count to fit into profile array
 
 		int ni = no;		
@@ -104,9 +104,9 @@ public class FillerProfile extends Profile {
 			mn = mm;
 		}
 		no = ni;
-				
+
 		// retain indices with non-zero weights
-		
+
 		for (n = k = 0; k < no; k++) {
 			wt = (byte)(f*vf[k]);
 			if (wt == 0)
@@ -125,7 +125,7 @@ public class FillerProfile extends Profile {
 		wts[n] = NHWT;
 
 		// derive noise model parameters for unit vector
-		
+
 		if (n == 0) {
 			uexp = 0F;
 			uvar = 1F;
@@ -141,5 +141,6 @@ public class FillerProfile extends Profile {
 		sgth = thr;
 		return n;
 	}
-	
+
 }
+

@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ProfileMaker.java : 27Jun00 CPM
+// AW file ProfileMaker.java : 04oct2023 CPM
 // base class for profile generation
 
 package object;
@@ -30,102 +30,89 @@ package object;
 import aw.*;
 
 public class ProfileMaker {
-	
+
 	public static final float STDSTHR = 6F; // default match threshold for profile
-	
+
 	public FillerProfile profile;           // profile to construct
-	
+
 	protected static Probabilities pb; // for current data
 	protected static Counts        ct;
-	
+
 	protected float[] pbs; // packed probabilities
 	protected short[]  vg; // profile n-grams
 	protected short[]  vf; // profile frequencies
-	
+
 	protected short[]  fv; // accumulating raw frequencies
 	protected byte []  cv; // accumulating raw item counts
-		
+
 	public int length = 0; // how many n-gram indices in profile
-	
+
 	// initialize
-	
+
 	public ProfileMaker (
-	
+
 	) {
-	
 		fv = new short[Parameter.MXI];
 		cv = new byte [Parameter.MXI];
 		profile = new FillerProfile();
-		
 	}
-	
+
 	// store current weights into profile
-	
+
 	protected final void fill (
-	
 		int k
-	
 	) throws AWException {
 		length = profile.fill(k,vg,vf,pbs,ProfileMaker.STDSTHR);
 	}
-	
-	// get length counting literals twice
-	
+
+	// get profile non-zero length
+
 	public final int adjustedLength (
-	
+
 	) {
-		return length + profile.literalCount;
+		return length;
 	}
 
 	// a nicety; could save profile directly
-		
+
 	public final void save (
-	
 		short pn
-		
 	) throws AWException {
-	
 		profile.save(pn);
-		
 	}
-	
+
 	// a nicety; could close profile directly
-		
+
 	public void close (
-	
+
 	) {
-	
 		profile.close();
-		
 	}
-	
+
 	// filter out n-gram indices by probability criteria
 
 	protected final int compress (
-	
 		int nr,
 		int mult
-		
 	) throws AWException {
-	
 		int i,j,k;
 
 		if (nr == 0)
 			return 0;
 
-		vg  = new short[nr];
+		vg  = new short[nr]; // allocate arrays for profile
 		vf  = new short[nr];
 		pbs = new float[nr];
 
-		// load n-gram probabilities, if not done already
-		
+		// load n-gram probabilities, if necessary
+
 		if (pb == null)
 			pb = new Probabilities();
-			
+
 		double pthr = mult*pb.array[0];
-		
-		// select n-gram indices by minimum probability and pack
-		
+
+		// select n-gram indices by probability and pack
+
 		for (i = 0, j = 1, k = 0; i < nr; i++, j++) {
 			while (fv[j] == 0)
 				j++;
@@ -136,37 +123,33 @@ public class ProfileMaker {
 			}
 		}
 		return k;
-		
 	}
-	
+
 	// derive actual profile weights from selected n-grams and importance weights
-	
+
 	private static final int WBAS = 10; // to transform importance weight
-	
+
 	protected final int weight (
-	
 		int no
-	
 	) {
-	
 		// set weights and note maximum
-		
+
 		int max = 1;
 		int[] ws = new int[no];
-		
+
 		for (int i = 0; i < no; i++) {
 			int w = (vf[i] > 0) ? (int)((WBAS + vf[i])/Math.sqrt(pbs[i])) : 0;
 			if (max < w)
 				max = w;
 			ws[i] = w;
 		}
-		
+
 		// normalize new weights
 
 		int n = 0;
 
-		double f = ((double) FillerProfile.HWGT)/max;
-		
+		double f = ((double) FillerProfile.MXWT)/max;
+
 		for (int i = 0; i < no; i++) {
 			short x = (short)(f*ws[i]);
 			if (x > 0) {
@@ -176,7 +159,5 @@ public class ProfileMaker {
 			}
 		}
 		return n;
-		
 	}
-	
 }
