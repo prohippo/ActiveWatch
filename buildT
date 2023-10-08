@@ -819,7 +819,7 @@ object/SequentialScan.class \
 object/CodedVector.class \
 object/ProfileToUse.class
 
-jar -cfe DCMS test.Dcms  \
+jar -cfe DCMS test/Dcms  \
 test/Dcms.class \
 aw/Stamp.class \
 aw/FileAccess.class \
@@ -828,6 +828,12 @@ aw/AWException.class \
 aw/ProfileFile.class \
 aw/Map.class \
 aw/Attribute.class \
+object/GappedProfileList.class \
+object/Gapping.class \
+object/ListHead.class \
+object/ListNode.class \
+object/ProfileList.class \
+object/SortedProfileList.class \
 object/ListHead.class \
 object/ListNode.class \
 object/ProfileList.class

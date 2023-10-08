@@ -22,8 +22,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// Dcms.java : 26jun2023 CPM
-// show cluster memberships for given item
+// Dcms.java : 04oct2023 CPM
+// show all cluster memberships for given item
 
 package test;
 
@@ -33,11 +33,11 @@ import java.io.*;
 
 public class Dcms {
 
-	static String fm = "%2d) in %3d @%2d : %4.1f\n";
+	static String fm = "%3d) in %3d @%3d : %5.2f\u03C3\n";
 
 	static public void main ( String[] a ) {
-		Map m = new Map();  // map of current profiles
-		ProfileList ls;     // profile records
+		Map m = new Map();    // map of current profiles
+		GappedProfileList ls; // profile records
 
 		if (a.length == 0) {
 			System.out.println("usage: X segmentID");
@@ -59,15 +59,14 @@ public class Dcms {
 			if (!m.defined(i))
 				continue;
 			try {
-				ls = new ProfileList(i);
-				int n = ls.getCount();
-
+				ls = new GappedProfileList(i);
 				Item[] it = ls.getList();
-				for (int j = 0; j < n; j++) {
+				int lm = it.length;
+				for (int j = 0; j < lm; j++) {
 					if (it[j].bn == bn && it[j].xn == xn) {
+						tot++;
 						double ss = it[j].score();
 						System.out.printf(fm,tot,i,j,ss);
-						tot++;
 						break;
 					}
 				}
@@ -76,7 +75,7 @@ public class Dcms {
 				System.exit(1);;
 			}
 		}
-		System.out.print("profile matches = ");
+		System.out.print("cluster matches = ");
 		System.out.println(tot);
 	}
 }
