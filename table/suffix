@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; suffix : 09oct2023 CPM
+; suffix : 10oct2023 CPM
 ; AW morphological stemming logic
 ;
 ;  0:keep, 1:any, 2:consonant, 3:consonant or U
@@ -292,27 +292,27 @@ chism      0  2 =schism
 christ     0  2
 cible      3  8 =reduce
 cical      2  8 =farce
-*ciest 1 32  =
-*ciest 1 33  =
+*ciest     1 32 =fancy
+cify       2  0 =pacify
 cinous     3  3 =mucin
 cion       1  8
 cious      1  8
 cipate     1 10 =anticipe
 cision     1 10
-citative 1 10  =
+citative   1 10 =
 clamation  1 57
 clamatory  1 57
 clarify    1 91
 clarity    1 91
 clic       1  9 =cycle
 climber    1  5
-clination 2 88  =
+clination  2 88 =
 clize      1  9
 cnic       0  2 =picnic
 comity     0  2
-coral 0 2 =
+coral      0  2 =
 corder     1  4
-corous 2 3  =
+corous     2  3 =
 cortice    1 77
 counter    0  2
 coverage   1  5
@@ -1646,7 +1646,7 @@ piral      0  2 =spiral
 pirant     2 10 =aspire
 piration   2 10
 pital      0  2 =capital
-plaid 0 2  =
+plaid      0  2 =
 planate    2 56
 pler       1  3 =simple
 pleship    1  3 =disciple

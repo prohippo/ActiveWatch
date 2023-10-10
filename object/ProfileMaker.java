@@ -22,7 +22,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------------------------------------
-// AW file ProfileMaker.java : 04oct2023 CPM
+// AW file ProfileMaker.java : 09oct2023 CPM
 // base class for profile generation
 
 package object;
@@ -154,7 +154,7 @@ public class ProfileMaker {
 			short x = (short)(f*ws[i]);
 			if (x > 0) {
 				pbs[n] = pbs[i];
-				vg[n  ] = vg[i];
+				vg[ n] = vg[i];
 				vf[n++] = x;
 			}
 		}
