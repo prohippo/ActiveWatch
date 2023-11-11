@@ -22,7 +22,7 @@
 ; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ; -----------------------------------------------------------------------------
-; suffix : 10oct2023 CPM
+; suffix : 16oct2023 CPM
 ; AW morphological stemming logic
 ;
 ;  0:keep, 1:any, 2:consonant, 3:consonant or U
@@ -1849,9 +1849,9 @@ rper       1  2 =sharp
 rption     1 66
 rptive     1 66
 rrence     1  1 =deter
-rrent 1 1  =
+rrent      1  1  =
 rriage     1 34
-rriment 1 34  =
+rriment    1 34  =
 rroneous   1 44
 rsal       1  9
 rsant      1  9 =disperse
@@ -1863,8 +1863,8 @@ rtee       1  2 =deport
 rterial    1 36
 rtery      0  2 =artery
 rtest      1  2 =short
-rtheless 0 2  =
-rtial 0 2  =
+rthelessi  0  2 =
+rtial      0  2 =
 rtian      1  1 =mar
 rticular   0  2
 rtillery   0  2
@@ -1878,8 +1878,8 @@ ruate      2  9 =menstrue
 ruation    2  9
 rubic      1  3 =cherub
 rudate     2 10 =extrude
-rudiment 0 2  =
-ruest 2 3  =true
+rudiment   0  2 =
+ruest      2  3 =true
 rusible    2 15 =extrude
 rusion     1 15
 rusive     2 15
@@ -1895,14 +1895,14 @@ rvous      1  9 =nerve
 ryer       2  2 =dry
 *ryman     1  2
 ryngeal    1 74 =pharynx
-sadder 1 3  =
+sadder     1  3 =
 sader      1  4 =crusade
-said 1 34  =
+said       1 34 =
 saler      1  4 =wholesale
 salty      1  4
 *santry    1  4 =peasant
 sarial     2 35
-sarist 2 3  =
+sarist     2  3 =
 saster     1 45
 sate       2  8 =compense
 sation     1  8
@@ -1910,9 +1910,9 @@ sative     3  8 =accuse
 satory     3  8 =compense
 scious     0  2 =conscious
 scopy      1  9 =microscope
-seamy 0 2  =
+seamy      0  2 =
 section    0  2
-sediment 0 2  =sediment
+sediment   0  2 =sediment
 seen       1  3
 self       1  0
 selor      2  3 =counsel
