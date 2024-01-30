@@ -419,3 +419,6 @@ Release History:
 
 	v2.9.1  31dec2023  add 20 4-grams, 10 5-grams
 	                   update documentation
+
+	v2,9,2  30jan2024  add 40 4-grams, 10 5-grarmks
+	                   update documentation
