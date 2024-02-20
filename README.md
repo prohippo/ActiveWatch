@@ -420,8 +420,11 @@ Release History:
 	v2.9.1  31dec2023  add 20 4-grams, 10 5-grams
 	                   update documentation
 
-	v2.9.2  30jan2024  add 40 4-grams, 10 5-grarmks
+	v2.9.2  30jan2024  add 40 4-grams, 10 5-gramks
 	                   update documentation
 
-	v2.9.2.1 6feb2024  make IOUS 4-gram, take out O
+	v2.9.2.1 6feb2024  make IOUS 4-gram, take out OXYL
 	                   update documentaion
+
+	v2.9.3  20feb2024  add 20 4-grams, mainly chemistry
+	                   update documentatyon
