@@ -427,4 +427,5 @@ Release History:
 	                   update documentaion
 
 	v2.9.3  20feb2024  add 20 4-grams, mainly chemistry
+	                   adjust output of DPRB
 	                   update documentatyon
